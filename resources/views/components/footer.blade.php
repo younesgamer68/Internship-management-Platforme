@@ -10,7 +10,7 @@
     <div
         class="pointer-events-none absolute bottom-[-4px] left-[170px] z-0 flex w-full select-none items-center justify-start gap-[8px] whitespace-nowrap px-[12px] sm:gap-[12px] md:bottom-[-8px] md:gap-[16px] lg:bottom-[-18px] lg:gap-[24px] lg:px-[24px]">
         <img class="h-auto w-[clamp(28px,9vw,56px)] opacity-[0.03] sm:w-[clamp(34px,8vw,78px)] lg:w-[clamp(180px,6.4vw,140px)]"
-            src="{{ asset('images/Logos/logos without text DM.png') }}" alt="Logo" />
+            src="{{ asset('images/Logos/LWDM.png') }}" alt="Logo" />
         <div
             class="font-[Inter,sans-serif] text-[clamp(30px,11.5vw,64px)] font-semibold leading-none tracking-[clamp(-1px,-0.25vw,-4px)] text-white/1 [text-shadow:0_0_0_rgba(0,0,0,0)] [-webkit-text-stroke:0.8px_rgba(255,255,255,0.06)] sm:text-[clamp(42px,11vw,110px)] lg:text-[clamp(52px,10vw,220px)] lg:[-webkit-text-stroke:1px_rgba(255,255,255,0.06)]">
             Help Desk

@@ -232,7 +232,7 @@
                     <div :class="($store.ui && $store.ui.darkMode) ? 'opacity-100' : 'opacity-0'" class="cw-header-gradient-flow pointer-events-none absolute inset-0 bg-linear-to-r from-black to-[#1b7a44] transition-opacity duration-700 ease-in-out"></div>
                     <div class="relative z-10 flex items-center gap-2.5">
                         <div class="flex h-9 w-9 items-center justify-center rounded-xl  p-1">
-                            <img src="{{ asset('images/Logos/logos without text DM.png') }}" alt="Helpdesk"
+                            <img src="{{ asset('images/Logos/LWDM.png') }}" alt="Helpdesk"
                                 class="h-7 w-7 object-contain" />
                         </div>
                         <div class="flex-1">
@@ -334,7 +334,7 @@
                 <div class="shrink-0 border-t border-gray-200 bg-gray-50 py-2">
                     <div class="flex items-center justify-center gap-2">
                         <div class="flex h-3 w-3 items-center justify-center">
-                            <img src="{{ asset('images/Logos/Logo without text LM.png') }}" alt="Helpdesk"
+                            <img src="{{ asset('images/Logos/LWLM.png') }}" alt="Helpdesk"
                                 class="h-4 w-4 object-contain" />
                         </div>
                         <p class="text-[9px] font-semibold tracking-wide text-zinc-400">
@@ -495,7 +495,7 @@
         {{-- Floating Toggle Button with pulse ring --}}
         <button @click="toggle()" type="button"
             class="cw-pulse-ring relative flex h-[52px] w-[52px] items-center justify-center rounded-2xl bg-linear-to-br from-[#17494D] to-[#1b7a44] shadow-[0_8px_24px_-6px_rgba(33,150,83,0.5),0_0_0_2px_rgba(33,150,83,0.2)] transition-all duration-200 hover:scale-[1.06] hover:shadow-[0_12px_28px_-6px_#0f2b0f,0_0_0_2px_#1b7a44] active:scale-95">
-            <img x-show="!isOpen" src="{{ asset('images/Logos/logos without text DM.png') }}" alt="Chat"
+            <img x-show="!isOpen" src="{{ asset('images/Logos/LWDM.png') }}" alt="Chat"
                 style="height: 27px; width: 27px;" class="object-contain" />
 
             <svg x-show="isOpen" x-cloak class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24"

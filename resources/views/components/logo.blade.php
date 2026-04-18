@@ -33,13 +33,13 @@
         <a href="{{ $href }}" class="flex items-center gap-2 shrink-0">
             <div class="relative" style="{{ $s['img'] }}">
                 @if ($darkOnly)
-                    <img src="{{ asset('images/Logos/Logo with text DM.png') }}" alt="HelpDesk Logo"
+                    <img src="{{ asset('images/Logos/LTDM.png') }}" alt="HelpDesk Logo"
                         style="{{ $s['img'] }}" class="object-contain transition-opacity duration-300" />
                 @else
-                    <img x-show="!$store.ui.darkMode" src="{{ asset('images/Logos/logo with text LM.png') }}"
+                    <img x-show="!$store.ui.darkMode" src="{{ asset('images/Logos/LTLM.png') }}"
                         alt="HelpDesk Logo" style="{{ $s['img'] }}"
                         class="object-contain transition-opacity duration-300" />
-                    <img x-show="$store.ui.darkMode" src="{{ asset('images/Logos/Logo with text DM.png') }}"
+                    <img x-show="$store.ui.darkMode" src="{{ asset('images/Logos/LTDM.png') }}"
                         alt="HelpDesk Logo" style="{{ $s['img'] }} display: none;"
                         class="object-contain transition-opacity duration-300" />
                 @endif
@@ -49,13 +49,13 @@
         <div class="flex items-center gap-2 shrink-0">
             <div class="relative" style="{{ $s['img'] }}">
                 @if ($darkOnly)
-                    <img src="{{ asset('images/Logos/Logo with text DM.png') }}" alt="HelpDesk Logo"
+                    <img src="{{ asset('images/Logos/LTDM.png') }}" alt="HelpDesk Logo"
                         style="{{ $s['img'] }}" class="object-contain transition-opacity duration-300" />
                 @else
-                    <img x-show="!$store.ui.darkMode" src="{{ asset('images/Logos/logo with text LM.png') }}"
+                    <img x-show="!$store.ui.darkMode" src="{{ asset('images/Logos/LTLM.png') }}"
                         alt="HelpDesk Logo" style="{{ $s['img'] }}"
                         class="object-contain transition-opacity duration-300" />
-                    <img x-show="$store.ui.darkMode" src="{{ asset('images/Logos/Logo with text DM.png') }}"
+                    <img x-show="$store.ui.darkMode" src="{{ asset('images/Logos/LTDM.png') }}"
                         alt="HelpDesk Logo" style="{{ $s['img'] }} display: none;"
                         class="object-contain transition-opacity duration-300" />
                 @endif

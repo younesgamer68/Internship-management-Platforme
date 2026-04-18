@@ -6,10 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>Helpdesk System</title>
+    <title>InternDesk</title>
 
-    <link rel="icon" href="{{ asset('images/Logos/logos without text DM.png') }}" type="image/png">
-    <link rel="apple-touch-icon" href="{{ asset('images/Logos/logos without text DM.png') }}">
+    <link rel="icon" href="{{ asset('images/Logos/LWDM.png') }}" type="image/png">
+    <link rel="apple-touch-icon" href="{{ asset('images/Logos/LWDM.png') }}">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
@@ -315,7 +315,7 @@
 
             <p class="mb-12 max-w-3xl text-center text-base leading-relaxed sm:text-lg"
                 :class="$store.ui.darkMode ? 'text-white/60' : 'text-gray-600'">
-                Explore powerful workflows, ticket views, and reports built to help your team move faster with
+                Explore powerful workflows, internship views, and reports built to help your team manage placements with
                 confidence.
             </p>
 
@@ -407,10 +407,10 @@
                                 </div>
                                 <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
                                     <span
-                                        style="background:#dbeafe;color:#1e40af;border-radius:6px;padding:3px 8px;font-size:11px;">Category</span>
+                                        style="background:#dbeafe;color:#1e40af;border-radius:6px;padding:3px 8px;font-size:11px;">Department</span>
                                     <span style="color:#cbd5e1;font-size:11px;">is</span>
                                     <span
-                                        style="background:#fce7f3;color:#9d174d;border-radius:6px;padding:3px 8px;font-size:11px;">Billing</span>
+                                        style="background:#fce7f3;color:#9d174d;border-radius:6px;padding:3px 8px;font-size:11px;">Engineering</span>
                                 </div>
                             </div>
                             <div
@@ -451,11 +451,11 @@
                                     style="display:inline-block;width:2px;height:13px;background:#555;border-radius:1px;margin-left:1px;vertical-align:middle;"></span>
                             </div>
                             <div class="sfs-tag-grid" id="sfsTagGrid">
-                                <div class="sfs-tag-chip" style="background:#dbeafe;color:#1e40af;">🔵 Billing</div>
-                                <div class="sfs-tag-chip" style="background:#fce7f3;color:#9d174d;">🩷 VIP</div>
-                                <div class="sfs-tag-chip" style="background:#dcfce7;color:#219653;">🟢 Resolved</div>
-                                <div class="sfs-tag-chip" style="background:#fef3c7;color:#92400e;">🟡 Pending</div>
-                                <div class="sfs-tag-chip" style="background:#ede9fe;color:#5b21b6;">🟣 Bug</div>
+                                <div class="sfs-tag-chip" style="background:#dbeafe;color:#1e40af;">🔵 Engineering</div>
+                                <div class="sfs-tag-chip" style="background:#fce7f3;color:#9d174d;">🩷 Priority</div>
+                                <div class="sfs-tag-chip" style="background:#dcfce7;color:#219653;">🟢 Completed</div>
+                                <div class="sfs-tag-chip" style="background:#fef3c7;color:#92400e;">🟡 In Progress</div>
+                                <div class="sfs-tag-chip" style="background:#ede9fe;color:#5b21b6;">🟣 Review</div>
                                 <div class="sfs-tag-chip" style="background:#f1f5f9;color:#334155;">⚪ General</div>
                                 <div class="sfs-tag-chip" style="background:#fce7f3;color:#be185d;">🏷 Onboarding
                                 </div>
@@ -485,10 +485,10 @@
                         <div class="sfs-mi-cols" id="sfsMiCols">
                             <div class="sfs-mi-col">
                                 <div class="sfs-mi-head">
-                                    <div class="sfs-mi-brand">J&amp;G General</div>
-                                    <div class="sfs-mi-email">support@jandgfashion.com</div>
+                                    <div class="sfs-mi-brand">TechCorp Inc</div>
+                                    <div class="sfs-mi-email">interns@techcorp.com</div>
                                 </div>
-                                <div class="sfs-mi-row">Chats</div>
+                                <div class="sfs-mi-row">Applications</div>
                                 <div class="sfs-mi-row bold">Unassigned <span class="sfs-mi-badge">26</span></div>
                                 <div class="sfs-mi-row">Mine</div>
                                 <div class="sfs-mi-row bold">Assigned <span class="sfs-mi-badge">12</span></div>
@@ -496,8 +496,8 @@
                             </div>
                             <div class="sfs-mi-col">
                                 <div class="sfs-mi-head">
-                                    <div class="sfs-mi-brand">Content Team</div>
-                                    <div class="sfs-mi-email">content@jandg…</div>
+                                    <div class="sfs-mi-brand">Design Studio</div>
+                                    <div class="sfs-mi-email">design@studio…</div>
                                 </div>
                                 <div class="sfs-mi-row">Unassigned</div>
                                 <div class="sfs-mi-row">Mine</div>
@@ -546,8 +546,8 @@
                                 </div>
                             </div>
                             <div style="padding:10px 12px;font-size:11px;color:#374151;line-height:1.55;">
-                                Sorry about the delay! I've flagged order #4821 with logistics — expect an update within
-                                <strong>24h</strong>. 📦
+                                Great news! I've matched intern #4821 with the Engineering team — expect onboarding details within
+                                <strong>24h</strong>. 🎓
                             </div>
                             <div style="padding:2px 12px 10px;display:flex;gap:6px;">
                                 <span
@@ -577,7 +577,7 @@
                             style="position:absolute;top:18px;left:18px;right:18px;background:rgba(255,255,255,0.72);border:1px solid rgba(255,255,255,0.65);border-radius:16px;padding:14px 16px;box-shadow:0 10px 24px rgba(110,90,140,0.08);backdrop-filter:blur(8px);">
                             <div
                                 style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
-                                <span style="font-size:11px;font-weight:700;color:#444;">Ticket Queue</span>
+                                <span style="font-size:11px;font-weight:700;color:#444;">Application Queue</span>
                                 <span class="sfs-anim-pulse"
                                     style="font-size:9px;color:#dc2626;background:rgba(254,242,242,0.9);border-radius:6px;padding:3px 8px;font-weight:700;">2
                                     <span x-text="$store.ui.t('homeSfsPreviewBreached')"></span></span>
@@ -1226,30 +1226,30 @@
                             class="flex max-h-[520px] w-[310px] flex-col overflow-hidden rounded-[18px] bg-white shadow-[0_24px_60px_rgba(0,0,0,0.35)]">
                             <div
                                 class="flex items-center justify-between border-b border-[#e5e7eb] bg-[#f9fafb] px-4 py-3">
-                                <span class="text-[0.7rem] font-bold tracking-wide text-[#6b7280]">#TK-00847 ·
-                                    Billing</span>
+                                <span class="text-[0.7rem] font-bold tracking-wide text-[#6b7280]">#INT-00847 ·
+                                    Placement</span>
                                 <span
                                     class="rounded-full bg-[#fef2f2] px-2 py-0.5 text-[0.62rem] font-bold uppercase text-[#dc2626]">Urgent</span>
                             </div>
                             <div class="flex items-center gap-2 border-b border-[#fecaca] bg-[#fef2f2] px-4 py-2">
-                                <span class="text-[0.68rem] font-semibold text-[#dc2626]">SLA breach in 18 min -
+                                <span class="text-[0.68rem] font-semibold text-[#dc2626]">Deadline in 18 min -
                                     respond
                                     now</span>
                             </div>
                             <div class="flex flex-1 flex-col gap-2 bg-[#f9fafb] px-4 py-3">
-                                <div class="text-[0.64rem] font-semibold text-[#6b7280]">Customer · Sarah M.</div>
+                                <div class="text-[0.64rem] font-semibold text-[#6b7280]">Intern · Sarah M.</div>
                                 <div
                                     class="rounded-[10px] rounded-bl-[3px] border border-[#e5e7eb] bg-white px-3 py-2 text-[0.75rem] leading-[1.45] text-[#1c1c2e]">
-                                    Hi, I was charged twice for my subscription this month and I need this resolved
-                                    ASAP.</div>
+                                    Hi, my internship placement hasn't been confirmed yet and the start date is next week.
+                                    </div>
                             </div>
                             <div class="border-t border-[#e5e7eb] bg-white px-3 py-2.5">
                                 <div class="mb-2 text-[0.65rem] font-bold uppercase tracking-wide text-[#219653]">AI
                                     Suggestion</div>
                                 <div
                                     class="mb-2 rounded-[8px] border border-[#bbf7d0] bg-[#f0fdf4] px-2.5 py-2 text-[0.73rem] leading-[1.45] text-[#1c1c2e]">
-                                    Hi Sarah, I'm sorry for the double charge. I've started a full refund for the
-                                    duplicate payment and will confirm once complete.</div>
+                                    Hi Sarah, I've confirmed your placement with the Engineering department. Your
+                                    supervisor will reach out with onboarding details shortly.</div>
                                 <div class="flex items-center gap-1">
                                     <span class="text-[0.62rem] text-[#6b7280]">Tone:</span>
                                     <span
@@ -1272,10 +1272,10 @@
                         <div
                             class="flex max-h-[520px] w-[310px] flex-col overflow-hidden rounded-[18px] bg-white shadow-[0_24px_60px_rgba(0,0,0,0.35)]">
                             <div class="flex items-center justify-between bg-[#219653] px-4 py-3">
-                                <span class="text-[0.88rem] font-bold text-white">Ticket Queue</span>
+                                <span class="text-[0.88rem] font-bold text-white">Application Queue</span>
                                 <span
                                     class="rounded-full bg-white/20 px-2 py-0.5 text-[0.68rem] font-bold text-white">12
-                                    open · 2 breached</span>
+                                    open · 2 overdue</span>
                             </div>
                             <div class="flex gap-1 border-b border-[#e5e7eb] bg-[#f9fafb] px-3 py-2">
                                 <span
@@ -1288,18 +1288,18 @@
                             <div class="flex flex-col">
                                 <div class="border-b border-[#f3f4f6] px-3 py-2.5">
                                     <div class="mb-1 flex items-center justify-between gap-2">
-                                        <div class="truncate text-[0.75rem] font-semibold text-[#1c1c2e]">Can't access
-                                            my account after password reset</div>
+                                        <div class="truncate text-[0.75rem] font-semibold text-[#1c1c2e]">Intern onboarding
+                                            documents not received</div>
                                         <span
                                             class="rounded-full bg-[#fef2f2] px-2 py-0.5 text-[0.62rem] font-bold uppercase text-[#dc2626]">Urgent</span>
                                     </div>
                                     <div class="text-[0.66rem] text-[#6b7280]">Auto-assigned · J. Rivera · Routed to
-                                        Auth Specialists</div>
+                                        HR Coordinators</div>
                                 </div>
                                 <div class="border-b border-[#f3f4f6] px-3 py-2.5">
                                     <div class="mb-1 flex items-center justify-between gap-2">
-                                        <div class="truncate text-[0.75rem] font-semibold text-[#1c1c2e]">Bulk order
-                                            discount not applying</div>
+                                        <div class="truncate text-[0.75rem] font-semibold text-[#1c1c2e]">Placement
+                                            supervisor not yet assigned</div>
                                         <span
                                             class="rounded-full bg-[#fff7ed] px-2 py-0.5 text-[0.62rem] font-bold uppercase text-[#ea580c]">High</span>
                                     </div>
@@ -1309,7 +1309,7 @@
                                 <div class="px-3 py-2.5">
                                     <div class="mb-1 flex items-center justify-between gap-2">
                                         <div class="truncate text-[0.75rem] font-semibold text-[#1c1c2e]">How do I
-                                            export my data as CSV?</div>
+                                            submit my weekly internship report?</div>
                                         <span
                                             class="rounded-full bg-[#fefce8] px-2 py-0.5 text-[0.62rem] font-bold uppercase text-[#ca8a04]">Medium</span>
                                     </div>
@@ -1332,15 +1332,15 @@
                                 <div
                                     class="flex h-7 w-7 items-center justify-center rounded-[7px] bg-white/25 text-white">
                                     ◎</div>
-                                <span class="text-[0.88rem] font-bold text-white">HelpDesk Support</span>
+                                <span class="text-[0.88rem] font-bold text-white">InternDesk Portal</span>
                             </div>
                             <div class="flex flex-col gap-3 px-4 py-4">
                                 <div
                                     class="rounded-[10px] border border-[#bbf7d0] bg-[#f0fdf4] px-3 py-2 text-[0.72rem] font-semibold text-[#219653]">
                                     <span x-text="$store.ui.t('homeBeacon3NoAccountNeeded')"></span>
                                 </div>
-                                <div class="text-[0.68rem] text-[#6b7280]">Ticket #TK-00831 · Refund request - order
-                                    #8823</div>
+                                <div class="text-[0.68rem] text-[#6b7280]">Application #INT-00831 · Placement request -
+                                    Engineering dept</div>
                                 <div class="flex flex-col gap-2 text-[0.73rem]">
                                     <div class="text-[#16a34a]">● <span
                                             x-text="$store.ui.t('homeBeacon3StepSubmitted')"></span></div>
@@ -1379,7 +1379,7 @@
         <div class="mx-auto flex w-full max-w-6xl flex-col gap-10">
             <p class="text-center text-[11px] font-medium uppercase tracking-[0.18em]"
                 :class="$store.ui.darkMode ? 'text-white/80' : 'text-gray-900'">
-                Perfect the customer experience
+                Perfect the internship experience
             </p>
 
             <div class="flex items-center gap-4 md:gap-6">
@@ -1411,9 +1411,9 @@
                                 <div class="flex flex-1 flex-col gap-5">
                                     <p
                                         class="font-[Inter,ui-sans-serif,system-ui,sans-serif] text-xl leading-relaxed sm:text-2xl lg:text-[1.72rem]">
-                                        "With Help desk AI, I'm seeing an exciting opportunity to streamline and be more
-                                        efficient. That will allow our team to have more time to work on projects of
-                                        importance to the business, be it driving revenue or new sales channels."
+                                        "With InternDesk, I'm seeing an exciting opportunity to streamline our internship operations and be more
+                                        efficient. That will allow our team to have more time to focus on mentoring and developing
+                                        our interns into future leaders."
                                     </p>
                                     <div class="flex flex-col gap-1">
                                         <span class="text-sm font-semibold">Ian Hunt</span>
@@ -1443,9 +1443,9 @@
                                 <div class="flex flex-1 flex-col gap-5">
                                     <p
                                         class="font-[Inter,ui-sans-serif,system-ui,sans-serif] text-xl leading-relaxed sm:text-2xl lg:text-[1.72rem]">
-                                        "Help desk has helped us scale our support without scaling our team
-                                        proportionally. It's been a game-changer for delivering personalized help to
-                                        millions of learners worldwide."
+                                        "InternDesk has helped us scale our internship program without scaling our HR team
+                                        proportionally. It's been a game-changer for delivering personalized mentorship to
+                                        hundreds of interns worldwide."
                                     </p>
                                     <div class="flex flex-col gap-1">
                                         <span class="text-sm font-semibold">Kristen DiCerbo</span>
@@ -1475,9 +1475,9 @@
                                 <div class="flex flex-1 flex-col gap-5">
                                     <p
                                         class="font-[Inter,ui-sans-serif,system-ui,sans-serif] text-xl leading-relaxed sm:text-2xl lg:text-[1.72rem]">
-                                        "With Help desk, our support team now resolves tickets 40% faster. The
+                                        "With InternDesk, our HR team now processes internship applications 40% faster. The
                                         automation
-                                        features free us up to focus on high-priority threats that actually need human
+                                        features free us up to focus on high-value mentoring that actually needs human
                                         judgment and expertise."
                                     </p>
                                     <div class="flex flex-col gap-1">
@@ -1508,8 +1508,8 @@
                                 <div class="flex flex-1 flex-col gap-5">
                                     <p
                                         class="font-[Inter,ui-sans-serif,system-ui,sans-serif] text-xl leading-relaxed sm:text-2xl lg:text-[1.72rem]">
-                                        "Help desk allowed Thrasio to unify support across dozens of brands under one
-                                        roof. Our CSAT scores jumped significantly within the first quarter of going
+                                        "InternDesk allowed Thrasio to unify internship management across dozens of departments under one
+                                        roof. Our intern satisfaction scores jumped significantly within the first quarter of going
                                         live."
                                     </p>
                                     <div class="flex flex-col gap-1">
