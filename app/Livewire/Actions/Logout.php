@@ -1,0 +1,29 @@
+<?php
+
+namespace App\Livewire\Actions;
+
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
+
+class Logout
+{
+    /**
+     * Log the current user out of the application.
+     */
+    public function __invoke()
+    {
+        if (Auth::check()) {
+            Auth::user()->update(['status' => 'offline']);
+        }
+
+        Auth::guard('web')->logout();
+
+        Session::invalidate();
+        Session::regenerateToken();
+
+        // Redirect to main domain home page
+        $mainDomain = config('app.url'); // http://helpdesk-system.test
+
+        return redirect()->to($mainDomain);
+    }
+}

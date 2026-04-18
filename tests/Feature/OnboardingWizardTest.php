@@ -1,0 +1,167 @@
+<?php
+
+use App\Livewire\Onboarding\Wizard;
+use App\Models\Company;
+use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Livewire\Livewire;
+
+use function Pest\Laravel\actingAs;
+
+uses(RefreshDatabase::class);
+
+it('renders the onboarding wizard page for non-onboarded companies', function () {
+    $company = Company::factory()->create(['onboarding_completed_at' => null]);
+    $user = User::factory()->create(['company_id' => $company->id]);
+
+    actingAs($user)
+        ->get("http://{$company->slug}.".config('app.domain').'/onboarding')
+        ->assertSuccessful()
+        ->assertSee('Setup your Workspace');
+});
+
+it('redirects non-onboarded companies to the wizard', function () {
+    $company = Company::factory()->create(['onboarding_completed_at' => null]);
+    $user = User::factory()->create(['company_id' => $company->id]);
+
+    actingAs($user)
+        ->get("http://{$company->slug}.".config('app.domain').'/tickets')
+        ->assertRedirect(route('onboarding.wizard', ['company' => $company->slug]));
+});
+
+it('allows onboarded companies to access the dashboard', function () {
+    $company = Company::factory()->create(['onboarding_completed_at' => now()]);
+    $user = User::factory()->create(['company_id' => $company->id]);
+
+    actingAs($user)
+        ->get("http://{$company->slug}.".config('app.domain').'/tickets')
+        ->assertOk();
+});
+
+it('persists timezone when moving past company profile step', function () {
+    $company = Company::factory()->create([
+        'onboarding_completed_at' => null,
+        'timezone' => 'UTC',
+    ]);
+    $user = User::factory()->create(['company_id' => $company->id]);
+
+    actingAs($user);
+
+    Livewire::test(Wizard::class)
+        ->set('timezone', 'America/New_York')
+        ->call('nextStep')
+        ->assertSet('currentStep', 2);
+
+    expect($company->fresh()->timezone)->toBe('America/New_York');
+});
+
+it('completes the onboarding flow and saves data correctly', function () {
+    $company = Company::factory()->create(['onboarding_completed_at' => null]);
+    $user = User::factory()->create(['company_id' => $company->id]);
+
+    actingAs($user);
+
+    Livewire::test(Wizard::class)
+        ->set('timezone', 'Europe/Paris')
+        ->call('nextStep')
+        ->assertSet('currentStep', 2)
+        ->set('slaIsEnabled', true)
+        ->set('slaLowMinutes', 1500)
+        ->call('nextStep')
+        ->assertSet('currentStep', 3)
+        ->set('categories', [
+            ['name' => 'IT Support'],
+            ['name' => 'HR'],
+        ])
+        ->call('nextStep')
+        ->assertSet('currentStep', 4)
+        ->call('nextStep')
+        ->assertSet('currentStep', 5)
+        ->set('invites', [
+            ['email' => 'jane@example.com', 'name' => 'Jane Smith', 'role' => 'admin'],
+        ])
+        ->call('nextStep')
+        ->assertSet('currentStep', 6)
+        ->set('widgetThemeMode', 'light')
+        ->set('widgetWelcomeMessage', 'Hello World!')
+        ->call('completeOnboarding')
+        ->assertDispatched('wizard-completed', url: route('agent.dashboard', ['company' => $company->slug]));
+
+    // Assert database was updated
+    $company->refresh();
+    expect($company->onboarding_completed_at)->not->toBeNull();
+    expect($company->timezone)->toBe('Europe/Paris');
+
+    $this->assertDatabaseHas('ticket_categories', [
+        'company_id' => $company->id,
+        'name' => 'IT Support',
+    ]);
+
+    $this->assertDatabaseHas('ticket_categories', [
+        'company_id' => $company->id,
+        'name' => 'HR',
+    ]);
+
+    $this->assertDatabaseHas('users', [
+        'company_id' => $company->id,
+        'email' => 'jane@example.com',
+        'name' => 'Jane Smith',
+        'role' => 'admin',
+    ]);
+
+    $this->assertDatabaseHas('widget_settings', [
+        'company_id' => $company->id,
+        'theme_mode' => 'light',
+        'welcome_message' => 'Hello World!',
+        'is_active' => 1,
+    ]);
+
+    $this->assertDatabaseHas('sla_policies', [
+        'company_id' => $company->id,
+        'is_enabled' => 1,
+        'low_minutes' => 1500,
+        'medium_minutes' => 480,
+        'high_minutes' => 120,
+        'urgent_minutes' => 30,
+    ]);
+});
+
+it('allows skipping the entire wizard', function () {
+    $company = Company::factory()->create(['onboarding_completed_at' => null]);
+    $user = User::factory()->create(['company_id' => $company->id]);
+
+    actingAs($user);
+
+    Livewire::test(Wizard::class)
+        ->call('skipEntireWizard')
+        ->assertDispatched('wizard-completed', url: route('agent.dashboard', ['company' => $company->slug]));
+
+    $company->refresh();
+    expect($company->onboarding_completed_at)->not->toBeNull();
+    expect($company->categories()->count())->toBeGreaterThan(0);
+    expect($company->widgetSettings()->exists())->toBeTrue();
+});
+
+it('allows skipping individual steps', function () {
+    $company = Company::factory()->create(['onboarding_completed_at' => null]);
+    $user = User::factory()->create(['company_id' => $company->id]);
+
+    actingAs($user);
+
+    Livewire::test(Wizard::class)
+        ->assertSet('currentStep', 1)
+        ->call('skipStep')
+        ->assertSet('currentStep', 2)
+        ->call('skipStep')
+        ->assertSet('currentStep', 3)
+        ->call('skipStep')
+        ->assertSet('currentStep', 4)
+        ->call('skipStep')
+        ->assertSet('currentStep', 5)
+        ->call('skipStep')
+        ->assertSet('currentStep', 6)
+        ->call('skipStep')
+        ->assertDispatched('wizard-completed', url: route('agent.dashboard', ['company' => $company->slug]));
+
+    expect($company->refresh()->onboarding_completed_at)->not->toBeNull();
+});
