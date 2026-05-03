@@ -33,7 +33,7 @@ class UserInvitationMail extends Mailable implements ShouldQueue
         }
 
         return new Envelope(
-            subject: "You've been invited to join {$companyName} on Helpdesk!"
+            subject: "You've been invited to join {$companyName} on InterLink!"
         );
     }
 

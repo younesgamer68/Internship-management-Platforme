@@ -8,6 +8,8 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ $widget->form_title }}</title>
+    <link rel="icon" href="{{ asset('images/Logos/Small%20Logo.png') }}" type="image/png">
+    <link rel="apple-touch-icon" href="{{ asset('images/Logos/Small%20Logo.png') }}">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
@@ -58,11 +60,12 @@
                 <div>
                     <h2
                         class="text-3xl font-extrabold {{ $widget->theme_mode === 'dark' ? 'text-zinc-100' : 'text-gray-900' }}">
-                        {{ $widget->form_title }}</h2>
+                        {{ $widget->form_title }}
+                    </h2>
                     @if ($widget->welcome_message)
-                        <p
-                            class="mt-2 text-sm {{ $widget->theme_mode === 'dark' ? 'text-zinc-400' : 'text-gray-600' }}">
-                            {{ $widget->welcome_message }}</p>
+                        <p class="mt-2 text-sm {{ $widget->theme_mode === 'dark' ? 'text-zinc-400' : 'text-gray-600' }}">
+                            {{ $widget->welcome_message }}
+                        </p>
                     @endif
                 </div>
 
@@ -142,8 +145,7 @@
                                 @endif
                             </label>
                             <div class="mt-1">
-                                <input type="tel" name="customer_phone"
-                                    {{ $widget->require_phone ? 'required' : '' }}
+                                <input type="tel" name="customer_phone" {{ $widget->require_phone ? 'required' : '' }}
                                     class="appearance-none block w-full px-3 py-2 border rounded-md shadow-sm sm:text-sm {{ $widget->theme_mode === 'dark' ? 'bg-zinc-800 border-zinc-700 text-zinc-100 placeholder-zinc-500 focus:ring-emerald-500 focus:border-emerald-500' : 'border-gray-300 placeholder-gray-400 focus:ring-green-500 focus:border-green-500' }} focus:outline-none"
                                     placeholder="+1 (555) 123-4567">
                             </div>
@@ -228,10 +230,10 @@
                         <p
                             class="text-center text-xs flex items-center justify-center gap-1.5 {{ $widget->theme_mode === 'dark' ? 'text-zinc-500' : 'text-gray-400' }}">
                             Secured by
-                            <img src="{{ asset('images/' . ($widget->theme_mode === 'dark' ? 'logodm.png' : 'logolm.png')) }}"
-                                alt="Helpdesk" class="inline-block h-4 w-4">
+                            <img src="{{ asset('images/Logos/' . ($widget->theme_mode === 'dark' ? 'LWDM.png' : 'LWLM.png')) }}"
+                                alt="InterLink" class="inline-block h-4 w-4">
                             <span
-                                class="font-medium {{ $widget->theme_mode === 'dark' ? 'text-zinc-300' : 'text-gray-600' }}">Helpdesk</span>
+                                class="font-medium {{ $widget->theme_mode === 'dark' ? 'text-zinc-300' : 'text-gray-600' }}">InterLink</span>
                         </p>
                     </div>
                 </div>
@@ -271,15 +273,15 @@
             try {
                 const response = await fetch(
                     "{{ route('widget.submit', ['company' => $widget->company->slug, 'key' => $widget->widget_key]) }}", {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Accept': 'application/json',
-                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
-                                'content')
-                        },
-                        body: JSON.stringify(data)
-                    });
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
+                            'content')
+                    },
+                    body: JSON.stringify(data)
+                });
 
                 const result = await response.json();
 

@@ -16,7 +16,7 @@
                     <div class="mb-8 items-start justify-between flex flex-col md:flex-row gap-4">
                         <div>
                             <flux:heading size="xl" level="1">Setup your Workspace</flux:heading>
-                            <flux:subheading>Let's get your helpdesk ready for your customers in 6 simple steps.
+                            <flux:subheading>Let's get your InterLink ready for your customers in 6 simple steps.
                             </flux:subheading>
                             <button wire:click="skipEntireWizard"
                                 class="mt-2 text-sm text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300 transition-colors underline decoration-dotted underline-offset-4">

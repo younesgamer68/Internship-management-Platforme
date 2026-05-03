@@ -29,10 +29,10 @@
 9. [Conclusion](#conclusion)
 
 ## Introduction
-This document defines the system requirements for deploying and operating the Helpdesk System. It covers hardware sizing guidelines, software prerequisites, server configuration, memory planning for queues and real-time features, network requirements for external APIs and WebSocket communications, browser compatibility, and security controls. The guidance is derived from the project’s configuration and runtime dependencies.
+This document defines the system requirements for deploying and operating the InterLink System. It covers hardware sizing guidelines, software prerequisites, server configuration, memory planning for queues and real-time features, network requirements for external APIs and WebSocket communications, browser compatibility, and security controls. The guidance is derived from the project’s configuration and runtime dependencies.
 
 ## Project Structure
-The Helpdesk System is a Laravel 12 application with Livewire 4, Reverb for real-time messaging, and optional AI integrations. The frontend assets are built with Vite and TailwindCSS. The application integrates with external services for authentication (Google OAuth), email delivery, and AI providers.
+The InterLink System is a Laravel 12 application with Livewire 4, Reverb for real-time messaging, and optional AI integrations. The frontend assets are built with Vite and TailwindCSS. The application integrates with external services for authentication (Google OAuth), email delivery, and AI providers.
 
 ```mermaid
 graph TB
@@ -280,4 +280,4 @@ F --> L["AI Providers"]
 - [config/database.php:32-115](file://config/database.php#L32-L115)
 
 ## Conclusion
-The Helpdesk System is designed around Laravel 12, Livewire 4, and Reverb for real-time capabilities. Production readiness hinges on appropriate hardware sizing, PHP and database configuration, Redis for scalability, and robust network/security controls. Align infrastructure with traffic projections, queue volumes, and real-time demands to achieve reliable performance.
+The InterLink System is designed around Laravel 12, Livewire 4, and Reverb for real-time capabilities. Production readiness hinges on appropriate hardware sizing, PHP and database configuration, Redis for scalability, and robust network/security controls. Align infrastructure with traffic projections, queue volumes, and real-time demands to achieve reliable performance.

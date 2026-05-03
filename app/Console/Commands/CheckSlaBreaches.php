@@ -17,7 +17,7 @@ class CheckSlaBreaches extends Command
      *
      * @var string
      */
-    protected $signature = 'helpdesk:check-sla-breaches';
+    protected $signature = 'interlink:check-sla-breaches';
 
     /**
      * The console command description.

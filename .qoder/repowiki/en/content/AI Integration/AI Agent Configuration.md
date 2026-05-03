@@ -25,7 +25,7 @@
 10. [Appendices](#appendices)
 
 ## Introduction
-This document explains how AI agents are configured and used in the helpdesk system, with a focus on the SupportReplyAgent. It details provider selection (Google Gemini), model configuration, and pricing optimization settings via attributes. It also documents the agent’s contract implementations (Agent, Conversational, HasTools), shows how to configure multiple providers, and provides examples and troubleshooting guidance for reliable deployments.
+This document explains how AI agents are configured and used in the InterLink System, with a focus on the SupportReplyAgent. It details provider selection (Google Gemini), model configuration, and pricing optimization settings via attributes. It also documents the agent’s contract implementations (Agent, Conversational, HasTools), shows how to configure multiple providers, and provides examples and troubleshooting guidance for reliable deployments.
 
 ## Project Structure
 The AI agent configuration centers around:
@@ -311,7 +311,7 @@ Common issues and resolutions:
 - [TicketDetails.php:371-378](file://app/Livewire/Dashboard/TicketDetails.php#L371-L378)
 
 ## Conclusion
-The SupportReplyAgent demonstrates a clean, cost-conscious AI integration for helpdesk reply suggestions. By leveraging the Provider and UseCheapestModel attributes, it aligns with budget constraints while remaining compatible with the broader Laravel AI SDK ecosystem. The AI configuration supports multiple providers, and Livewire integration enables responsive, user-friendly agent invocation. Extending the agent with tools, structured outputs, and richer conversation context follows established patterns in the codebase.
+The SupportReplyAgent demonstrates a clean, cost-conscious AI integration for InterLink reply suggestions. By leveraging the Provider and UseCheapestModel attributes, it aligns with budget constraints while remaining compatible with the broader Laravel AI SDK ecosystem. The AI configuration supports multiple providers, and Livewire integration enables responsive, user-friendly agent invocation. Extending the agent with tools, structured outputs, and richer conversation context follows established patterns in the codebase.
 
 [No sources needed since this section summarizes without analyzing specific files]
 

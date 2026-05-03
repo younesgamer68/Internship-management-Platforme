@@ -24,7 +24,7 @@
                 x-text="$store.ui.t('footerColProduct')"></div>
             <ul class="flex list-none flex-col gap-2">
                 <li><a class="inline-flex items-center gap-1 text-[12.5px] text-[#8fa2b6] transition duration-200 hover:translate-x-0.75 hover:text-[#d9e8f7]"
-                        href="{{ route('login') }}" x-text="$store.ui.t('footerLinkDashboard')"></a></li>
+                        href="{{ route('choose_path') }}" x-text="$store.ui.t('footerLinkDashboard')"></a></li>
                 <li><a class="inline-flex items-center gap-1 text-[12.5px] text-[#8fa2b6] transition duration-200 hover:translate-x-0.75 hover:text-[#d9e8f7]"
                         href="{{ route('home') }}#features" x-text="$store.ui.t('footerLinkFeatures')"></a></li>
                 <li><a class="inline-flex items-center gap-1 text-[12.5px] text-[#8fa2b6] transition duration-200 hover:translate-x-0.75 hover:text-[#d9e8f7]"

@@ -30,7 +30,7 @@
 9. [Conclusion](#conclusion)
 
 ## Introduction
-This document explains the comprehensive reporting and analytics system powering business intelligence and performance insights across the helpdesk. It covers the multi-tab interface (Overview, Agent Performance, Tickets, Categories), interactive charts and graphs, export capabilities (CSV and PDF), customizable filters, and backend query optimizations for large datasets.
+This document explains the comprehensive reporting and analytics system powering business intelligence and performance insights across the InterLink. It covers the multi-tab interface (Overview, Agent Performance, Tickets, Categories), interactive charts and graphs, export capabilities (CSV and PDF), customizable filters, and backend query optimizations for large datasets.
 
 ## Project Structure
 The reporting module is implemented as a Livewire component with Blade templates and Alpine.js-driven charts. The backend aggregates metrics via Eloquent and raw SQL, and the frontend renders interactive charts and supports PDF export.
@@ -480,4 +480,4 @@ V --> FE
 - [tickets-tab.blade.php:8](file://resources/views/livewire/dashboard/reports/tickets-tab.blade.php#L8)
 
 ## Conclusion
-The reporting and analytics system delivers a comprehensive, interactive, and performant solution for helpdesk insights. Its Livewire-driven architecture, efficient backend aggregations, and frontend charting stack enable users to explore trends, evaluate agent performance, and export actionable data in multiple formats.
+The reporting and analytics system delivers a comprehensive, interactive, and performant solution for InterLink insights. Its Livewire-driven architecture, efficient backend aggregations, and frontend charting stack enable users to explore trends, evaluate agent performance, and export actionable data in multiple formats.

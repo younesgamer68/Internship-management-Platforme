@@ -211,7 +211,7 @@ Notif->>DB : "Persist to notifications table"
 Notif->>Echo : "Broadcast event"
 Echo-->>NB : "BroadcastNotificationCreated"
 NB->>NB : "refreshNotifications(event)"
-NB->>NBView : "dispatch helpdesk : notification"
+NB->>NBView : "dispatch InterLink : notification"
 NBView-->>NBView : "Alpine toast overlay with teleport"
 ```
 
@@ -489,7 +489,7 @@ class SlaBreached {
 - **Enhanced Livewire event subscriptions**:
   - NotificationBell listens for a Livewire event and a broadcast event on the user's private channel.
   - NotificationsPage listens for the same events to keep the page synchronized.
-  - Real-time toast notifications use the `helpdesk:notification` event for immediate UI updates.
+  - Real-time toast notifications use the `InterLink:notification` event for immediate UI updates.
 - **Advanced Echo configuration**:
   - Echo is initialized with the Reverb broadcaster and environment variables for host, port, and TLS.
   - Supports WebSocket transport with automatic fallback and secure connections.
@@ -510,7 +510,7 @@ Comp->>Echo : "Broadcast event"
 Echo-->>NB : "BroadcastNotificationCreated"
 Echo-->>NP : "BroadcastNotificationCreated"
 NB->>NB : "refreshNotifications()"
-NB->>NBView : "dispatch helpdesk : notification"
+NB->>NBView : "dispatch InterLink : notification"
 NBView-->>NBView : "Alpine toast with teleport"
 NP->>NP : "onNewNotification()"
 NPP->>NPP : "save preferences"
@@ -688,10 +688,10 @@ Prefs["User preferences"] --> User
 - **No real-time updates**:
   - Verify Echo configuration and that the Reverb broadcaster is reachable.
   - Confirm Livewire and broadcast events are being emitted and subscribed to.
-  - Check that the `helpdesk:notification` event is properly dispatched for toast notifications.
+  - Check that the `InterLink:notification` event is properly dispatched for toast notifications.
 - **Toast notifications not appearing**:
   - Ensure the Alpine toast container is present in the DOM and the teleport functionality is working.
-  - Verify that the `helpdesk:notification` event is dispatched with proper notification data.
+  - Verify that the `InterLink:notification` event is dispatched with proper notification data.
   - Check browser console for JavaScript errors related to Alpine.js or Echo initialization.
 - **Notification preferences not working**:
   - Confirm that the `wantsNotification()` method is properly checking user preferences.

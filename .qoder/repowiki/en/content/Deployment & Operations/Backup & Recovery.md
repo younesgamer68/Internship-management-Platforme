@@ -30,10 +30,10 @@
 10. [Appendices](#appendices)
 
 ## Introduction
-This document defines a comprehensive backup and disaster recovery plan for the Helpdesk System. It covers database backup strategies (automated backups, point-in-time recovery readiness, and cross-region replication), file system backup procedures for attachments and configuration data, verification and restoration testing, recovery time objectives, failover and redundancy planning, and security and compliance controls for protecting customer data.
+This document defines a comprehensive backup and disaster recovery plan for the InterLink System. It covers database backup strategies (automated backups, point-in-time recovery readiness, and cross-region replication), file system backup procedures for attachments and configuration data, verification and restoration testing, recovery time objectives, failover and redundancy planning, and security and compliance controls for protecting customer data.
 
 ## Project Structure
-The Helpdesk System is a Laravel application with:
+The InterLink System is a Laravel application with:
 - Database connectivity via configurable drivers (SQLite, MySQL, MariaDB, PostgreSQL, SQL Server).
 - File storage using local disks and optional S3-compatible storage.
 - Queued and scheduled tasks for operational automation.
@@ -291,7 +291,7 @@ Operational indicators:
 - [storage/framework/.gitignore:1-9](file://storage/framework/.gitignore#L1-L9)
 
 ## Conclusion
-A robust backup and disaster recovery plan for the Helpdesk System should integrate file-level database backups, filesystem archival, and verification/testing procedures. Choose a database driver aligned with your RPO/RTO needs, enable cross-region replication, and harden security and compliance controls. Regular testing ensures readiness for real incidents.
+A robust backup and disaster recovery plan for the InterLink System should integrate file-level database backups, filesystem archival, and verification/testing procedures. Choose a database driver aligned with your RPO/RTO needs, enable cross-region replication, and harden security and compliance controls. Regular testing ensures readiness for real incidents.
 
 [No sources needed since this section summarizes without analyzing specific files]
 

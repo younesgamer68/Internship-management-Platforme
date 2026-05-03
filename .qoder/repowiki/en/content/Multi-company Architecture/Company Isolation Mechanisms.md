@@ -26,7 +26,7 @@
 9. [Conclusion](#conclusion)
 
 ## Introduction
-This document explains the company isolation mechanisms that prevent cross-tenant access in the helpdesk system. It focuses on:
+This document explains the company isolation mechanisms that prevent cross-tenant access in the InterLink System. It focuses on:
 - Middleware that validates user-company membership and enforces tenant boundaries
 - Middleware that ensures companies are onboarded before granting access
 - Data access patterns that scope queries to the current tenant

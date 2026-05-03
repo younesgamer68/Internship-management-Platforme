@@ -58,7 +58,7 @@
 17. [Conclusion](#conclusion)
 
 ## Introduction
-This document explains the comprehensive AI integration system powered by Google Gemini and multiple AI providers within the Helpdesk System. The system features three distinct AI implementations: SupportReplyAgent for ticket-based reply suggestions, HelpdeskAgent for both public customer chatbot and internal agent assistance, and an expanded AI copilot system with advanced configuration options. The system now includes centralized AI configuration management, usage statistics tracking, chat history management, and suggested replies training capabilities. The enhanced system supports customer-facing chatbot widgets, internal agent AI assistants, automated reply suggestions, and comprehensive AI training and analytics.
+This document explains the comprehensive AI integration system powered by Google Gemini and multiple AI providers within the InterLink System. The system features three distinct AI implementations: SupportReplyAgent for ticket-based reply suggestions, HelpdeskAgent for both public customer chatbot and internal agent assistance, and an expanded AI copilot system with advanced configuration options. The system now includes centralized AI configuration management, usage statistics tracking, chat history management, and suggested replies training capabilities. The enhanced system supports customer-facing chatbot widgets, internal agent AI assistants, automated reply suggestions, and comprehensive AI training and analytics.
 
 ## Project Structure
 The AI integration spans multiple layers with distinct components for different use cases:
@@ -250,7 +250,7 @@ Escalate --> Store
 - [ChatbotWidgetController.php:77-223](file://app/Http/Controllers/ChatbotWidgetController.php#L77-L223)
 
 ### Internal AI Assistant for Agents
-The AiChatWidget provides an integrated AI assistant within the Helpdesk system for agent use:
+The AiChatWidget provides an integrated AI assistant within the InterLink System for agent use:
 
 - **Conversation Management**: Supports multiple concurrent conversations with history persistence
 - **Quick Replies**: Predefined response suggestions for common scenarios
@@ -573,4 +573,4 @@ Check5 --> |Present| Success["Issue Resolved"]
 - [UsageStats.php:15-51](file://app/Livewire/Ai/UsageStats.php#L15-L51)
 
 ## Conclusion
-The enhanced AI integration system provides comprehensive artificial intelligence capabilities across multiple touchpoints within the Helpdesk ecosystem. The addition of HelpdeskAgent, ChatbotWidgetController, internal AI assistance, AI Copilot configuration, usage statistics tracking, chat history management, and suggested replies training creates a robust foundation for customer support automation while maintaining flexibility for agent assistance and continuous AI improvement. The system's modular architecture with centralized configuration, comprehensive analytics, and extensive provider integrations supports easy deployment, provider switching, and continuous enhancement through user feedback and training data management. The new AI Copilot system particularly strengthens the platform's enterprise capabilities with professional-grade configuration management and monitoring tools.
+The enhanced AI integration system provides comprehensive artificial intelligence capabilities across multiple touchpoints within the InterLink ecosystem. The addition of HelpdeskAgent, ChatbotWidgetController, internal AI assistance, AI Copilot configuration, usage statistics tracking, chat history management, and suggested replies training creates a robust foundation for customer support automation while maintaining flexibility for agent assistance and continuous AI improvement. The system's modular architecture with centralized configuration, comprehensive analytics, and extensive provider integrations supports easy deployment, provider switching, and continuous enhancement through user feedback and training data management. The new AI Copilot system particularly strengthens the platform's enterprise capabilities with professional-grade configuration management and monitoring tools.

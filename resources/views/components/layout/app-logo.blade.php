@@ -1,17 +1,13 @@
 @props([
     'sidebar' => false,
 ])
+@php
+    $logoClasses = $sidebar
+        ? 'h-8 w-auto max-w-45 object-contain'
+        : 'h-8 w-auto max-w-45 object-contain';
+@endphp
 
-@if($sidebar)
-    <flux:sidebar.brand name="Laravel Starter Kit" {{ $attributes }}>
-        <x-slot name="logo" class="flex aspect-square size-8 items-center justify-center rounded-md bg-accent-content text-accent-foreground">
-            <x-app-logo-icon class="size-5 fill-current text-white dark:text-black" />
-        </x-slot>
-    </flux:sidebar.brand>
-@else
-    <flux:brand name="Laravel Starter Kit" {{ $attributes }}>
-        <x-slot name="logo" class="flex aspect-square size-8 items-center justify-center rounded-md bg-accent-content text-accent-foreground">
-            <x-app-logo-icon class="size-5 fill-current text-white dark:text-black" />
-        </x-slot>
-    </flux:brand>
-@endif
+<a href="{{ $attributes->get('href', url('/')) }}" class="inline-flex items-center shrink-0" wire:navigate>
+    <img x-bind:src="$store.ui.darkMode ? '{{ asset('images/Logos/TDM.png') }}' : '{{ asset('images/Logos/TLM.png') }}'"
+        alt="InternLink Logo" class="{{ $logoClasses }}">
+</a>

@@ -31,7 +31,7 @@
 10. [Appendices](#appendices)
 
 ## Introduction
-This document provides a comprehensive API reference for the Helpdesk System’s RESTful endpoints and WebSocket interfaces. It covers:
+This document provides a comprehensive API reference for the InterLink System’s RESTful endpoints and WebSocket interfaces. It covers:
 - Public widget endpoints for external website integration (form submission, verification, tracking, and replies)
 - Internal dashboard endpoints for ticket viewing
 - Real-time notifications via WebSocket (Reverb/Pusher) for ticket updates, status changes, and client replies
@@ -345,7 +345,7 @@ Ticket --> TicketCategory : "belongsTo"
 - [config/reverb.php:80-89](file://config/reverb.php#L80-L89)
 
 ## Conclusion
-The Helpdesk System exposes a clean, subdomain-per-company API surface. Public widget endpoints enable external integration with robust verification and tracking flows. Internal dashboards remain protected and role-aware. Real-time updates are powered by WebSocket broadcasting, enabling responsive agent and client experiences.
+The InterLink System exposes a clean, subdomain-per-company API surface. Public widget endpoints enable external integration with robust verification and tracking flows. Internal dashboards remain protected and role-aware. Real-time updates are powered by WebSocket broadcasting, enabling responsive agent and client experiences.
 
 ## Appendices
 

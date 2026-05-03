@@ -25,7 +25,7 @@
 10. [Appendices](#appendices)
 
 ## Introduction
-This document explains how to configure the Laravel Reverb WebSocket server for this helpdesk system. It covers server binding, public endpoint configuration, TLS, scaling via Redis, environment variables for development and production, load balancing considerations, and operational troubleshooting. The goal is to enable reliable real-time messaging across single-instance and horizontally scaled deployments.
+This document explains how to configure the Laravel Reverb WebSocket server for this InterLink System. It covers server binding, public endpoint configuration, TLS, scaling via Redis, environment variables for development and production, load balancing considerations, and operational troubleshooting. The goal is to enable reliable real-time messaging across single-instance and horizontally scaled deployments.
 
 ## Project Structure
 The WebSocket configuration spans several Laravel configuration files and the frontend client initialization:

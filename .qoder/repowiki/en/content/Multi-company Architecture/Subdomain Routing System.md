@@ -39,7 +39,7 @@ The subdomain routing system spans middleware, model definitions, configuration,
 ```mermaid
 graph TB
 subgraph "HTTP Layer"
-R["Incoming Request<br/>Host: {subdomain}.helpdesk-system.test"]
+R["Incoming Request<br/>Host: {subdomain}.interlink-system.test"]
 end
 subgraph "Middleware Pipeline"
 M1["IdentifyCompanyFromSubdomain"]
@@ -48,7 +48,7 @@ M3["EnsureCompanyIsOnboarded"]
 M4["AdminOnly / AgentOnly"]
 end
 subgraph "Routing"
-RG["Route Group: {company}.helpdesk-system.test/*"]
+RG["Route Group: {company}.interlink-system.test/*"]
 end
 subgraph "Domain & Config"
 CFG["config/app.php<br/>domain, url_without_protocol"]
@@ -317,14 +317,14 @@ Common issues and resolutions:
   - AdminOnly and AgentOnly enforce roles against the current company context; ensure the user’s role permits access.
 
 - Development with .test domains:
-  - .test domains are supported; ensure your local DNS or hosts file resolves subdomain.helpdesk-system.test to the development server.
+  - .test domains are supported; ensure your local DNS or hosts file resolves subdomain.interlink-system.test to the development server.
 
 - Domain configuration and DNS:
   - Configure the base domain in config/app.php (domain, url_without_protocol).
   - Point the base domain to your server and ensure wildcard subdomains resolve to the same server.
 
 - SSL certificates:
-  - For production, use wildcard SSL certificates (*.helpdesk-system.test or *.yourdomain.com) to cover arbitrary subdomains.
+  - For production, use wildcard SSL certificates (*.interlink-system.test or *.yourdomain.com) to cover arbitrary subdomains.
   - Ensure certificates are installed on your load balancer or web server.
 
 **Section sources**

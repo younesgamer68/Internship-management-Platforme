@@ -755,7 +755,7 @@ class AutomationShowcaseSeeder extends Seeder
         $this->command?->newLine();
 
         $this->command?->line('  7. SLA BREACH');
-        $this->command?->line('     Run: php artisan helpdesk:check-sla-breaches');
+        $this->command?->line('     Run: php artisan interlink:check-sla-breaches');
         $this->command?->line('     → "[DEMO] Invoice #4521" triggers breach automation');
         $this->command?->line('     → Priority escalated + admin notified');
         $this->command?->newLine();

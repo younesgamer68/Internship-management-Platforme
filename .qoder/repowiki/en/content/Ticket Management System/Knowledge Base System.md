@@ -33,9 +33,9 @@
 
 ## Introduction
 
-The Knowledge Base System is a comprehensive customer self-service solution integrated into the Helpdesk System. It provides companies with a structured way to organize, publish, and manage informational content that customers can search and browse to resolve common issues independently. The system supports hierarchical categorization, article versioning, media management, and interactive features like voting and popularity tracking.
+The Knowledge Base System is a comprehensive customer self-service solution integrated into the InterLink System. It provides companies with a structured way to organize, publish, and manage informational content that customers can search and browse to resolve common issues independently. The system supports hierarchical categorization, article versioning, media management, and interactive features like voting and popularity tracking.
 
-The knowledge base serves as a primary support channel, reducing the burden on human agents by enabling customers to find solutions quickly through a well-organized searchable interface. It includes features for article popularity measurement, user feedback collection, and seamless integration with the broader helpdesk ecosystem.
+The knowledge base serves as a primary support channel, reducing the burden on human agents by enabling customers to find solutions quickly through a well-organized searchable interface. It includes features for article popularity measurement, user feedback collection, and seamless integration with the broader InterLink ecosystem.
 
 ## Project Structure
 
@@ -488,7 +488,7 @@ The voting system provides user feedback collection with the following features:
 
 ## Conclusion
 
-The Knowledge Base System represents a comprehensive solution for customer self-service support, integrating seamlessly with the broader helpdesk ecosystem. Its modular architecture, robust data modeling, and user-friendly interface provide a solid foundation for scalable knowledge management.
+The Knowledge Base System represents a comprehensive solution for customer self-service support, integrating seamlessly with the broader InterLink ecosystem. Its modular architecture, robust data modeling, and user-friendly interface provide a solid foundation for scalable knowledge management.
 
 Key strengths include:
 - **Company Isolation**: Secure multi-tenant architecture

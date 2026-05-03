@@ -5,7 +5,8 @@
         <h2 class="mt-6 text-3xl font-extrabold text-gray-900 border-none">Create an account</h2>
         <p class="mt-2 text-sm text-gray-600">
             Already have an account?
-            <a href="{{ route('login') }}" class="font-medium text-green-600 hover:text-green-500 transition-colors">Log
+            <a href="{{ route('choose_path') }}"
+                class="font-medium text-green-600 hover:text-green-500 transition-colors">Log
                 in</a>
         </p>
     </div>
@@ -49,8 +50,7 @@
         <!-- Name -->
         <div>
             <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Full name</label>
-            <input id="name" name="name" type="text" autocomplete="name" required autofocus
-                value="{{ old('name') }}"
+            <input id="name" name="name" type="text" autocomplete="name" required autofocus value="{{ old('name') }}"
                 class="appearance-none block w-full px-4 py-2.5 bg-gray-100 border border-gray-200 rounded-lg placeholder-gray-400 text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-200 focus:border-green-500 transition-all sm:text-sm">
             @error('name')
                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
@@ -127,8 +127,7 @@
         <div class="flex items-start">
             <div class="flex items-center h-5">
                 <input id="terms" name="terms" type="checkbox"
-                    class="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded cursor-pointer"
-                    required>
+                    class="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded cursor-pointer" required>
             </div>
             <div class="ml-2 text-sm text-gray-600">
                 I agree to the <a href="#" class="font-medium text-green-600 hover:text-green-500">Terms of

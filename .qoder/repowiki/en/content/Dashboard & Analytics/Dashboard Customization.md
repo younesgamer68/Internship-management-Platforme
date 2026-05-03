@@ -28,7 +28,7 @@
 9. [Conclusion](#conclusion)
 
 ## Introduction
-This document explains the flexible dashboard customization and configuration options available in the helpdesk system. It covers:
+This document explains the flexible dashboard customization and configuration options available in the InterLink System. It covers:
 - Personalized dashboards for Admin and Agent roles
 - Table components with robust filtering, sorting, and bulk actions
 - Saved filter views for sharing and reusing custom configurations

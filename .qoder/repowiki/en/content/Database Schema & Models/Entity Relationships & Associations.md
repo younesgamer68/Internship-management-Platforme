@@ -31,7 +31,7 @@
 9. [Conclusion](#conclusion)
 
 ## Introduction
-This document describes the entity relationship model for the Helpdesk System, focusing on multi-tenancy via subdomains, and the relationships among Companies, Users, Tickets, Categories, Replies, and Automation Rules. It documents foreign keys, cascading behaviors, referential integrity, many-to-many associations, and how the schema enforces tenant isolation. It also explains the ticket lifecycle, assignment, replies, and status changes, and highlights polymorphic-like patterns for customer replies.
+This document describes the entity relationship model for the InterLink System, focusing on multi-tenancy via subdomains, and the relationships among Companies, Users, Tickets, Categories, Replies, and Automation Rules. It documents foreign keys, cascading behaviors, referential integrity, many-to-many associations, and how the schema enforces tenant isolation. It also explains the ticket lifecycle, assignment, replies, and status changes, and highlights polymorphic-like patterns for customer replies.
 
 ## Project Structure
 The relationships are defined by:
@@ -506,4 +506,4 @@ USER --> TICKET
 - [2026_03_14_073653_create_category_user_table.php](file://database/migrations/2026_03_14_073653_create_category_user_table.php#L20)
 
 ## Conclusion
-The Helpdesk System enforces strong multi-tenant isolation via subdomain-to-company mapping and middleware-driven access checks. Its relational schema cleanly models the ticketing lifecycle, user-company associations, category permissions, and automation rules, with explicit foreign keys, cascading behaviors, and indexing strategies supporting operational efficiency and data integrity.
+The InterLink System enforces strong multi-tenant isolation via subdomain-to-company mapping and middleware-driven access checks. Its relational schema cleanly models the ticketing lifecycle, user-company associations, category permissions, and automation rules, with explicit foreign keys, cascading behaviors, and indexing strategies supporting operational efficiency and data integrity.

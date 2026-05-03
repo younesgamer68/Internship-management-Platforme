@@ -55,6 +55,6 @@ class QuickRegisterController extends Controller
 
         // ── 5. Redirect to company setup ─────────────────────────────
         return redirect()->route('setup-company')
-            ->with('success', 'Welcome to HelpDesk! Check your email for a confirmation.');
+            ->with('success', 'Welcome to InterLink! Check your email for a confirmation.');
     }
 }

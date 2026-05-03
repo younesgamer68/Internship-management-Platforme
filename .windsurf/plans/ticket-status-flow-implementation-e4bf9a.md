@@ -1,6 +1,6 @@
 # Ticket Status Flow Implementation Plan
 
-This plan outlines the implementation of the ticket status flow with automatic status transitions, email notifications, and real-time updates in the Laravel helpdesk system.
+This plan outlines the implementation of the ticket status flow with automatic status transitions, email notifications, and real-time updates in the Laravel InterLink system.
 
 ## Key Components
 1. Database migration for resolved_at column (if needed)

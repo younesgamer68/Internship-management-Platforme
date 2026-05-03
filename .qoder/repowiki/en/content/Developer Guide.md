@@ -35,7 +35,7 @@
 10. [Appendices](#appendices)
 
 ## Introduction
-This guide explains how to contribute to and extend the Helpdesk System. It covers code organization, naming conventions, architectural patterns, Livewire component development, the service layer, testing culture, debugging and profiling, development workflow optimization, and extension points for automation rules, AI agents, and widget integrations. The goal is to help you understand how things work and how to add new features safely and consistently.
+This guide explains how to contribute to and extend the InterLink System. It covers code organization, naming conventions, architectural patterns, Livewire component development, the service layer, testing culture, debugging and profiling, development workflow optimization, and extension points for automation rules, AI agents, and widget integrations. The goal is to help you understand how things work and how to add new features safely and consistently.
 
 ## Project Structure
 The application follows a layered architecture with clear separation of concerns:
@@ -377,7 +377,7 @@ Debugging tips:
 - [config/ai.php:52-127](file://config/ai.php#L52-L127)
 
 ## Conclusion
-By following the established patterns—service-layer encapsulation, Livewire component conventions, robust testing, and clear configuration—you can confidently extend the Helpdesk System. Use the automation engine for rule-driven behavior, leverage AI agents for intelligent assistance, and build widgets that integrate seamlessly with company domains.
+By following the established patterns—service-layer encapsulation, Livewire component conventions, robust testing, and clear configuration—you can confidently extend the InterLink System. Use the automation engine for rule-driven behavior, leverage AI agents for intelligent assistance, and build widgets that integrate seamlessly with company domains.
 
 ## Appendices
 

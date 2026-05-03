@@ -33,7 +33,7 @@
 
 ## Introduction
 
-The Customer Management System is a comprehensive module within a helpdesk platform built with Laravel and Livewire. This system provides administrators and support agents with tools to manage customer relationships, track customer interactions through tickets, and maintain customer profiles within a multi-tenant architecture. The system emphasizes real-time updates, filtering capabilities, and seamless integration with the broader helpdesk ecosystem.
+The Customer Management System is a comprehensive module within a InterLink platform built with Laravel and Livewire. This system provides administrators and support agents with tools to manage customer relationships, track customer interactions through tickets, and maintain customer profiles within a multi-tenant architecture. The system emphasizes real-time updates, filtering capabilities, and seamless integration with the broader InterLink ecosystem.
 
 The platform supports multiple companies (tenants) with automatic data isolation, allowing each company to maintain separate customer databases while sharing common infrastructure. The customer management interface provides both administrative oversight and detailed customer analytics through integrated ticket tracking and conversation history.
 
@@ -221,7 +221,7 @@ graph LR
 subgraph "Routing Structure"
 Home[Root Domain] --> Welcome[Welcome Page]
 subgraph "Company Subdomains"
-Company[company-name.helpdesk.app]
+Company[company-name.InterLink.app]
 Company --> Dashboard[Dashboard Routes]
 Company --> Customers[Customers Management]
 Company --> Operators[Operators Management]
@@ -444,7 +444,7 @@ The system provides several debugging capabilities:
 
 ## Conclusion
 
-The Customer Management System represents a robust, scalable solution for multi-tenant customer relationship management within a helpdesk environment. The system successfully combines modern Laravel development practices with Livewire's reactive capabilities to deliver a responsive, secure, and efficient customer management experience.
+The Customer Management System represents a robust, scalable solution for multi-tenant customer relationship management within a InterLink environment. The system successfully combines modern Laravel development practices with Livewire's reactive capabilities to deliver a responsive, secure, and efficient customer management experience.
 
 Key strengths of the implementation include:
 
@@ -454,6 +454,6 @@ Key strengths of the implementation include:
 - **Security Focus**: Multi-layered security implementation protecting customer data and system integrity
 - **Performance Optimization**: Careful consideration of database queries, caching, and frontend optimization
 
-The system's modular design allows for easy extension and customization while maintaining consistency with the broader helpdesk platform. The combination of automated company scoping, comprehensive filtering capabilities, and intuitive user interfaces positions this system as a solid foundation for customer relationship management in enterprise environments.
+The system's modular design allows for easy extension and customization while maintaining consistency with the broader InterLink platform. The combination of automated company scoping, comprehensive filtering capabilities, and intuitive user interfaces positions this system as a solid foundation for customer relationship management in enterprise environments.
 
 Future enhancements could include advanced customer segmentation, automated customer lifecycle management, integration with external CRM systems, and expanded analytics capabilities to further enhance customer insights and operational efficiency.

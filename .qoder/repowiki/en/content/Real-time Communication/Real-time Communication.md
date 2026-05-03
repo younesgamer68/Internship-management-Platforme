@@ -27,7 +27,7 @@
 9. [Conclusion](#conclusion)
 
 ## Introduction
-This document explains the real-time communication system built with Laravel Reverb in the helpdesk application. It covers the WebSocket architecture enabling live updates without page refreshes, the notification system with bell integration and toast alerts, event-driven updates for tickets and replies, Reverb configuration and channel security, connection handling, and scaling considerations. It also provides practical guidance for implementing custom real-time features, handling connection failures, and optimizing performance for large user bases, including Livewire integration patterns.
+This document explains the real-time communication system built with Laravel Reverb in the InterLink application. It covers the WebSocket architecture enabling live updates without page refreshes, the notification system with bell integration and toast alerts, event-driven updates for tickets and replies, Reverb configuration and channel security, connection handling, and scaling considerations. It also provides practical guidance for implementing custom real-time features, handling connection failures, and optimizing performance for large user bases, including Livewire integration patterns.
 
 ## Project Structure
 The real-time stack spans configuration, backend notifications, frontend Echo integration, and Livewire components:
@@ -333,4 +333,4 @@ Common issues and resolutions:
 - [config/reverb.php:40-54](file://config/reverb.php#L40-L54)
 
 ## Conclusion
-The helpdesk application leverages Laravel Reverb and Echo to deliver a responsive, real-time experience. Private channels, structured notification payloads, and Livewire event handlers combine to provide immediate feedback and seamless updates. By following the configuration guidelines, security practices, and performance recommendations outlined here, teams can extend the system with custom real-time features, maintain reliability under load, and ensure a smooth user experience across concurrent users.
+The InterLink application leverages Laravel Reverb and Echo to deliver a responsive, real-time experience. Private channels, structured notification payloads, and Livewire event handlers combine to provide immediate feedback and seamless updates. By following the configuration guidelines, security practices, and performance recommendations outlined here, teams can extend the system with custom real-time features, maintain reliability under load, and ensure a smooth user experience across concurrent users.

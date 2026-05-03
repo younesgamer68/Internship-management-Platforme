@@ -30,7 +30,7 @@
 10. [Conclusion](#conclusion)
 
 ## Introduction
-This document explains the Google OAuth integration for the helpdesk system. It covers the GoogleController implementation for OAuth callbacks and user authentication flow, OAuth configuration in services.php, user lookup and creation for OAuth users, the authentication pipeline, session management, and user state handling. It also includes examples of OAuth login flow, callback processing, error handling scenarios, and security considerations for OAuth implementation and user data protection.
+This document explains the Google OAuth integration for the InterLink System. It covers the GoogleController implementation for OAuth callbacks and user authentication flow, OAuth configuration in services.php, user lookup and creation for OAuth users, the authentication pipeline, session management, and user state handling. It also includes examples of OAuth login flow, callback processing, error handling scenarios, and security considerations for OAuth implementation and user data protection.
 
 ## Project Structure
 The Google OAuth implementation spans several key areas:

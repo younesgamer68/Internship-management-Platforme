@@ -26,7 +26,7 @@
 9. [Conclusion](#conclusion)
 
 ## Introduction
-This document explains the email verification workflow that ensures ticket authenticity in the helpdesk system. It covers the two-token system: a verification token for initial email confirmation and a tracking token for public access to the ticket. The document details the end-to-end process from form submission to email confirmation and ticket activation, including security measures, database storage, email templates, link structure, confidentiality, troubleshooting, and rate limiting considerations.
+This document explains the email verification workflow that ensures ticket authenticity in the InterLink System. It covers the two-token system: a verification token for initial email confirmation and a tracking token for public access to the ticket. The document details the end-to-end process from form submission to email confirmation and ticket activation, including security measures, database storage, email templates, link structure, confidentiality, troubleshooting, and rate limiting considerations.
 
 ## Project Structure
 The verification workflow spans several layers:

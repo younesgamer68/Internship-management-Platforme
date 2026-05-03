@@ -240,7 +240,7 @@ This is the **complete flow from ticket creation to automation execution**:
 - Reassign to operator
 - Notify administrators
 
-**When it runs**: Every **1 minute** via `php artisan helpdesk:check-sla-breaches`
+**When it runs**: Every **1 minute** via `php artisan interlink:check-sla-breaches`
 
 ---
 
@@ -306,7 +306,7 @@ Two scheduled commands handle rules that can't run at ticket creation time:
 | Command                                   | Frequency    | What It Does                                                                                                                   |
 | ----------------------------------------- | ------------ | ------------------------------------------------------------------------------------------------------------------------------ |
 | `php artisan tickets:process-escalations` | Every 15 min | Finds idle tickets that exceed the configured `idle_hours` threshold and runs escalation rules against them                    |
-| `php artisan helpdesk:check-sla-breaches` | Every 1 min  | Recalculates SLA status for all open tickets. When a ticket transitions to `breached`, it triggers SLA breach automation rules |
+| `php artisan interlink:check-sla-breaches` | Every 1 min  | Recalculates SLA status for all open tickets. When a ticket transitions to `breached`, it triggers SLA breach automation rules |
 
 These are registered in `routes/console.php` and run via Laravel's task scheduler (`php artisan schedule:run`).
 
@@ -391,7 +391,7 @@ This creates:
 
 ## 8. Step-by-Step Jury Demo Script
 
-> **Login URL**: http://helpdesk-system.test/login
+> **Login URL**: http://interlink-system.test/login
 > **Admin credentials**: demo-admin@automationdemo.test / password
 
 ---
@@ -478,7 +478,7 @@ This creates:
 1. Show the **[DEMO] Invoice #4521 incorrect tax** ticket — it's breached (past due)
 2. Open a terminal and run:
     ```bash
-    php artisan helpdesk:check-sla-breaches
+    php artisan interlink:check-sla-breaches
     ```
 3. Refresh the ticket page
 4. **Result**:
@@ -492,7 +492,7 @@ This creates:
 
 **What you're showing**: Admins can see, create, edit, and toggle all automation rules.
 
-1. Navigate to **Automation** in the sidebar (http://helpdesk-system.test/automation)
+1. Navigate to **Automation** in the sidebar (http://interlink-system.test/automation)
 2. Show the **6 rules** in the table with execution counts
 3. Click **Edit** on any rule — show the conditions and actions
 4. Toggle a rule **off** — show it becomes inactive

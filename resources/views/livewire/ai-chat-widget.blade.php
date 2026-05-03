@@ -164,7 +164,7 @@
         visible: false,
         currentWelcomeText: '',
         welcomeTexts: [
-            `Welcome to our Helpdesk! 👋 We're here to assist you with any questions or issues you might have. How can we help you today?`,
+            `Welcome to InterLink! 👋 We're here to assist you with any questions or issues you might have. How can we help you today?`,
             `Hello there! 🌟 Need a hand? We're ready to help you find the best solutions right away.`,
             `Welcome back! 😊 We've been expecting you. What can our support team do for you today?`,
             `Hi! 👋 Thanks for reaching out. Let us know how we can make your day a little bit easier.`,
@@ -236,7 +236,7 @@
                                 class="h-7 w-7 object-contain" />
                         </div>
                         <div class="flex-1">
-                            <p class="text-sm font-bold tracking-tight text-white">Helpdesk</p>
+                            <p class="text-sm font-bold tracking-tight text-white">InterLink</p>
                             <div class="flex items-center gap-1.5">
                                 <span
                                     class="h-[5px] w-[5px] rounded-full bg-[#219653] shadow-[0_0_6px_#219653] animate-pulse"></span>
@@ -296,7 +296,7 @@
                                         <p class="text-[13px] font-bold text-zinc-800">Started {{ $conv['date'] }}</p>
                                         <p class="text-[11px] text-zinc-400">{{ $conv['short_date'] }}</p>
                                     </div>
-                                    <p class="truncate text-[12px] text-zinc-800 leading-snug mb-2">Helpdesk:
+                                    <p class="truncate text-[12px] text-zinc-800 leading-snug mb-2">InterLink:
                                         {{ $conv['preview'] }}</p>
                                     <span
                                         class="inline-flex items-center rounded-full bg-gray-200/60 px-2.5 py-0.5 text-[11px] font-medium text-zinc-800 border border-black/5">
@@ -334,11 +334,11 @@
                 <div class="shrink-0 border-t border-gray-200 bg-gray-50 py-2">
                     <div class="flex items-center justify-center gap-2">
                         <div class="flex h-3 w-3 items-center justify-center">
-                            <img src="{{ asset('images/Logos/LWLM.png') }}" alt="Helpdesk"
+                            <img src="{{ asset('images/Logos/LWLM.png') }}" alt="InterLink"
                                 class="h-4 w-4 object-contain" />
                         </div>
                         <p class="text-[9px] font-semibold tracking-wide text-zinc-400">
-                            BUILT WITH HELPDESK AI
+                            BUILT WITH INTERLINK AI
                         </p>
                     </div>
                 </div>
@@ -368,7 +368,7 @@
                         </svg>
                     </div>
                     <div class="relative z-10 flex-1">
-                        <p class="text-xs font-bold text-white">Helpdesk Assistant</p>
+                        <p class="text-xs font-bold text-white">InterLink Assistant</p>
                         <p class="text-[9px] text-white/70">Typically replies instantly</p>
                     </div>
                     <button @click="isOpen = false" type="button"

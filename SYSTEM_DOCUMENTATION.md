@@ -1,4 +1,4 @@
-# Helpdesk System — Technical Documentation
+# InterLink System — Technical Documentation
 
 ---
 

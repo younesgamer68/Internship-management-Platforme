@@ -145,7 +145,7 @@ it('returns chatbot embed js when enabled with a valid key', function () {
     get("http://{$company->slug}.".config('app.domain')."/chatbot-widget/{$key}/embed.js")
         ->assertOk()
         ->assertHeader('Content-Type', 'application/javascript')
-        ->assertSee('helpdesk-chatbot-widget-root');
+        ->assertSee('interlink-chatbot-widget-root');
 });
 
 it('returns 404 for chatbot embed js when chatbot is disabled', function () {

@@ -44,7 +44,7 @@
 10. [Appendices](#appendices)
 
 ## Introduction
-This document explains the automation engine architecture that powers rule-driven ticket processing in the helpdesk system. It focuses on the central AutomationEngine orchestrator, the RuleInterface contract, the rule handler registration system, and how different rule types are mapped to their handlers. It also covers the rule evaluation lifecycle, separation between immediate and scheduled processing, logging and error handling, performance considerations, and extensibility points for adding new rule types. The system now includes comprehensive SLA policy integration with automatic breach detection and escalation capabilities.
+This document explains the automation engine architecture that powers rule-driven ticket processing in the InterLink System. It focuses on the central AutomationEngine orchestrator, the RuleInterface contract, the rule handler registration system, and how different rule types are mapped to their handlers. It also covers the rule evaluation lifecycle, separation between immediate and scheduled processing, logging and error handling, performance considerations, and extensibility points for adding new rule types. The system now includes comprehensive SLA policy integration with automatic breach detection and escalation capabilities.
 
 ## Project Structure
 The automation engine lives under Services/Automation and is composed of:

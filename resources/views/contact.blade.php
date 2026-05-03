@@ -8,8 +8,8 @@
 
     <title>Contact Us - InternDesk</title>
 
-    <link rel="icon" href="{{ asset('images/Logos/LWDM.png') }}" type="image/png">
-    <link rel="apple-touch-icon" href="{{ asset('images/Logos/LWDM.png') }}">
+    <link rel="icon" href="{{ asset('images/Logos/Small%20Logo.png') }}" type="image/png">
+    <link rel="apple-touch-icon" href="{{ asset('images/Logos/Small%20Logo.png') }}">
 
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600,700|righteous:400" rel="stylesheet" />
@@ -192,10 +192,10 @@
                         <p class="mt-2 text-sm" :class="$store.ui.darkMode ? 'text-white/65' : 'text-[#567d81]'"
                             x-text="$store.ui.t('contactSalesBody')">
                         </p>
-                        <a href="mailto:sales@helpdesk-system.test"
+                        <a href="mailto:sales@interlink-system.test"
                             class="mt-4 inline-block text-sm font-semibold underline underline-offset-4"
                             :class="$store.ui.darkMode ? 'text-emerald-300' : 'text-[#0f8d73]'">
-                            sales@helpdesk-system.test
+                            sales@interlink-system.test
                         </a>
                     </div>
 
@@ -206,10 +206,10 @@
                         <p class="mt-2 text-sm" :class="$store.ui.darkMode ? 'text-white/65' : 'text-[#567d81]'"
                             x-text="$store.ui.t('contactSupportBody')">
                         </p>
-                        <a href="mailto:support@helpdesk-system.test"
+                        <a href="mailto:support@interlink-system.test"
                             class="mt-4 inline-block text-sm font-semibold underline underline-offset-4"
                             :class="$store.ui.darkMode ? 'text-emerald-300' : 'text-[#0f8d73]'">
-                            support@helpdesk-system.test
+                            support@interlink-system.test
                         </a>
                     </div>
 
@@ -232,7 +232,7 @@
 
         <section class="scroll-reveal relative w-full overflow-hidden border-b px-6 py-12 sm:py-14"
             :class="$store.ui.darkMode ? 'border-emerald-300/15 bg-black' : 'border-[#e2ecee] bg-[#f9fcfc]'"
-            aria-label="HelpDesk office locations">
+            aria-label="InterLink office locations">
             <div class="pointer-events-none absolute inset-0"
                 :class="$store.ui.darkMode
                     ? 'bg-[radial-gradient(circle_at_20%_20%,rgba(84,219,129,0.12),transparent_36%),radial-gradient(circle_at_88%_82%,rgba(39,176,95,0.18),transparent_40%)]'

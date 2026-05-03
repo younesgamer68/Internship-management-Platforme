@@ -32,7 +32,7 @@
 10. [Appendices](#appendices)
 
 ## Introduction
-This document explains the comprehensive security protection mechanisms implemented in the helpdesk system. It focuses on HTML sanitization via HTML Purifier, input validation and password/profile validation rules, secure response handling, and output encoding strategies. It also covers middleware protections, authentication and authorization controls, and outlines mitigation strategies for common vulnerabilities such as SQL injection, cross-site scripting (XSS), and cross-site request forgery (CSRF). Guidance for secure coding practices and security testing procedures is included.
+This document explains the comprehensive security protection mechanisms implemented in the InterLink System. It focuses on HTML sanitization via HTML Purifier, input validation and password/profile validation rules, secure response handling, and output encoding strategies. It also covers middleware protections, authentication and authorization controls, and outlines mitigation strategies for common vulnerabilities such as SQL injection, cross-site scripting (XSS), and cross-site request forgery (CSRF). Guidance for secure coding practices and security testing procedures is included.
 
 ## Project Structure
 Security-related components are distributed across configuration, validation traits, actions, middleware, controllers, providers, and HTTP responses. The configuration layer centralizes HTML sanitization and authentication policies, while validation traits enforce strong input rules. Middleware enforces tenant isolation and onboarding constraints. Controllers and providers implement secure authentication flows and response redirections.

@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual Internships - Start Your Journey</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+            background: #fff;
+            min-height: 100vh;
+            font-size: 16px;
+            color: #111827;
+        }
+
+        /* ── LAYOUT ── */
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* LEFT SIDE */
+        .left {
+            flex: 1;
+            padding: 32px 80px 60px;
+            background: #fff;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+
+        /* RIGHT SIDE */
+        .right {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* ── LOGO ── */
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            margin-bottom: 0;
+        }
+        .logo-icon { width: 36px; height: 36px; }
+        .logo-text { display: flex; flex-direction: column; line-height: 1.15; }
+        .logo-text span:first-child { font-size: 11px; font-weight: 700; letter-spacing: 0.5px; color: #2ab5b0; text-transform: uppercase; }
+        .logo-text span:last-child  { font-size: 11px; font-weight: 700; letter-spacing: 0.5px; color: #1a2e35; text-transform: uppercase; }
+
+        /* ── FORM AREA ── */
+        .form-wrap {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            max-width: 400px;
+            width: 100%;
+            align-self: center;
+        }
+
+        .form-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #111827;
+            line-height: 1.25;
+            margin-bottom: 32px;
+        }
+
+        /* Field label */
+        .field-label {
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 3px;
+        }
+        .field-label .req { color: #ef4444; }
+
+        /* Input */
+        .input-wrap {
+            position: relative;
+            margin-bottom: 14px;
+        }
+        .input-wrap .input-icon {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #9ca3af;
+            pointer-events: none;
+        }
+        .input-wrap input {
+            width: 100%;
+            padding: 14px 18px 14px 42px;
+            border: 1.5px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            color: #111827;
+            background: #fff;
+            outline: none;
+            transition: border-color 0.18s, box-shadow 0.18s;
+            font-family: inherit;
+        }
+        .input-wrap input::placeholder { color: #9ca3af; }
+        .input-wrap input:focus {
+            border-color: #2ab5b0;
+            box-shadow: 0 0 0 3px rgba(42,181,176,0.12);
+        }
+
+        /* Continue with email button */
+        .btn-email {
+            width: 100%;
+            padding: 14px;
+            background: #e5e7eb;
+            color: #9ca3af;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.97rem;
+            font-weight: 500;
+            cursor: not-allowed;
+            font-family: inherit;
+            transition: background 0.18s, color 0.18s;
+            margin-bottom: 22px;
+        }
+        .btn-email.active {
+            background: #2ab5b0;
+            color: #fff;
+            cursor: pointer;
+        }
+        .btn-email.active:hover { background: #1a9994; }
+
+        /* Or divider */
+        .or-divider {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 18px;
+            color: #9ca3af;
+            font-size: 0.9rem;
+        }
+        .or-divider::before,
+        .or-divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: #e5e7eb;
+        }
+
+        /* Continue with Google */
+        .btn-google {
+            width: 100%;
+            padding: 13px 18px;
+            background: #fff;
+            color: #111827;
+            border: 1.5px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 0.97rem;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: inherit;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            transition: background 0.18s, border-color 0.18s, box-shadow 0.18s;
+            margin-bottom: 22px;
+            text-decoration: none;
+        }
+        .btn-google:hover {
+            background: #f9fafb;
+            border-color: #9ca3af;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        /* Terms text */
+        .terms-text {
+            font-size: 0.8rem;
+            color: #6b7280;
+            text-align: center;
+            line-height: 1.6;
+            margin-bottom: 36px;
+        }
+        .terms-text a {
+            color: #111827;
+            font-weight: 700;
+            text-decoration: underline;
+        }
+        .terms-text a:hover { color: #2ab5b0; }
+
+        /* Back link */
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #374151;
+            text-decoration: none;
+            font-size: 0.92rem;
+            font-weight: 500;
+            transition: color 0.18s;
+        }
+        .back-link:hover { color: #2ab5b0; }
+
+
+        /* ══════════════════════════════════════
+           RIGHT SIDE — SUBTLE ANIMATED BG
+        ══════════════════════════════════════ */
+
+        /* Base gradient — same light blue family as original */
+        .right-bg {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(145deg, #ddf0fb 0%, #c8e8f7 40%, #d4eef9 70%, #e2f4fd 100%);
+            z-index: 0;
+        }
+
+        /* Slow soft light orbs */
+        .orbs {
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(55px);
+        }
+
+        .orb-1 {
+            width: 500px; height: 500px;
+            top: -160px; left: -130px;
+            background: radial-gradient(circle, rgba(100, 200, 240, 0.75) 0%, transparent 70%);
+            animation: orbDrift1 16s ease-in-out infinite alternate;
+        }
+        .orb-2 {
+            width: 460px; height: 460px;
+            bottom: -140px; right: -110px;
+            background: radial-gradient(circle, rgba(60, 175, 220, 0.7) 0%, transparent 70%);
+            animation: orbDrift2 20s ease-in-out infinite alternate;
+        }
+        .orb-3 {
+            width: 300px; height: 300px;
+            top: 30%; left: 50%;
+            background: radial-gradient(circle, rgba(160, 225, 250, 0.6) 0%, transparent 70%);
+            animation: orbDrift3 25s ease-in-out infinite alternate;
+        }
+        .orb-4 {
+            width: 220px; height: 220px;
+            top: 10%; right: 10%;
+            background: radial-gradient(circle, rgba(42, 181, 176, 0.35) 0%, transparent 70%);
+            filter: blur(40px);
+            animation: orbDrift1 30s ease-in-out infinite alternate-reverse;
+        }
+
+        @keyframes orbDrift1 {
+            0%   { transform: translate(0, 0); }
+            100% { transform: translate(60px, 50px); }
+        }
+        @keyframes orbDrift2 {
+            0%   { transform: translate(0, 0); }
+            100% { transform: translate(-50px, -60px); }
+        }
+        @keyframes orbDrift3 {
+            0%   { transform: translate(0, 0); }
+            100% { transform: translate(-40px, 30px); }
+        }
+
+        /* Decorative blob */
+        .blob {
+            position: absolute;
+            top: -100px;
+            left: -50px;
+            width: 450px;
+            height: 450px;
+            background: rgba(150, 210, 235, 0.55);
+            border-radius: 60% 40% 55% 45% / 50% 60% 40% 50%;
+            z-index: 2;
+            animation: blobMorph 18s ease-in-out infinite alternate;
+        }
+
+        @keyframes blobMorph {
+            0%   { border-radius: 60% 40% 55% 45% / 50% 60% 40% 50%; }
+            50%  { border-radius: 50% 50% 40% 60% / 60% 40% 55% 45%; }
+            100% { border-radius: 45% 55% 60% 40% / 45% 55% 50% 50%; }
+        }
+
+        /* Canvas for particles */
+        #particles-canvas {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 3;
+            pointer-events: none;
+        }
+
+        /* Right content sits above everything */
+        .right-content {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            max-width: 600px;
+            padding: 80px 60px 60px;
+        }
+
+        /* Profile avatars */
+        .avatars {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 32px;
+        }
+
+        .avatar {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            border: 3px solid #e8f4f8;
+            overflow: hidden;
+            margin-left: -12px;
+        }
+
+        .avatar:first-child {
+            margin-left: 0;
+        }
+
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            background: #d1d5db;
+        }
+
+        .avatar-special {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            border: 3px solid #e8f4f8;
+            overflow: hidden;
+            margin-left: -12px;
+        }
+
+        .avatar-special img {
+            width: 80%;
+            height: 100%;
+            object-fit: cover;
+            background: #d1d5db;
+        }
+
+        /* Stats heading */
+        .stats-heading {
+            font-size: 2.3rem;
+            font-weight: 700;
+            color: #1a2e35;
+            line-height: 1.35;
+            margin-bottom: 60px;
+        }
+
+        .stats-heading .highlight {
+            color: #2ab5b0;
+        }
+
+        /* Trust section */
+        .trust-title {
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: #1a2e35;
+            margin-bottom: 40px;
+        }
+
+        /* University logos */
+        .logos {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px 80px;
+            align-items: center;
+            justify-items: center;
+        }
+
+        .logo-item {
+            width: 150px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-item img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 1100px) {
+            .container {
+                flex-direction: column;
+            }
+
+            .left,
+            .right-content {
+                padding: 40px 30px;
+            }
+
+            .blob {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <!-- LEFT COLUMN — EMAIL / GOOGLE SIGN IN -->
+        <div class="left">
+
+            <!-- Logo -->
+            <a class="logo" href="#">
+                <svg class="logo-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="20" cy="20" r="17" stroke="#2ab5b0" stroke-width="2.5" fill="none"/>
+                    <path d="M20 8 A12 12 0 0 1 32 20" stroke="#2ab5b0" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+                    <path d="M20 12 A8 8 0 0 1 28 20" stroke="#2ab5b0" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+                </svg>
+                <div class="logo-text">
+                    <span>Virtual</span>
+                    <span>Internships</span>
+                </div>
+            </a>
+
+            <div class="form-wrap">
+
+                <h1 class="form-title">Get experience that<br>employers actually notice</h1>
+
+                <!-- Email label + input -->
+                <div class="field-label">Email address <span class="req">*</span></div>
+                <div class="input-wrap">
+                    <span class="input-icon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                            <rect x="2" y="4" width="20" height="16" rx="2" stroke="#9ca3af" stroke-width="2"/>
+                            <path d="M2 7L12 13L22 7" stroke="#9ca3af" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </span>
+                    <input
+                        type="email"
+                        id="email-input"
+                        placeholder="name@university.edu"
+                        oninput="toggleEmailBtn(this.value)"
+                    >
+                </div>
+
+                <!-- Continue with email -->
+                <button class="btn-email" id="email-btn" disabled>Continue with email</button>
+
+                <!-- Or divider -->
+                <div class="or-divider">Or</div>
+
+                <!-- Continue with Google -->
+                <a href="#" class="btn-google">
+                    <!-- Google "G" SVG logo -->
+                    <svg width="20" height="20" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                        <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+                        <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+                        <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+                        <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+                        <path fill="none" d="M0 0h48v48H0z"/>
+                    </svg>
+                    Continue with Google
+                </a>
+
+                <!-- Terms -->
+                <p class="terms-text">
+                    By continuing you are agreeing to Virtual Internships's<br>
+                    <a href="#">Terms of Use</a> &amp; <a href="#">Privacy Policy</a> and confirming that you're<br>
+                    above 18 years of age.
+                </p>
+
+                <!-- Back link -->
+                <a href="#" class="back-link">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                        <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    Back
+                </a>
+
+            </div>
+        </div>
+
+        <!-- RIGHT COLUMN -->
+        <div class="right">
+
+            <!-- Background layers -->
+            <div class="right-bg"></div>
+
+            <div class="orbs">
+                <div class="orb orb-1"></div>
+                <div class="orb orb-2"></div>
+                <div class="orb orb-3"></div>
+                <div class="orb orb-4"></div>
+            </div>
+
+            <!-- Morphing blob (same position as original) -->
+            <div class="blob"></div>
+
+            <!-- Particle canvas -->
+            <canvas id="particles-canvas"></canvas>
+
+            <!-- Content — same HTML as original -->
+            <div class="right-content">
+
+                <!-- Profile avatars -->
+                <div class="avatars">
+                    <div class="avatar"><img src="assets/Personne/Youness.jpg" alt="Intern 2"></div>
+                    <div class="avatar-special"><img src="assets/Personne/Mohmmed.png" alt="Intern 3"></div>
+                </div>
+
+                <!-- Stats -->
+                <h2 class="stats-heading">
+                    <span class="highlight">10,000+ interns</span> launch their<br>
+                    careers with us every month
+                </h2>
+
+                <!-- Trust -->
+                <p class="trust-title">Trusted by education providers worldwide</p>
+
+                <!-- University logos -->
+                <div class="logos">
+                    <div class="logo-item"><img src="https://icesst.com/wp-content/uploads/2024/07/uiz-ibn-zohr-logo-9C971C192C-seeklogo.com_.png" alt="University of New Mexico"></div>
+                    <div class="logo-item"><img src="https://upload.wikimedia.org/wikipedia/commons/9/94/Universiapolis.png" alt="University of Auckland"></div>
+                    <div class="logo-item"><img src="https://uploads.9rayti.com/2012/07/logo-encg-casablanca.png" alt="Landmark University"></div>
+                    <div class="logo-item"><img src="https://upload.wikimedia.org/wikipedia/commons/d/df/OFPPT_Logo.png" alt="University of South Carolina"></div>
+                    <div class="logo-item"><img src="https://tagdev.ruforum.org/sites/default/files/UM6P.png" alt="University of Salford"></div>
+                    <div class="logo-item"><img src="https://prod.cdn-medias.jeuneafrique.com/cdn-cgi/image/q=auto,f=auto,metadata=none,width=1280,height=720,fit=cover/https://prod.cdn-medias.jeuneafrique.com/medias/2018/02/23/aui.png" alt="Bayes Business School"></div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+        function toggleEmailBtn(val) {
+            const btn = document.getElementById('email-btn');
+            if (val.trim().length > 0) {
+                btn.classList.add('active');
+                btn.disabled = false;
+            } else {
+                btn.classList.remove('active');
+                btn.disabled = true;
+            }
+        }
+
+        const canvas = document.getElementById('particles-canvas');
+        const ctx    = canvas.getContext('2d');
+        const right  = document.querySelector('.right');
+
+        function resize() {
+            const rect = right.getBoundingClientRect();
+            canvas.width  = rect.width;
+            canvas.height = rect.height;
+        }
+        resize();
+        window.addEventListener('resize', () => { resize(); init(); });
+
+        /* ── Particle config ── */
+        const COUNT = 80;
+        let particles = [];
+
+        function rand(min, max) { return Math.random() * (max - min) + min; }
+
+        class Particle {
+            constructor() { this.reset(true); }
+
+            reset(initial = false) {
+                this.x     = rand(0, canvas.width);
+                this.y     = initial ? rand(0, canvas.height) : canvas.height + 10;
+                this.r     = rand(2, 5);
+                this.alpha = rand(0.35, 0.75);
+                this.vx    = rand(-0.18, 0.18);
+                this.vy    = rand(-0.4, -0.15);   // float upward
+                this.life  = 0;
+                this.maxLife = rand(200, 420);
+                /* soft teal / sky / white */
+                const palette = [
+                    '42,181,176',
+                    '80,195,220',
+                    '140,215,240',
+                    '200,238,252',
+                    '255,255,255',
+                ];
+                this.color = palette[Math.floor(Math.random() * palette.length)];
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                this.life++;
+                const half = this.maxLife / 2;
+                if (this.life < half) {
+                    this.currentAlpha = this.alpha * (this.life / half);
+                } else {
+                    this.currentAlpha = this.alpha * (1 - (this.life - half) / half);
+                }
+                if (this.life >= this.maxLife) this.reset();
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(${this.color}, ${this.currentAlpha})`;
+                ctx.fill();
+            }
+        }
+
+        function init() {
+            particles = [];
+            for (let i = 0; i < COUNT; i++) {
+                const p = new Particle();
+                p.life = Math.floor(rand(0, p.maxLife)); // stagger start
+                particles.push(p);
+            }
+        }
+
+        function loop() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => { p.update(); p.draw(); });
+            requestAnimationFrame(loop);
+        }
+
+        init();
+        loop();
+    </script>
+
+</body>
+
+</html>

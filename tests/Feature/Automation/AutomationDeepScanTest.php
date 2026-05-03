@@ -844,7 +844,7 @@ test('CheckSlaBreaches command skips already breached tickets', function () {
         'actions' => ['escalate_priority' => true],
     ]);
 
-    $this->artisan('helpdesk:check-sla-breaches')
+    $this->artisan('interlink:check-sla-breaches')
         ->assertSuccessful();
 
     // Rule should NOT have executed because ticket was already breached
@@ -867,7 +867,7 @@ test('CheckSlaBreaches marks at_risk tickets correctly', function () {
         'sla_status' => 'on_time',
     ]);
 
-    $this->artisan('helpdesk:check-sla-breaches')
+    $this->artisan('interlink:check-sla-breaches')
         ->assertSuccessful();
 
     $ticket->refresh();

@@ -31,7 +31,7 @@
 9. [Conclusion](#conclusion)
 
 ## Introduction
-This document explains the ticket assignment and routing workflows in the helpdesk system. It covers automatic assignment based on category specialization, agent availability, and workload balancing, along with manual assignment interfaces for supervisors and administrators. It also documents the assignment notification system, real-time updates, reassignment procedures, transfer reasons, approval workflows, agent capacity management, load balancing, automation engine integration for rule-based decisions, and fallback strategies for unavailable agents.
+This document explains the ticket assignment and routing workflows in the InterLink System. It covers automatic assignment based on category specialization, agent availability, and workload balancing, along with manual assignment interfaces for supervisors and administrators. It also documents the assignment notification system, real-time updates, reassignment procedures, transfer reasons, approval workflows, agent capacity management, load balancing, automation engine integration for rule-based decisions, and fallback strategies for unavailable agents.
 
 ## Project Structure
 The assignment and routing logic spans several services, models, notifications, Livewire components, and controllers:

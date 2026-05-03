@@ -34,7 +34,7 @@
 9. [Conclusion](#conclusion)
 
 ## Introduction
-Helpdesk System is a multi-company ticketing platform designed to streamline customer support across organizations. It combines a Laravel 12 backend with Livewire 4 for dynamic, reactive frontend components. The platform integrates AI assistance powered by the Gemini provider and real-time communication via Laravel Reverb. Organizations can onboard independently, operate under subdomains, and leverage automation rules to improve efficiency. Key value propositions include automated ticket assignment, real-time notifications, and customer self-service through embeddable widgets.
+InterLink System is a multi-company ticketing platform designed to streamline customer support across organizations. It combines a Laravel 12 backend with Livewire 4 for dynamic, reactive frontend components. The platform integrates AI assistance powered by the Gemini provider and real-time communication via Laravel Reverb. Organizations can onboard independently, operate under subdomains, and leverage automation rules to improve efficiency. Key value propositions include automated ticket assignment, real-time notifications, and customer self-service through embeddable widgets.
 
 ## Project Structure
 The project follows a layered architecture:
@@ -151,7 +151,7 @@ participant Routes as "web.php"
 participant MW as "IdentifyCompanyFromSubdomain"
 participant Ctrl as "WidgetController"
 participant DB as "Database"
-Browser->>Routes : GET /{company}.helpdesk-system.test/widget/{key}
+Browser->>Routes : GET /{company}.interlink-system.test/widget/{key}
 Routes->>MW : Apply middleware
 MW->>DB : Lookup Company by slug
 DB-->>MW : Company record
@@ -358,4 +358,4 @@ AISDK --> Gemini
 - [app/Console/Commands/ProcessTicketEscalations.php:29-53](file://app/Console/Commands/ProcessTicketEscalations.php#L29-L53)
 
 ## Conclusion
-Helpdesk System delivers a scalable, multi-tenant ticketing solution with powerful automation, AI assistance, and real-time communication. Its architecture leverages Laravel and Livewire to provide a modern developer and user experience, while subdomain routing ensures organizational isolation. Organizations benefit from automated assignment, streamlined self-service, and extensible automation rules tailored to their workflows.
+InterLink System delivers a scalable, multi-tenant ticketing solution with powerful automation, AI assistance, and real-time communication. Its architecture leverages Laravel and Livewire to provide a modern developer and user experience, while subdomain routing ensures organizational isolation. Organizations benefit from automated assignment, streamlined self-service, and extensible automation rules tailored to their workflows.

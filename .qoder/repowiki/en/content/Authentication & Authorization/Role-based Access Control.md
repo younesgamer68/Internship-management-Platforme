@@ -29,7 +29,7 @@
 9. [Conclusion](#conclusion)
 
 ## Introduction
-This document describes the role-based access control (RBAC) system that governs who can access what within the helpdesk application. The system defines a three-tier role hierarchy:
+This document describes the role-based access control (RBAC) system that governs who can access what within the InterLink application. The system defines a three-tier role hierarchy:
 - Admin: Full administrative control over the company's dashboard, operators, categories, automation rules, and reports.
 - Agent: A legacy role present in the database schema but not actively used in routing or middleware protections.
 - Operator: Standard agent role with access to dashboards, tickets, and operator management features under administrative oversight.

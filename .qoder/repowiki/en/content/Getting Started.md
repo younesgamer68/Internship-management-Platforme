@@ -33,10 +33,10 @@
 10. [Appendices](#appendices)
 
 ## Introduction
-This guide helps you install and run the Helpdesk System locally. It covers prerequisites, step-by-step installation, environment configuration, database setup, asset compilation, initial application setup, and verification steps. It also includes troubleshooting tips and examples of registering a user and testing basic functionality.
+This guide helps you install and run the InterLink System locally. It covers prerequisites, step-by-step installation, environment configuration, database setup, asset compilation, initial application setup, and verification steps. It also includes troubleshooting tips and examples of registering a user and testing basic functionality.
 
 ## Project Structure
-The Helpdesk System is a Laravel 12 application with Livewire components, Vue-like reactive UI, and a subdomain-per-company architecture. Key runtime elements include:
+The InterLink System is a Laravel 12 application with Livewire components, Vue-like reactive UI, and a subdomain-per-company architecture. Key runtime elements include:
 - PHP 8.2+ requirement enforced by Composer
 - Laravel framework and Fortify for authentication
 - Livewire v4 for interactive UI
@@ -81,7 +81,7 @@ The system uses subdomains to isolate companies. Requests are routed through a c
 
 ```mermaid
 graph TB
-Client["Browser"] --> Domain["Main Domain<br/>helpdesk-system.test"]
+Client["Browser"] --> Domain["Main Domain<br/>interlink-system.test"]
 Domain --> MW1["Middleware: IdentifyCompanyFromSubdomain"]
 MW1 --> Routes["Routes: Web"]
 Routes --> Auth["Auth & Onboarding"]
@@ -179,7 +179,7 @@ Notes:
 - The SetupCompany Livewire component validates inputs, creates a unique company slug, assigns the user as admin, and redirects to the company’s ticket dashboard.
 
 3) Configure subdomain routing
-- The system expects subdomains like subdomain.helpdesk-system.test.
+  - The system expects subdomains like subdomain.interlink-system.test.
 - The IdentifyCompanyFromSubdomain middleware extracts the slug and attaches company context to the request.
 
 4) Verify onboarding
@@ -272,7 +272,7 @@ Common issues and resolutions:
   - Ensure Vite is running in dev mode or build assets for production.
 
 - Subdomain not recognized
-  - Ensure your local DNS resolves subdomain.helpdesk-system.test.
+  - Ensure your local DNS resolves subdomain.interlink-system.test.
   - The middleware extracts the subdomain from the host and attaches company context.
 
 - Email verification or invitation issues
@@ -289,7 +289,7 @@ Common issues and resolutions:
 - [config/mail.php:17](file://config/mail.php#L17)
 
 ## Conclusion
-You now have the prerequisites, installation steps, and operational guidance to run the Helpdesk System locally. Proceed with environment configuration, database setup, and asset compilation. Use the provided routes and middleware to verify subdomain routing and onboarding. Test authentication, invitations, and company setup to ensure the system is ready for use.
+You now have the prerequisites, installation steps, and operational guidance to run the InterLink System locally. Proceed with environment configuration, database setup, and asset compilation. Use the provided routes and middleware to verify subdomain routing and onboarding. Test authentication, invitations, and company setup to ensure the system is ready for use.
 
 [No sources needed since this section summarizes without analyzing specific files]
 

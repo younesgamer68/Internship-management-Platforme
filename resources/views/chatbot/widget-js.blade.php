@@ -1,6 +1,6 @@
 (function () {
 var widgetUrl = @json($widgetUrl);
-var rootId = 'helpdesk-chatbot-widget-root';
+var rootId = 'interlink-chatbot-widget-root';
 
 if (document.getElementById(rootId)) {
 return;
@@ -33,6 +33,7 @@ root.appendChild(iframe);
 document.body.appendChild(root);
 
 var style = document.createElement('style');
-style.textContent = '@media (max-width: 480px) { #' + rootId + ' { right: 8px !important; bottom: 8px !important; width: calc(100vw - 16px) !important; height: calc(100vh - 16px) !important; } }';
+style.textContent = '@media (max-width: 480px) { #' + rootId + ' { right: 8px !important; bottom: 8px !important; width:
+calc(100vw - 16px) !important; height: calc(100vh - 16px) !important; } }';
 document.head.appendChild(style);
 })();

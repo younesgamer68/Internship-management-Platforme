@@ -360,7 +360,7 @@ Common issues and resolutions:
 - [security-issues.md:132-151](file://security-issues.md#L132-L151)
 
 ## Conclusion
-The Widget API provides a secure, configurable, and embeddable support intake solution. By leveraging subdomain scoping, robust validation, and clear customer workflows—from submission to tracking—organizations can integrate a professional helpdesk experience into any website. Applying the recommended security improvements and rate-limiting strategies will further strengthen the system against abuse.
+The Widget API provides a secure, configurable, and embeddable support intake solution. By leveraging subdomain scoping, robust validation, and clear customer workflows—from submission to tracking—organizations can integrate a professional InterLink experience into any website. Applying the recommended security improvements and rate-limiting strategies will further strengthen the system against abuse.
 
 ## Appendices
 

@@ -55,7 +55,7 @@
 10. [Appendices](#appendices)
 
 ## Introduction
-This document defines the complete testing strategy for the Helpdesk System. It explains how the project leverages both PHPUnit and Pest to organize and execute tests, and how it validates business-critical services, Livewire components, and integrations such as email, broadcasting, and AI. It also covers database testing with factories and seeders, best practices for mocking external dependencies, and guidance for continuous integration and performance testing.
+This document defines the complete testing strategy for the InterLink System. It explains how the project leverages both PHPUnit and Pest to organize and execute tests, and how it validates business-critical services, Livewire components, and integrations such as email, broadcasting, and AI. It also covers database testing with factories and seeders, best practices for mocking external dependencies, and guidance for continuous integration and performance testing.
 
 ## Project Structure
 The testing setup is organized into:
@@ -395,7 +395,7 @@ Common issues and resolutions:
 - [channels.php:5-7](file://routes/channels.php#L5-L7)
 
 ## Conclusion
-The Helpdesk System employs a robust dual-testing strategy combining PHPUnit and Pest. Feature tests validate service behavior, Livewire interactivity, and integrations, while factories and seeders provide reliable test data. With environment-driven isolation, explicit mocking, and targeted assertions, the suite delivers confidence across core workflows including automation, assignment, notifications, and real-time dashboards.
+The InterLink System employs a robust dual-testing strategy combining PHPUnit and Pest. Feature tests validate service behavior, Livewire interactivity, and integrations, while factories and seeders provide reliable test data. With environment-driven isolation, explicit mocking, and targeted assertions, the suite delivers confidence across core workflows including automation, assignment, notifications, and real-time dashboards.
 
 ## Appendices
 

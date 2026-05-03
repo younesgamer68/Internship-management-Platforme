@@ -27,7 +27,7 @@
 - [TicketVerification.php](file://app/Mail/TicketVerification.php)
 - [TicketVerified.php](file://app/Mail/TicketVerified.php)
 - [form-widget.blade.php](file://resources/views/livewire/settings/form-widget.blade.php)
-- [HelpdeskAgent.php](file://app/Ai/Agents/HelpdeskAgent.php)
+- [InterLinkAgent.php](file://app/Ai/Agents/InterLinkAgent.php)
 </cite>
 
 ## Update Summary
@@ -64,7 +64,7 @@ graph TB
 subgraph "External Website"
 Site["Partner Website<br/>Embedded Widgets"]
 end
-subgraph "HelpDesk System"
+subgraph "InterLink System"
 MW["Middleware<br/>IdentifyCompanyFromSubdomain"]
 WC["WidgetController"]
 CBC["ChatbotWidgetController"]
@@ -75,7 +75,7 @@ DB["Database<br/>widget_settings, tickets, chatbot_conversations, kb_articles"]
 LV["Livewire AI Chat Widget"]
 Views["Blade Templates<br/>widget/form, chatbot/widget, kb/widget-js"]
 JS["JavaScript Widgets<br/>chatbot/widget-js, kb/widget-js"]
-AI["AI Agent<br/>HelpdeskAgent"]
+AI["AI Agent<br/>InterLinkAgent"]
 end
 Site --> |"Widget Embeds"| MW --> |"Attach Company"| WC
 Site --> |"Chatbot Widget"| CBC
@@ -103,7 +103,7 @@ AI --> CBC
 - [TicketConversation.php:12-99](file://app/Livewire/Widget/TicketConversation.php#L12-L99)
 - [chatbot/widget.blade.php:1-512](file://resources/views/chatbot/widget.blade.php#L1-L512)
 - [kb/widget-js.blade.php:1-313](file://resources/views/kb/widget-js.blade.php#L1-L313)
-- [HelpdeskAgent.php:16-42](file://app/Ai/Agents/HelpdeskAgent.php#L16-L42)
+- [InterLinkAgent.php:16-42](file://app/Ai/Agents/InterLinkAgent.php#L16-L42)
 
 **Section sources**
 - [settings.php:73-93](file://routes/settings.php#L73-L93)
@@ -115,7 +115,7 @@ AI --> CBC
 - [TicketConversation.php:12-99](file://app/Livewire/Widget/TicketConversation.php#L12-L99)
 - [chatbot/widget.blade.php:1-512](file://resources/views/chatbot/widget.blade.php#L1-L512)
 - [kb/widget-js.blade.php:1-313](file://resources/views/kb/widget-js.blade.php#L1-L313)
-- [HelpdeskAgent.php:16-42](file://app/Ai/Agents/HelpdeskAgent.php#L16-L42)
+- [InterLinkAgent.php:16-42](file://app/Ai/Agents/InterLinkAgent.php#L16-L42)
 
 ## Core Components
 - **WidgetController**: Renders the form, validates and persists tickets, sends verification emails, handles verification and tracking, and manages customer replies.
@@ -140,7 +140,7 @@ AI --> CBC
 - [ai-chat-widget.blade.php:1-480](file://resources/views/livewire/ai-chat-widget.blade.php#L1-L480)
 - [chatbot/widget.blade.php:1-512](file://resources/views/chatbot/widget.blade.php#L1-L512)
 - [kb/widget-js.blade.php:1-313](file://resources/views/kb/widget-js.blade.php#L1-L313)
-- [HelpdeskAgent.php:16-42](file://app/Ai/Agents/HelpdeskAgent.php#L16-L42)
+- [InterLinkAgent.php:16-42](file://app/Ai/Agents/InterLinkAgent.php#L16-L42)
 
 ## Architecture Overview
 The enhanced widget system uses a multi-layered approach supporting various widget types. Subdomain-scoped routing handles ticket widgets, while dedicated routes manage chatbot and knowledge base widgets. Each widget type serves distinct purposes while sharing common infrastructure for company scoping and authentication.
@@ -154,7 +154,7 @@ participant CBC as "ChatbotWidgetController"
 participant KBC as "KbWidgetController"
 participant KC as "KbPortalController"
 participant DB as "Database"
-participant AI as "HelpdeskAgent"
+participant AI as "InterLinkAgent"
 C->>MW : "GET /{company}/widget/{key}"
 MW-->>RC : "Request with company attached"
 C->>MW : "GET /{company}/chatbot-widget/{key}"
@@ -180,7 +180,7 @@ KC-->>C : "Render KB portal"
 - [ChatbotWidgetController.php:53-75](file://app/Http/Controllers/ChatbotWidgetController.php#L53-L75)
 - [KbWidgetController.php:11-29](file://app/Http/Controllers/KbWidgetController.php#L11-L29)
 - [KbPortalController.php:17-40](file://app/Http/Controllers/KbPortalController.php#L17-L40)
-- [HelpdeskAgent.php:16-42](file://app/Ai/Agents/HelpdeskAgent.php#L16-L42)
+- [InterLinkAgent.php:16-42](file://app/Ai/Agents/InterLinkAgent.php#L16-L42)
 
 ## Detailed Component Analysis
 
@@ -321,7 +321,7 @@ A[Chat Message Request] --> B[Validate Message]
 B --> C[Lookup Company & Widget]
 C --> D[Fetch AI Settings]
 D --> E[Build Prompt Context]
-E --> F[Call Helpdesk Agent]
+E --> F[Call InterLink Agent]
 F --> G{Response OK?}
 G --> |Yes| H[Process Response]
 G --> |No| I[Fallback Response]
@@ -338,14 +338,14 @@ O --> N
 - [ChatbotWidgetController.php:77-223](file://app/Http/Controllers/ChatbotWidgetController.php#L77-L223)
 
 #### AI Agent Integration
-The system leverages the HelpdeskAgent AI class powered by Laravel AI SDK to process natural language queries and provide intelligent responses.
+The system leverages the InterLinkAgent AI class powered by Laravel AI SDK to process natural language queries and provide intelligent responses.
 
 **Section sources**
 - [ChatbotWidgetController.php:16-337](file://app/Http/Controllers/ChatbotWidgetController.php#L16-L337)
 - [chatbot/widget.blade.php:1-512](file://resources/views/chatbot/widget.blade.php#L1-L512)
 - [chatbot/widget-js.blade.php:1-39](file://resources/views/chatbot/widget-js.blade.php#L1-L39)
 - [ai-chat-widget.blade.php:1-480](file://resources/views/livewire/ai-chat-widget.blade.php#L1-L480)
-- [HelpdeskAgent.php:16-42](file://app/Ai/Agents/HelpdeskAgent.php#L16-L42)
+- [InterLinkAgent.php:16-42](file://app/Ai/Agents/InterLinkAgent.php#L16-L42)
 
 ### Knowledge Base Widget System
 The knowledge base widget system provides instant search capabilities with floating interface and JavaScript integration.
@@ -400,7 +400,7 @@ MW --> KBC["KbWidgetController"]
 MW --> KC["KbPortalController"]
 WC --> WS["WidgetSetting"]
 CBC --> AI["AI Settings & Conversations"]
-CBC --> Agent["HelpdeskAgent"]
+CBC --> Agent["InterLinkAgent"]
 KBC --> KB["Knowledge Base Data"]
 KC --> KB
 WC --> DB["Tickets & Replies"]
@@ -420,7 +420,7 @@ V --> LV["Livewire Components"]
 - [ChatbotWidgetController.php:16-337](file://app/Http/Controllers/ChatbotWidgetController.php#L16-L337)
 - [KbWidgetController.php:9-31](file://app/Http/Controllers/KbWidgetController.php#L9-L31)
 - [KbPortalController.php:10-132](file://app/Http/Controllers/KbPortalController.php#L10-L132)
-- [HelpdeskAgent.php:16-42](file://app/Ai/Agents/HelpdeskAgent.php#L16-L42)
+- [InterLinkAgent.php:16-42](file://app/Ai/Agents/InterLinkAgent.php#L16-L42)
 
 **Section sources**
 - [settings.php:73-93](file://routes/settings.php#L73-L93)
@@ -428,7 +428,7 @@ V --> LV["Livewire Components"]
 - [ChatbotWidgetController.php:16-337](file://app/Http/Controllers/ChatbotWidgetController.php#L16-L337)
 - [KbWidgetController.php:9-31](file://app/Http/Controllers/KbWidgetController.php#L9-L31)
 - [KbPortalController.php:10-132](file://app/Http/Controllers/KbPortalController.php#L10-L132)
-- [HelpdeskAgent.php:16-42](file://app/Ai/Agents/HelpdeskAgent.php#L16-L42)
+- [InterLinkAgent.php:16-42](file://app/Ai/Agents/InterLinkAgent.php#L16-L42)
 
 ## Performance Considerations
 - **Database indexing**: The widget settings table includes indexes on company_id, widget_key, and is_active to optimize lookups.
@@ -436,14 +436,14 @@ V --> LV["Livewire Components"]
 - **Attachment handling**: Livewire enforces per-file size limits and a cap on the number of attachments to control payload sizes.
 - **Widget caching**: Chatbot and KB widget JavaScript includes appropriate cache headers for optimal performance.
 - **Rate limiting**: Chatbot endpoints implement throttle middleware (30 requests per minute) to prevent abuse.
-- **AI processing**: The HelpdeskAgent leverages efficient prompt processing and conversation memory management.
+- **AI processing**: The InterLinkAgent leverages efficient prompt processing and conversation memory management.
 - **Rendering**: Tailwind CSS is included via CDN for simplicity; consider bundling and minification in production for performance.
 
 **Section sources**
 - [ChatbotWidgetController.php:90-92](file://app/Http/Controllers/ChatbotWidgetController.php#L90-L92)
 - [kb/widget-js.blade.php:21-28](file://resources/views/kb/widget-js.blade.php#L21-L28)
 - [chatbot/widget-js.blade.php:43-50](file://resources/views/chatbot/widget-js.blade.php#L43-L50)
-- [HelpdeskAgent.php:25-28](file://app/Ai/Agents/HelpdeskAgent.php#L25-L28)
+- [InterLinkAgent.php:25-28](file://app/Ai/Agents/InterLinkAgent.php#L25-L28)
 
 ## Security Considerations
 - **CSRF protection**: The form template includes a CSRF meta tag and sends the token in the X-CSRF-TOKEN header during submission.
@@ -454,7 +454,7 @@ V --> LV["Livewire Components"]
 - **Domain/subdomain scoping**: Middleware ties requests to a specific company, preventing cross-company access.
 - **Session management**: Chatbot widgets maintain session state with proper session IDs and conversation persistence.
 - **Content security**: Knowledge base widget implements proper escaping and sanitization for dynamic content.
-- **AI safety**: The HelpdeskAgent enforces response constraints and prevents markdown formatting.
+- **AI safety**: The InterLinkAgent enforces response constraints and prevents markdown formatting.
 
 **Section sources**
 - [form.blade.php:6](file://resources/views/widget/form.blade.php#L6)
@@ -462,7 +462,7 @@ V --> LV["Livewire Components"]
 - [WidgetController.php:114-136](file://app/Http/Controllers/WidgetController.php#L114-L136)
 - [WidgetController.php:141-158](file://app/Http/Controllers/WidgetController.php#L141-L158)
 - [ChatbotWidgetController.php:90-92](file://app/Http/Controllers/ChatbotWidgetController.php#L90-L92)
-- [HelpdeskAgent.php:25-28](file://app/Ai/Agents/HelpdeskAgent.php#L25-L28)
+- [InterLinkAgent.php:25-28](file://app/Ai/Agents/InterLinkAgent.php#L25-L28)
 
 ## Integration Examples
 
@@ -500,7 +500,7 @@ V --> LV["Livewire Components"]
 - **Session issues**: Ensure proper session handling. Check that X-Chatbot-Session header is being sent correctly.
 - **Escalation problems**: Verify escalation URL configuration in AI settings. Check that fallback thresholds are properly set.
 - **Rate limiting**: Chatbot endpoints are throttled at 30 requests per minute. Wait for the throttle to reset if exceeded.
-- **AI response quality**: Check that the HelpdeskAgent is properly configured with appropriate model and provider settings.
+- **AI response quality**: Check that the InterLinkAgent is properly configured with appropriate model and provider settings.
 
 ### Knowledge Base Widget Issues
 - **Widget not appearing**: Verify the KB widget JavaScript is loading correctly. Check browser console for JavaScript errors.
@@ -515,7 +515,7 @@ V --> LV["Livewire Components"]
 - [WidgetController.php:141-158](file://app/Http/Controllers/WidgetController.php#L141-L158)
 - [TicketConversation.php:30-82](file://app/Livewire/Widget/TicketConversation.php#L30-L82)
 - [ChatbotWidgetController.php:90-92](file://app/Http/Controllers/ChatbotWidgetController.php#L90-L92)
-- [HelpdeskAgent.php:16-42](file://app/Ai/Agents/HelpdeskAgent.php#L16-L42)
+- [InterLinkAgent.php:16-42](file://app/Ai/Agents/InterLinkAgent.php#L16-L42)
 
 ## Conclusion
 The enhanced widget system provides a comprehensive solution for external website integration with multiple widget types. It supports traditional ticket forms, AI-powered chatbot widgets with intelligent escalation, and knowledge base search interfaces with floating widgets. The system enforces email verification, offers robust configuration options, and exposes public tracking interfaces. The integration of AI agents enhances the chatbot functionality with natural language processing capabilities. For production deployments, consider implementing rate limiting for chatbot endpoints, optimizing widget caching, and monitoring widget performance across different integration scenarios.

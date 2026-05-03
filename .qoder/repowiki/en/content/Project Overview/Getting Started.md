@@ -25,10 +25,10 @@
 10. [Appendices](#appendices)
 
 ## Introduction
-This guide helps you install and run the Helpdesk System locally. It covers prerequisites, cloning the repository, setting up the environment, running database migrations, compiling assets, and launching the development stack with a single command. It also explains the automated setup script and the local development script that runs the server, queue, Vite, and Reverb concurrently.
+This guide helps you install and run the InterLink System locally. It covers prerequisites, cloning the repository, setting up the environment, running database migrations, compiling assets, and launching the development stack with a single command. It also explains the automated setup script and the local development script that runs the server, queue, Vite, and Reverb concurrently.
 
 ## Project Structure
-The Helpdesk System is a Laravel application with a modern frontend built using Vite and Tailwind CSS. The backend is organized into models, controllers, Livewire components, jobs, and services. The frontend assets live under resources/css and resources/js and are built via Vite.
+The InterLink System is a Laravel application with a modern frontend built using Vite and Tailwind CSS. The backend is organized into models, controllers, Livewire components, jobs, and services. The frontend assets live under resources/css and resources/js and are built via Vite.
 
 ```mermaid
 graph TB
@@ -268,7 +268,7 @@ Common setup and runtime issues:
 - [package.json:5-8](file://package.json#L5-L8)
 
 ## Conclusion
-You now have the essentials to install the Helpdesk System, configure the environment, run migrations, compile assets, and launch the development stack with a single command. Proceed to onboarding and create your first operator account to verify the system.
+You now have the essentials to install the InterLink System, configure the environment, run migrations, compile assets, and launch the development stack with a single command. Proceed to onboarding and create your first operator account to verify the system.
 
 ## Appendices
 

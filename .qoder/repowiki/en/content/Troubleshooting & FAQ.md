@@ -33,10 +33,10 @@
 10. [Conclusion](#conclusion)
 
 ## Introduction
-This document provides comprehensive troubleshooting guidance and a role-based FAQ for the HelpDesk System. It focuses on diagnosing and resolving common issues across authentication, email delivery, real-time communication (WebSocket), and performance. It also covers systematic debugging approaches for database queries, queue processing, and log analysis, along with practical solutions for configuration, dependency, and environment-specific problems.
+This document provides comprehensive troubleshooting guidance and a role-based FAQ for the InterLink System. It focuses on diagnosing and resolving common issues across authentication, email delivery, real-time communication (WebSocket), and performance. It also covers systematic debugging approaches for database queries, queue processing, and log analysis, along with practical solutions for configuration, dependency, and environment-specific problems.
 
 ## Project Structure
-The HelpDesk System is a Laravel application with modular structure:
+The InterLink System is a Laravel application with modular structure:
 - Configuration: Centralized under config/*. Environment-driven behavior for logging, mail, database, queues, broadcasting, and Reverb.
 - Routing: Routes are grouped by domain/subdomain and role-based middleware.
 - Middleware: Enforces roles (admin/agent), company onboarding, and access control.

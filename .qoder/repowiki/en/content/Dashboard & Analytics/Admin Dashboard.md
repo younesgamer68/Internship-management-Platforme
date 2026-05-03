@@ -314,4 +314,4 @@ admin_dashboard_blade --> FluxModal
 - [Ticket.php:59-62](file://app/Models/Ticket.php#L59-L62)
 
 ## Conclusion
-The Admin Dashboard delivers a focused, multi-tenant view of helpdesk operations. It consolidates key metrics, actionable lists, agent workload insights, and recent system activity into a single interface. Its middleware-driven access control and company-scoped queries ensure secure and accurate reporting for administrators.
+The Admin Dashboard delivers a focused, multi-tenant view of InterLink operations. It consolidates key metrics, actionable lists, agent workload insights, and recent system activity into a single interface. Its middleware-driven access control and company-scoped queries ensure secure and accurate reporting for administrators.

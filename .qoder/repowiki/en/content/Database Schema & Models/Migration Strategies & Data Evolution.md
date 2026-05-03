@@ -31,7 +31,7 @@
 10. [Appendices](#appendices)
 
 ## Introduction
-This document defines a comprehensive migration strategy for the Helpdesk System, covering the lifecycle from initial schema creation through ongoing modifications. It documents multi-tenant patterns using subdomain-based company isolation, data seeding strategies for development and testing, and approaches to schema changes such as column additions, type changes, and constraint updates. It also outlines rollback strategies, data preservation techniques, handling of breaking changes and backward compatibility, zero-downtime deployment considerations, and automation rule migration patterns. Guidance is included for production safety, testing, and rollback procedures.
+This document defines a comprehensive migration strategy for the InterLink System, covering the lifecycle from initial schema creation through ongoing modifications. It documents multi-tenant patterns using subdomain-based company isolation, data seeding strategies for development and testing, and approaches to schema changes such as column additions, type changes, and constraint updates. It also outlines rollback strategies, data preservation techniques, handling of breaking changes and backward compatibility, zero-downtime deployment considerations, and automation rule migration patterns. Guidance is included for production safety, testing, and rollback procedures.
 
 ## Project Structure
 The migration system follows Laravel’s convention of placing timestamped migration files under database/migrations. The application enforces multi-tenancy via subdomain routing and middleware that bind requests to a company context. Models define relationships and casting for typed fields. Seeders and factories populate test data for local and CI environments.
@@ -436,7 +436,7 @@ C --> TBL_AUTOMATION["Automation Rules Table"]
 - [2026_03_07_173715_rename_primary_color_to_theme_mode_in_widget_settings.php:1-28](file://database/migrations/2026_03_07_173715_rename_primary_color_to_theme_mode_in_widget_settings.php#L1-L28)
 
 ## Conclusion
-The Helpdesk System employs a robust, multi-tenant migration strategy centered on subdomain isolation and company-scoped schemas. Migrations evolve incrementally with careful attention to data preservation, backward compatibility, and typed JSON for complex rule definitions. Middleware enforces tenant boundaries, while seeders and factories provide reliable test data. The documented patterns and procedures support safe, repeatable deployments and effective rollbacks.
+The InterLink System employs a robust, multi-tenant migration strategy centered on subdomain isolation and company-scoped schemas. Migrations evolve incrementally with careful attention to data preservation, backward compatibility, and typed JSON for complex rule definitions. Middleware enforces tenant boundaries, while seeders and factories provide reliable test data. The documented patterns and procedures support safe, repeatable deployments and effective rollbacks.
 
 ## Appendices
 - Best practices for zero-downtime deployments:

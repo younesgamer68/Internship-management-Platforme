@@ -29,7 +29,7 @@
 9. [Conclusion](#conclusion)
 
 ## Introduction
-This document provides comprehensive REST API documentation for the Helpdesk System. It covers:
+This document provides comprehensive REST API documentation for the InterLink System. It covers:
 - Public widget endpoints for form submission, verification, tracking, and customer replies
 - Chatbot FAQ endpoints for random FAQs and chat interactions
 - Ticket detail exposure via subdomain routes
@@ -407,7 +407,7 @@ Common issues and resolutions:
     - [app/Http/Middleware/AgentOnly.php:18-20](file://app/Http/Middleware/AgentOnly.php#L18-L20)
 
 ## Conclusion
-The Helpdesk System exposes a focused set of public and authenticated endpoints:
+The InterLink System exposes a focused set of public and authenticated endpoints:
 - Public widget endpoints for form submission, verification, tracking, and customer replies
 - Public chatbot endpoints for FAQs and messaging
 - Authenticated dashboards for ticket management and settings

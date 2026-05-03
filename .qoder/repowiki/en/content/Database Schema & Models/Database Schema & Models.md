@@ -57,7 +57,7 @@
 10. [Appendices](#appendices)
 
 ## Introduction
-This document provides comprehensive data model documentation for the Helpdesk System database schema. It details entity relationships among Companies, Users, Tickets, Categories, Replies, Automation Rules, Teams, Mentions, Mail Settings, AI Logs, Chatbot Conversations, and SLA Policies, along with primary and foreign keys, indexes, and constraints. It also explains ticket lifecycle tables (status tracking, priority management, and assignment history), the user role system with company associations and permission inheritance, and the automation rule storage format and serialization of complex rule conditions. Finally, it covers migration strategies, data seeding approaches, schema evolution patterns, data integrity constraints, soft deletes for audit trails, and performance optimization via proper indexing.
+This document provides comprehensive data model documentation for the InterLink System database schema. It details entity relationships among Companies, Users, Tickets, Categories, Replies, Automation Rules, Teams, Mentions, Mail Settings, AI Logs, Chatbot Conversations, and SLA Policies, along with primary and foreign keys, indexes, and constraints. It also explains ticket lifecycle tables (status tracking, priority management, and assignment history), the user role system with company associations and permission inheritance, and the automation rule storage format and serialization of complex rule conditions. Finally, it covers migration strategies, data seeding approaches, schema evolution patterns, data integrity constraints, soft deletes for audit trails, and performance optimization via proper indexing.
 
 ## Project Structure
 The database schema is defined through Laravel migrations and represented in Eloquent models. Migrations define tables, columns, indexes, and constraints. Models encapsulate relationships, scopes, and attribute casting.
@@ -282,7 +282,7 @@ This section outlines the core entities and their relationships, focusing on pri
 - [add_soft_deletes_to_users_table.php:14-16](file://database/migrations/2026_03_08_182155_add_soft_deletes_to_users_table.php#L14-L16)
 
 ## Architecture Overview
-The Helpdesk System follows a multi-tenant architecture centered around Companies. Users belong to a Company and operate with roles (admin/operator). Tickets are associated with a Company, optionally categorized, assigned to Users or Teams, and tracked via Replies, Mentions, Logs, and SLA policies. Automation Rules apply per Company and store conditions/actions as JSON for flexible rule evaluation. The system now includes comprehensive team-based workflows, AI assistance tracking, chatbot conversation management, and enhanced email configuration capabilities.
+The InterLink System follows a multi-tenant architecture centered around Companies. Users belong to a Company and operate with roles (admin/operator). Tickets are associated with a Company, optionally categorized, assigned to Users or Teams, and tracked via Replies, Mentions, Logs, and SLA policies. Automation Rules apply per Company and store conditions/actions as JSON for flexible rule evaluation. The system now includes comprehensive team-based workflows, AI assistance tracking, chatbot conversation management, and enhanced email configuration capabilities.
 
 ```mermaid
 erDiagram
@@ -851,7 +851,7 @@ Company "1" o-- "many" ChatbotConversation
 - [create_chatbot_conversations_table.php:14-24](file://database/migrations/2026_03_20_000004_create_chatbot_conversations_table.php#L14-L24)
 
 ## Conclusion
-The Helpdesk System schema is designed for multi-tenancy with strong referential integrity, clear indexes for common queries, and flexible automation via JSON-serialized rule conditions. The addition of teams enables hierarchical organization and team-based ticket assignment workflows. The mention system enhances collaboration and user engagement. Comprehensive email configuration, AI suggestion tracking, and chatbot conversation management provide modern customer service capabilities. Enhanced SLA policies with lifecycle management ensure proper ticket handling and data retention. Soft deletes enable audit-friendly data retention across all entities. The model-layer scopes and casts streamline common operations and improve maintainability. Adhering to the documented constraints and indexes ensures predictable performance and reliable data integrity.
+The InterLink System schema is designed for multi-tenancy with strong referential integrity, clear indexes for common queries, and flexible automation via JSON-serialized rule conditions. The addition of teams enables hierarchical organization and team-based ticket assignment workflows. The mention system enhances collaboration and user engagement. Comprehensive email configuration, AI suggestion tracking, and chatbot conversation management provide modern customer service capabilities. Enhanced SLA policies with lifecycle management ensure proper ticket handling and data retention. Soft deletes enable audit-friendly data retention across all entities. The model-layer scopes and casts streamline common operations and improve maintainability. Adhering to the documented constraints and indexes ensures predictable performance and reliable data integrity.
 
 ## Appendices
 

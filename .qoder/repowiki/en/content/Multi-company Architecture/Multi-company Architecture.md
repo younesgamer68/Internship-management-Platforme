@@ -31,13 +31,8 @@
 10. [Appendices](#appendices)
 
 ## Introduction
-This document describes the multi-company architecture centered on subdomain-based multi-tenancy. Each company is represented by a dedicated subdomain (for example, company1.helpdesk-system.test), and the system enforces strict tenant isolation via middleware and model relationships. The architecture ensures that:
-- Requests are routed to the correct company based on the subdomain.
-- Users are validated and restricted to their own company.
-- Onboarding status is enforced before granting access to core features.
-- Company-specific settings, themes, and configurations are isolated per tenant.
-- Provisioning of new companies includes default categories, widget settings, and optional team invitations.
-
+This document describes the multi-company architecture centered on subdomain-based multi-tenancy. Each company is represented by a dedicated subdomain (for example, company1.interlink-system.test), and the system enforces strict tenant isolation via middleware and model relationships. The architecture ensures that:
+Each company is represented by a dedicated subdomain (for example, company1.interlink-system.test), and the system enforces strict tenant isolation via middleware and model relationships. The architecture ensures that:
 ## Project Structure
 The multi-tenant system spans models, middleware, routes, and configuration:
 - Models define the tenant boundary (Company) and relationships (User, WidgetSetting).

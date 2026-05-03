@@ -54,7 +54,7 @@ class AutomationEngine
             }
 
             if ($rule->type === AutomationRule::TYPE_SLA_BREACH) {
-                continue; // SLA breach rules are processed by the helpdesk:check-sla-breaches command
+                continue; // SLA breach rules are processed by the interlink:check-sla-breaches command
             }
 
             $this->executeRule($rule, $ticket);

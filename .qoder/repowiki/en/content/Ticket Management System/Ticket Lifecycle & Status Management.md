@@ -59,7 +59,7 @@
 12. [Appendices](#appendices)
 
 ## Introduction
-This document explains the complete ticket lifecycle and status management in the HelpDesk System, enhanced with AI-powered features. It covers all status states (Open, In Progress, Pending, Resolved, Closed), their transitions, automated triggers (replies, time-based escalation, priority rules), timestamp tracking (created_at, updated_at, resolved_at, closed_at), soft delete and archive behavior, scope-based filtering for open tickets, and audit trail via logs. The system now includes AI-powered reply suggestions, auto-triage capabilities, enhanced assignment algorithms, SLA tracking, and comprehensive activity logging.
+This document explains the complete ticket lifecycle and status management in the InterLink System, enhanced with AI-powered features. It covers all status states (Open, In Progress, Pending, Resolved, Closed), their transitions, automated triggers (replies, time-based escalation, priority rules), timestamp tracking (created_at, updated_at, resolved_at, closed_at), soft delete and archive behavior, scope-based filtering for open tickets, and audit trail via logs. The system now includes AI-powered reply suggestions, auto-triage capabilities, enhanced assignment algorithms, SLA tracking, and comprehensive activity logging.
 
 ## Project Structure
 The ticket lifecycle spans several layers with enhanced AI integration:
@@ -618,7 +618,7 @@ UsageStats["UsageStats"] --> AiSuggestionLog
 - [TicketObserver.php:55-79](file://app/Observers/TicketObserver.php#L55-L79)
 
 ## Conclusion
-The HelpDesk System enforces a robust ticket lifecycle governed by verified-triggered automation, AI-powered auto-triage, time-based escalation, and explicit status transitions. The system now includes comprehensive AI features for reply suggestions, golden response training, and intelligent triage. SLA tracking provides priority-based response time management with breach detection and warnings. Timestamps and soft deletes support auditing and archival, while scopes and indexes enable efficient querying. The observer and services maintain operational counters and ensure consistent state transitions across the system, enhanced by machine learning capabilities for improved efficiency and accuracy.
+The InterLink System enforces a robust ticket lifecycle governed by verified-triggered automation, AI-powered auto-triage, time-based escalation, and explicit status transitions. The system now includes comprehensive AI features for reply suggestions, golden response training, and intelligent triage. SLA tracking provides priority-based response time management with breach detection and warnings. Timestamps and soft deletes support auditing and archival, while scopes and indexes enable efficient querying. The observer and services maintain operational counters and ensure consistent state transitions across the system, enhanced by machine learning capabilities for improved efficiency and accuracy.
 
 ## Appendices
 - Example controller usage for viewing a ticket:

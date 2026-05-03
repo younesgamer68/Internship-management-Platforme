@@ -30,7 +30,7 @@
 9. [Conclusion](#conclusion)
 
 ## Introduction
-This document explains the event-driven communication patterns in the Helpdesk System. It focuses on how model observers react to ticket lifecycle changes (creation, verification, status updates, deletion, restoration), how automation and assignment services transform state, and how notifications integrate with broadcasting to push real-time updates to clients. It also covers the integration between database events, job processing, and WebSocket notifications, along with guidance for implementing custom events, listeners, and broadcast channels. Finally, it addresses event ordering, reliability considerations, and handling concurrent updates in multi-tenant environments.
+This document explains the event-driven communication patterns in the InterLink System. It focuses on how model observers react to ticket lifecycle changes (creation, verification, status updates, deletion, restoration), how automation and assignment services transform state, and how notifications integrate with broadcasting to push real-time updates to clients. It also covers the integration between database events, job processing, and WebSocket notifications, along with guidance for implementing custom events, listeners, and broadcast channels. Finally, it addresses event ordering, reliability considerations, and handling concurrent updates in multi-tenant environments.
 
 ## Project Structure
 The event-driven flow spans several layers:
@@ -402,4 +402,4 @@ BR --> RV["reverb.php"]
 - [TicketAssignmentService.php:84-94](file://app/Services/TicketAssignmentService.php#L84-L94)
 
 ## Conclusion
-The Helpdesk System’s event-driven architecture leverages Eloquent observers to orchestrate automation and assignment logic, ensuring consistent state transitions and operator workload balance. Notifications integrated with broadcasting deliver real-time updates to clients via secure user channels. Configuration supports flexible drivers and scalable Reverb deployments. Extending the system involves adding new automation rules, expanding notification channels, and ensuring robust concurrency handling in multi-tenant contexts.
+The InterLink System’s event-driven architecture leverages Eloquent observers to orchestrate automation and assignment logic, ensuring consistent state transitions and operator workload balance. Notifications integrated with broadcasting deliver real-time updates to clients via secure user channels. Configuration supports flexible drivers and scalable Reverb deployments. Extending the system involves adding new automation rules, expanding notification channels, and ensuring robust concurrency handling in multi-tenant contexts.

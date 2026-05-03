@@ -744,7 +744,7 @@ test('check sla breaches command marks overdue tickets as breached and sets near
         'verified' => true,
     ]));
 
-    artisan('helpdesk:check-sla-breaches')
+    artisan('interlink:check-sla-breaches')
         ->assertSuccessful();
 
     $overdueTicket->refresh();

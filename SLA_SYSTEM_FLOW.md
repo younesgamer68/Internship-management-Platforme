@@ -79,7 +79,7 @@ Tickets have an `sla_status` enum column with three values:
 
 ## 4. Breach Detection — Scheduled Command
 
-**Command:** `php artisan helpdesk:check-sla-breaches`  
+**Command:** `php artisan interlink:check-sla-breaches`  
 **Schedule:** Every minute (with overlap protection)  
 **Location:** `app/Console/Commands/CheckSlaBreaches.php`
 
@@ -220,7 +220,7 @@ Escalation is **idle-time based**, not SLA-based. It fires when a ticket sits wi
 
 | Command                       | Frequency         | Purpose                                                  |
 | ----------------------------- | ----------------- | -------------------------------------------------------- |
-| `helpdesk:check-sla-breaches` | Every minute      | Detect SLA status changes (on_time → at_risk → breached) |
+| `interlink:check-sla-breaches` | Every minute      | Detect SLA status changes (on_time → at_risk → breached) |
 | `tickets:process-escalations` | Every 15 minutes  | Escalate idle tickets                                    |
 | `tickets:process-lifecycle`   | Every hour        | Send warnings + auto-close resolved tickets              |
 | `tickets:cleanup-old-tickets` | Daily at midnight | Soft-delete and hard-delete old tickets                  |

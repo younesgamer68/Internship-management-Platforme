@@ -264,7 +264,7 @@ Three SLA statuses tracked in `sla_status` column:
 | `at_risk`  | 25% or less of SLA time remaining   |
 | `breached` | Past due time                       |
 
-**Checked by** `helpdesk:check-sla-breaches` command (runs periodically):
+**Checked by** `interlink:check-sla-breaches` command (runs periodically):
 
 - For each open ticket with a `due_time`, calculates current SLA status
 - Transitions: `on_time` → `at_risk` → `breached`
@@ -616,7 +616,7 @@ The automation engine processes rules on ticket creation/verification. Rules are
 | `priority`   | Change priority based on conditions               | New/verified ticket                   |
 | `auto_reply` | Send auto-reply email to customer                 | New/verified ticket                   |
 | `escalation` | Escalate idle tickets                             | Scheduled (not on creation)           |
-| `sla_breach` | Notify/act on SLA breaches                        | `helpdesk:check-sla-breaches` command |
+| `sla_breach` | Notify/act on SLA breaches                        | `interlink:check-sla-breaches` command |
 
 ### Processing Flow
 

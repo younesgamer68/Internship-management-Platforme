@@ -47,7 +47,7 @@
 9. [Conclusion](#conclusion)
 
 ## Introduction
-This document explains the multi-layered authentication and authorization system in the Helpdesk System. It covers:
+This document explains the multi-layered authentication and authorization system in the InterLink System. It covers:
 - Email/password login and registration with enhanced security measures
 - Google OAuth integration with improved error handling and user matching
 - Email verification workflow with 2FA verification middleware
@@ -615,7 +615,7 @@ Common issues and enhanced resolutions:
 - [RecoveryCodes.php:42-47](file://app/Livewire/Settings/TwoFactor/RecoveryCodes.php#L42-L47)
 
 ## Conclusion
-The Helpdesk System implements a robust, layered authentication and authorization pipeline with enhanced security measures:
+The InterLink System implements a robust, layered authentication and authorization pipeline with enhanced security measures:
 - Fortify governs core flows with strong defaults, enhanced customizations, and improved error handling.
 - Google OAuth integration provides seamless external authentication with comprehensive user matching and verification.
 - Invitation system supports flexible onboarding with signature validation and expiration handling.

@@ -940,7 +940,7 @@ class TicketDetails extends Component
         $replies = $this->ticket->replies()->with('user:id,name')->orderBy('created_at', 'desc')->get();
         $replyCount = $replies->count();
 
-        $prompt = "You are a helpdesk assistant summarizing a support ticket for an agent.\n\n";
+        $prompt = "You are an InterLink assistant summarizing a support ticket for an agent.\n\n";
         $prompt .= "Ticket Information:\n";
         $prompt .= '- Subject: '.$this->ticket->subject."\n";
         $prompt .= '- Customer: '.($this->ticket->customer->name ?? $this->ticket->customer_name ?? 'Unknown')."\n";

@@ -29,7 +29,7 @@
 9. [Conclusion](#conclusion)
 
 ## Introduction
-This document provides a comprehensive overview of the Helpdesk System database schema. It focuses on the core tables involved in ticket management, user/company relationships, automation rules, and widget-related features such as email verification and chatbot FAQs. For each table, we describe column definitions, data types, constraints, indexes, and the rationale behind indexing choices. We also outline soft deletes, audit trails, and considerations for partitioning and data retention.
+This document provides a comprehensive overview of the InterLink System database schema. It focuses on the core tables involved in ticket management, user/company relationships, automation rules, and widget-related features such as email verification and chatbot FAQs. For each table, we describe column definitions, data types, constraints, indexes, and the rationale behind indexing choices. We also outline soft deletes, audit trails, and considerations for partitioning and data retention.
 
 ## Project Structure
 The schema is primarily defined in Laravel migration files under the database/migrations directory. Each migration creates or modifies a table and defines indexes tailored to common query patterns (filtering, sorting, joins).
@@ -85,7 +85,7 @@ companies --> chatbot_faqs
 - [0001_01_01_000000_create_users_table.php:14-46](file://database/migrations/0001_01_01_000000_create_users_table.php#L14-L46)
 
 ## Core Components
-This section documents the primary tables and their roles in the helpdesk system.
+This section documents the primary tables and their roles in the InterLink System.
 
 - Companies
   - Purpose: Stores client organizations and onboarding metadata.
@@ -622,4 +622,4 @@ Common issues and resolutions:
 [No sources needed since this section provides general guidance]
 
 ## Conclusion
-The Helpdesk System schema is designed around strong entity relationships, clear indexing for common queries, and audit-friendly timestamps. Soft deletes and JSON-based automation rules enable flexibility while maintaining data integrity. For large-scale deployments, consider partitioning and retention policies to sustain performance and compliance.
+The InterLink System schema is designed around strong entity relationships, clear indexing for common queries, and audit-friendly timestamps. Soft deletes and JSON-based automation rules enable flexibility while maintaining data integrity. For large-scale deployments, consider partitioning and retention policies to sustain performance and compliance.

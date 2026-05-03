@@ -26,6 +26,10 @@ Route::get('/', function (Request $request) {
 Route::view('/contact', 'contact')->name('contact');
 Route::view('/help-center', 'help-center')->name('help-center');
 Route::view('/about', 'about')->name('about');
+Route::view('/choose-path', 'choose_path')->name('choose_path');
+Route::view('/choose-intership', 'choose_intership')->name('choose_intership');
+Route::view('/get-started', 'get-started')->name('get_started');
+Route::view('/find-batch', 'find-batch')->name('find_batch');
 
 // ====== CHATBOT ======
 Route::middleware(['throttle:30,1'])->group(function () {

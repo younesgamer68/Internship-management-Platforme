@@ -31,10 +31,10 @@
 9. [Conclusion](#conclusion)
 
 ## Introduction
-This document presents a comprehensive feature overview of the Helpdesk System, focusing on multi-company ticketing, automated assignment, priority management, category organization, AI-powered support assistance, the widget system for external website integration, real-time communication via WebSockets, an automation engine for rules-based workflows, dashboard analytics, role-based access control, and onboarding and company setup processes.
+This document presents a comprehensive feature overview of the InterLink System, focusing on multi-company ticketing, automated assignment, priority management, category organization, AI-powered support assistance, the widget system for external website integration, real-time communication via WebSockets, an automation engine for rules-based workflows, dashboard analytics, role-based access control, and onboarding and company setup processes.
 
 ## Project Structure
-The Helpdesk System is organized around Eloquent models representing core entities (Company, User, Ticket, WidgetSetting, AutomationRule), service classes implementing business logic (TicketAssignmentService, AutomationEngine), controllers managing HTTP workflows (WidgetController, TicketsController), middleware for subdomain-based company identification, configuration for broadcasting and real-time messaging (broadcasting.php, reverb.php), and Livewire components for interactive UI elements (NotificationBell).
+The InterLink System is organized around Eloquent models representing core entities (Company, User, Ticket, WidgetSetting, AutomationRule), service classes implementing business logic (TicketAssignmentService, AutomationEngine), controllers managing HTTP workflows (WidgetController, TicketsController), middleware for subdomain-based company identification, configuration for broadcasting and real-time messaging (broadcasting.php, reverb.php), and Livewire components for interactive UI elements (NotificationBell).
 
 ```mermaid
 graph TB
@@ -541,4 +541,4 @@ NotificationBell --> Broadcasting
 - [AutomationEngine.php:87-95](file://app/Services/Automation/AutomationEngine.php#L87-L95)
 
 ## Conclusion
-The Helpdesk System delivers a robust, extensible platform for multi-company support operations. Its automated assignment and rule-driven workflows streamline operations, while the AI assistant and widget system enhance responsiveness and customer experience. Real-time communication and comprehensive analytics provide timely insights, and role-based access control ensures secure, scalable deployments. The onboarding and company setup processes simplify initial configuration and ongoing administration.
+The InterLink System delivers a robust, extensible platform for multi-company support operations. Its automated assignment and rule-driven workflows streamline operations, while the AI assistant and widget system enhance responsiveness and customer experience. Real-time communication and comprehensive analytics provide timely insights, and role-based access control ensures secure, scalable deployments. The onboarding and company setup processes simplify initial configuration and ongoing administration.

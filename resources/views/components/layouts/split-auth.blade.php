@@ -63,7 +63,7 @@
             >
                 <!-- Brand -->
                 <div class="flex items-center gap-3">
-                    <img src="{{ asset('images/logolm.png') }}" class="h-10 w-auto" alt="HelpDesk Logo">
+                    <img src="{{ asset('images/Logos/LWLM.png') }}" class="h-10 w-auto" alt="HelpDesk Logo">
                     <span class="text-xl font-bold tracking-tight text-gray-900">HelpDesk</span>
                 </div>
 
@@ -119,7 +119,7 @@
         <div class="flex-1 flex flex-col justify-center px-4 py-12 sm:px-6 lg:px-20 xl:px-24 bg-white relative">
             <!-- Mobile Header Logo -->
             <div class="lg:hidden absolute top-6 left-6 flex items-center gap-2">
-                <img src="{{ asset('images/logolm.png') }}" class="h-8 w-auto" alt="HelpDesk Logo">
+                <img src="{{ asset('images/Logos/LWLM.png') }}" class="h-8 w-auto" alt="HelpDesk Logo">
                 <span class="text-lg font-bold tracking-tight text-gray-900">HelpDesk</span>
             </div>
 

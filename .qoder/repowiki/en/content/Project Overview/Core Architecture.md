@@ -30,7 +30,7 @@
 9. [Conclusion](#conclusion)
 
 ## Introduction
-This document describes the core architecture of the Helpdesk System with a focus on multi-tenancy via subdomain-based company isolation, the MVC pattern with Livewire bridging backend controllers and reactive frontend, layered architecture (Models, Controllers, Livewire Components, Services, Jobs), and real-time communication using Laravel Reverb. It also covers system boundaries, component interactions, data flow patterns, scalability considerations, caching strategies, and performance optimization approaches.
+This document describes the core architecture of the InterLink System with a focus on multi-tenancy via subdomain-based company isolation, the MVC pattern with Livewire bridging backend controllers and reactive frontend, layered architecture (Models, Controllers, Livewire Components, Services, Jobs), and real-time communication using Laravel Reverb. It also covers system boundaries, component interactions, data flow patterns, scalability considerations, caching strategies, and performance optimization approaches.
 
 ## Project Structure
 The application follows a layered, multi-tenant Laravel architecture:
@@ -125,7 +125,7 @@ participant MW3 as "EnsureCompanyIsOnboarded"
 participant C as "TicketsController"
 participant L as "Livewire AdminDashboard"
 participant M as "Models (Company, Ticket)"
-U->>R : "GET /{company}.helpdesk.com/dashboard"
+U->>R : "GET /{company}.InterLink.com/dashboard"
 R->>MW1 : "Apply subdomain middleware"
 MW1->>M : "Lookup Company by slug"
 MW1-->>R : "Attach company to request"
@@ -353,4 +353,4 @@ B --> RV["Reverb"]
 - [reverb.php:29-94](file://config/reverb.php#L29-L94)
 
 ## Conclusion
-The Helpdesk System employs a robust multi-tenant architecture centered on subdomain isolation, layered MVC with Livewire, and a service/job-driven design. Real-time updates are enabled through Reverb, while caching and background processing support scalability. Adhering to the outlined patterns and configurations ensures maintainability, performance, and extensibility across tenants and features.
+The InterLink System employs a robust multi-tenant architecture centered on subdomain isolation, layered MVC with Livewire, and a service/job-driven design. Real-time updates are enabled through Reverb, while caching and background processing support scalability. Adhering to the outlined patterns and configurations ensures maintainability, performance, and extensibility across tenants and features.

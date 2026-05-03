@@ -5,8 +5,8 @@
 
 <title>{{ $title ?? config('app.name') }}</title>
 
-<link rel="icon" href="{{ asset('images/Logos/LWDM.png') }}" type="image/png">
-<link rel="apple-touch-icon" href="{{ asset('images/Logos/LWDM.png') }}">
+<link rel="icon" href="{{ asset('images/Logos/Small%20Logo.png') }}" type="image/png">
+<link rel="apple-touch-icon" href="{{ asset('images/Logos/Small%20Logo.png') }}">
 
 <link rel="preconnect" href="https://fonts.bunny.net">
 <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
@@ -128,7 +128,7 @@
         color: '#18181b',
     };
 
-    window.confirmDeletion = function(wire, id, method = 'deleteTicket', itemType = 'ticket') {
+    window.confirmDeletion = function (wire, id, method = 'deleteTicket', itemType = 'ticket') {
         Swal.fire({
             ...swalCustom,
             title: 'Delete',
@@ -144,7 +144,7 @@
         })
     }
 
-    window.confirmAction = function(wire, id, method, title = 'Are you sure?', text =
+    window.confirmAction = function (wire, id, method, title = 'Are you sure?', text =
         "You won't be able to revert this!", confirmBtnText = 'Confirm', icon = 'warning') {
         Swal.fire({
             ...swalCustom,
@@ -162,7 +162,7 @@
     }
 
     /* Override all wire:confirm native dialogs → SweetAlert2 green theme */
-    document.addEventListener('click', function(e) {
+    document.addEventListener('click', function (e) {
         const el = e.target.closest('[wire\\:confirm]');
         if (!el) return;
 

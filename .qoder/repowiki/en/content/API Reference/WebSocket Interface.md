@@ -27,7 +27,7 @@
 9. [Conclusion](#conclusion)
 
 ## Introduction
-This document describes the WebSocket interface used by the Helpdesk System for real-time communication. It covers connection establishment, authentication via token-based sessions, event subscription patterns, and the message formats used for live updates across the application. It also documents event types (ticket updates, reply notifications, system alerts, and user presence indicators), client-side handling, connection lifecycle management, reconnection strategies, error handling, event filtering, channel subscriptions, and real-time dashboard synchronization.
+This document describes the WebSocket interface used by the InterLink System for real-time communication. It covers connection establishment, authentication via token-based sessions, event subscription patterns, and the message formats used for live updates across the application. It also documents event types (ticket updates, reply notifications, system alerts, and user presence indicators), client-side handling, connection lifecycle management, reconnection strategies, error handling, event filtering, channel subscriptions, and real-time dashboard synchronization.
 
 ## Project Structure
 The WebSocket stack is configured and wired through Laravel’s broadcasting layer and the Reverb server. Frontend clients subscribe to channels and listen for broadcast events using Laravel Echo.
@@ -320,4 +320,4 @@ Notifications --> ReverbCFG
 - [reverb.php:70-94](file://config/reverb.php#L70-L94)
 
 ## Conclusion
-The Helpdesk System’s WebSocket interface leverages Laravel Echo and Reverb to deliver real-time updates securely and efficiently. Events are broadcast to per-user channels, enabling precise targeting and reducing overhead. The documented patterns for connection, authentication, subscription, and payload handling provide a clear blueprint for extending real-time capabilities across dashboards, notifications, and collaborative features.
+The InterLink System’s WebSocket interface leverages Laravel Echo and Reverb to deliver real-time updates securely and efficiently. Events are broadcast to per-user channels, enabling precise targeting and reducing overhead. The documented patterns for connection, authentication, subscription, and payload handling provide a clear blueprint for extending real-time capabilities across dashboards, notifications, and collaborative features.

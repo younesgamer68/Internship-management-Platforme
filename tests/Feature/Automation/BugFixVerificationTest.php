@@ -174,7 +174,7 @@ test('CheckSlaBreaches does not double-notify admins when breach rule has notify
 
     Notification::fake();
 
-    $this->artisan('helpdesk:check-sla-breaches')->assertSuccessful();
+    $this->artisan('interlink:check-sla-breaches')->assertSuccessful();
 
     // Admin should receive exactly 1 notification, not 2
     Notification::assertSentToTimes($admin, SlaBreached::class, 1);
@@ -205,7 +205,7 @@ test('CheckSlaBreaches still notifies admins when no breach rule has notify_admi
 
     Notification::fake();
 
-    $this->artisan('helpdesk:check-sla-breaches')->assertSuccessful();
+    $this->artisan('interlink:check-sla-breaches')->assertSuccessful();
 
     // Admin should still get notified via fallback
     Notification::assertSentTo($admin, SlaBreached::class);

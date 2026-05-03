@@ -34,7 +34,7 @@
 10. [Appendices](#appendices)
 
 ## Introduction
-This document describes the technology stack powering the Helpdesk System. It covers the backend framework Laravel 12 and its ecosystem, the Livewire 4 reactive UI layer, Laravel Fortify for authentication, Laravel Socialite for Google OAuth, Laravel Reverb for real-time WebSocket communication, and the frontend toolchain built around Vite, modern JavaScript, and Blade templating. It also documents AI integration via Laravel AI SDK with the Gemini provider, the database layer using Eloquent ORM, and security components including two-factor authentication and HTML sanitization via Mews Purifier. Finally, it outlines development tools such as Pest for testing, Laravel Pint for code formatting, and debugging aids, along with a version compatibility matrix and upgrade considerations.
+This document describes the technology stack powering the InterLink System. It covers the backend framework Laravel 12 and its ecosystem, the Livewire 4 reactive UI layer, Laravel Fortify for authentication, Laravel Socialite for Google OAuth, Laravel Reverb for real-time WebSocket communication, and the frontend toolchain built around Vite, modern JavaScript, and Blade templating. It also documents AI integration via Laravel AI SDK with the Gemini provider, the database layer using Eloquent ORM, and security components including two-factor authentication and HTML sanitization via Mews Purifier. Finally, it outlines development tools such as Pest for testing, Laravel Pint for code formatting, and debugging aids, along with a version compatibility matrix and upgrade considerations.
 
 ## Project Structure
 The project follows a conventional Laravel application layout with feature-based organization across app/, resources/, routes/, and config/. The backend is Laravel 12 with Livewire 4 components for dynamic UI, and the frontend assets are built with Vite. Authentication is handled by Laravel Fortify with optional Google OAuth via Socialite. Real-time features leverage Laravel Reverb. AI capabilities are integrated using Laravel AI SDK with a Gemini provider configuration. Security includes two-factor authentication and HTML sanitization.
@@ -391,7 +391,7 @@ NPM --> Pusher
 - [pint.json:1-4](file://pint.json#L1-L4)
 
 ## Conclusion
-The Helpdesk System leverages a modern, cohesive stack centered on Laravel 12 and Livewire 4 for a responsive UI, robust authentication with Fortify and Socialite, real-time communication via Reverb, and intelligent assistance powered by Laravel AI SDK with Gemini. The frontend is streamlined with Vite and Tailwind, while Eloquent ORM and Mews Purifier provide reliable data handling and content safety. Development workflows are supported by Pest and Laravel Pint, ensuring maintainability and quality.
+The InterLink System leverages a modern, cohesive stack centered on Laravel 12 and Livewire 4 for a responsive UI, robust authentication with Fortify and Socialite, real-time communication via Reverb, and intelligent assistance powered by Laravel AI SDK with Gemini. The frontend is streamlined with Vite and Tailwind, while Eloquent ORM and Mews Purifier provide reliable data handling and content safety. Development workflows are supported by Pest and Laravel Pint, ensuring maintainability and quality.
 
 [No sources needed since this section summarizes without analyzing specific files]
 

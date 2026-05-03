@@ -33,9 +33,9 @@
 
 ## Introduction
 
-The Team Management System is a comprehensive module within a helpdesk application that enables organizations to organize their support staff into teams, manage team memberships, and coordinate agent assignments. This system provides administrative capabilities for creating and maintaining teams, assigning operators as team members or leads, and ensuring proper access control through company-scoped visibility.
+The Team Management System is a comprehensive module within a InterLink application that enables organizations to organize their support staff into teams, manage team memberships, and coordinate agent assignments. This system provides administrative capabilities for creating and maintaining teams, assigning operators as team members or leads, and ensuring proper access control through company-scoped visibility.
 
-The system integrates seamlessly with the broader helpdesk platform, supporting features like ticket assignment, notification systems, and automated workflows. It leverages Laravel's Eloquent ORM for data modeling and Livewire for reactive user interfaces.
+The system integrates seamlessly with the broader InterLink platform, supporting features like ticket assignment, notification systems, and automated workflows. It leverages Laravel's Eloquent ORM for data modeling and Livewire for reactive user interfaces.
 
 ## Project Structure
 
@@ -84,7 +84,7 @@ Notifications --> Livewire
 ## Core Components
 
 ### Team Model
-The Team model serves as the central entity representing organizational units within the helpdesk system. It implements company scoping through global scopes and manages relationships with users and tickets.
+The Team model serves as the central entity representing organizational units within the InterLink System. It implements company scoping through global scopes and manages relationships with users and tickets.
 
 Key characteristics:
 - **Company Scoping**: Automatically filters teams by company context
@@ -505,7 +505,7 @@ DataChange --> Categories
 
 ## Conclusion
 
-The Team Management System provides a robust foundation for organizing helpdesk support teams within the broader application ecosystem. Its architecture emphasizes security through company scoping, flexibility through role-based permissions, and user experience through reactive interfaces.
+The Team Management System provides a robust foundation for organizing InterLink support teams within the broader application ecosystem. Its architecture emphasizes security through company scoping, flexibility through role-based permissions, and user experience through reactive interfaces.
 
 Key strengths of the implementation include:
 
@@ -515,4 +515,4 @@ Key strengths of the implementation include:
 - **Data Integrity**: Proper validation and constraint enforcement
 - **Test Coverage**: Comprehensive testing strategy ensuring reliability
 
-The system successfully integrates with the larger helpdesk platform while maintaining clear boundaries and optimal performance characteristics. Future enhancements could include advanced team hierarchies, automated team assignment rules, and enhanced reporting capabilities.
+The system successfully integrates with the larger InterLink platform while maintaining clear boundaries and optimal performance characteristics. Future enhancements could include advanced team hierarchies, automated team assignment rules, and enhanced reporting capabilities.

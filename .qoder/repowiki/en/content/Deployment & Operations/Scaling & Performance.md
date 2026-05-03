@@ -31,10 +31,10 @@
 9. [Conclusion](#conclusion)
 
 ## Introduction
-This document provides a comprehensive scaling and performance optimization guide for the Helpdesk System. It covers horizontal and vertical scaling strategies, database optimization (indexes, queries, read replicas), caching strategies (Redis, Memcached, application-level caching), CDN integration for static assets, performance monitoring, bottleneck identification, capacity planning, auto-scaling and load balancing, and microservices considerations for future growth.
+This document provides a comprehensive scaling and performance optimization guide for the InterLink System. It covers horizontal and vertical scaling strategies, database optimization (indexes, queries, read replicas), caching strategies (Redis, Memcached, application-level caching), CDN integration for static assets, performance monitoring, bottleneck identification, capacity planning, auto-scaling and load balancing, and microservices considerations for future growth.
 
 ## Project Structure
-The Helpdesk System is a Laravel application with Livewire-powered UI components. Key runtime concerns for scaling include:
+The InterLink System is a Laravel application with Livewire-powered UI components. Key runtime concerns for scaling include:
 - Web routing and subdomain-based company isolation
 - Controllers orchestrating ticket submission, verification, tracking, and replies
 - Eloquent models with relationships and scopes
@@ -479,4 +479,4 @@ TICKETS --> MODELS
 - [routes/web.php:70-114](file://routes/web.php#L70-L114)
 
 ## Conclusion
-By combining horizontal and vertical scaling, targeted database indexing, robust caching strategies, CDN optimization, and comprehensive monitoring, the Helpdesk System can achieve high throughput and low latency at scale. Plan for microservices as the product evolves, and continuously refine capacity planning based on observed usage patterns.
+By combining horizontal and vertical scaling, targeted database indexing, robust caching strategies, CDN optimization, and comprehensive monitoring, the InterLink System can achieve high throughput and low latency at scale. Plan for microservices as the product evolves, and continuously refine capacity planning based on observed usage patterns.

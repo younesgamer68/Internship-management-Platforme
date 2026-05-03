@@ -33,7 +33,7 @@
 10. [Appendices](#appendices)
 
 ## Introduction
-This document explains the automation rule types and their implementations in the Helpdesk System. It covers how rules are evaluated and applied, how they integrate with the broader automation system, and provides practical configuration examples with expected outcomes. The rule types documented here are:
+This document explains the automation rule types and their implementations in the InterLink System. It covers how rules are evaluated and applied, how they integrate with the broader automation system, and provides practical configuration examples with expected outcomes. The rule types documented here are:
 - AssignmentRule: Automatic agent assignment based on category, workload, and availability
 - PriorityRule: Dynamic priority adjustment based on keywords, category, and current priority
 - AutoReplyRule: Instant customer response via email templates

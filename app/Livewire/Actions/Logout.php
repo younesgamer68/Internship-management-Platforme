@@ -22,7 +22,7 @@ class Logout
         Session::regenerateToken();
 
         // Redirect to main domain home page
-        $mainDomain = config('app.url'); // http://helpdesk-system.test
+        $mainDomain = config('app.url'); // http://interlink-system.test
 
         return redirect()->to($mainDomain);
     }

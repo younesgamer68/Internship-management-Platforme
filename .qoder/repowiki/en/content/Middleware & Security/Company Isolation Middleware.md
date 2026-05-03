@@ -25,7 +25,7 @@
 10. [Conclusion](#conclusion)
 
 ## Introduction
-This document explains the multi-company isolation middleware that ensures strict data separation between companies in a multi-tenant helpdesk system. It covers three middleware components:
+This document explains the multi-company isolation middleware that ensures strict data separation between companies in a multi-tenant InterLink System. It covers three middleware components:
 - IdentifyCompanyFromSubdomain: Extracts company context from the URL subdomain and attaches it to the request.
 - EnsureUserBelongsToCompany: Validates that the authenticated user belongs to the requested company.
 - EnsureCompanyIsOnboarded: Enforces company activation by redirecting uncompleted onboarding flows.

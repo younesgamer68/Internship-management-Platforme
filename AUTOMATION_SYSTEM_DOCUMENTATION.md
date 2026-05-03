@@ -1,4 +1,4 @@
-# Helpdesk Automation System — Complete Technical Documentation
+# InterLink Automation System — Complete Technical Documentation
 
 This document explains **every aspect** of the automation engine: what it is, how it works internally, what triggers it, the five rule types, conditions, actions, the database schema, the execution lifecycle, the SLA integration, the scheduled commands, the UI, and the fallback assignment system.
 
@@ -193,7 +193,7 @@ Two scheduled Artisan commands run periodically:
 | Command                       | Schedule         | What it does                                                                                 |
 | ----------------------------- | ---------------- | -------------------------------------------------------------------------------------------- |
 | `tickets:process-escalations` | Every 15 minutes | Runs escalation rules for ALL companies — finds idle tickets matching each rule's conditions |
-| `helpdesk:check-sla-breaches` | Every minute     | Checks all open tickets for SLA status updates; triggers SLA breach rules on first breach    |
+| `interlink:check-sla-breaches` | Every minute     | Checks all open tickets for SLA status updates; triggers SLA breach rules on first breach    |
 
 ---
 
@@ -680,7 +680,7 @@ Defined in `routes/console.php`:
 | **What it does**  | Iterates all companies → for each, calls `AutomationEngine::processEscalations()` → finds idle tickets matching each escalation rule → executes actions |
 | **Optional flag** | `--company=<id>` to process a single company                                                                                                            |
 
-### `helpdesk:check-sla-breaches`
+### `interlink:check-sla-breaches`
 
 | Property         | Value                                                                                                                                                                       |
 | ---------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

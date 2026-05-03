@@ -1,4 +1,4 @@
-# Banque de questions-réponses jury (Helpdesk System)
+# Banque de questions-réponses jury (InterLink System)
 
 ## 1) Pitch, vision, produit
 

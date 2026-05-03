@@ -36,10 +36,10 @@
 10. [Appendices](#appendices)
 
 ## Introduction
-This document provides a comprehensive production deployment guide for the Helpdesk System. It covers environment configuration, database and Redis setup, asset compilation with Vite, database migration and seeding, server requirements, and a step-by-step deployment checklist. It also explains SSL certificate installation, domain configuration, and subdomain routing for multi-company architecture.
+This document provides a comprehensive production deployment guide for the InterLink System. It covers environment configuration, database and Redis setup, asset compilation with Vite, database migration and seeding, server requirements, and a step-by-step deployment checklist. It also explains SSL certificate installation, domain configuration, and subdomain routing for multi-company architecture.
 
 ## Project Structure
-The Helpdesk System is a Laravel 12 application with Livewire 4 and Vite-based assets. Key deployment-relevant areas:
+The InterLink System is a Laravel 12 application with Livewire 4 and Vite-based assets. Key deployment-relevant areas:
 - Configuration: config/*.php files define database, cache, queue, session, mail, and services.
 - Routing: routes/web.php defines domain-scoped subdomain routes for multi-company isolation.
 - Middleware: app/Http/Middleware/* enforces company identification, onboarding, and access checks.
@@ -382,7 +382,7 @@ NODE --> VITE --> LARAVEL
 - [vite.config.js:7-14](file://vite.config.js#L7-L14)
 
 ## Conclusion
-This guide outlines production deployment for the Helpdesk System, covering environment variables, database and Redis setup, asset compilation, migrations and seeding, server requirements, and multi-company subdomain routing. Follow the step-by-step checklist below to deploy reliably.
+This guide outlines production deployment for the InterLink System, covering environment variables, database and Redis setup, asset compilation, migrations and seeding, server requirements, and multi-company subdomain routing. Follow the step-by-step checklist below to deploy reliably.
 
 ## Appendices
 

@@ -29,7 +29,7 @@
 9. [Conclusion](#conclusion)
 
 ## Introduction
-This document explains how Livewire components in this Helpdesk System integrate with real-time WebSocket updates using Laravel Reverb and Laravel Echo. It demonstrates how Livewire components automatically refresh when WebSocket events are received, eliminating manual AJAX polling. The guide covers event binding patterns, component lifecycle integration, state synchronization between server and client, reactive UI implementations, connection state handling, and performance optimization strategies.
+This document explains how Livewire components in this InterLink System integrate with real-time WebSocket updates using Laravel Reverb and Laravel Echo. It demonstrates how Livewire components automatically refresh when WebSocket events are received, eliminating manual AJAX polling. The guide covers event binding patterns, component lifecycle integration, state synchronization between server and client, reactive UI implementations, connection state handling, and performance optimization strategies.
 
 ## Project Structure
 The real-time integration spans configuration, backend broadcasting, frontend Echo initialization, and Livewire components that subscribe to WebSocket events.

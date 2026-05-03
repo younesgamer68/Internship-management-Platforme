@@ -32,7 +32,7 @@
 9. [Conclusion](#conclusion)
 
 ## Introduction
-This document explains queue processing in the Helpdesk System, focusing on Laravel queue configuration, background job processing for ticket automation, email sending, notification dispatching, and scheduled tasks. It covers driver options (database, Redis, SQS), worker setup, monitoring and scaling, retry and failure handling, dead letter queue configuration, performance optimization, memory management, worker supervision, and troubleshooting.
+This document explains queue processing in the InterLink System, focusing on Laravel queue configuration, background job processing for ticket automation, email sending, notification dispatching, and scheduled tasks. It covers driver options (database, Redis, SQS), worker setup, monitoring and scaling, retry and failure handling, dead letter queue configuration, performance optimization, memory management, worker supervision, and troubleshooting.
 
 ## Project Structure
 The queue system spans configuration, automation services, rule handlers, queued mailables, queued notifications, and scheduled commands.
@@ -421,4 +421,4 @@ Operational commands (registered by Laravel):
 - [app/Services/Automation/AutomationEngine.php:87-95](file://app/Services/Automation/AutomationEngine.php#L87-L95)
 
 ## Conclusion
-The Helpdesk System leverages Laravel’s queue abstraction to decouple ticket automation from request processing. AutomationEngine coordinates rule execution, while queued mailables and notifications ensure timely customer and admin communication. With configurable drivers, robust failed job handling, and scheduled escalation processing, the system supports scalable, resilient background processing suitable for production deployment.
+The InterLink System leverages Laravel’s queue abstraction to decouple ticket automation from request processing. AutomationEngine coordinates rule execution, while queued mailables and notifications ensure timely customer and admin communication. With configurable drivers, robust failed job handling, and scheduled escalation processing, the system supports scalable, resilient background processing suitable for production deployment.

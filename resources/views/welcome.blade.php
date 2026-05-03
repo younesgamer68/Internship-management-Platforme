@@ -8,8 +8,8 @@
 
     <title>InternDesk</title>
 
-    <link rel="icon" href="{{ asset('images/Logos/LWDM.png') }}" type="image/png">
-    <link rel="apple-touch-icon" href="{{ asset('images/Logos/LWDM.png') }}">
+    <link rel="icon" href="{{ asset('images/Logos/Small%20Logo.png') }}" type="image/png">
+    <link rel="apple-touch-icon" href="{{ asset('images/Logos/Small%20Logo.png') }}">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
@@ -86,7 +86,8 @@
     {{-- ═══════════════════════════════════════════════════════════════════
     HERO — Minimal centered w/ headline, email form, privacy note
     ═══════════════════════════════════════════════════════════════════ --}}
-    <section id="hero-section" class="relative z-0 overflow-hidden" x-data="{ heroEmail: '', heroMsg: '', heroMsgOk: false }" style="opacity: 0;">
+    <section id="hero-section" class="relative z-0 overflow-hidden"
+        x-data="{ heroEmail: '', heroMsg: '', heroMsgOk: false }" style="opacity: 0;">
 
 
 
@@ -95,10 +96,10 @@
             {{-- Headlines container with controlled width --}}
             <div class="mx-auto max-w-4xl">
                 <h1 class="text-5xl font-extralight leading-[1.1] tracking-tight sm:text-6xl lg:text-[4.5rem]"
-                    :class="$store.ui.darkMode ? 'text-white' : 'text-gray-950'" x-text="$store.ui.t('heroHeadline1')">
+                    :class="$store.ui.darkMode ? 'text-white' : '#444444'" x-text="$store.ui.t('heroHeadline1')">
                 </h1>
                 <h1 class="mt-1 text-5xl font-extralight leading-[1.1] tracking-tight sm:text-6xl lg:text-[4.5rem]"
-                    :class="$store.ui.darkMode ? 'text-white' : 'text-gray-950'" x-text="$store.ui.t('heroHeadline2')">
+                    :class="$store.ui.darkMode ? 'text-white' : '#444444'" x-text="$store.ui.t('heroHeadline2')">
                 </h1>
             </div>
 
@@ -117,11 +118,10 @@
                     {{-- Logged-in → Dashboard --}}
                     <div class="mt-10 flex justify-center sm:mt-12">
                         <a href="{{ Auth::user()->company ? route('tickets', Auth::user()->company->slug) : route('home') }}"
-                            class="inline-flex items-center gap-2 rounded-full bg-[#219653] px-8 py-4 text-[1.05rem] font-bold text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-[#1b7a44] hover:shadow-xl">
+                            class="inline-flex items-center gap-2 rounded-[12px] bg-[#f79123] px-8 py-4 text-[1.05rem] font-bold text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-[#e07d0e] hover:shadow-xl">
                             <span x-text="$store.ui.t('heroDashboard')"></span>
                             <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
                             </svg>
                         </a>
                     </div>
@@ -130,22 +130,22 @@
                     <form
                         class="mx-auto mt-10 flex w-full max-w-[550px] flex-col items-center gap-3.5 sm:mt-12 sm:flex-row sm:max-w-[600px]"
                         @submit.prevent="
-                                                                                                                                                                                                                                                                                const em = heroEmail.trim();
-                                                                                                                                                                                                                                                                                if (!em || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)) {
-                                                                                                                                                                                                                                                                                    heroMsg = $store.ui.t('heroInvalidEmail');
-                                                                                                                                                                                                                                                                                    heroMsgOk = false;
-                                                                                                                                                                                                                                                                                    return;
-                                                                                                                                                                                                                                                                                }
-                                                                                                                                                                                                                                                                                window.location.href = '{{ route('register') }}?email=' + encodeURIComponent(em);
-                                                                                                                                                                                                                                                                            ">
+                                                                                                                                                                                                                                                                                                        const em = heroEmail.trim();
+                                                                                                                                                                                                                                                                                                        if (!em || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)) {
+                                                                                                                                                                                                                                                                                                            heroMsg = $store.ui.t('heroInvalidEmail');
+                                                                                                                                                                                                                                                                                                            heroMsgOk = false;
+                                                                                                                                                                                                                                                                                                            return;
+                                                                                                                                                                                                                                                                                                        }
+                                                                                                                                                                                                                                                                                                        window.location.href = '{{ route('choose_path') }}?email=' + encodeURIComponent(em);
+                                                                                                                                                                                                                                                                                                    ">
                         <input type="email" x-model="heroEmail"
-                            class="w-full flex-1 rounded-lg border px-5 py-4 text-base outline-none transition-colors duration-200 sm:w-auto sm:px-6 sm:py-[15px] sm:text-[17px]"
+                            class="w-full flex-1 rounded-[12px] border px-5 py-4 text-base outline-none transition-colors duration-200 sm:w-auto sm:px-6 sm:py-[15px] sm:text-[17px]"
                             :class="$store.ui.darkMode ?
-                                'border-white/20 bg-white/5 text-white placeholder-white/40 focus:border-white/40 focus:ring-1 focus:ring-white/20' :
-                                'border-gray-400 bg-white text-gray-800 placeholder-gray-400 focus:border-gray-500 focus:ring-1 focus:ring-gray-400'"
+                                                        'border-white/20 bg-white/5 text-white placeholder-white/40 focus:border-white/40 focus:ring-1 focus:ring-white/20' :
+                                                        'border-gray-400 bg-white text-gray-800 placeholder-gray-400 focus:border-gray-500 focus:ring-1 focus:ring-gray-400'"
                             :placeholder="$store.ui.t('heroPlaceholder')" />
                         <button type="submit"
-                            class="w-full flex-shrink-0 cursor-pointer rounded-full bg-[#219653] px-8 py-4 text-base font-bold text-white transition hover:bg-[#4cc944] sm:w-auto sm:px-[30px] sm:py-[15px] sm:text-[17px]"
+                            class="w-full flex-shrink-0 cursor-pointer rounded-[12px] bg-[#f79123] px-8 py-4 text-base font-bold text-white transition hover:bg-[#e07d0e] sm:w-auto sm:px-[30px] sm:py-[15px] sm:text-[17px]"
                             x-text="'Get started'"></button>
                     </form>
                 @endauth
@@ -220,11 +220,11 @@
 
     {{-- Script for smooth entrance + scroll animations --}}
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             // ── Hero section fade-in ──
             var hero = document.getElementById('hero-section');
             if (hero) {
-                setTimeout(function() {
+                setTimeout(function () {
                     hero.style.transition = 'opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1)';
                     hero.style.opacity = '1';
                 }, 250);
@@ -234,19 +234,19 @@
             var scene = document.querySelector('.scene');
             if (!scene) return;
 
-            var observer = new IntersectionObserver(function(entries) {
+            var observer = new IntersectionObserver(function (entries) {
                 if (entries[0].isIntersecting) {
                     observer.disconnect();
 
-                    requestAnimationFrame(function() {
-                        requestAnimationFrame(function() {
+                    requestAnimationFrame(function () {
+                        requestAnimationFrame(function () {
                             scene.classList.add('show-center');
 
-                            setTimeout(function() {
+                            setTimeout(function () {
                                 scene.classList.add('show-near');
                             }, 800);
 
-                            setTimeout(function() {
+                            setTimeout(function () {
                                 scene.classList.add('show-far');
                             }, 1000);
                         });
@@ -324,15 +324,14 @@
                 <div class="grid grid-cols-2 gap-2 md:grid-cols-4">
                     <template x-for="tab in tabs" :key="tab">
                         <button type="button"
-                            class="group relative cursor-pointer rounded-xl px-4 py-3 text-sm font-medium transition-all duration-300"
+                            class="group relative cursor-pointer rounded-[12px] px-4 py-3 text-sm font-medium transition-all duration-300"
                             :class="activeTab === tab ?
                                 ($store.ui.darkMode ?
                                     'bg-white text-gray-900 shadow-[0_10px_30px_-14px_rgba(255,255,255,0.95)]' :
                                     'bg-gray-900 text-white shadow-[0_10px_24px_-14px_rgba(0,0,0,0.5)]') :
                                 ($store.ui.darkMode ?
                                     'text-white/65 hover:bg-white/10 hover:text-white' :
-                                    'text-gray-600 hover:bg-gray-100 hover:text-gray-900')"
-                            @click="switchTab(tab)">
+                                    'text-gray-600 hover:bg-gray-100 hover:text-gray-900')" @click="switchTab(tab)">
                             <span class="inline-flex items-center gap-2">
                                 <span x-text="$store.ui.t('discoverTab_' + tab)"></span>
                                 <span x-show="tab === 'automations' && automationNotificationVisible"
@@ -359,8 +358,8 @@
             </div>
 
             {{-- CTA --}}
-            <a href="{{ Route::has('register') ? route('register') : '#' }}"
-                class="mt-14 inline-flex items-center gap-2 rounded-xl px-10 py-3.5 text-base font-bold text-white transition-all duration-300 hover:-translate-y-0.5 hover:scale-[1.01]"
+            <a href="{{ Route::has('register') ? route('choose_path') : '#' }}"
+                class="mt-14 inline-flex items-center gap-2 rounded-[12px] px-10 py-3.5 text-base font-bold text-white transition-all duration-300 hover:-translate-y-0.5 hover:scale-[1.01]"
                 :class="$store.ui.darkMode ? 'bg-white text-gray-900 hover:bg-white/90' : 'bg-red-600 hover:bg-red-500'">
                 <span x-text="$store.ui.t('discoverCta')"></span>
                 <span aria-hidden="true">→</span>
@@ -546,7 +545,8 @@
                                 </div>
                             </div>
                             <div style="padding:10px 12px;font-size:11px;color:#374151;line-height:1.55;">
-                                Great news! I've matched intern #4821 with the Engineering team — expect onboarding details within
+                                Great news! I've matched intern #4821 with the Engineering team — expect onboarding
+                                details within
                                 <strong>24h</strong>. 🎓
                             </div>
                             <div style="padding:2px 12px 10px;display:flex;gap:6px;">
@@ -676,8 +676,7 @@
                 <div class="sfs-card" :class="$store.ui.darkMode ? 'bg-gray-900 border border-gray-800' : 'bg-white'">
                     <div class="sfs-card-preview sfs-c7">
                         <div class="sfs-rp-wrap">
-                            <div class="sfs-rp-head">📊 <span
-                                    x-text="$store.ui.t('homeSfsPreviewReportsHead')"></span>
+                            <div class="sfs-rp-head">📊 <span x-text="$store.ui.t('homeSfsPreviewReportsHead')"></span>
                             </div>
                             <div class="sfs-rp-bars">
                                 <div class="sfs-rp-bw">
@@ -690,8 +689,7 @@
                                     <div class="sfs-rp-l">Tue</div>
                                 </div>
                                 <div class="sfs-rp-bw">
-                                    <div class="sfs-rp-b hi sfs-anim-bar-grow"
-                                        style="height:100%;animation-delay:0.6s">
+                                    <div class="sfs-rp-b hi sfs-anim-bar-grow" style="height:100%;animation-delay:0.6s">
                                     </div>
                                     <div class="sfs-rp-l">Wed</div>
                                 </div>
@@ -808,8 +806,7 @@
 
             <div class="w-full max-w-[320px] flex-none">
                 <h1 class="mb-12 text-[2rem] leading-[1.25] font-bold"
-                    :class="$store.ui.darkMode ? 'text-white' : 'text-[#1c1c2e]'"
-                    x-text="$store.ui.t('beacon1Title')">
+                    :class="$store.ui.darkMode ? 'text-white' : 'text-[#1c1c2e]'" x-text="$store.ui.t('beacon1Title')">
                 </h1>
 
                 <div class="flex flex-col" id="beaconTabs">
@@ -871,9 +868,8 @@
                                 <div class="flex items-center gap-[10px]">
                                     <div
                                         class="flex h-8 w-8 flex-none items-center justify-center rounded-full bg-white/25 text-[0.82rem] font-bold text-white">
-                                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none"
-                                            stroke="#fff" stroke-width="2" stroke-linecap="round"
-                                            stroke-linejoin="round">
+                                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#fff"
+                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                             <rect x="3" y="11" width="18" height="10" rx="2" />
                                             <path d="M12 2v4M8 11V9a4 4 0 018 0v2" />
                                             <circle cx="9" cy="16" r="1" fill="#fff" />
@@ -1103,8 +1099,7 @@
 
             <div class="w-full max-w-[420px] flex-none">
                 <h2 class="mb-12 text-[2rem] leading-[1.25] font-bold"
-                    :class="$store.ui.darkMode ? 'text-white' : 'text-[#1c1c2e]'"
-                    x-text="$store.ui.t('beacon2Title')">
+                    :class="$store.ui.darkMode ? 'text-white' : 'text-[#1c1c2e]'" x-text="$store.ui.t('beacon2Title')">
                 </h2>
 
                 <div class="flex flex-col">
@@ -1240,8 +1235,9 @@
                                 <div class="text-[0.64rem] font-semibold text-[#6b7280]">Intern · Sarah M.</div>
                                 <div
                                     class="rounded-[10px] rounded-bl-[3px] border border-[#e5e7eb] bg-white px-3 py-2 text-[0.75rem] leading-[1.45] text-[#1c1c2e]">
-                                    Hi, my internship placement hasn't been confirmed yet and the start date is next week.
-                                    </div>
+                                    Hi, my internship placement hasn't been confirmed yet and the start date is next
+                                    week.
+                                </div>
                             </div>
                             <div class="border-t border-[#e5e7eb] bg-white px-3 py-2.5">
                                 <div class="mb-2 text-[0.65rem] font-bold uppercase tracking-wide text-[#219653]">AI
@@ -1288,7 +1284,8 @@
                             <div class="flex flex-col">
                                 <div class="border-b border-[#f3f4f6] px-3 py-2.5">
                                     <div class="mb-1 flex items-center justify-between gap-2">
-                                        <div class="truncate text-[0.75rem] font-semibold text-[#1c1c2e]">Intern onboarding
+                                        <div class="truncate text-[0.75rem] font-semibold text-[#1c1c2e]">Intern
+                                            onboarding
                                             documents not received</div>
                                         <span
                                             class="rounded-full bg-[#fef2f2] px-2 py-0.5 text-[0.62rem] font-bold uppercase text-[#dc2626]">Urgent</span>
@@ -1350,7 +1347,7 @@
                                             x-text="$store.ui.t('homeBeacon3StepInProgress')"></span></div>
                                     <div class="text-[#9ca3af]">○ Resolved</div>
                                 </div>
-                                <button class="rounded-[9px] bg-[#219653] py-2 text-[0.78rem] font-bold text-white"
+                                <button class="rounded-[12px] bg-[#219653] py-2 text-[0.78rem] font-bold text-white"
                                     x-text="$store.ui.t('homeBeacon3ReplyToAgent')"></button>
                             </div>
                         </div>
@@ -1393,16 +1390,14 @@
                 </button>
 
                 <div id="ggViewport" class="min-w-0 flex-1 overflow-hidden rounded-md">
-                    <div id="ggTrack"
-                        class="flex transition-transform duration-500 ease-[cubic-bezier(0.65,0,0.35,1)]">
+                    <div id="ggTrack" class="flex transition-transform duration-500 ease-[cubic-bezier(0.65,0,0.35,1)]">
                         <article class="min-w-full">
                             <div
                                 class="flex flex-col items-start gap-8 md:gap-10 lg:flex-row lg:items-center lg:gap-12">
                                 <div class="relative h-75 w-full overflow-hidden rounded-2xl md:h-90 lg:h-105 lg:w-90 lg:shrink-0"
                                     :class="$store.ui.darkMode ? 'bg-white/10' : 'bg-[#d5cfc4]'">
                                     <img src="https://web-assets.zendesk.com/is/image/zendesk/Photo_Testimonial_Liberty?fmt=webp-alpha&qlt=65"
-                                        alt="Liberty London"
-                                        class="gg-slide-image hidden h-full w-full object-cover" />
+                                        alt="Liberty London" class="gg-slide-image hidden h-full w-full object-cover" />
                                     <div class="gg-slide-placeholder absolute inset-0 flex items-center justify-center text-sm italic"
                                         :class="$store.ui.darkMode ? 'text-white/55' : 'text-gray-500'">
                                         Add image
@@ -1411,8 +1406,10 @@
                                 <div class="flex flex-1 flex-col gap-5">
                                     <p
                                         class="font-[Inter,ui-sans-serif,system-ui,sans-serif] text-xl leading-relaxed sm:text-2xl lg:text-[1.72rem]">
-                                        "With InternDesk, I'm seeing an exciting opportunity to streamline our internship operations and be more
-                                        efficient. That will allow our team to have more time to focus on mentoring and developing
+                                        "With InternDesk, I'm seeing an exciting opportunity to streamline our
+                                        internship operations and be more
+                                        efficient. That will allow our team to have more time to focus on mentoring and
+                                        developing
                                         our interns into future leaders."
                                     </p>
                                     <div class="flex flex-col gap-1">
@@ -1443,8 +1440,10 @@
                                 <div class="flex flex-1 flex-col gap-5">
                                     <p
                                         class="font-[Inter,ui-sans-serif,system-ui,sans-serif] text-xl leading-relaxed sm:text-2xl lg:text-[1.72rem]">
-                                        "InternDesk has helped us scale our internship program without scaling our HR team
-                                        proportionally. It's been a game-changer for delivering personalized mentorship to
+                                        "InternDesk has helped us scale our internship program without scaling our HR
+                                        team
+                                        proportionally. It's been a game-changer for delivering personalized mentorship
+                                        to
                                         hundreds of interns worldwide."
                                     </p>
                                     <div class="flex flex-col gap-1">
@@ -1475,7 +1474,8 @@
                                 <div class="flex flex-1 flex-col gap-5">
                                     <p
                                         class="font-[Inter,ui-sans-serif,system-ui,sans-serif] text-xl leading-relaxed sm:text-2xl lg:text-[1.72rem]">
-                                        "With InternDesk, our HR team now processes internship applications 40% faster. The
+                                        "With InternDesk, our HR team now processes internship applications 40% faster.
+                                        The
                                         automation
                                         features free us up to focus on high-value mentoring that actually needs human
                                         judgment and expertise."
@@ -1508,8 +1508,10 @@
                                 <div class="flex flex-1 flex-col gap-5">
                                     <p
                                         class="font-[Inter,ui-sans-serif,system-ui,sans-serif] text-xl leading-relaxed sm:text-2xl lg:text-[1.72rem]">
-                                        "InternDesk allowed Thrasio to unify internship management across dozens of departments under one
-                                        roof. Our intern satisfaction scores jumped significantly within the first quarter of going
+                                        "InternDesk allowed Thrasio to unify internship management across dozens of
+                                        departments under one
+                                        roof. Our intern satisfaction scores jumped significantly within the first
+                                        quarter of going
                                         live."
                                     </p>
                                     <div class="flex flex-col gap-1">
@@ -1587,8 +1589,7 @@
 
             {{-- Image --}}
             <div id="supportHeroesVisual" class="w-full max-w-[720px]">
-                <img src="{{ asset('images/Personnes/Team_photoo.png') }}" alt="Support hero"
-                    class="w-full h-auto" />
+                <img src="{{ asset('images/Personnes/Team_photoo.png') }}" alt="Support hero" class="w-full h-auto" />
             </div>
 
             {{-- Text --}}
@@ -1610,7 +1611,7 @@
                     :class="$store.ui.darkMode ? 'text-gray-400' : 'text-gray-600'"
                     x-text="$store.ui.t('heroesDescription')"></p>
                 <button type="button" id="supportHeroesChatBtn"
-                    class="inline-flex items-center gap-2 rounded-xl px-8 py-3.5 text-base font-bold text-white shadow-[0_16px_30px_-16px_rgba(34,197,94,0.75)] transition-all duration-300 hover:-translate-y-0.5 hover:scale-[1.01]"
+                    class="inline-flex items-center gap-2 rounded-[12px] px-8 py-3.5 text-base font-bold text-white shadow-[0_16px_30px_-16px_rgba(34,197,94,0.75)] transition-all duration-300 hover:-translate-y-0.5 hover:scale-[1.01]"
                     :class="$store.ui.darkMode ?
                         'bg-[#219653] hover:bg-[#1b7a44]' :
                         'bg-[#219653] hover:bg-[#1b7a44]'">
@@ -1668,7 +1669,7 @@
 
             <div class="flex translate-y-15 flex-wrap justify-center gap-3.5 opacity-0 transition-[transform,opacity] duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] delay-400"
                 data-get-started-reveal>
-                <a href="{{ route('register') }}"
+                <a href="{{ route('choose_path') }}"
                     class="rounded-lg bg-[#219653] px-8.5 py-3.75 text-base font-semibold text-white shadow-[0_6px_20px_-4px_rgba(45,157,90,0.55)] transition hover:-translate-y-0.5 hover:shadow-[0_10px_28px_-4px_rgba(255,255,255,0.65)] active:translate-y-0">
                     <span x-text="$store.ui.t('homeGetStartedPrimaryCta')"></span>
                 </a>
@@ -1716,7 +1717,7 @@
     <x-portal.chatbot />
     <!-- Support Features Slider Script -->
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             /* ═══════════════════════════
                SLIDER CORE
             ═══════════════════════════ */

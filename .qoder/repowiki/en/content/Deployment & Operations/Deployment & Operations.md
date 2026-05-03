@@ -32,10 +32,10 @@
 10. [Appendices](#appendices)
 
 ## Introduction
-This document provides comprehensive deployment and operations guidance for the Helpdesk System. It covers production deployment strategies, environment configuration, asset compilation, database migrations, queue processing for background jobs, WebSocket server configuration using Laravel Reverb, monitoring and logging, CI/CD automation, rollback procedures, zero-downtime techniques, backup and disaster recovery, scaling, security hardening, SSL/TLS, and load balancing.
+This document provides comprehensive deployment and operations guidance for the InterLink System. It covers production deployment strategies, environment configuration, asset compilation, database migrations, queue processing for background jobs, WebSocket server configuration using Laravel Reverb, monitoring and logging, CI/CD automation, rollback procedures, zero-downtime techniques, backup and disaster recovery, scaling, security hardening, SSL/TLS, and load balancing.
 
 ## Project Structure
-The Helpdesk System is a Laravel 12 application with Livewire 4 front-end components and Vite-based asset pipeline. Key runtime services include:
+The InterLink System is a Laravel 12 application with Livewire 4 front-end components and Vite-based asset pipeline. Key runtime services include:
 - Web server and routing via Laravel’s router and middleware
 - Queue processing for background tasks and automation
 - Real-time messaging via Laravel Reverb
@@ -398,7 +398,7 @@ Runtime dependencies and integrations:
 
 ```mermaid
 graph LR
-APP["Helpdesk App"]
+APP["InterLink App"]
 FW["Laravel Framework"]
 LW["Livewire"]
 RV["Laravel Reverb"]
@@ -451,7 +451,7 @@ APP --> MAIL
 - [routes/web.php:1-117](file://routes/web.php#L1-L117)
 
 ## Conclusion
-This guide consolidates production-grade deployment and operations practices for the Helpdesk System. By aligning environment configuration, asset compilation, database migrations, queue processing, and Reverb setup with robust monitoring, logging, CI/CD automation, and security measures, teams can achieve reliable, scalable, and maintainable operations.
+This guide consolidates production-grade deployment and operations practices for the InterLink System. By aligning environment configuration, asset compilation, database migrations, queue processing, and Reverb setup with robust monitoring, logging, CI/CD automation, and security measures, teams can achieve reliable, scalable, and maintainable operations.
 
 ## Appendices
 - Subdomain routing and broadcast channels

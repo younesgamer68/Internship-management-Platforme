@@ -27,7 +27,7 @@
 10. [Appendices](#appendices)
 
 ## Introduction
-This document explains the widget form integration system used by external websites to embed a helpdesk submission form. It covers how the widget_key authenticates requests, how the form is rendered with dynamic field visibility, validation rules, client-side integration, security mechanisms, and the relationship between the WidgetSetting model and form configuration options such as success messages, default priorities, and status assignments.
+This document explains the widget form integration system used by external websites to embed a InterLink submission form. It covers how the widget_key authenticates requests, how the form is rendered with dynamic field visibility, validation rules, client-side integration, security mechanisms, and the relationship between the WidgetSetting model and form configuration options such as success messages, default priorities, and status assignments.
 
 ## Project Structure
 The widget system spans models, controllers, Blade templates, routes, middleware, and migrations:
@@ -43,7 +43,7 @@ graph TB
 subgraph "External Website"
 HTML["Embedded HTML<br/>iframe or script"]
 end
-subgraph "Helpdesk Application"
+subgraph "InterLink Application"
 MW["IdentifyCompanyFromSubdomain<br/>(middleware)"]
 RT["Routes: /{company}.domain/widget/*"]
 CTRL["WidgetController"]
@@ -431,7 +431,7 @@ V3["widget/track.blade.php"] --> T
 - [WidgetController.php:114-158](file://app/Http/Controllers/WidgetController.php#L114-L158)
 
 ## Conclusion
-The widget form integration system securely embeds a configurable helpdesk form using a widget_key bound to a company and activated state. Dynamic field visibility, robust validation, and clear success/error feedback provide a smooth user experience. The WidgetSetting model centralizes configuration for appearance, behavior, and default ticket attributes, ensuring consistent behavior across embeds.
+The widget form integration system securely embeds a configurable InterLink form using a widget_key bound to a company and activated state. Dynamic field visibility, robust validation, and clear success/error feedback provide a smooth user experience. The WidgetSetting model centralizes configuration for appearance, behavior, and default ticket attributes, ensuring consistent behavior across embeds.
 
 [No sources needed since this section summarizes without analyzing specific files]
 

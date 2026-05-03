@@ -1,12 +1,11 @@
 <div class="relative w-full">
 
     {{-- ── Trigger button — navigates directly to notifications page ── --}}
-    <a href="{{ route('notifications', ['company' => Auth::user()->company->slug]) }}" wire:navigate
-        class="mx-3 h-10 w-[calc(100%-1.5rem)] flex items-center rounded-lg
+    <a href="{{ route('notifications', ['company' => Auth::user()->company->slug]) }}" wire:navigate class="mx-3 h-10 w-[calc(100%-1.5rem)] flex items-center rounded-lg
                transition-all duration-200 hover:translate-x-1 no-underline
                {{ request()->routeIs('notifications')
-                   ? 'bg-zinc-800 text-white'
-                   : 'text-zinc-400 hover:bg-zinc-900 hover:text-white' }}">
+    ? 'bg-zinc-800 text-white'
+    : 'text-zinc-400 hover:bg-zinc-900 hover:text-white' }}">
 
         <div class="w-10 flex items-center justify-center shrink-0 relative">
             <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"
@@ -17,10 +16,9 @@
             </svg>
 
             @if ($this->unreadCount > 0)
-                <span
-                    class="absolute top-0.5 right-0.5 flex h-4 min-w-4 items-center
-                             justify-center rounded-full bg-red-500 px-1 text-[10px]
-                             font-bold text-white ring-2 ring-black">
+                <span class="absolute top-0.5 right-0.5 flex h-4 min-w-4 items-center
+                                 justify-center rounded-full bg-red-500 px-1 text-[10px]
+                                 font-bold text-white ring-2 ring-black">
                     {{ $this->unreadCount > 99 ? '99+' : $this->unreadCount }}
                 </span>
             @endif
@@ -29,8 +27,10 @@
         <span class="sidebar-label">{{ __('Notifications') }}</span>
     </a>
 
-    {{-- ── Toast container — singleton, in <body> ── --}}
-    @if (!isset($__toastBellRendered))
+    {{-- ── Toast container — singleton, in
+
+    <body> ── --}}
+        @if (!isset($__toastBellRendered))
         @php($__toastBellRendered = true)
         <template x-teleport="body">
             <div x-data="{
@@ -72,10 +72,9 @@
                     window.location.href = toast.url;
                 },
                 init() {
-                    window.addEventListener('helpdesk:notification', e => this.push(e.detail || {}));
+                    window.addEventListener('interlink:notification', e => this.push(e.detail || {}));
                 },
-            }"
-                class="fixed bottom-6 right-6 z-[9999] flex flex-col gap-3 items-end
+            }" class="fixed bottom-6 right-6 z-[9999] flex flex-col gap-3 items-end
                        pointer-events-none w-80 sm:w-96">
 
                 <template x-for="toast in toasts" :key="toast.id">
@@ -85,15 +84,13 @@
                         x-transition:leave="transition ease-in duration-200 transform"
                         x-transition:leave-start="translate-y-0 opacity-100"
                         x-transition:leave-end="translate-y-2 opacity-0" @click="visit(toast)"
-                        :class="toast.url ? 'cursor-pointer hover:bg-zinc-100 dark:hover:bg-zinc-800' : ''"
-                        class="w-full bg-white dark:bg-zinc-900 border border-zinc-200
+                        :class="toast.url ? 'cursor-pointer hover:bg-zinc-100 dark:hover:bg-zinc-800' : ''" class="w-full bg-white dark:bg-zinc-900 border border-zinc-200
                                dark:border-zinc-700/80 shadow-2xl rounded-xl p-4 flex items-start
                                space-x-3 pointer-events-auto overflow-hidden relative transition-colors">
 
                         <div class="absolute left-0 top-0 bottom-0 w-1 bg-zinc-600"></div>
 
-                        <div
-                            class="shrink-0 mt-0.5 ml-1 text-zinc-500 dark:text-zinc-300
+                        <div class="shrink-0 mt-0.5 ml-1 text-zinc-500 dark:text-zinc-300
                                     bg-zinc-500/10 dark:bg-zinc-400/10 p-1.5 rounded-full">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -107,8 +104,7 @@
                             <p class="mt-1 text-xs text-zinc-500 dark:text-zinc-400" x-text="toast.message"></p>
                         </div>
 
-                        <button @click.stop="dismiss(toast.id)"
-                            class="bg-transparent rounded-md inline-flex text-zinc-500 dark:text-zinc-400
+                        <button @click.stop="dismiss(toast.id)" class="bg-transparent rounded-md inline-flex text-zinc-500 dark:text-zinc-400
                                    hover:text-zinc-700 dark:hover:text-zinc-300 focus:outline-none
                                    transition-colors">
                             <span class="sr-only">Close</span>
@@ -121,5 +117,5 @@
                 </template>
             </div>
         </template>
-    @endif
+        @endif
 </div>

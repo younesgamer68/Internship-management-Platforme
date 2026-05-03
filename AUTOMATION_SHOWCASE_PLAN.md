@@ -65,7 +65,7 @@ w
     3. Create ticket with "CRITICAL" in subject → priority jumps to urgent
     4. Any new ticket → check Mailpit for auto-reply
     5. Run `php artisan tickets:process-escalations` → escalates idle ticket + reassigns to Omar
-    6. Run `php artisan helpdesk:check-sla-breaches` → flags breached invoice ticket
+    6. Run `php artisan interlink:check-sla-breaches` → flags breached invoice ticket
     7. View/toggle rules in Automation settings UI
 
 ### Key implementation patterns (matching existing codebase)

@@ -99,7 +99,7 @@ class AiChatWidget extends Component
         if (empty($this->messages)) {
             $this->messages[] = [
                 'role' => 'ai',
-                'content' => "Welcome to the Helpdesk System! 🚀\nHow can I assist you today?",
+                'content' => "Welcome to the InterLink System! 🚀\nHow can I assist you today?",
             ];
         }
     }
@@ -111,7 +111,7 @@ class AiChatWidget extends Component
         $this->messages = [
             [
                 'role' => 'ai',
-                'content' => "Welcome to the Helpdesk System! 🚀\nHow can I assist you today?",
+                'content' => "Welcome to the InterLink System! 🚀\nHow can I assist you today?",
             ],
         ];
         $this->chatting = true;
