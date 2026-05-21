@@ -284,7 +284,7 @@
                         </div>
                     </div>
 
-                    <div class="card" onclick="location.href='{{ route('register') }}'">
+                    <div class="card" onclick="location.href='{{ route('get_started_company') }}'">
                         <img src="https://assets.virtualinternships.com/main-app/images/Common/online-study.svg"
                             alt="Company icon" class="card-icon">
                         <div class="card-footer">

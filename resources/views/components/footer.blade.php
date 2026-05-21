@@ -1,24 +1,24 @@
 <footer
-    class="relative mt-auto min-h-105 overflow-hidden bg-[radial-gradient(circle_at_20%_20%,#06130c_0%,#0d1520_45%,#0a111b_100%)] px-6 pb-0 pt-15 md:px-10 lg:px-20">
+    class="relative mt-auto min-h-105 overflow-hidden bg-[radial-gradient(circle_at_20%_20%,#072e33_0%,#072e33_55%,#000000_100%)] px-6 pb-0 pt-15 md:px-10 lg:px-20">
     <div
-        class="pointer-events-none absolute -right-20 -top-45 h-115 w-115 rounded-full blur-3xl bg-[radial-gradient(circle,rgba(35,117,42,0.2)_0%,rgba(64,255,128,0)_70%)]">
+        class="pointer-events-none absolute -right-20 -top-45 h-115 w-115 rounded-full blur-3xl bg-[radial-gradient(circle,rgba(7,46,51,0.2)_0%,rgba(7,46,51,0)_70%)]">
     </div>
     <div
-        class="pointer-events-none absolute -bottom-55 -left-25 h-105 w-105 rounded-full blur-3xl bg-[radial-gradient(circle,rgba(30,50,230,0.048)_0%,rgba(0,0,0,0)_72%)]">
+        class="pointer-events-none absolute -bottom-55 -left-25 h-105 w-105 rounded-full blur-3xl bg-[radial-gradient(circle,rgba(7,46,51,0.048)_0%,rgba(0,0,0,0)_72%)]">
     </div>
 
     <div
-        class="pointer-events-none absolute bottom-[-4px] left-[170px] z-0 flex w-full select-none items-center justify-start gap-[8px] whitespace-nowrap px-[12px] sm:gap-[12px] md:bottom-[-8px] md:gap-[16px] lg:bottom-[-18px] lg:gap-[24px] lg:px-[24px]">
-        <img class="h-auto w-[clamp(28px,9vw,56px)] opacity-[0.03] sm:w-[clamp(34px,8vw,78px)] lg:w-[clamp(180px,6.4vw,140px)]"
-            src="{{ asset('images/Logos/LWDM.png') }}" alt="Logo" />
+        class="pointer-events-none absolute bottom-[-4px] left-[220px] z-0 flex w-full select-none items-center justify-start gap-[8px] whitespace-nowrap px-[12px] sm:gap-[12px] md:bottom-[-8px] md:gap-[16px] lg:bottom-[-18px] lg:gap-[24px] lg:px-[24px]">
+        <img class="h-auto w-[clamp(28px,9vw,56px)] opacity-[0.13] sm:w-[clamp(34px,8vw,78px)] lg:w-[clamp(180px,6.4vw,140px)]"
+            src="{{ asset('images/Logos/Logo.png') }}" alt="Logo" />
         <div
             class="font-[Inter,sans-serif] text-[clamp(30px,11.5vw,64px)] font-semibold leading-none tracking-[clamp(-1px,-0.25vw,-4px)] text-white/1 [text-shadow:0_0_0_rgba(0,0,0,0)] [-webkit-text-stroke:0.8px_rgba(255,255,255,0.06)] sm:text-[clamp(42px,11vw,110px)] lg:text-[clamp(52px,10vw,220px)] lg:[-webkit-text-stroke:1px_rgba(255,255,255,0.06)]">
-            Help Desk
+            InterLink
         </div>
     </div>
 
     <nav
-        class="relative z-10 mb-16 grid grid-cols-1 gap-5 rounded-2xl border border-white/10 bg-[rgba(24,255,24,0.02)] p-4.5 backdrop-blur-[3px] sm:mb-20 sm:grid-cols-2 sm:gap-6 sm:p-5 lg:mb-50 lg:grid-cols-4 lg:gap-6 lg:p-6">
+        class="relative z-10 mb-16 grid grid-cols-1 gap-5 rounded-2xl border border-white/10 bg-[rgba(255,255,255,0.02)] p-4.5 backdrop-blur-[3px] sm:mb-20 sm:grid-cols-2 sm:gap-6 sm:p-5 lg:mb-50 lg:grid-cols-4 lg:gap-6 lg:p-6">
         <div>
             <div class="mb-3.5 text-[13px] font-semibold tracking-[0.2px] text-white"
                 x-text="$store.ui.t('footerColProduct')"></div>

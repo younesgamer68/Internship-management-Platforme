@@ -26,10 +26,41 @@ Route::get('/', function (Request $request) {
 Route::view('/contact', 'contact')->name('contact');
 Route::view('/help-center', 'help-center')->name('help-center');
 Route::view('/about', 'about')->name('about');
-Route::view('/choose-path', 'choose_path')->name('choose_path');
-Route::view('/choose-intership', 'choose_intership')->name('choose_intership');
-Route::view('/get-started', 'get-started')->name('get_started');
-Route::view('/find-batch', 'find-batch')->name('find_batch');
+Route::view('/choose-path', 'signe-up.choose_path')->name('choose_path');
+Route::view('/choose-intership', 'signe-up.choose_intership')->name('choose_intership');
+Route::view('/get-started', 'signe-up.get-started')->name('get_started');
+Route::view('/find-batch', 'signe-up.find-batch')->name('find_batch');
+Route::view('/get-started-company', 'signe-up.get-started-company')->name('get_started_company');
+
+// ====== NAVBAR LINKS ======
+// Companies
+Route::view('/companies/host-an-intern', 'navbarlinks.companies.Host an Intern')->name('navbarlink.companies.host-an-intern');
+Route::view('/companies/how-it-works', 'navbarlinks.companies.How It Works')->name('navbarlink.companies.how-it-works');
+Route::view('/companies/faqs', 'navbarlinks.companies.FAQs')->name('navbarlink.companies.faqs');
+
+// Educators
+Route::view('/educators/universities', 'navbarlinks.educators.Universities')->name('navbarlink.educators.universities');
+Route::view('/educators/bootcamps', 'navbarlinks.educators.Bootcamps')->name('navbarlink.educators.bootcamps');
+Route::view('/educators/governments', 'navbarlinks.educators.Governments')->name('navbarlink.educators.governments');
+Route::view('/educators/affiliates', 'navbarlinks.educators.Affiliates')->name('navbarlink.educators.affiliates');
+
+// Interns
+Route::view('/interns/apply-for-internships', 'navbarlinks.interns.Apply for Internships')->name('navbarlink.interns.apply-for-internships');
+Route::view('/interns/how-it-works', 'navbarlinks.interns.How It Works')->name('navbarlink.interns.how-it-works');
+Route::view('/interns/career-fields', 'navbarlinks.interns.Career Fields')->name('navbarlink.interns.career-fields');
+Route::view('/interns/experiences', 'navbarlinks.interns.Experiences')->name('navbarlink.interns.experiences');
+Route::view('/interns/faqs', 'navbarlinks.interns.FAQs')->name('navbarlink.interns.faqs');
+
+// Resources
+Route::view('/resources/blog', 'navbarlinks.resources.Blog')->name('navbarlink.resources.blog');
+Route::view('/resources/help-center', 'navbarlinks.resources.Help Center')->name('navbarlink.resources.help-center');
+
+// About Us
+Route::view('/about-us/our-mission', 'navbarlinks.about_us.Our Mission')->name('navbarlink.about-us.our-mission');
+Route::view('/about-us/our-team', 'navbarlinks.about_us.Our Team')->name('navbarlink.about-us.our-team');
+Route::view('/about-us/join-us', 'navbarlinks.about_us.Join Us')->name('navbarlink.about-us.join-us');
+Route::view('/about-us/press', 'navbarlinks.about_us.Press')->name('navbarlink.about-us.press');
+Route::view('/about-us/contact-us', 'navbarlinks.about_us.Contact Us')->name('navbarlink.about-us.contact-us');
 
 // ====== CHATBOT ======
 Route::middleware(['throttle:30,1'])->group(function () {

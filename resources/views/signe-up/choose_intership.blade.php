@@ -719,7 +719,7 @@
 
 <body>
 
-   <div class="logo-wrapper">
+    <div class="logo-wrapper">
         <x-logo variant="landing" size="lg" href="/" />
     </div>
 
