@@ -16,7 +16,8 @@ class AdminOnly
     public function handle(Request $request, Closure $next): Response
     {
         if ($request->user()->role !== 'admin') {
-            return redirect()->route('tickets', $request->user()->company->slug);
+            // Non-admins are redirected to the standard home/dashboard page
+            return redirect('/home');
         }
 
         return $next($request);

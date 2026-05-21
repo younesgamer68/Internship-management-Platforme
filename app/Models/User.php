@@ -69,6 +69,16 @@ class User extends Authenticatable
         return $this->role === 'admin';
     }
 
+    public function isCompanyManager(): bool
+    {
+        return $this->role === 'company_manager';
+    }
+
+    public function isIntern(): bool
+    {
+        return $this->role === 'intern';
+    }
+
     public function wantsNotification(string $type): bool
     {
         $preferences = $this->notification_preferences ?? [];
