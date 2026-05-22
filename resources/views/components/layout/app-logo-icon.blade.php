@@ -1,0 +1,1 @@
+<img src="{{ asset('images/Logos/Small%20Logo.png') }}" alt="InternLink Logo" {{ $attributes }}>

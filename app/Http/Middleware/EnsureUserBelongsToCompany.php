@@ -1,0 +1,40 @@
+<?php
+
+namespace App\Http\Middleware;
+
+use Closure;
+use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
+
+class EnsureUserBelongsToCompany
+{
+    public function handle(Request $request, Closure $next): Response
+    {
+        $user = $request->user();
+
+        if (! $user) {
+            $protocol = app()->environment('local') ? 'http' : 'https';
+
+            return redirect()->away($protocol.'://'.config('app.domain').'/login');
+        }
+
+        // Get company from request (set by IdentifyCompanyFromSubdomain middleware)
+        $company = $request->attributes->get('company');
+
+        if (! $company) {
+            // Also try to get from user as fallback or if manually merged in some cases
+            $company = $request->get('company') ?: $user->company;
+        }
+
+        if (! $company) {
+            abort(404, 'Company not found');
+        }
+
+        // Check if user belongs to this company
+        if ($user->company_id !== $company->id) {
+            abort(403, 'You do not have access to this company');
+        }
+
+        return $next($request);
+    }
+}

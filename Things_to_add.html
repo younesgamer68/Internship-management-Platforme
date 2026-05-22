@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Career Fields</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Popins', sans-serif;
+    background: #f5f4f0;
+    min-height: 100vh;
+    padding: 60px 20px 80px;
+  }
+
+  .page-header {
+    text-align: center;
+    margin-bottom: 52px;
+  }
+
+  .page-header h1 {
+    font-family: 'Popins', sans-serif;
+    font-size: clamp(2.4rem, 5vw, 3.4rem);
+    font-weight: 800;
+    color: #00b1aa;
+    letter-spacing: -1px;
+    line-height: 1;
+    margin-bottom: 10px;
+  }
+
+  .page-header p {
+    font-size: 0.95rem;
+    color: #888;
+    font-weight: 400;
+    letter-spacing: 0.01em;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .card {
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    height: 110px;
+    cursor: pointer;
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    transition: transform 0.28s cubic-bezier(.22,.68,0,1.2), box-shadow 0.28s ease;
+  }
+
+  .card:hover {
+    transform: translateY(-4px) scale(1.015);
+    box-shadow: 0 12px 32px rgba(0,0,0,0.14);
+  }
+
+  .card-img {
+    position: absolute;
+    right: 0; top: 0;
+    width: 42%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+    transition: filter 0.35s ease;
+  }
+
+  .card:hover .card-img {
+    filter: brightness(0.25) saturate(0.4);
+  }
+
+  .blob {
+    position: absolute;
+    right: 28%;
+    top: -20px;
+    width: 90px;
+    height: 140px;
+    border-radius: 50%;
+    opacity: 0.55;
+    pointer-events: none;
+    transition: opacity 0.35s;
+  }
+
+  .card:hover .blob { opacity: 0; }
+
+  .card-label {
+    position: absolute;
+    left: 0; top: 0;
+    width: 62%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding: 0 18px;
+    transition: opacity 0.25s ease;
+  }
+
+  .card:hover .card-label { opacity: 0; pointer-events: none; }
+
+  .card-label span {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 700;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+  }
+
+  .card-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 16px 18px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    background: transparent;
+  }
+
+  .card:hover .card-overlay { opacity: 1; }
+
+  .card-overlay .ov-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 5px;
+    letter-spacing: 0.01em;
+  }
+
+  .card-overlay .ov-desc {
+    font-size: 0.72rem;
+    color: rgba(255,255,255,0.82);
+    line-height: 1.45;
+    font-weight: 400;
+  }
+
+  /* Accent color per row */
+  .c-teal  .card-label span { color: #0a7c5c; }
+  .c-pink  .card-label span { color: #c0395e; }
+  .c-amber .card-label span { color: #b06a00; }
+  .c-blue  .card-label span { color: #1461a8; }
+  .c-coral .card-label span { color: #c24020; }
+  .c-purple .card-label span { color: #5040b8; }
+
+  .c-teal  .blob { background: #1dce98; }
+  .c-pink  .blob { background: #e5537e; }
+  .c-amber .blob { background: #f0a020; }
+  .c-blue  .blob { background: #3b8fe0; }
+  .c-coral .blob { background: #e05630; }
+  .c-purple .blob { background: #7060d8; }
+
+  .c-teal  .card-overlay { background: linear-gradient(135deg, rgba(13,110,82,0.92) 0%, rgba(13,90,65,0.88) 100%); }
+  .c-pink  .card-overlay { background: linear-gradient(135deg, rgba(180,45,88,0.92) 0%, rgba(140,30,65,0.88) 100%); }
+  .c-amber .card-overlay { background: linear-gradient(135deg, rgba(160,95,5,0.92) 0%, rgba(130,75,5,0.88) 100%); }
+  .c-blue  .card-overlay { background: linear-gradient(135deg, rgba(20,85,165,0.92) 0%, rgba(12,60,130,0.88) 100%); }
+  .c-coral .card-overlay { background: linear-gradient(135deg, rgba(190,55,22,0.92) 0%, rgba(150,40,15,0.88) 100%); }
+  .c-purple .card-overlay { background: linear-gradient(135deg, rgba(75,55,180,0.92) 0%, rgba(50,35,148,0.88) 100%); }
+
+  @media (max-width: 680px) {
+    .grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 440px) {
+    .grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header class="page-header">
+  <h1>Career Fields</h1>
+  <p>Discover Your Path: Explore a range of dynamic career fields with Virtual Internships</p>
+</header>
+
+<div class="grid">
+
+  <!-- Architecture -->
+  <div class="card c-teal">
+    <img class="card-img" src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=300&q=80" alt="Architecture">
+    <div class="card-label"><span>Architecture<br>Internships</span></div>
+    <div class="card-overlay">
+      <div class="ov-title">Architecture</div>
+      <div class="ov-desc">Design buildings and spaces that shape how people live and work. Blend creativity with structural engineering.</div>
+    </div>
+  </div>
+
+  <!-- Business -->
+  <div class="card c-blue">
+    <img class="card-img" src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=300&q=80" alt="Business">
+    <div class="card-label"><span>Business<br>Internships</span></div>
+    <div class="card-overlay">
+      <div class="ov-title">Business</div>
+      <div class="ov-desc">Learn strategy, operations, and management across industries. Build skills for leadership roles in any sector.</div>
+    </div>
+  </div>
+
+  <!-- Computer Science -->
+  <div class="card c-coral">
+    <img class="card-img" src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=300&q=80" alt="Computer Science">
+    <div class="card-label"><span>Computer Science<br>Internships</span></div>
+    <div class="card-overlay">
+      <div class="ov-title">Computer Science</div>
+      <div class="ov-desc">Build software, AI systems, and digital infrastructure. One of the most in-demand fields globally.</div>
+    </div>
+  </div>
+
+  <!-- Fashion & Design -->
+  <div class="card c-pink">
+    <img class="card-img" src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=300&q=80" alt="Fashion & Design">
+    <div class="card-label"><span>Fashion &amp; Design<br>Internships</span></div>
+    <div class="card-overlay">
+      <div class="ov-title">Fashion &amp; Design</div>
+      <div class="ov-desc">Express identity through garments and visual aesthetics. Covers fashion design, styling, and brand direction.</div>
+    </div>
+  </div>
+
+  <!-- Finance -->
+  <div class="card c-amber">
+    <img class="card-img" src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=300&q=80" alt="Finance">
+    <div class="card-label"><span>Finance<br>Internships</span></div>
+    <div class="card-overlay">
+      <div class="ov-title">Finance</div>
+      <div class="ov-desc">Master markets, investment analysis, and financial modelling. A gateway to banking, fintech, and consulting.</div>
+    </div>
+  </div>
+
+  <!-- Environment -->
+  <div class="card c-teal">
+    <img class="card-img" src="https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?w=300&q=80" alt="Environment">
+    <div class="card-label"><span>Environment &amp;<br>Sustainability<br>Internships</span></div>
+    <div class="card-overlay">
+      <div class="ov-title">Environment &amp; Sustainability</div>
+      <div class="ov-desc">Drive climate solutions, conservation, and green policy. One of the fastest growing career areas worldwide.</div>
+    </div>
+  </div>
+
+  <!-- Health & Wellness -->
+  <div class="card c-blue">
+    <img class="card-img" src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=300&q=80" alt="Health Wellness">
+    <div class="card-label"><span>Health, Wellness &amp;<br>Sports Management<br>Internships</span></div>
+    <div class="card-overlay">
+      <div class="ov-title">Health, Wellness &amp; Sports</div>
+      <div class="ov-desc">Combine fitness, nutrition, and sport management to improve lives and build high-performance teams.</div>
+    </div>
+  </div>
+
+  <!-- Healthcare & Pharma -->
+  <div class="card c-purple">
+    <img class="card-img" src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=300&q=80" alt="Healthcare">
+    <div class="card-label"><span>Healthcare &amp;<br>Pharmaceutical<br>Internships</span></div>
+    <div class="card-overlay">
+      <div class="ov-title">Healthcare &amp; Pharma</div>
+      <div class="ov-desc">Develop life-saving drugs and healthcare systems. Combines science, research, and patient care.</div>
+    </div>
+  </div>
+
+  <!-- Hospitality -->
+  <div class="card c-coral">
+    <img class="card-img" src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=300&q=80" alt="Hospitality">
+    <div class="card-label"><span>Hospitality, Tourism<br>&amp; Events<br>Internships</span></div>
+    <div class="card-overlay">
+      <div class="ov-title">Hospitality, Tourism &amp; Events</div>
+      <div class="ov-desc">Create unforgettable experiences in hotels, travel, and live events. A dynamic people-first industry.</div>
+    </div>
+  </div>
+
+  <!-- HR -->
+  <div class="card c-pink">
+    <img class="card-img" src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=300&q=80" alt="HR">
+    <div class="card-label"><span>HR<br>Internships</span></div>
+    <div class="card-overlay">
+      <div class="ov-title">Human Resources</div>
+      <div class="ov-desc">Shape company culture, talent acquisition, and employee well-being. The heart of every great organisation.</div>
+    </div>
+  </div>
+
+  <!-- Legal -->
+  <div class="card c-amber">
+    <img class="card-img" src="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=300&q=80" alt="Legal">
+    <div class="card-label"><span>Legal<br>Internships</span></div>
+    <div class="card-overlay">
+      <div class="ov-title">Legal</div>
+      <div class="ov-desc">Navigate law, contracts, and justice systems. From corporate law to human rights advocacy and beyond.</div>
+    </div>
+  </div>
+
+  <!-- Supply Chain -->
+  <div class="card c-teal">
+    <img class="card-img" src="https://images.unsplash.com/photo-1601598851547-4302969d0614?w=300&q=80" alt="Supply Chain">
+    <div class="card-label"><span>Supply Chain<br>Internships</span></div>
+    <div class="card-overlay">
+      <div class="ov-title">Supply Chain</div>
+      <div class="ov-desc">Coordinate global logistics, procurement, and operations. Critical to every product that reaches consumers.</div>
+    </div>
+  </div>
+
+  <!-- Marketing -->
+  <div class="card c-coral">
+    <img class="card-img" src="https://images.unsplash.com/photo-1533750349088-cd871a92f312?w=300&q=80" alt="Marketing">
+    <div class="card-label"><span>Marketing<br>Internships</span></div>
+    <div class="card-overlay">
+      <div class="ov-title">Marketing</div>
+      <div class="ov-desc">Build brands, run campaigns, and connect products to audiences. Spans digital, social, and traditional media.</div>
+    </div>
+  </div>
+
+  <!-- Media & Communications -->
+  <div class="card c-purple">
+    <img class="card-img" src="https://images.unsplash.com/photo-1478737270239-2f02b77fc618?w=300&q=80" alt="Media">
+    <div class="card-label"><span>Media &amp;<br>Communications<br>Internships</span></div>
+    <div class="card-overlay">
+      <div class="ov-title">Media &amp; Communications</div>
+      <div class="ov-desc">Tell stories that matter across journalism, PR, broadcasting, and digital content creation.</div>
+    </div>
+  </div>
+
+  <!-- International Development -->
+  <div class="card c-blue">
+    <img class="card-img" src="https://images.unsplash.com/photo-1531206715517-5c0ba140b2b8?w=300&q=80" alt="International Development">
+    <div class="card-label"><span>International<br>Development<br>Internships</span></div>
+    <div class="card-overlay">
+      <div class="ov-title">International Development</div>
+      <div class="ov-desc">Drive change in global health, poverty, and education. Work with NGOs, the UN, and development banks.</div>
+    </div>
+  </div>
+
+  <!-- Real Estate -->
+  <div class="card c-amber">
+    <img class="card-img" src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=300&q=80" alt="Real Estate">
+    <div class="card-label"><span>Real Estate<br>Internships</span></div>
+    <div class="card-overlay">
+      <div class="ov-title">Real Estate</div>
+      <div class="ov-desc">Manage property assets, investment portfolios, and urban development. A tangible and high-value industry.</div>
+    </div>
+  </div>
+
+  <!-- Engineering -->
+  <div class="card c-pink">
+    <img class="card-img" src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=300&q=80" alt="Engineering">
+    <div class="card-label"><span>Engineering<br>Internships</span></div>
+    <div class="card-overlay">
+      <div class="ov-title">Engineering</div>
+      <div class="ov-desc">Solve real-world problems through mechanical, civil, electrical, and chemical engineering disciplines.</div>
+    </div>
+  </div>
+
+  <!-- Startup -->
+  <div class="card c-coral">
+    <img class="card-img" src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=300&q=80" alt="Startup">
+    <div class="card-label"><span>Startup<br>Internships</span></div>
+    <div class="card-overlay">
+      <div class="ov-title">Startups</div>
+      <div class="ov-desc">Join early-stage ventures and wear many hats. Learn how products are built from zero to launch at speed.</div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>
