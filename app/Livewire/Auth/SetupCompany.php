@@ -6,8 +6,10 @@ use App\Models\Company;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Livewire\Attributes\Layout;
 use Livewire\Component;
 
+#[Layout('layouts.auth.split')]
 class SetupCompany extends Component
 {
     public string $name = '';
@@ -24,13 +26,11 @@ class SetupCompany extends Component
 
     public function mount()
     {
-        // If user already has a company, redirect to tickets
+        // If user already has a company, redirect to the dashboard
         $user = Auth::user();
 
         if ($user && $user->company_id && $user->company) {
-            return redirect()->to(
-                'http://'.$user->company->slug.'.'.config('app.domain').'/tickets'
-            );
+            return redirect('/home');
         }
 
         // Pre-fill name from Google account
@@ -49,7 +49,7 @@ class SetupCompany extends Component
             $slug = $baseSlug;
             $counter = 1;
 
-            while (Company::where('slug', $slug)->exists()) {
+            while (Company::query()->where('slug', $slug)->exists()) {
                 $slug = $baseSlug.'-'.$counter;
                 $counter++;
             }
@@ -75,15 +75,12 @@ class SetupCompany extends Component
         // Refresh user to get the new company relationship
         $user->refresh();
 
-        // Redirect to the company's tickets page
-        return redirect()->to(
-            'http://'.$user->company->slug.'.'.config('app.domain').'/tickets'
-        );
+        // Redirect to the company's dashboard
+        return redirect('/home');
     }
 
     public function render()
     {
-        return view('livewire.auth.setup-company')
-            ->layout('components.layouts.split-auth');
+        return view('livewire.auth.setup-company');
     }
 }

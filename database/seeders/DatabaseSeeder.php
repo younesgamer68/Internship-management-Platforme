@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Company;
+use App\Models\InternProfile;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -55,6 +56,17 @@ class DatabaseSeeder extends Seeder
                 'password' => bcrypt('InternPass123!'),
                 'role' => 'intern',
                 'email_verified_at' => now(),
+            ]
+        );
+
+        InternProfile::query()->updateOrCreate(
+            ['user_id' => $intern->id],
+            [
+                'company_id' => $company->id,
+                'position' => 'Intern',
+                'bio' => 'Demo intern account seeded for testing.',
+                'start_date' => now()->toDateString(),
+                'end_date' => now()->addMonths(3)->toDateString(),
             ]
         );
 

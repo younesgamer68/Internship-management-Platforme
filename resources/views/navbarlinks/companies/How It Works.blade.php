@@ -77,119 +77,119 @@
     {{-- ═══════════════════════════════════════════════════════════════════
     Leverage Remote Interns
     ═══════════════════════════════════════════════════════════════════ --}}
-    <section class="w-full flex items-center justify-center py-16 px-8 bg-[#f4f4f4] font-[Poppins]">
-        <div class="w-full max-w-[1100px] grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-14 items-center">
+    <section class="w-full flex items-center justify-center py-16 px-8 bg-[#f4f4f4] font-[Poppins]" style=" opacity: 1; background-image:
+        url('https://www.virtualinternships.com/wp-content/uploads/2023/04/Group-137-1.png'); background-size: 100%
+        auto; background-position: center;"">
+        <div class=" w-full max-w-[1100px] grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-14 items-center">
 
-            <!-- LEFT -->
-            <div class="left">
-                <h2
-                    class="text-[clamp(1.6rem,3vw,2.2rem)] font-extrabold text-[#1e1e1e] leading-[1.2] mb-9 tracking-tight">
-                    Leverage the Power<br>of Remote Interns
-                </h2>
+        <!-- LEFT -->
+        <div class="left">
+            <h2 class="text-[clamp(1.6rem,3vw,2.2rem)] font-extrabold text-[#1e1e1e] leading-[1.2] mb-9 tracking-tight">
+                Leverage the Power<br>of Remote Interns
+            </h2>
 
-                <div class="flex flex-col gap-7">
-                    <div class="grid grid-cols-[44px_1fr] gap-x-3.5 items-start">
-                        <div
-                            class="w-10 h-10 border-2 border-[#00b5ad] rounded-lg flex items-center justify-center shrink-0 mt-0.5">
-                            <svg viewBox="0 0 24 24"
-                                class="w-5 h-5 stroke-[#00b5ad] fill-none stroke-[1.8px] stroke-linecap-round stroke-linejoin-round">
-                                <rect x="2" y="4" width="20" height="13" rx="2" />
-                                <path d="M0 20h24" />
-                                <path d="M9 17v3M15 17v3" />
-                            </svg>
-                        </div>
-                        <p class="text-[0.88rem] text-[#555] leading-[1.7]">
-                            <strong class="text-[#1e1e1e] font-bold">Digital Mastery:</strong> Born in the tech era, our
-                            interns navigate and adopt new technologies effortlessly, positioning your business at the
-                            forefront of innovation.
-                        </p>
-                    </div>
-
-                    <div class="grid grid-cols-[44px_1fr] gap-x-3.5 items-start">
-                        <div
-                            class="w-10 h-10 border-2 border-[#00b5ad] rounded-lg flex items-center justify-center shrink-0 mt-0.5">
-                            <svg viewBox="0 0 24 24"
-                                class="w-5 h-5 stroke-[#00b5ad] fill-none stroke-[1.8px] stroke-linecap-round stroke-linejoin-round">
-                                <path
-                                    d="M12 2a7 7 0 0 1 4 12.74V17a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-2.26A7 7 0 0 1 12 2z" />
-                                <path d="M9 21h6M10 18v1M14 18v1" />
-                            </svg>
-                        </div>
-                        <p class="text-[0.88rem] text-[#555] leading-[1.7]">
-                            <strong class="text-[#1e1e1e] font-bold">Innovative Thinking:</strong> Remote interns bring
-                            fresh and groundbreaking perspectives, often challenging the norm due to their diverse
-                            backgrounds.
-                        </p>
-                    </div>
-
-                    <div class="grid grid-cols-[44px_1fr] gap-x-3.5 items-start">
-                        <div
-                            class="w-10 h-10 border-2 border-[#00b5ad] rounded-lg flex items-center justify-center shrink-0 mt-0.5">
-                            <svg viewBox="0 0 24 24"
-                                class="w-5 h-5 stroke-[#00b5ad] fill-none stroke-[1.8px] stroke-linecap-round stroke-linejoin-round">
-                                <circle cx="12" cy="7" r="4" />
-                                <path d="M5.5 21a7 7 0 0 1 13 0" />
-                                <path d="M19 11c1.1 0 2 .9 2 2s-.9 2-2 2" />
-                                <path d="M5 11c-1.1 0-2 .9-2 2s.9 2 2 2" />
-                            </svg>
-                        </div>
-                        <p class="text-[0.88rem] text-[#555] leading-[1.7]">
-                            <strong class="text-[#1e1e1e] font-bold">Enthusiasm and Flexibility:</strong> Eager to learn
-                            and versatile, remote interns readily adjust to a myriad of projects and tasks.
-                        </p>
-                    </div>
-
-                    <div class="grid grid-cols-[44px_1fr] gap-x-3.5 items-start">
-                        <div
-                            class="w-10 h-10 border-2 border-[#00b5ad] rounded-lg flex items-center justify-center shrink-0 mt-0.5">
-                            <svg viewBox="0 0 24 24"
-                                class="w-5 h-5 stroke-[#00b5ad] fill-none stroke-[1.8px] stroke-linecap-round stroke-linejoin-round">
-                                <path
-                                    d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-                            </svg>
-                        </div>
-                        <p class="text-[0.88rem] text-[#555] leading-[1.7]">
-                            <strong class="text-[#1e1e1e] font-bold">Nurturing Future Leaders:</strong> Remote interns
-                            are already attuned to your digital work culture, allowing you to engage with future stars.
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- RIGHT — Video -->
-            <div class="relative w-full aspect-[4/3] rounded-[14px] overflow-hidden bg-black shadow-[0_16px_48px_rgba(0,0,0,0.2)] md:w-[110%] justify-self-center md:justify-self-start z-10"
-                id="leverageVideoWrap">
-
-                <!-- YouTube iframe -->
-                <iframe id="leverageYtPlayer" class="absolute inset-0 w-full h-full border-none block"
-                    src="https://www.youtube.com/embed/dQw4w9WgXcQ?enablejsapi=1&rel=0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowfullscreen></iframe>
-
-                <!-- Thumbnail overlay -->
-                <div class="absolute inset-0 z-10 cursor-pointer overflow-hidden transition-opacity duration-400 ease-in-out group"
-                    id="leverageThumb" role="button" aria-label="Play video" tabindex="0">
-
-                    <!-- Thumbnail image -->
-                    <img class="w-full h-full object-cover block transition-all duration-400 ease-in-out bg-[#1a1a2e] group-hover:scale-105 group-hover:brightness-75"
-                        src="https://i.ytimg.com/vi/imL_BkR93qo/maxresdefault.jpg" alt="Video thumbnail"
-                        id="leverageThumbImg" />
-
-                    <!-- Play button -->
+            <div class="flex flex-col gap-7">
+                <div class="grid grid-cols-[44px_1fr] gap-x-3.5 items-start">
                     <div
-                        class="absolute inset-0 flex items-center justify-center z-20 opacity-0 scale-90 transition-all duration-250 ease-in-out group-hover:opacity-100 group-hover:scale-100">
-                        <div
-                            class="w-[72px] h-[72px] rounded-full bg-[#444] flex items-center justify-center shadow-[0_8px_32px_rgba(0,0,0,0.35)] transition-all duration-200 group-hover:bg-white group-hover:scale-[1.08] [&>svg]:group-hover:fill-[#00b1aa]">
-                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"
-                                class="w-7 h-7 fill-[#00b1aa] ml-1 transition-colors duration-200">
-                                <polygon points="5,3 19,12 5,21" />
-                            </svg>
-                        </div>
+                        class="w-10 h-10 border-2 border-[#00b5ad] rounded-lg flex items-center justify-center shrink-0 mt-0.5">
+                        <svg viewBox="0 0 24 24"
+                            class="w-5 h-5 stroke-[#00b5ad] fill-none stroke-[1.8px] stroke-linecap-round stroke-linejoin-round">
+                            <rect x="2" y="4" width="20" height="13" rx="2" />
+                            <path d="M0 20h24" />
+                            <path d="M9 17v3M15 17v3" />
+                        </svg>
                     </div>
+                    <p class="text-[0.88rem] text-[#555] leading-[1.7]">
+                        <strong class="text-[#1e1e1e] font-bold">Digital Mastery:</strong> Born in the tech era, our
+                        interns navigate and adopt new technologies effortlessly, positioning your business at the
+                        forefront of innovation.
+                    </p>
+                </div>
 
+                <div class="grid grid-cols-[44px_1fr] gap-x-3.5 items-start">
+                    <div
+                        class="w-10 h-10 border-2 border-[#00b5ad] rounded-lg flex items-center justify-center shrink-0 mt-0.5">
+                        <svg viewBox="0 0 24 24"
+                            class="w-5 h-5 stroke-[#00b5ad] fill-none stroke-[1.8px] stroke-linecap-round stroke-linejoin-round">
+                            <path d="M12 2a7 7 0 0 1 4 12.74V17a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-2.26A7 7 0 0 1 12 2z" />
+                            <path d="M9 21h6M10 18v1M14 18v1" />
+                        </svg>
+                    </div>
+                    <p class="text-[0.88rem] text-[#555] leading-[1.7]">
+                        <strong class="text-[#1e1e1e] font-bold">Innovative Thinking:</strong> Remote interns bring
+                        fresh and groundbreaking perspectives, often challenging the norm due to their diverse
+                        backgrounds.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-[44px_1fr] gap-x-3.5 items-start">
+                    <div
+                        class="w-10 h-10 border-2 border-[#00b5ad] rounded-lg flex items-center justify-center shrink-0 mt-0.5">
+                        <svg viewBox="0 0 24 24"
+                            class="w-5 h-5 stroke-[#00b5ad] fill-none stroke-[1.8px] stroke-linecap-round stroke-linejoin-round">
+                            <circle cx="12" cy="7" r="4" />
+                            <path d="M5.5 21a7 7 0 0 1 13 0" />
+                            <path d="M19 11c1.1 0 2 .9 2 2s-.9 2-2 2" />
+                            <path d="M5 11c-1.1 0-2 .9-2 2s.9 2 2 2" />
+                        </svg>
+                    </div>
+                    <p class="text-[0.88rem] text-[#555] leading-[1.7]">
+                        <strong class="text-[#1e1e1e] font-bold">Enthusiasm and Flexibility:</strong> Eager to learn
+                        and versatile, remote interns readily adjust to a myriad of projects and tasks.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-[44px_1fr] gap-x-3.5 items-start">
+                    <div
+                        class="w-10 h-10 border-2 border-[#00b5ad] rounded-lg flex items-center justify-center shrink-0 mt-0.5">
+                        <svg viewBox="0 0 24 24"
+                            class="w-5 h-5 stroke-[#00b5ad] fill-none stroke-[1.8px] stroke-linecap-round stroke-linejoin-round">
+                            <path
+                                d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                        </svg>
+                    </div>
+                    <p class="text-[0.88rem] text-[#555] leading-[1.7]">
+                        <strong class="text-[#1e1e1e] font-bold">Nurturing Future Leaders:</strong> Remote interns
+                        are already attuned to your digital work culture, allowing you to engage with future stars.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- RIGHT — Video -->
+        <div class="relative w-full aspect-[4/3] rounded-[14px] overflow-hidden bg-black shadow-[0_16px_48px_rgba(0,0,0,0.2)] md:w-[110%] justify-self-center md:justify-self-start z-10"
+            id="leverageVideoWrap">
+
+            <!-- YouTube iframe -->
+            <iframe id="leverageYtPlayer" class="absolute inset-0 w-full h-full border-none block"
+                src="https://www.youtube.com/embed/dQw4w9WgXcQ?enablejsapi=1&rel=0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen></iframe>
+
+            <!-- Thumbnail overlay -->
+            <div class="absolute inset-0 z-10 cursor-pointer overflow-hidden transition-opacity duration-400 ease-in-out group"
+                id="leverageThumb" role="button" aria-label="Play video" tabindex="0">
+
+                <!-- Thumbnail image -->
+                <img class="w-full h-full object-cover block transition-all duration-400 ease-in-out bg-[#1a1a2e] group-hover:scale-105 group-hover:brightness-75"
+                    src="https://i.ytimg.com/vi/imL_BkR93qo/maxresdefault.jpg" alt="Video thumbnail"
+                    id="leverageThumbImg" />
+
+                <!-- Play button -->
+                <div
+                    class="absolute inset-0 flex items-center justify-center z-20 opacity-0 scale-90 transition-all duration-250 ease-in-out group-hover:opacity-100 group-hover:scale-100">
+                    <div
+                        class="w-[72px] h-[72px] rounded-full bg-[#444] flex items-center justify-center shadow-[0_8px_32px_rgba(0,0,0,0.35)] transition-all duration-200 group-hover:bg-white group-hover:scale-[1.08] [&>svg]:group-hover:fill-[#00b1aa]">
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"
+                            class="w-7 h-7 fill-[#00b1aa] ml-1 transition-colors duration-200">
+                            <polygon points="5,3 19,12 5,21" />
+                        </svg>
+                    </div>
                 </div>
 
             </div>
+
+        </div>
 
         </div>
 
@@ -1606,7 +1606,7 @@
     </section>
 
 
-    
+
 
     <x-footer />
 

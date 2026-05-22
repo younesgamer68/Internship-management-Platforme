@@ -896,28 +896,124 @@
         </script>
     </section>
 
-    <section id="hero-section" class="relative z-0 pt-20 overflow-hidden bg-no-repeat bg-cover bg-center" style="opacity: 1; background-color : #0e373d; background-image: url('https://www.virtualinternships.com/wp-content/uploads/2023/03/Frame-47.png'); 
+    <section class="relative w-full overflow-hidden bg-[#0c2c2c] pt-[70px] pb-[56px]">
+        <img src="https://www.virtualinternships.com/wp-content/uploads/2023/03/light-bg-with-vector.jpg" alt=""
+            class="absolute inset-0 w-full h-full object-cover pointer-events-none z-0" />
+
+        <div class="relative z-[2] text-center px-5 pb-12">
+            <h1 class="text-[clamp(3.4rem,5vw,2.4rem)] font-extrabold text-[#444444] tracking-[-0.01em] mb-[14px]">
+                What’s
+                <span class="text-[#00b1aa]">Next?</span>
+            </h1>
+            <p class="section-sub mx-auto mb-6 max-w-2xl  font-bold text-sm text-[#444242] sm:text-base">
+                Find Your Work Experience in Three Steps
+            </p>
+            <p class="section-sub mx-auto  max-w-2xl  text-sm text-[#7b7b7b] sm:text-base">
+                It’s never been easier to gain global work experience that will give you an unbeatable advantage for
+                your career.
+            </p>
+        </div>
+
+        <div class="relative z-[2] w-full flex items-center justify-center">
+            <div id="uniAnswerViewport" class="w-full max-w-[1200px] overflow-hidden ">
+                <div id="uniAnswerTrack"
+                    class="flex items-stretch justify-center gap-5 pt-[10px] pb-4 transition-transform duration-500 ease-[cubic-bezier(.4,0,.2,1)] will-change-transform">
+
+                    {{-- Step 1 - Purple --}}
+                    <div
+                        class="feature-card flex-none w-[320px] rounded-[18px] relative overflow-hidden shadow-[0_4px_32px_rgba(0,0,0,.08)] bg-white p-[28px_24px_24px]">
+                        <img src="https://www.virtualinternships.com/wp-content/themes/vi-theme/assets/img/box-bg.png"
+                            alt="" class="absolute inset-0 w-full h-full object-cover z-0" />
+
+                        <div class="relative z-[1] flex flex-col gap-[18px]">
+                            <div
+                                class="w-[52px] h-[52px] rounded-full bg-[#7F77DD] flex items-center justify-center shrink-0">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-white" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                                </svg>
+                            </div>
+                            <div class="flex flex-col gap-2">
+                                <p class="text-[14px] font-semibold text-[#7F77DD] leading-none">Step 1</p>
+                                <p class="text-[14px] text-gray-400 leading-[1.6]">Enroll now and complete the online
+                                    application</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- Step 2 - Pink --}}
+                    <div
+                        class="feature-card flex-none w-[320px] rounded-[18px] relative overflow-hidden shadow-[0_4px_32px_rgba(0,0,0,.08)] bg-white p-[28px_24px_24px]">
+                        <img src="https://www.virtualinternships.com/wp-content/themes/vi-theme/assets/img/box-bg.png"
+                            alt="" class="absolute inset-0 w-full h-full object-cover z-0" />
+
+                        <div class="relative z-[1] flex flex-col gap-[18px]">
+                            <div
+                                class="w-[52px] h-[52px] rounded-full bg-[#D4537E] flex items-center justify-center shrink-0">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-white" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z" />
+                                </svg>
+                            </div>
+                            <div class="flex flex-col gap-2">
+                                <p class="text-[14px] font-semibold text-[#D4537E] leading-none">Step 2</p>
+                                <p class="text-[14px] text-gray-400 leading-[1.6]">Tell us what you're looking for so we
+                                    can find the perfect match</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- Step 3 - Amber --}}
+                    <div
+                        class="feature-card flex-none w-[320px] rounded-[18px] relative overflow-hidden shadow-[0_4px_32px_rgba(0,0,0,.08)] bg-white p-[28px_24px_24px]">
+                        <img src="https://www.virtualinternships.com/wp-content/themes/vi-theme/assets/img/box-bg.png"
+                            alt="" class="absolute inset-0 w-full h-full object-cover z-0" />
+
+                        <div class="relative z-[1] flex flex-col gap-[18px]">
+                            <div
+                                class="w-[52px] h-[52px] rounded-full bg-[#EF9F27] flex items-center justify-center shrink-0">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-white" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+                                </svg>
+                            </div>
+                            <div class="flex flex-col gap-2">
+                                <p class="text-[14px] font-semibold text-[#EF9F27] leading-none">Step 3</p>
+                                <p class="text-[14px] text-gray-400 leading-[1.6]">Start your Virtual Internship and
+                                    gain a career advantage</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div id="uniAnswerDots" class="relative z-[2] flex justify-center gap-2 mt-7"></div>
+    </section>
+
+
+    <section id="hero-section" class="relative z-0 pt-20 overflow-hidden bg-no-repeat bg-cover bg-center" style="opacity: 1; background-color : #ffffff; background-image: url('https://www.virtualinternships.com/wp-content/uploads/2023/03/Frame-47.png'); 
     background-size: 100% auto; background-position: right;">
         <div
             class="mx-auto grid w-full max-w-[1100px] grid-cols-1 items-center gap-4 px-4 pb-6 pt-10 md:grid-cols-[minmax(0,1.05fr)_minmax(280px,0.95fr)] md:px-8">
             <div class="animate-[fadeUp_0.65s_ease_both]">
-                <h1
-                    class="max-w-4xl font-[Poppins] text-[clamp(1.6rem,2.5vw,2.4rem)] font-extrabold  tracking-[-0.03em] text-[#ffffff]">
-                    Guarantee Work Experience Opportunities<br>
-
-
+                <h1 class="text-[clamp(2.4rem,2vw,5.4rem)] font-extrabold text-[#444444] tracking-[-0.01em] mb-[14px]">
+                    What Are You
+                    <span class="text-[#00b1aa]">Waiting For?</span>
                 </h1>
+
                 <p class="mt-4 font-[Nunito] text-base font-semibold text-[#c4c3c3]">
-                    Access Real-World Global Work Experience to Bridge the Skills Gap and Diversify Economies.
-
-
+                    Start your career journey with Virtual Internships
                 </p>
 
                 <div class="mt-7 flex flex-wrap items-center gap-3 justify-center md:justify-start">
                     <a href="{{ route('contact') }}"
                         class="inline-flex items-center gap-2 whitespace-nowrap rounded-lg bg-[#f47d20] px-4 py-2.5 text-xs font-[Poppins] font-semibold text-white transition duration-200 hover:-translate-y-0.5 hover:opacity-95 hover:shadow-lg">
-
-                        Request a Demo
+                        Sign Up
                     </a>
 
                 </div>
@@ -925,7 +1021,7 @@
 
             <div class="animate-[fadeRight_0.7s_0.1s_ease_both]  translate-y-8 justify-self-center md:justify-self-end md:w-full md:max-w-[400px]"
                 -mt-100 -mb-10>
-                <img src="https://www.virtualinternships.com/wp-content/uploads/2023/03/Frame.png"
+                <img src="https://www.virtualinternships.com/wp-content/uploads/2023/03/vi-users.png"
                     alt="Student with laptop and headphones" class="h-auto w-full object-contain" />
             </div>
         </div>

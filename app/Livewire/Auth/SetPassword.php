@@ -36,7 +36,7 @@ class SetPassword extends Component
     {
         $email = session('pending_user_email');
 
-        return User::where('email', $email)->first();
+        return User::query()->where('email', $email)->first();
     }
 
     #[Computed]
@@ -48,8 +48,8 @@ class SetPassword extends Component
             return collect();
         }
 
-        return TicketCategory::where('company_id', $user->company_id)
-            ->orderBy('name')
+        return TicketCategory::query()->where('company_id', $user->company_id)
+            ->orderBy('name', 'asc')
             ->get(['id', 'name']);
     }
 
@@ -78,7 +78,7 @@ class SetPassword extends Component
         $email = session('pending_user_email');
 
         /** @var \App\Models\User $user */
-        $user = User::where('email', '=', $email)->firstOrFail(['*']);
+        $user = User::query()->where('email', '=', $email)->firstOrFail();
 
         $user->update([
             'password' => Hash::make($this->password),
@@ -101,8 +101,8 @@ class SetPassword extends Component
         Auth::login($user);
         session()->forget('pending_user_email');
 
-        // Redirect to the company's dashboard home page
-        return redirect()->route('agent.dashboard', ['company' => $user->company->slug]);
+        // Redirect to the base dashboard home page
+        return redirect('/home');
     }
 
     public function render()

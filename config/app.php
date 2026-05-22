@@ -123,6 +123,6 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
     // Add these at the bottom of the config array
-    'domain' => env('APP_DOMAIN', 'interlink-system.test'),
-    'url_without_protocol' => env('APP_URL_WITHOUT_PROTOCOL', 'interlink-system.test'),
+    'domain' => env('APP_DOMAIN', 'interhship_plat.test'),
+    'url_without_protocol' => env('APP_URL_WITHOUT_PROTOCOL', 'localhost:8000'),
 ];

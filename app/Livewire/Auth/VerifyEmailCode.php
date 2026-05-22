@@ -105,7 +105,7 @@ class VerifyEmailCode extends Component
         $user = Auth::user();
 
         if ($user->company_id && $user->company) {
-            $this->redirect('http://'.$user->company->slug.'.'.config('app.domain').'/tickets');
+            $this->redirect('/home');
         } else {
             $this->redirect(route('setup-company'));
         }

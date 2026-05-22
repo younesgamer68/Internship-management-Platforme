@@ -1,6 +1,6 @@
 <x-layouts::app :title="__('Dashboard')">
     @if(auth()->user()->isAdmin())
-        @livewire('app.admin-dashboard')
+        @livewire('admin.management')
     @else
         @livewire('app.agent-dashboard')
     @endif
