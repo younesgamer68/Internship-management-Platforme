@@ -1,365 +1,246 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Career Fields</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-<style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+<section class="flex min-h-screen bg-gray-50 font-sans">
 
-  body {
-    font-family: 'Popins', sans-serif;
-    background: #f5f4f0;
-    min-height: 100vh;
-    padding: 60px 20px 80px;
-  }
+    {{-- Sidebar --}}
+    <aside class="w-56 min-h-screen bg-white border-r border-gray-200 flex flex-col py-6 px-4 fixed left-0 top-0 z-10">
 
-  .page-header {
-    text-align: center;
-    margin-bottom: 52px;
-  }
+        {{-- Logo --}}
+        <div class="flex items-center gap-2 mb-10 px-2">
+            <div class="w-8 h-8 rounded-full bg-teal-500 flex items-center justify-center text-white text-xs font-bold">C</div>
+            <div class="leading-tight">
+                <p class="text-[10px] font-semibold text-teal-600 uppercase tracking-widest">Virtual</p>
+                <p class="text-[10px] font-semibold text-gray-700 uppercase tracking-widest">Internships</p>
+            </div>
+        </div>
 
-  .page-header h1 {
-    font-family: 'Popins', sans-serif;
-    font-size: clamp(2.4rem, 5vw, 3.4rem);
-    font-weight: 800;
-    color: #00b1aa;
-    letter-spacing: -1px;
-    line-height: 1;
-    margin-bottom: 10px;
-  }
+        {{-- Nav Items --}}
+        <nav class="flex flex-col gap-1 flex-1">
+            @php
+                $navItems = [
+                    ['icon' => 'M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z', 'label' => 'Dashboard', 'active' => false],
+                    ['icon' => 'M21 21l-4.35-4.35M17 11A6 6 0 105 11a6 6 0 0012 0z', 'label' => 'Opportunities', 'active' => true],
+                    ['icon' => 'M9 12h6M9 16h6M9 8h6M5 4h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V6a2 2 0 012-2z', 'label' => 'Applications', 'active' => false],
+                    ['icon' => 'M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2M12 11a4 4 0 100-8 4 4 0 000 8z', 'label' => 'Profile', 'active' => false],
+                    ['icon' => 'M9 17v-6h13M9 11V5H3v6M3 17h6M15 5v6', 'label' => 'Placement Tracker', 'active' => false],
+                    ['icon' => 'M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10', 'label' => 'Manage Internships', 'active' => false],
+                    ['icon' => 'M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1', 'label' => 'CareerBridge', 'active' => false],
+                    ['icon' => 'M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z', 'label' => 'Interview Availability', 'active' => false],
+                    ['icon' => 'M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z M15 12a3 3 0 11-6 0 3 3 0 016 0z', 'label' => 'Settings', 'active' => false],
+                    ['icon' => 'M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z', 'label' => 'Refer a Friend', 'active' => false],
+                ];
+            @endphp
 
-  .page-header p {
-    font-size: 0.95rem;
-    color: #888;
-    font-weight: 400;
-    letter-spacing: 0.01em;
-  }
+            @foreach ($navItems as $item)
+                <a href="#"
+                   class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors
+                          {{ $item['active']
+                              ? 'bg-gray-100 text-gray-900 font-semibold border-l-4 border-teal-500'
+                              : 'text-gray-500 hover:bg-gray-50 hover:text-gray-800' }}">
+                    <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="{{ $item['icon'] }}"/>
+                    </svg>
+                    <span>{{ $item['label'] }}</span>
+                </a>
+            @endforeach
+        </nav>
 
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 18px;
-    max-width: 900px;
-    margin: 0 auto;
-  }
+        {{-- Logout --}}
+        <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-gray-500 hover:text-red-500 hover:bg-red-50 transition-colors mt-4">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+            </svg>
+            Logout
+        </a>
+    </aside>
 
-  .card {
-    position: relative;
-    border-radius: 16px;
-    overflow: hidden;
-    height: 110px;
-    cursor: pointer;
-    background: #fff;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-    transition: transform 0.28s cubic-bezier(.22,.68,0,1.2), box-shadow 0.28s ease;
-  }
+    {{-- Main Content --}}
+    <div class="ml-56 flex-1 flex gap-5 p-6 min-h-screen">
 
-  .card:hover {
-    transform: translateY(-4px) scale(1.015);
-    box-shadow: 0 12px 32px rgba(0,0,0,0.14);
-  }
+        {{-- Center Column --}}
+        <div class="flex-1 flex flex-col">
 
-  .card-img {
-    position: absolute;
-    right: 0; top: 0;
-    width: 42%;
-    height: 100%;
-    object-fit: cover;
-    object-position: top center;
-    transition: filter 0.35s ease;
-  }
+            {{-- Hero Header --}}
+            <div class="text-center mb-8">
+                <span class="inline-block bg-purple-100 text-purple-700 text-xs font-semibold px-4 py-1 rounded-full mb-4">
+                    40k+ companies hiring now
+                </span>
+                <h1 class="text-3xl font-bold text-gray-900 mb-1">
+                    Find your first real role in
+                    <span class="text-teal-500">Computer Science &amp; IT</span>
+                </h1>
+                <p class="text-gray-400 text-sm">Show interest in any opportunity you like here</p>
+            </div>
 
-  .card:hover .card-img {
-    filter: brightness(0.25) saturate(0.4);
-  }
+            {{-- Showing count --}}
+            <p class="text-xs text-gray-500 mb-4 font-medium uppercase tracking-wide">
+                Showing <span class="text-teal-600 font-bold">10 out of 234</span> Opportunities
+            </p>
 
-  .blob {
-    position: absolute;
-    right: 28%;
-    top: -20px;
-    width: 90px;
-    height: 140px;
-    border-radius: 50%;
-    opacity: 0.55;
-    pointer-events: none;
-    transition: opacity 0.35s;
-  }
+            {{-- Opportunity Cards --}}
+            @php
+                $opportunities = [
+                    [
+                        'initials'  => 'A&',
+                        'color'     => 'bg-yellow-100 text-yellow-700',
+                        'title'     => 'AI & IT Support Intern',
+                        'location'  => 'United States',
+                        'tags'      => ['AI Engineer', 'UX/UI Design', 'Software Development', 'System Design & Analysis', 'Project Management'],
+                        'views'     => '68 students viewed this role',
+                        'posted'    => '1d ago',
+                        'is_new'    => true,
+                    ],
+                    [
+                        'initials'  => 'SE',
+                        'color'     => 'bg-blue-100 text-blue-700',
+                        'title'     => 'Solution Engineer',
+                        'location'  => 'United States',
+                        'tags'      => ['Clearly Articulate Complex Concepts', 'AI Engineer', 'API Programming', 'Business Development', 'Content Reviewer'],
+                        'views'     => '133 students viewed this role',
+                        'posted'    => '2d ago',
+                        'is_new'    => true,
+                    ],
+                    [
+                        'initials'  => 'CS',
+                        'color'     => 'bg-green-100 text-green-700',
+                        'title'     => 'Cyber Security App Development',
+                        'location'  => 'India',
+                        'tags'      => ['Front End Web Development', 'Cybersecurity (Specialist)', 'GRC Cybersecurity'],
+                        'views'     => '238 students viewed this role',
+                        'posted'    => '3d ago',
+                        'is_new'    => false,
+                    ],
+                ];
+            @endphp
 
-  .card:hover .blob { opacity: 0; }
+            <div class="flex flex-col gap-4">
+                @foreach ($opportunities as $opp)
+                    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow p-5">
+                        <div class="flex items-start justify-between mb-3">
+                            <div class="flex items-center gap-4">
+                                {{-- Avatar --}}
+                                <div class="w-11 h-11 rounded-xl flex items-center justify-center font-bold text-sm {{ $opp['color'] }}">
+                                    {{ $opp['initials'] }}
+                                </div>
+                                <div>
+                                    <h3 class="text-sm font-semibold text-gray-900">{{ $opp['title'] }}</h3>
+                                    <div class="flex items-center gap-1 text-xs text-gray-400 mt-0.5">
+                                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                        </svg>
+                                        {{ $opp['location'] }}
+                                    </div>
+                                </div>
+                            </div>
+                            @if ($opp['is_new'])
+                                <span class="flex items-center gap-1 text-xs font-semibold text-orange-500 bg-orange-50 px-2.5 py-1 rounded-full">
+                                    🔥 New
+                                </span>
+                            @endif
+                        </div>
 
-  .card-label {
-    position: absolute;
-    left: 0; top: 0;
-    width: 62%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    padding: 0 18px;
-    transition: opacity 0.25s ease;
-  }
+                        {{-- Tags --}}
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            @foreach ($opp['tags'] as $tag)
+                                <span class="text-xs bg-gray-100 text-gray-600 px-3 py-1 rounded-full">{{ $tag }}</span>
+                            @endforeach
+                        </div>
 
-  .card:hover .card-label { opacity: 0; pointer-events: none; }
+                        {{-- Footer --}}
+                        <div class="flex items-center justify-between pt-3 border-t border-gray-50">
+                            <div class="flex items-center gap-1.5 text-xs text-gray-400">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0"/>
+                                </svg>
+                                {{ $opp['views'] }}
+                            </div>
+                            <div class="flex items-center gap-1 text-xs text-gray-400">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                                {{ $opp['posted'] }}
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        </div>
 
-  .card-label span {
-    font-family: 'Syne', sans-serif;
-    font-size: 0.82rem;
-    font-weight: 700;
-    line-height: 1.25;
-    letter-spacing: -0.01em;
-  }
+        {{-- Right Sidebar --}}
+        <div class="w-64 flex flex-col gap-4 flex-shrink-0">
 
-  .card-overlay {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 16px 18px;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    background: transparent;
-  }
+            {{-- Your Program --}}
+            <div class="bg-gradient-to-br from-blue-50 to-teal-50 rounded-2xl border border-blue-100 p-5">
+                <p class="text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-1">Your Program</p>
+                <p class="font-bold text-gray-800 text-sm mb-4">Virtual Internships</p>
+                <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-full bg-white flex items-center justify-center shadow-sm">
+                        <svg class="w-4 h-4 text-teal-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <p class="text-[10px] text-gray-400 uppercase tracking-wide font-semibold">Program Fee</p>
+                        <p class="text-teal-600 font-bold text-sm">1,495 USD</p>
+                    </div>
+                </div>
+            </div>
 
-  .card:hover .card-overlay { opacity: 1; }
+            {{-- Recent Activity --}}
+            <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 flex-1">
+                <div class="flex items-center justify-between mb-4">
+                    <p class="text-xs font-bold uppercase tracking-widest text-gray-500">Recent Activity</p>
+                    <span class="flex items-center gap-1 text-[10px] text-green-500 font-semibold">
+                        <span class="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse inline-block"></span>
+                        Live
+                    </span>
+                </div>
 
-  .card-overlay .ov-title {
-    font-family: 'Syne', sans-serif;
-    font-size: 0.78rem;
-    font-weight: 700;
-    color: #fff;
-    margin-bottom: 5px;
-    letter-spacing: 0.01em;
-  }
+                @php
+                    $activities = [
+                        ['color' => 'bg-gray-200',   'initials' => '',   'text' => 'Interviews for a Entrepreneurship & Startups role', 'time' => '15h ago'],
+                        ['color' => 'bg-orange-400',  'initials' => 'SF', 'text' => '8 students from São Paulo, Brazil applied to a Data Science role', 'time' => '16h ago'],
+                        ['color' => 'bg-orange-500',  'initials' => 'SF', 'text' => '2 students from Cape Town, South Africa applied to a Real Estate role', 'time' => '18h ago'],
+                        ['color' => 'bg-teal-500',    'initials' => '1S', 'text' => '10 students from Singapore, Singapore enrolled in a UI/UX Design role', 'time' => ''],
+                    ];
+                @endphp
 
-  .card-overlay .ov-desc {
-    font-size: 0.72rem;
-    color: rgba(255,255,255,0.82);
-    line-height: 1.45;
-    font-weight: 400;
-  }
-
-  /* Accent color per row */
-  .c-teal  .card-label span { color: #0a7c5c; }
-  .c-pink  .card-label span { color: #c0395e; }
-  .c-amber .card-label span { color: #b06a00; }
-  .c-blue  .card-label span { color: #1461a8; }
-  .c-coral .card-label span { color: #c24020; }
-  .c-purple .card-label span { color: #5040b8; }
-
-  .c-teal  .blob { background: #1dce98; }
-  .c-pink  .blob { background: #e5537e; }
-  .c-amber .blob { background: #f0a020; }
-  .c-blue  .blob { background: #3b8fe0; }
-  .c-coral .blob { background: #e05630; }
-  .c-purple .blob { background: #7060d8; }
-
-  .c-teal  .card-overlay { background: linear-gradient(135deg, rgba(13,110,82,0.92) 0%, rgba(13,90,65,0.88) 100%); }
-  .c-pink  .card-overlay { background: linear-gradient(135deg, rgba(180,45,88,0.92) 0%, rgba(140,30,65,0.88) 100%); }
-  .c-amber .card-overlay { background: linear-gradient(135deg, rgba(160,95,5,0.92) 0%, rgba(130,75,5,0.88) 100%); }
-  .c-blue  .card-overlay { background: linear-gradient(135deg, rgba(20,85,165,0.92) 0%, rgba(12,60,130,0.88) 100%); }
-  .c-coral .card-overlay { background: linear-gradient(135deg, rgba(190,55,22,0.92) 0%, rgba(150,40,15,0.88) 100%); }
-  .c-purple .card-overlay { background: linear-gradient(135deg, rgba(75,55,180,0.92) 0%, rgba(50,35,148,0.88) 100%); }
-
-  @media (max-width: 680px) {
-    .grid { grid-template-columns: repeat(2, 1fr); }
-  }
-  @media (max-width: 440px) {
-    .grid { grid-template-columns: 1fr; }
-  }
-</style>
-</head>
-<body>
-
-<header class="page-header">
-  <h1>Career Fields</h1>
-  <p>Discover Your Path: Explore a range of dynamic career fields with Virtual Internships</p>
-</header>
-
-<div class="grid">
-
-  <!-- Architecture -->
-  <div class="card c-teal">
-    <img class="card-img" src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=300&q=80" alt="Architecture">
-    <div class="card-label"><span>Architecture<br>Internships</span></div>
-    <div class="card-overlay">
-      <div class="ov-title">Architecture</div>
-      <div class="ov-desc">Design buildings and spaces that shape how people live and work. Blend creativity with structural engineering.</div>
+                <div class="flex flex-col gap-4">
+                    @foreach ($activities as $act)
+                        <div class="flex items-start gap-3">
+                            <div class="w-7 h-7 rounded-full {{ $act['color'] }} flex items-center justify-center text-white text-[10px] font-bold flex-shrink-0 mt-0.5">
+                                {{ $act['initials'] }}
+                            </div>
+                            <div>
+                                <p class="text-xs text-gray-600 leading-snug">{{ $act['text'] }}</p>
+                                @if ($act['time'])
+                                    <p class="text-[10px] text-gray-400 mt-0.5">{{ $act['time'] }}</p>
+                                @endif
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
 
-  <!-- Business -->
-  <div class="card c-blue">
-    <img class="card-img" src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=300&q=80" alt="Business">
-    <div class="card-label"><span>Business<br>Internships</span></div>
-    <div class="card-overlay">
-      <div class="ov-title">Business</div>
-      <div class="ov-desc">Learn strategy, operations, and management across industries. Build skills for leadership roles in any sector.</div>
+    {{-- Bottom CTA --}}
+    <div class="fixed bottom-6 right-6 z-20">
+        <a href="#"
+           class="inline-flex items-center gap-2 bg-gray-900 hover:bg-gray-700 text-white text-sm font-semibold px-6 py-3 rounded-xl shadow-lg transition-colors">
+            Start application
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+            </svg>
+        </a>
     </div>
-  </div>
 
-  <!-- Computer Science -->
-  <div class="card c-coral">
-    <img class="card-img" src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=300&q=80" alt="Computer Science">
-    <div class="card-label"><span>Computer Science<br>Internships</span></div>
-    <div class="card-overlay">
-      <div class="ov-title">Computer Science</div>
-      <div class="ov-desc">Build software, AI systems, and digital infrastructure. One of the most in-demand fields globally.</div>
+    {{-- Chat bubble --}}
+    <div class="fixed bottom-6 left-6 z-20">
+        <button class="w-11 h-11 rounded-full bg-teal-500 hover:bg-teal-600 flex items-center justify-center shadow-lg transition-colors">
+            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/>
+            </svg>
+        </button>
     </div>
-  </div>
 
-  <!-- Fashion & Design -->
-  <div class="card c-pink">
-    <img class="card-img" src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=300&q=80" alt="Fashion & Design">
-    <div class="card-label"><span>Fashion &amp; Design<br>Internships</span></div>
-    <div class="card-overlay">
-      <div class="ov-title">Fashion &amp; Design</div>
-      <div class="ov-desc">Express identity through garments and visual aesthetics. Covers fashion design, styling, and brand direction.</div>
-    </div>
-  </div>
-
-  <!-- Finance -->
-  <div class="card c-amber">
-    <img class="card-img" src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=300&q=80" alt="Finance">
-    <div class="card-label"><span>Finance<br>Internships</span></div>
-    <div class="card-overlay">
-      <div class="ov-title">Finance</div>
-      <div class="ov-desc">Master markets, investment analysis, and financial modelling. A gateway to banking, fintech, and consulting.</div>
-    </div>
-  </div>
-
-  <!-- Environment -->
-  <div class="card c-teal">
-    <img class="card-img" src="https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?w=300&q=80" alt="Environment">
-    <div class="card-label"><span>Environment &amp;<br>Sustainability<br>Internships</span></div>
-    <div class="card-overlay">
-      <div class="ov-title">Environment &amp; Sustainability</div>
-      <div class="ov-desc">Drive climate solutions, conservation, and green policy. One of the fastest growing career areas worldwide.</div>
-    </div>
-  </div>
-
-  <!-- Health & Wellness -->
-  <div class="card c-blue">
-    <img class="card-img" src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=300&q=80" alt="Health Wellness">
-    <div class="card-label"><span>Health, Wellness &amp;<br>Sports Management<br>Internships</span></div>
-    <div class="card-overlay">
-      <div class="ov-title">Health, Wellness &amp; Sports</div>
-      <div class="ov-desc">Combine fitness, nutrition, and sport management to improve lives and build high-performance teams.</div>
-    </div>
-  </div>
-
-  <!-- Healthcare & Pharma -->
-  <div class="card c-purple">
-    <img class="card-img" src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=300&q=80" alt="Healthcare">
-    <div class="card-label"><span>Healthcare &amp;<br>Pharmaceutical<br>Internships</span></div>
-    <div class="card-overlay">
-      <div class="ov-title">Healthcare &amp; Pharma</div>
-      <div class="ov-desc">Develop life-saving drugs and healthcare systems. Combines science, research, and patient care.</div>
-    </div>
-  </div>
-
-  <!-- Hospitality -->
-  <div class="card c-coral">
-    <img class="card-img" src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=300&q=80" alt="Hospitality">
-    <div class="card-label"><span>Hospitality, Tourism<br>&amp; Events<br>Internships</span></div>
-    <div class="card-overlay">
-      <div class="ov-title">Hospitality, Tourism &amp; Events</div>
-      <div class="ov-desc">Create unforgettable experiences in hotels, travel, and live events. A dynamic people-first industry.</div>
-    </div>
-  </div>
-
-  <!-- HR -->
-  <div class="card c-pink">
-    <img class="card-img" src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=300&q=80" alt="HR">
-    <div class="card-label"><span>HR<br>Internships</span></div>
-    <div class="card-overlay">
-      <div class="ov-title">Human Resources</div>
-      <div class="ov-desc">Shape company culture, talent acquisition, and employee well-being. The heart of every great organisation.</div>
-    </div>
-  </div>
-
-  <!-- Legal -->
-  <div class="card c-amber">
-    <img class="card-img" src="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=300&q=80" alt="Legal">
-    <div class="card-label"><span>Legal<br>Internships</span></div>
-    <div class="card-overlay">
-      <div class="ov-title">Legal</div>
-      <div class="ov-desc">Navigate law, contracts, and justice systems. From corporate law to human rights advocacy and beyond.</div>
-    </div>
-  </div>
-
-  <!-- Supply Chain -->
-  <div class="card c-teal">
-    <img class="card-img" src="https://images.unsplash.com/photo-1601598851547-4302969d0614?w=300&q=80" alt="Supply Chain">
-    <div class="card-label"><span>Supply Chain<br>Internships</span></div>
-    <div class="card-overlay">
-      <div class="ov-title">Supply Chain</div>
-      <div class="ov-desc">Coordinate global logistics, procurement, and operations. Critical to every product that reaches consumers.</div>
-    </div>
-  </div>
-
-  <!-- Marketing -->
-  <div class="card c-coral">
-    <img class="card-img" src="https://images.unsplash.com/photo-1533750349088-cd871a92f312?w=300&q=80" alt="Marketing">
-    <div class="card-label"><span>Marketing<br>Internships</span></div>
-    <div class="card-overlay">
-      <div class="ov-title">Marketing</div>
-      <div class="ov-desc">Build brands, run campaigns, and connect products to audiences. Spans digital, social, and traditional media.</div>
-    </div>
-  </div>
-
-  <!-- Media & Communications -->
-  <div class="card c-purple">
-    <img class="card-img" src="https://images.unsplash.com/photo-1478737270239-2f02b77fc618?w=300&q=80" alt="Media">
-    <div class="card-label"><span>Media &amp;<br>Communications<br>Internships</span></div>
-    <div class="card-overlay">
-      <div class="ov-title">Media &amp; Communications</div>
-      <div class="ov-desc">Tell stories that matter across journalism, PR, broadcasting, and digital content creation.</div>
-    </div>
-  </div>
-
-  <!-- International Development -->
-  <div class="card c-blue">
-    <img class="card-img" src="https://images.unsplash.com/photo-1531206715517-5c0ba140b2b8?w=300&q=80" alt="International Development">
-    <div class="card-label"><span>International<br>Development<br>Internships</span></div>
-    <div class="card-overlay">
-      <div class="ov-title">International Development</div>
-      <div class="ov-desc">Drive change in global health, poverty, and education. Work with NGOs, the UN, and development banks.</div>
-    </div>
-  </div>
-
-  <!-- Real Estate -->
-  <div class="card c-amber">
-    <img class="card-img" src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=300&q=80" alt="Real Estate">
-    <div class="card-label"><span>Real Estate<br>Internships</span></div>
-    <div class="card-overlay">
-      <div class="ov-title">Real Estate</div>
-      <div class="ov-desc">Manage property assets, investment portfolios, and urban development. A tangible and high-value industry.</div>
-    </div>
-  </div>
-
-  <!-- Engineering -->
-  <div class="card c-pink">
-    <img class="card-img" src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=300&q=80" alt="Engineering">
-    <div class="card-label"><span>Engineering<br>Internships</span></div>
-    <div class="card-overlay">
-      <div class="ov-title">Engineering</div>
-      <div class="ov-desc">Solve real-world problems through mechanical, civil, electrical, and chemical engineering disciplines.</div>
-    </div>
-  </div>
-
-  <!-- Startup -->
-  <div class="card c-coral">
-    <img class="card-img" src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=300&q=80" alt="Startup">
-    <div class="card-label"><span>Startup<br>Internships</span></div>
-    <div class="card-overlay">
-      <div class="ov-title">Startups</div>
-      <div class="ov-desc">Join early-stage ventures and wear many hats. Learn how products are built from zero to launch at speed.</div>
-    </div>
-  </div>
-
-</div>
-
-</body>
-</html>
+</section>

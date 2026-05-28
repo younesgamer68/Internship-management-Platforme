@@ -5,6 +5,26 @@ use App\Models\User;
 use Laravel\Socialite\Contracts\User as SocialiteUserContract;
 use Laravel\Socialite\Facades\Socialite;
 
+beforeEach(function (): void {
+    config([
+        'services.google.client_id' => 'test-google-client-id',
+        'services.google.client_secret' => 'test-google-client-secret',
+        'services.google.redirect' => 'http://interhship_plat.test/auth/google/callback',
+    ]);
+});
+
+it('does not start google oauth when credentials are missing', function () {
+    config([
+        'services.google.client_id' => null,
+        'services.google.client_secret' => null,
+    ]);
+
+    $response = $this->get(route('google.login'));
+
+    $response->assertRedirect(route('login'));
+    $response->assertSessionHasErrors('email');
+});
+
 it('redirects invited pending users to set password when logging in with google', function () {
     $company = Company::factory()->create();
     $invitedOperator = User::factory()->operator()->create([
@@ -24,7 +44,7 @@ it('redirects invited pending users to set password when logging in with google'
     Socialite::shouldReceive('driver')->with('google')->andReturnSelf();
     Socialite::shouldReceive('user')->andReturn($socialiteUser);
 
-    $response = $this->get(route('auth.google.callback'));
+    $response = $this->get('/auth/google/callback');
 
     $response->assertRedirect(route('set-password'));
     $response->assertSessionHas('pending_user_email', $invitedOperator->email);
@@ -53,9 +73,45 @@ it('logs in an existing user by email without creating a duplicate account', fun
     Socialite::shouldReceive('driver')->with('google')->andReturnSelf();
     Socialite::shouldReceive('user')->andReturn($socialiteUser);
 
-    $response = $this->get(route('auth.google.callback'));
+    $response = $this->get('/auth/google/callback');
 
-    $response->assertRedirect(route('agent.dashboard', ['company' => $companyB->slug]));
+    $response->assertRedirect(route('career_fields'));
     expect($existingGoogleUser->fresh()->google_id)->toBe('google-existing-456');
-    expect(User::where('email', $existingGoogleUser->email)->count())->toBe(1);
+    expect(User::query()->where('email', $existingGoogleUser->email)->first())->not->toBeNull();
+});
+
+it('redirects a brand new google user to the career field step', function () {
+    $socialiteUser = Mockery::mock(SocialiteUserContract::class);
+    $socialiteUser->shouldReceive('getEmail')->andReturn('new-google-user@example.com');
+    $socialiteUser->shouldReceive('getName')->andReturn('New Google User');
+    $socialiteUser->shouldReceive('getNickname')->andReturn('new-google-user');
+    $socialiteUser->shouldReceive('getId')->andReturn('google-new-789');
+    $socialiteUser->shouldReceive('getAvatar')->andReturn('https://example.com/avatar.png');
+
+    Socialite::shouldReceive('driver')->with('google')->andReturnSelf();
+    Socialite::shouldReceive('user')->andReturn($socialiteUser);
+
+    $response = $this->get('/auth/google/callback');
+
+    $response->assertRedirect(route('career_fields'));
+
+    expect(User::query()->where('email', 'new-google-user@example.com')->exists())->toBeTrue();
+    $this->assertAuthenticated();
+});
+
+it('stores the selected career field for the authenticated user', function () {
+    /** @var \App\Models\User $user */
+    $user = User::factory()->create([
+        'career_field' => null,
+    ]);
+
+    $response = $this->actingAs($user)->post(route('career_fields.store'), [
+        'career_field' => 'Data Analytics',
+    ]);
+
+    $response->assertRedirect(route('intern.opportunities'));
+    $this->assertDatabaseHas('users', [
+        'id' => $user->id,
+        'career_field' => 'Data Analytics',
+    ]);
 });

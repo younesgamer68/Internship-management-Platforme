@@ -104,10 +104,14 @@ class VerifyEmailCode extends Component
     {
         $user = Auth::user();
 
-        if ($user->company_id && $user->company) {
-            $this->redirect('/home');
+        if ($user->role === 'intern') {
+            if ($user->career_field) {
+                $this->redirect(route('intern.opportunities'));
+            } else {
+                $this->redirect(route('career_fields'));
+            }
         } else {
-            $this->redirect(route('setup-company'));
+            $this->redirect('/home');
         }
     }
 

@@ -9,6 +9,12 @@ class LoginResponse implements LoginResponseContract
 {
     public function toResponse($request)
     {
-        return redirect('/home');
+        $user = Auth::user();
+
+        if ($user && empty($user->career_field)) {
+            return redirect()->route('career_fields');
+        }
+
+        return redirect()->route('intern.opportunities');
     }
 }

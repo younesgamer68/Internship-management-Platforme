@@ -22,8 +22,8 @@ class User extends Authenticatable
         'email_verified_at',
         'google_id',
         'avatar',
+        'career_field',
         'role',
-        'specialty_id',
         'is_available',
         'assigned_tickets_count',
         'last_assigned_at',
@@ -33,6 +33,16 @@ class User extends Authenticatable
         'invite_expires_at',
         'invite_expired_notified_at',
         'notification_preferences',
+        'user_id',
+        'provider',
+        'join_date',
+        'last_login',
+        'phone_number',
+        'role_name',
+        'position',
+        'department',
+        'line_manager',
+        'seconde_line_manager',
     ];
 
     protected $hidden = [
@@ -132,29 +142,14 @@ class User extends Authenticatable
         return $this->belongsTo(Company::class);
     }
 
-    public function specialty()
-    {
-        return $this->belongsTo(TicketCategory::class, 'specialty_id');
-    }
-
-    public function categories()
-    {
-        return $this->belongsToMany(TicketCategory::class, 'category_user', 'user_id', 'ticket_category_id')->withTimestamps();
-    }
-
     public function teams()
     {
         return $this->belongsToMany(Team::class, 'team_user')->withPivot('role')->withTimestamps();
     }
 
-    public function assignedTickets()
+    public function internInfoDetail()
     {
-        return $this->hasMany(Ticket::class, 'assigned_to');
-    }
-
-    public function tickets()
-    {
-        return $this->hasMany(Ticket::class, 'assigned_to');
+        return $this->hasOne(InternInfoDetail::class);
     }
 
     /**
@@ -182,16 +177,6 @@ class User extends Authenticatable
     public function isOnline(): bool
     {
         return $this->status === 'online';
-    }
-
-    /**
-     * Scope a query to only include operators with a specific specialty.
-     */
-    public function scopeWithSpecialty($query, int $categoryId)
-    {
-        return $query->whereHas('categories', function ($q) use ($categoryId) {
-            $q->where('ticket_categories.id', $categoryId);
-        });
     }
 
     /**

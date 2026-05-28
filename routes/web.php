@@ -1,9 +1,8 @@
 <?php
 
-use App\Http\Controllers\ChatbotFaqController;
-use App\Http\Controllers\GoogleController;
+use App\Http\Controllers\CareerFieldController;
+use App\Http\Controllers\Auth\GoogleAuthController;
 use App\Http\Controllers\QuickRegisterController;
-use App\Http\Controllers\TicketsController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -21,55 +20,212 @@ Route::get('/', function (Request $request) {
     }
 
     return view('welcome');
-})->name('home');
+})->name('welcome');
 
 Route::view('/contact', 'contact')->name('contact');
-Route::view('/help-center', 'help-center')->name('help-center');
-Route::view('/about', 'about')->name('about');
-Route::view('/home', 'app.dashboard')
+Route::redirect('/help-center', '/')->name('help-center');
+Route::redirect('/about', '/about-us/our-mission')->name('about');
+Route::get('/home', function () {
+    if (auth()->check()) {
+        $user = auth()->user();
+        if ($user->role === 'intern') {
+            return $user->career_field
+                ? redirect()->route('intern.opportunities')
+                : redirect()->route('career_fields');
+        }
+    }
+    return redirect()->route('choose_intership');
+})->middleware('auth')->name('app.home');
+
+Route::get('/choose-path', function () {
+    if (auth()->check()) {
+        $user = auth()->user();
+        if ($user->role === 'intern') {
+            return $user->career_field
+                ? redirect()->route('intern.opportunities')
+                : redirect()->route('career_fields');
+        }
+        return redirect('/home');
+    }
+    return view('signe-up.choose_path');
+})->name('choose_path');
+
+Route::get('/career-fields', [CareerFieldController::class, 'index'])
     ->middleware('auth')
-    ->name('app.home');
-Route::view('/choose-path', 'signe-up.choose_path')->name('choose_path');
-Route::view('/choose-intership', 'signe-up.choose_intership')->name('choose_intership');
-Route::view('/get-started', 'signe-up.get-started')->name('get_started');
-Route::view('/find-batch', 'signe-up.find-batch')->name('find_batch');
-Route::view('/get-started-company', 'signe-up.get-started-company')->name('get_started_company');
+    ->name('career_fields');
+Route::post('/career-fields', [CareerFieldController::class, 'store'])
+    ->middleware('auth')
+    ->name('career_fields.store');
+
+Route::get('/choose-intership', function () {
+    if (auth()->check()) {
+        $user = auth()->user();
+        if ($user->role === 'intern') {
+            return $user->career_field
+                ? redirect()->route('intern.opportunities')
+                : redirect()->route('career_fields');
+        }
+    }
+    return view('signe-up.intern.choose_intership');
+})->name('choose_intership');
+
+Route::get('/intern/opportunities', function () {
+    if (auth()->check()) {
+        $user = auth()->user();
+        if ($user->role === 'intern' && !$user->career_field) {
+            return redirect()->route('career_fields');
+        }
+        
+        $internships = \App\Models\Internship::with('company')
+            ->where('field', $user->career_field)
+            ->where('status', 'Open')
+            ->latest()
+            ->get();
+            
+        return view('signe-up.intern.opportunities', compact('internships'));
+    }
+    return redirect()->route('login');
+})->middleware('auth')->name('intern.opportunities');
+
+Route::get('/intern/application', function () {
+    if (auth()->check()) {
+        $user = auth()->user();
+        if ($user->role === 'intern' && !$user->career_field) {
+            return redirect()->route('career_fields');
+        }
+        return view('signe-up.intern.interform');
+    }
+    return redirect()->route('login');
+})->middleware('auth')->name('intern.application');
+
+Route::post('/intern/application', function (\Illuminate\Http\Request $request) {
+    $request->validate([
+        'first_name' => 'required|string|max:255',
+        'last_name' => 'required|string|max:255',
+        'phone' => 'required|string|max:20',
+        'date_of_birth' => 'required|date',
+        'gender' => 'nullable|string',
+        'country' => 'required|string|max:255',
+        'city' => 'required|string|max:255',
+        'university' => 'required|string|max:255',
+        'degree' => 'required|string',
+        'field_of_study' => 'required|string|max:255',
+        'education_start_year' => 'required|integer|min:2000|max:2035',
+        'education_end_year' => 'nullable|integer|min:2000|max:2040',
+        'gpa' => 'nullable|string|max:20',
+        'experience' => 'nullable|string',
+        'skills' => 'required|string',
+        'linkedin_url' => 'nullable|url|max:500',
+        'portfolio_url' => 'nullable|url|max:500',
+        'resume' => 'nullable|file|mimes:pdf,doc,docx|max:5120',
+        'motivation' => 'required|string',
+        'preferred_start_date' => 'required|date',
+        'availability' => 'required|string',
+        'referral_source' => 'nullable|string',
+        'agree_terms' => 'accepted',
+    ]);
+
+    $user = auth()->user();
+
+    // Store resume file if provided, otherwise preserve existing
+    $detail = \App\Models\InternInfoDetail::where('user_id', $user->id)->first();
+    $resumePath = $detail ? $detail->resume_path : null;
+    if ($request->hasFile('resume')) {
+        $resumePath = $request->file('resume')->store('resumes', 'public');
+    }
+
+    // Create or update intern info details
+    \App\Models\InternInfoDetail::updateOrCreate(
+        ['user_id' => $user->id],
+        [
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'phone' => $request->phone,
+            'date_of_birth' => $request->date_of_birth,
+            'gender' => $request->gender,
+            'country' => $request->country,
+            'city' => $request->city,
+            'university' => $request->university,
+            'degree' => $request->degree,
+            'field_of_study' => $request->field_of_study,
+            'education_start_year' => $request->education_start_year,
+            'education_end_year' => $request->education_end_year,
+            'gpa' => $request->gpa,
+            'experience' => $request->experience,
+            'skills' => $request->skills,
+            'linkedin_url' => $request->linkedin_url,
+            'portfolio_url' => $request->portfolio_url,
+            'resume_path' => $resumePath,
+            'motivation' => $request->motivation,
+            'preferred_start_date' => $request->preferred_start_date,
+            'availability' => $request->availability,
+            'referral_source' => $request->referral_source,
+            'status' => 'pending',
+        ]
+    );
+
+    // Also update the user's name and phone
+    $user->update([
+        'name' => $request->first_name . ' ' . $request->last_name,
+        'phone_number' => $request->phone,
+    ]);
+
+    return redirect()->route('intern.opportunities')
+        ->with('status', 'application-submitted');
+})->middleware('auth')->name('intern.application.store');
+
+Route::get('/get-started', function () {
+    if (auth()->check()) {
+        $user = auth()->user();
+        if ($user->role === 'intern') {
+            return $user->career_field
+                ? redirect()->route('intern.opportunities')
+                : redirect()->route('career_fields');
+        }
+    }
+    return view('signe-up.intern.get-started');
+})->name('get_started');
+
+Route::view('/find-batch', 'signe-up.intern.find-batch')->name('find_batch');
+Route::view('/get-started-company', 'signe-up.company.get-started-company')->name('get_started_company');
 
 // ====== NAVBAR LINKS ======
+// Home
+Route::view('/features', 'navbarlinks.home.features')->name('navbarlink.home.features');
+Route::view('/statistics', 'navbarlinks.home.statistics')->name('navbarlink.home.statistics');
+Route::view('/opportunities', 'navbarlinks.home.latest_opportunities')->name('navbarlink.home.opportunities');
+Route::view('/testimonials', 'navbarlinks.home.testimonials')->name('navbarlink.home.testimonials');
+
+// Internships
+Route::view('/internships/browse', 'navbarlinks.internships.browse_internships')->name('navbarlink.internships.browse');
+Route::view('/internships/remote', 'navbarlinks.internships.remote_internships')->name('navbarlink.internships.remote');
+Route::view('/internships/on-site', 'navbarlinks.internships.on_site_internships')->name('navbarlink.internships.on-site');
+Route::view('/internships/hybrid', 'navbarlinks.internships.hybrid_internships')->name('navbarlink.internships.hybrid');
+Route::view('/internships/paid', 'navbarlinks.internships.paid_internships')->name('navbarlink.internships.paid');
+Route::view('/internships/saved', 'navbarlinks.internships.saved_internships')->name('navbarlink.internships.saved');
+Route::view('/internships/categories', 'navbarlinks.internships.internship_categories')->name('navbarlink.internships.categories');
+Route::view('/internships/tracker', 'navbarlinks.internships.application_tracker')->name('navbarlink.internships.tracker');
+
 // Companies
-Route::view('/companies/host-an-intern', 'navbarlinks.companies.Host an Intern')->name('navbarlink.companies.host-an-intern');
-Route::view('/companies/how-it-works', 'navbarlinks.companies.How It Works')->name('navbarlink.companies.how-it-works');
-Route::view('/companies/faqs', 'navbarlinks.companies.FAQs')->name('navbarlink.companies.faqs');
+Route::view('/companies/partners', 'navbarlinks.companies.partner_companies')->name('navbarlink.companies.partners');
+Route::view('/companies/top-recruiters', 'navbarlinks.companies.top_recruiters')->name('navbarlink.companies.top-recruiters');
+Route::view('/companies/reviews', 'navbarlinks.companies.company_reviews')->name('navbarlink.companies.reviews');
+Route::view('/companies/become-a-partner', 'navbarlinks.companies.become_a_partner')->name('navbarlink.companies.become-a-partner');
+Route::view('/companies/post-internship', 'navbarlinks.companies.post_an_internship')->name('navbarlink.companies.post-internship');
 
-// Educators
-Route::view('/educators/universities', 'navbarlinks.educators.Universities')->name('navbarlink.educators.universities');
-Route::view('/educators/bootcamps', 'navbarlinks.educators.Bootcamps')->name('navbarlink.educators.bootcamps');
-Route::view('/educators/governments', 'navbarlinks.educators.Governments')->name('navbarlink.educators.governments');
-Route::view('/educators/affiliates', 'navbarlinks.educators.Affiliates')->name('navbarlink.educators.affiliates');
-
-// Interns
-Route::view('/interns/apply-for-internships', 'navbarlinks.interns.Apply for Internships')->name('navbarlink.interns.apply-for-internships');
-Route::view('/interns/how-it-works', 'navbarlinks.interns.How It Works')->name('navbarlink.interns.how-it-works');
-Route::view('/interns/career-fields', 'navbarlinks.interns.Career Fields')->name('navbarlink.interns.career-fields');
-Route::view('/interns/experiences', 'navbarlinks.interns.Experiences')->name('navbarlink.interns.experiences');
-Route::view('/interns/faqs', 'navbarlinks.interns.FAQs')->name('navbarlink.interns.faqs');
+// How It Works
+Route::view('/how-it-works/students', 'navbarlinks.how_it_works.for_students')->name('navbarlink.howit.students');
+Route::view('/how-it-works/companies', 'navbarlinks.how_it_works.for_companies')->name('navbarlink.howit.companies');
+Route::view('/how-it-works/universities', 'navbarlinks.how_it_works.for_universities')->name('navbarlink.howit.universities');
+Route::view('/how-it-works/recruitment-process', 'navbarlinks.how_it_works.recruitment_process')->name('navbarlink.howit.recruitment');
 
 // Resources
-Route::view('/resources/blog', 'navbarlinks.resources.Blog')->name('navbarlink.resources.blog');
-Route::view('/resources/help-center', 'navbarlinks.resources.Help Center')->name('navbarlink.resources.help-center');
-
-// About Us
-Route::view('/about-us/our-mission', 'navbarlinks.about_us.Our Mission')->name('navbarlink.about-us.our-mission');
-Route::view('/about-us/our-team', 'navbarlinks.about_us.Our Team')->name('navbarlink.about-us.our-team');
-Route::view('/about-us/join-us', 'navbarlinks.about_us.Join Us')->name('navbarlink.about-us.join-us');
-Route::view('/about-us/press', 'navbarlinks.about_us.Press')->name('navbarlink.about-us.press');
-Route::view('/about-us/contact-us', 'navbarlinks.about_us.Contact Us')->name('navbarlink.about-us.contact-us');
-
-// ====== CHATBOT ======
-Route::middleware(['throttle:30,1'])->group(function () {
-    Route::get('/chatbot/faqs', [ChatbotFaqController::class, 'random'])->name('chatbot.faqs');
-    Route::post('/chatbot/chat', [ChatbotFaqController::class, 'chat'])->name('chatbot.chat');
-});
+Route::view('/resources/cv-builder', 'navbarlinks.resources.cv_builder')->name('navbarlink.resources.cv-builder');
+Route::view('/resources/resume-tips', 'navbarlinks.resources.resume_tips')->name('navbarlink.resources.resume-tips');
+Route::view('/resources/interview-preparation', 'navbarlinks.resources.interview_preparation')->name('navbarlink.resources.interview-preparation');
+Route::view('/resources/career-roadmaps', 'navbarlinks.resources.career_roadmaps')->name('navbarlink.resources.career-roadmaps');
+Route::view('/resources/blog', 'navbarlinks.resources.blog')->name('navbarlink.resources.blog');
+Route::view('/resources/guides-tutorials', 'navbarlinks.resources.guides_tutorials')->name('navbarlink.resources.guides-tutorials');
 
 // ====== AUTH ======
 Route::middleware('guest')->group(function () {
@@ -96,26 +252,22 @@ Route::middleware('guest')->group(function () {
     Route::post('/register/quick', [QuickRegisterController::class, 'store'])
         ->name('register.quick');
 
+    Route::livewire('/verify-email-code-guest', App\Livewire\Auth\QuickVerifyGuest::class)
+        ->name('verification.guest.notice');
+
     // Google OAuth
-    Route::get('/auth/google', [GoogleController::class, 'redirect'])->name('auth.google');
-    Route::get('/auth/google/callback', [GoogleController::class, 'callback'])->name('auth.google.callback');
+    Route::get('/auth/google', [GoogleAuthController::class, 'redirect'])
+        ->name('google.login');
+    Route::get('/auth/google/callback', [GoogleAuthController::class, 'callback']);
 });
 
 Route::post('/logout', function () {
-    if (Auth::check()) {
-        Auth::user()->update(['status' => 'offline']);
-    }
     Auth::logout();
 
     $protocol = app()->environment('local') ? 'http' : 'https';
 
     return redirect()->away($protocol.'://'.config('app.domain').'/');
 })->middleware('auth')->name('logout');
-
-// Setup Company (after Google OAuth + email verified)
-Route::livewire('/setup-company', App\Livewire\Auth\SetupCompany::class)
-    ->middleware(['auth', 'verified'])
-    ->name('setup-company');
 
 // ====== EMAIL VERIFICATION WITH CODE ======
 Route::livewire('/email/verify', App\Livewire\Auth\VerifyEmailCode::class)
@@ -125,113 +277,12 @@ Route::livewire('/email/verify', App\Livewire\Auth\VerifyEmailCode::class)
 // Keep link-based verification as backup
 Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
     $request->fulfill();
-    $user = Auth::user();
-
-    // Si l'utilisateur a déjà une company → dashboard
-    if ($user->company_id && $user->company) {
-        return redirect()->to('https://'.$user->company->slug.'.'.config('app.domain').'/dashboard');
-    }
-
-    // Sinon → formulaire setup company
-    return redirect()->route('setup-company');
+    return redirect()->route('career_fields');
 })->middleware(['auth', 'signed'])->name('verification.verify');
 
-// ====== SUBDOMAIN (company) ======
-Route::domain('{company}.'.config('app.domain'))->group(function () {
-    Route::bind('article', function (string $value) {
-        return \App\Models\KbArticle::query()
-            ->where('id', $value)
-            ->orWhere('slug', $value)
-            ->firstOrFail();
-    });
-
-    // Public Knowledge Base Portal
-    Route::prefix('kb')->name('kb.public.')->group(function () {
-        Route::get('/', [\App\Http\Controllers\KbPortalController::class, 'home'])->name('home');
-        Route::get('/category/{category}', [\App\Http\Controllers\KbPortalController::class, 'category'])->name('category');
-        Route::get('/article/{article:slug}', [\App\Http\Controllers\KbPortalController::class, 'article'])->name('article');
-        Route::get('/search', [\App\Http\Controllers\KbPortalController::class, 'search'])->name('search');
-        Route::post('/article/{article:slug}/vote', [\App\Http\Controllers\KbPortalController::class, 'vote'])->name('vote');
-        Route::get('/widget.js', [\App\Http\Controllers\KbWidgetController::class, 'snippet'])->name('widget');
-        Route::get('/widget-demo', [\App\Http\Controllers\KbPortalController::class, 'widgetDemo'])->name('widget-demo');
-    });
-
-    Route::middleware(['auth', 'company.access', 'verified'])->group(function () {
-        // Onboarding form for the company
-        Route::livewire('/onboarding', \App\Livewire\Onboarding\Wizard::class)->name('onboarding.wizard');
-
-        // Dashboard routes (require onboarding)
-        Route::middleware(['company.is_onboarded'])->group(function () {
-            Route::get('/dashboard', function () {
-                $user = Auth::user();
-
-                return redirect()->route('agent.dashboard', ['company' => $user->company->slug]);
-            })->name('dashboard');
-
-            Route::view('home', 'app.dashboard')->name('agent.dashboard');
-            Route::redirect('admin/dashboard', '/home')->name('admin.dashboard');
-
-            Route::view('tickets', 'app.tickets.index')->name('tickets');
-            Route::get('tickets/{ticket}', [TicketsController::class, 'show'])->name('details');
-            Route::livewire('notifications', \App\Livewire\Notifications\NotificationsPage::class)->name('notifications');
-
-            Route::get('/customers', fn () => view('app.customers'))
-                ->middleware('can:view-operators,App\Models\User')
-                ->name('customers');
-            Route::get('/customers/{customer}', fn (string $company, string $customer) => view('app.customer-details-page', ['customer' => $customer]))
-                ->middleware('can:view-operators,App\Models\User')
-                ->name('customers.details');
-            Route::get('/operators', fn () => view('app.operators'))
-                ->middleware('can:view-operators,App\Models\User')
-                ->name('operators');
-            Route::get('/teams', fn () => view('app.teams'))
-                ->middleware('can:view-operators,App\Models\User')
-                ->name('teams');
-            Route::livewire('/operators/{operator}', \App\Livewire\Operators\OperatorProfile::class)
-                ->middleware('can:view-operators,App\Models\User')
-                ->name('operator.profile');
-            Route::get('/categories', fn () => view('app.categories'))
-                ->middleware('can:view-operators,App\Models\User')
-                ->name('categories');
-
-            Route::prefix('kb')->name('kb.')->group(function () {
-                Route::livewire('/categories', \App\Livewire\Tickets\Kb\Categories::class)->middleware(\App\Http\Middleware\AdminOnly::class)->name('categories');
-                Route::livewire('/articles', \App\Livewire\Tickets\Kb\ArticlesList::class)->name('articles');
-                Route::livewire('/articles/create', \App\Livewire\Tickets\Kb\ArticleEditor::class)->middleware(\App\Http\Middleware\AdminOnly::class)->name('articles.create');
-                Route::livewire('/articles/{article}/edit', \App\Livewire\Tickets\Kb\ArticleEditor::class)->middleware(\App\Http\Middleware\AdminOnly::class)->name('articles.edit');
-                Route::livewire('/media', \App\Livewire\Tickets\Kb\MediaLibrary::class)->middleware(\App\Http\Middleware\AdminOnly::class)->name('media');
-                Route::livewire('/api', \App\Livewire\Tickets\Kb\ApiReference::class)->middleware(\App\Http\Middleware\AdminOnly::class)->name('api');
-            });
-
-            Route::get('/automation', fn () => view('app.automation', ['filterMode' => 'ticket']))
-                ->middleware('can:view-operators,App\Models\User')
-                ->name('automation');
-            Route::get('/automation/ticket-rules', fn () => view('app.automation', ['filterMode' => 'ticket']))
-                ->middleware('can:view-operators,App\Models\User')
-                ->name('automation.ticket-rules');
-            Route::get('/automation/assignment-rules', fn () => view('app.automation', ['filterMode' => 'assignment']))
-                ->middleware('can:view-operators,App\Models\User')
-                ->name('automation.assignment-rules');
-            Route::get('/automation/sla-policy', fn () => view('app.sla-policy'))
-                ->middleware('can:view-operators,App\Models\User')
-                ->name('automation.sla-policy');
-
-            Route::livewire('reports', \App\Livewire\Reports\ReportsAnalytics::class)
-                ->middleware('can:view-operators,App\Models\User')
-                ->name('reports');
-
-            Route::livewire('channels', \App\Livewire\Channels\Channels::class)
-                ->middleware(\App\Http\Middleware\AdminOnly::class)
-                ->name('channels');
-
-            // AI Settings (admin only)
-            Route::middleware(\App\Http\Middleware\AdminOnly::class)->prefix('ai')->name('ai.')->group(function () {
-                Route::livewire('/training', \App\Livewire\Ai\SuggestedRepliesTraining::class)->name('training');
-                Route::livewire('/chat-history', \App\Livewire\Ai\ChatHistory::class)->name('chat-history');
-                Route::livewire('/stats', \App\Livewire\Ai\UsageStats::class)->name('stats');
-            });
-        });
-    });
-});
+// Protected Dashboard Route
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware('auth')->name('home');
 
 require __DIR__.'/settings.php';
