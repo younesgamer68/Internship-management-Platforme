@@ -1,7 +1,18 @@
-<x-layouts::app :title="__('Dashboard')">
-    @if(auth()->user()->isAdmin())
-        @livewire('admin.management')
+@php
+    $user = auth()->user();
+@endphp
+
+@if($user->isAdmin())
+    @if(str_starts_with(request()->route()?->getName() ?? '', 'admin.') || str_starts_with(request()->route()?->uri() ?? '', 'admin/'))
+        @include('app.admin.dashboard')
     @else
-        @livewire('app.agent-dashboard')
+        @livewire('app.admin-dashboard')
     @endif
-</x-layouts::app>
+@elseif($user->isIntern())
+    @include('app.student.dashboard')
+@elseif($user->isCompanyManager())
+    @include('app.company.dashboard')
+@else
+    {{-- Helpdesk Agent --}}
+    @livewire('app.agent-dashboard')
+@endif

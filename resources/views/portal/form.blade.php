@@ -230,8 +230,8 @@
                         <p
                             class="text-center text-xs flex items-center justify-center gap-1.5 {{ $widget->theme_mode === 'dark' ? 'text-zinc-500' : 'text-gray-400' }}">
                             Secured by
-                            <img src="{{ asset('images/Logos/' . ($widget->theme_mode === 'dark' ? 'LWDM.png' : 'LWLM.png')) }}"
-                                alt="InterLink" class="inline-block h-4 w-4">
+                            <img src="{{ asset('images/Logos/Small Logo.png') }}"
+                                alt="InterLink Logo" class="inline-block h-4 w-4 object-contain">
                             <span
                                 class="font-medium {{ $widget->theme_mode === 'dark' ? 'text-zinc-300' : 'text-gray-600' }}">InterLink</span>
                         </p>

@@ -37,7 +37,7 @@
             </svg>
         </button>
         <a href="{{ route('app.home') }}" wire:navigate class="flex items-center gap-2 no-underline text-zinc-300 text-lg font-bold transition-colors hover:text-white">
-            <img src="{{ asset('images/Logos/LWDM.png') }}" alt="InterLink" class="w-6 h-6">
+            <img src="{{ asset('images/Logos/Small Logo.png') }}" alt="InterLink Logo" class="w-6 h-6 object-contain">
             InterLink
         </a>
         <div class="flex-1"></div>
@@ -93,7 +93,7 @@
     }" @mouseenter="enter()" @mouseleave="leave()" :class="wide ? 'lg:w-56 lg:shadow-xl sb-wide' : 'lg:w-16'" class="fixed inset-y-0 left-0 z-50 flex flex-col w-56 bg-black border-r border-zinc-900 dark:border-r-2 dark:border-dashed dark:border-zinc-700 -translate-x-full lg:translate-x-0 transition-all duration-300 ease-in-out overflow-hidden">
         <div class="h-16 flex items-center shrink-0 px-3">
             <div class="w-10 flex items-center justify-center shrink-0">
-                <img src="{{ asset('images/Logos/LWDM.png') }}" alt="InterLink" class="w-7 h-7">
+                <img src="{{ asset('images/Logos/Small Logo.png') }}" alt="InterLink Logo" class="w-7 h-7 object-contain">
             </div>
             <span class="sidebar-label ml-0.5 text-white font-bold !text-lg transition-colors hover:text-white">InterLink</span>
         </div>

@@ -4,7 +4,7 @@
         <!-- ====== HEADER ====== -->
         <div class="absolute top-0 left-0 right-0 px-6 py-4 flex justify-between items-center border-b border-white">
             <a href="{{ route('home') }}" class="flex flex-col items-center gap-1 hover:opacity-80 transition">
-                <img src="{{ asset('images/Logos/LWDM.png') }}" alt="InterLink Logo" class="w-10 h-10 object-contain">
+                <img src="{{ asset('images/Logos/Small Logo.png') }}" alt="InterLink Logo" class="w-10 h-10 object-contain">
                 <span class="text-white font-semibold text-sm">InterLink</span>
             </a>
             <a href="{{ route('choose_path') }}"

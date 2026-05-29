@@ -9,7 +9,7 @@
     <div class="flex min-h-svh flex-col items-center justify-center gap-6 p-6 md:p-10">
         <div class="flex w-full max-w-md flex-col gap-6">
             <a href="{{ route('home') }}" class="flex flex-col items-center gap-2 font-medium" wire:navigate>
-                <img src="{{ asset('images/Logos/LWDM.png') }}" alt="InterLink" class="h-8 w-8">
+                <img src="{{ asset('images/Logos/Small Logo.png') }}" alt="InterLink Logo" class="h-8 w-8 object-contain">
                 <span class="text-sm font-semibold text-zinc-900 dark:text-zinc-100">{{ config('app.name') }}</span>
             </a>
 

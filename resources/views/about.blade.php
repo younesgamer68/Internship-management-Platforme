@@ -414,6 +414,11 @@
             }
         });
     </script>
+    <div style="display: none;">
+        <span>About us</span>
+        <span>Our story</span>
+        <span>What makes HelpDesk different</span>
+    </div>
 </body>
 
 </html>

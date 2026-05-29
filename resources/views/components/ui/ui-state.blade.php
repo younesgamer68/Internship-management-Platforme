@@ -3,9 +3,17 @@ Global UI State — Alpine.store('ui') for shared darkMode, lang, t()
 Wrap your page content with <x-ui-state> ... </x-ui-state>
 ===================================================================== --}}
 <script>
+    (function() {
+        if (localStorage.getItem('adminDarkMode') === 'true' || localStorage.getItem('theme') === 'dark') {
+            document.documentElement.classList.add('dark');
+            document.documentElement.classList.add('admin-dark');
+        }
+    })();
+</script>
+<script>
     document.addEventListener('alpine:init', () => {
         Alpine.store('ui', {
-            darkMode: false,
+            darkMode: localStorage.getItem('adminDarkMode') === 'true' || localStorage.getItem('theme') === 'dark',
             lang: 'English',
 
             /* -- i18n translation map -- */
@@ -158,6 +166,9 @@ Wrap your page content with <x-ui-state> ... </x-ui-state>
                 /* Alpine.effect runs reactively whenever darkMode changes */
                 Alpine.effect(() => {
                     document.documentElement.classList.toggle('dark', this.darkMode);
+                    document.documentElement.classList.toggle('admin-dark', this.darkMode);
+                    localStorage.setItem('adminDarkMode', this.darkMode ? 'true' : 'false');
+                    localStorage.setItem('theme', this.darkMode ? 'dark' : 'light');
                 });
             },
         });

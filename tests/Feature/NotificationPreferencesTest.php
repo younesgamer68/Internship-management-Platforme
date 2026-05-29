@@ -167,13 +167,17 @@ test('internal note notifies admins and assigned agent', function () {
     Notification::fake();
 
     $company = Company::factory()->create();
+    $team = \App\Models\Team::factory()->create(['company_id' => $company->id]);
     $operator = User::factory()->create(['company_id' => $company->id, 'role' => 'operator']);
+    $operator->teams()->attach($team->id);
+    
     $admin = User::factory()->create(['company_id' => $company->id, 'role' => 'admin']);
     $assignedAgent = User::factory()->create(['company_id' => $company->id, 'role' => 'operator']);
 
     $ticket = Ticket::factory()->create([
         'company_id' => $company->id,
         'assigned_to' => $assignedAgent->id,
+        'team_id' => $team->id,
         'status' => 'open',
     ]);
 

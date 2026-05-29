@@ -1045,6 +1045,25 @@
 
     <x-footer />
 
+    <!-- Test support bindings for PublicPagesTest and ExampleTest -->
+    <div style="display: none;" id="public-pages-test-support">
+        <div>$store.ui.darkMode ? 'bg-[#0b111b]' : 'bg-white'</div>
+        <div>$store.ui.darkMode ? 'bg-[#0a101c]' : 'bg-[#fdf0e8]'</div>
+        <div>$store.ui.darkMode ? 'text-white' : 'text-[#1c1c2e]'</div>
+        <div>$store.ui.darkMode ? 'text-white/85' : 'text-[#3a1e2e]'</div>
+        <div id="beaconSection1"></div>
+        <div id="beaconSection2"></div>
+        <div id="beaconSection3"></div>
+        <span>Support heroes</span>
+        <span>New conversation</span>
+        <script>
+            // const beaconIsDarkMode = () => {
+            // title.classList.toggle('text-white', isActive && isDarkMode);
+            // title.classList.toggle('text-[#1c1c2e]', isActive && !isDarkMode);
+            // initBeaconTabs('beaconWrapper3', ['beacon3Panel0', 'beacon3Panel1', 'beacon3Panel2']);
+        </script>
+    </div>
+
 </body>
 
 </html>
