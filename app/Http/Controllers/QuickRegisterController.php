@@ -28,6 +28,13 @@ class QuickRegisterController extends Controller
         if ($existingUser && $existingUser->email_verified_at) {
             Auth::login($existingUser);
 
+            if ($existingUser->role === 'intern') {
+                $detail = \App\Models\InternInfoDetail::where('user_id', $existingUser->id)->first();
+                if ($detail) {
+                    return redirect()->route('intern.dashboard');
+                }
+            }
+
             if ($existingUser->career_field) {
                 return redirect()->route('intern.opportunities');
             }

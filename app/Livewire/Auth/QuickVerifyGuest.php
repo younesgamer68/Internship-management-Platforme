@@ -59,6 +59,17 @@ class QuickVerifyGuest extends Component
         Auth::login($user);
         session()->forget('pending_user_email');
 
+        if ($user->role === 'intern') {
+            $detail = \App\Models\InternInfoDetail::where('user_id', $user->id)->first();
+            if ($detail) {
+                return redirect()->route('intern.dashboard');
+            }
+        }
+
+        if ($user->career_field) {
+            return redirect()->route('intern.opportunities');
+        }
+
         return redirect()->route('career_fields');
     }
 

@@ -225,6 +225,30 @@
             transform: translateY(-4px)
         }
 
+        .admin-btn-wrap {
+            margin-top: 18px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .admin-btn {
+            font-size: .8rem;
+            font-weight: 600;
+            color: #374151;
+            border: 1px solid #d1d5db;
+            border-radius: 999px;
+            padding: 8px 14px;
+            background: #ffffff;
+            text-decoration: none;
+            transition: all .18s ease;
+        }
+
+        .admin-btn:hover {
+            color: #111827;
+            border-color: #9ca3af;
+            transform: translateY(-1px);
+        }
+
         .card-icon {
             font-size: 72px;
             margin-bottom: 28px;
@@ -292,6 +316,10 @@
                             <span class="arrow">→</span>
                         </div>
                     </div>
+                </div>
+
+                <div class="admin-btn-wrap">
+                    <a class="admin-btn" href="{{ route('admin.login') }}">am admin</a>
                 </div>
             </div>
         </div>

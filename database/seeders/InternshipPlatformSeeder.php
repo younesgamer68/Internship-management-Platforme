@@ -80,6 +80,7 @@ class InternshipPlatformSeeder extends Seeder
                 ]);
             }
         }
+
     }
 
     private function generateTitleForCategory($category)

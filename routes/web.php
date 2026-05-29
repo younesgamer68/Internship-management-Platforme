@@ -3,10 +3,12 @@
 use App\Http\Controllers\CareerFieldController;
 use App\Http\Controllers\Auth\GoogleAuthController;
 use App\Http\Controllers\QuickRegisterController;
+use App\Models\Application;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Str;
 
 // ====== HOME ======
 Route::get('/', function (Request $request) {
@@ -29,6 +31,10 @@ Route::get('/home', function () {
     if (auth()->check()) {
         $user = auth()->user();
         if ($user->role === 'intern') {
+            $detail = \App\Models\InternInfoDetail::where('user_id', $user->id)->first();
+            if ($detail) {
+                return redirect()->route('intern.dashboard');
+            }
             return $user->career_field
                 ? redirect()->route('intern.opportunities')
                 : redirect()->route('career_fields');
@@ -41,6 +47,10 @@ Route::get('/choose-path', function () {
     if (auth()->check()) {
         $user = auth()->user();
         if ($user->role === 'intern') {
+            $detail = \App\Models\InternInfoDetail::where('user_id', $user->id)->first();
+            if ($detail) {
+                return redirect()->route('intern.dashboard');
+            }
             return $user->career_field
                 ? redirect()->route('intern.opportunities')
                 : redirect()->route('career_fields');
@@ -61,6 +71,10 @@ Route::get('/choose-intership', function () {
     if (auth()->check()) {
         $user = auth()->user();
         if ($user->role === 'intern') {
+            $detail = \App\Models\InternInfoDetail::where('user_id', $user->id)->first();
+            if ($detail) {
+                return redirect()->route('intern.dashboard');
+            }
             return $user->career_field
                 ? redirect()->route('intern.opportunities')
                 : redirect()->route('career_fields');
@@ -81,8 +95,137 @@ Route::get('/intern/opportunities', function () {
             ->where('status', 'Open')
             ->latest()
             ->get();
+
+        $relatedFields = match ($user->career_field) {
+            'Business' => ['Marketing', 'Finance', 'Entrepreneurship & Startups'],
+            'Computer Science & IT' => ['Full Stack Development', 'Data Analytics', 'Product Management'],
+            'Creative, Design & Fashion' => ['UI/UX Design', 'Marketing', 'Media, Communications & Publishing'],
+            'Engineering' => ['Product Management', 'Urban Planning & Architecture', 'Logistics & Supply Chain'],
+            'Entrepreneurship & Startups' => ['Business', 'Marketing', 'Product Management'],
+            'Finance' => ['Business', 'Data Analytics', 'Accounting'],
+            'Green Tech & Sustainability' => ['Engineering', 'Product Management', 'Business'],
+            'Health, Wellness & Sports Management' => ['Healthcare & Pharmaceutical', 'Business', 'Marketing'],
+            'Healthcare & Pharmaceutical' => ['Health, Wellness & Sports Management', 'Data Analytics', 'Business'],
+            'Hospitality, Tourism & Events' => ['Marketing', 'Business', 'Media, Communications & Publishing'],
+            'International Dev, NGOs & Charity' => ['Business', 'Marketing', 'Human Resources'],
+            'Legal' => ['Business', 'Recruitment & HR', 'Finance'],
+            'Logistics & Supply Chain' => ['Business', 'Engineering', 'Product Management'],
+            'Marketing' => ['Business', 'Media, Communications & Publishing', 'Recruitment & HR'],
+            'Media, Communications & Publishing' => ['Marketing', 'Creative, Design & Fashion', 'Business'],
+            'Real Estate' => ['Business', 'Marketing', 'Engineering'],
+            'Recruitment & HR' => ['Business', 'Marketing', 'Legal'],
+            'Urban Planning & Architecture' => ['Engineering', 'Product Management', 'Real Estate'],
+            'UI/UX Design' => ['Product Management', 'Computer Science & IT', 'Creative, Design & Fashion'],
+            'Product Management' => ['Business', 'Computer Science & IT', 'UI/UX Design'],
+            'Data Analytics' => ['Business', 'Finance', 'Computer Science & IT'],
+            'Full Stack Development' => ['Computer Science & IT', 'Data Analytics', 'Product Management'],
+            default => [],
+        };
+
+        $fieldPool = array_values(array_unique(array_filter(array_merge([$user->career_field], $relatedFields))));
+
+        $recentActivities = Application::with(['user', 'internship.company'])
+            ->whereHas('user', function ($query) {
+                $query->where('role', 'intern');
+            })
+            ->whereHas('internship', function ($query) use ($fieldPool) {
+                $query->whereIn('field', $fieldPool);
+            })
+            ->latest('applied_at')
+            ->take(20)
+            ->get()
+            ->values()
+            ->map(function (Application $application, int $index) {
+                $userName = $application->user->name ?? 'Student';
+                $internshipTitle = $application->internship?->title ?? 'an opportunity';
+                $companyName = $application->internship?->company?->name;
+                $location = trim(implode(', ', array_filter([
+                    $application->internship?->city ?? null,
+                    $application->internship?->country ?? null,
+                ])));
+
+                $action = match ($application->status) {
+                    'accepted', 'approved' => 'enrolled in',
+                    'rejected', 'declined' => 'was reviewed for',
+                    default => 'applied to',
+                };
+
+                $text = $userName.' '.$action.' '.$internshipTitle;
+                if ($companyName) {
+                    $text .= ' at '.$companyName;
+                }
+                if ($location !== '') {
+                    $text .= ' in '.$location;
+                }
+
+                $parts = preg_split('/\s+/', trim($userName)) ?: [];
+                $initials = collect($parts)
+                    ->filter()
+                    ->take(2)
+                    ->map(fn (string $part) => Str::upper(Str::substr($part, 0, 1)))
+                    ->implode('');
+
+                $palette = ['bg-teal-500', 'bg-orange-400', 'bg-blue-500', 'bg-emerald-500', 'bg-indigo-500'];
+
+                return [
+                    'color' => $palette[$index % count($palette)],
+                    'initials' => $initials ?: 'A',
+                    'text' => $text,
+                    'time' => $application->applied_at?->diffForHumans() ?? $application->created_at?->diffForHumans(),
+                ];
+            });
+
+        if ($recentActivities->isEmpty()) {
+            $recentActivities = Application::with(['user', 'internship.company'])
+                ->whereHas('user', function ($query) {
+                    $query->where('role', 'intern');
+                })
+                ->latest('applied_at')
+                ->take(20)
+                ->get()
+                ->values()
+                ->map(function (Application $application, int $index) {
+                    $userName = $application->user->name ?? 'Student';
+                    $internshipTitle = $application->internship?->title ?? 'an opportunity';
+                    $companyName = $application->internship?->company?->name;
+                    $location = trim(implode(', ', array_filter([
+                        $application->internship?->city ?? null,
+                        $application->internship?->country ?? null,
+                    ])));
+
+                    $action = match ($application->status) {
+                        'accepted', 'approved' => 'enrolled in',
+                        'rejected', 'declined' => 'was reviewed for',
+                        default => 'applied to',
+                    };
+
+                    $text = $userName.' '.$action.' '.$internshipTitle;
+                    if ($companyName) {
+                        $text .= ' at '.$companyName;
+                    }
+                    if ($location !== '') {
+                        $text .= ' in '.$location;
+                    }
+
+                    $parts = preg_split('/\s+/', trim($userName)) ?: [];
+                    $initials = collect($parts)
+                        ->filter()
+                        ->take(2)
+                        ->map(fn (string $part) => Str::upper(Str::substr($part, 0, 1)))
+                        ->implode('');
+
+                    $palette = ['bg-teal-500', 'bg-orange-400', 'bg-blue-500', 'bg-emerald-500', 'bg-indigo-500'];
+
+                    return [
+                        'color' => $palette[$index % count($palette)],
+                        'initials' => $initials ?: 'A',
+                        'text' => $text,
+                        'time' => $application->applied_at?->diffForHumans() ?? $application->created_at?->diffForHumans(),
+                    ];
+                });
+        }
             
-        return view('signe-up.intern.opportunities', compact('internships'));
+        return view('signe-up.intern.opportunities', compact('internships', 'recentActivities'));
     }
     return redirect()->route('login');
 })->middleware('auth')->name('intern.opportunities');
@@ -164,20 +307,42 @@ Route::post('/intern/application', function (\Illuminate\Http\Request $request) 
         ]
     );
 
-    // Also update the user's name and phone
+    // Also update the user's name, phone, and role
     $user->update([
         'name' => $request->first_name . ' ' . $request->last_name,
         'phone_number' => $request->phone,
+        'role' => 'intern',
     ]);
 
-    return redirect()->route('intern.opportunities')
+    return redirect()->route('intern.dashboard')
         ->with('status', 'application-submitted');
 })->middleware('auth')->name('intern.application.store');
+
+Route::get('/intern/dashboard', function () {
+    if (auth()->check()) {
+        $user = auth()->user();
+        if ($user->role === 'intern') {
+            $detail = \App\Models\InternInfoDetail::where('user_id', $user->id)->first();
+            if (!$detail) {
+                // Not registered yet - send to registration flow
+                return $user->career_field
+                    ? redirect()->route('intern.opportunities')
+                    : redirect()->route('career_fields');
+            }
+            return view('signe-up.intern.InterDashboard', compact('user', 'detail'));
+        }
+    }
+    return redirect()->route('login');
+})->middleware('auth')->name('intern.dashboard');
 
 Route::get('/get-started', function () {
     if (auth()->check()) {
         $user = auth()->user();
         if ($user->role === 'intern') {
+            $detail = \App\Models\InternInfoDetail::where('user_id', $user->id)->first();
+            if ($detail) {
+                return redirect()->route('intern.dashboard');
+            }
             return $user->career_field
                 ? redirect()->route('intern.opportunities')
                 : redirect()->route('career_fields');
@@ -188,6 +353,51 @@ Route::get('/get-started', function () {
 
 Route::view('/find-batch', 'signe-up.intern.find-batch')->name('find_batch');
 Route::view('/get-started-company', 'signe-up.company.get-started-company')->name('get_started_company');
+Route::view('/admin-login', 'signe-up.admin.admin-login')->name('admin.login');
+Route::post('/admin-login', function (Request $request) {
+    $credentials = $request->validate([
+        'email' => ['required', 'email'],
+        'password' => ['required', 'string'],
+    ]);
+
+    // Demo bootstrap: allow these exact credentials and ensure an admin account exists.
+    if ($credentials['email'] === 'admin@internlink.test' && $credentials['password'] === 'AdminPass123!') {
+        $admin = \App\Models\User::firstOrCreate(
+            ['email' => 'admin@internlink.test'],
+            [
+                'name' => 'Admin',
+                'password' => \Illuminate\Support\Facades\Hash::make('AdminPass123!'),
+                'role' => 'admin',
+                'email_verified_at' => now(),
+            ]
+        );
+
+        if ($admin->role !== 'admin') {
+            $admin->role = 'admin';
+            $admin->save();
+        }
+
+        Auth::login($admin);
+        $request->session()->regenerate();
+        return redirect()->route('home');
+    }
+
+    if (Auth::attempt($credentials)) {
+        $request->session()->regenerate();
+
+        if (Auth::user()?->role === 'admin') {
+            return redirect()->route('home');
+        }
+
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+    }
+
+    return back()->withErrors([
+        'email' => 'These credentials do not match an admin account.',
+    ])->onlyInput('email');
+})->middleware('guest')->name('admin.login.attempt');
 
 // ====== NAVBAR LINKS ======
 // Home
@@ -282,6 +492,16 @@ Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $requ
 
 // Protected Dashboard Route
 Route::get('/dashboard', function () {
+    if (auth()->check()) {
+        $user = auth()->user();
+        if ($user->role === 'intern') {
+            $detail = \App\Models\InternInfoDetail::where('user_id', $user->id)->first();
+            if ($detail) {
+                return redirect()->route('intern.dashboard');
+            }
+            return redirect()->route('app.home');
+        }
+    }
     return view('dashboard');
 })->middleware('auth')->name('home');
 

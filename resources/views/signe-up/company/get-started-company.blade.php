@@ -47,6 +47,26 @@
             min-height: 100vh;
         }
 
+        /* ── LOGO ── */
+        .logo-wrapper {
+            position: absolute;
+            top: 28px;
+            left: 5%;
+            transform: translateX(-50%);
+            z-index: 5;
+            padding: 8px 12px;
+            border-radius: 12px;
+            -webkit-backdrop-filter: blur(6px);
+            backdrop-filter: blur(6px);
+            transition: transform .18s ease, box-shadow .18s ease;
+        }
+
+        .logo-wrapper>* {
+            display: block;
+            max-width: 220px;
+            height: auto;
+        }
+
         .left {
             background: var(--white);
             display: flex;
@@ -261,6 +281,26 @@
             align-items: center;
         }
 
+        /* ── FOOTER LINK ── */
+        .footer-link {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #444444;
+            text-decoration: none;
+            font-size: 0.92rem;
+            font-weight: 500;
+            transition: color 0.2s;
+            align-self: center;
+            width: 100%;
+            max-width: 440px;
+            text-align: left;
+        }
+
+        .footer-link:hover {
+            color: #2ab5b0;
+        }
+
         .right__inner {
             width: min(100%, 460px);
             margin-inline: auto;
@@ -431,7 +471,9 @@
 </head>
 
 <body>
-
+    <div class="logo-wrapper">
+        <x-logo variant="landing" size="lg" href="/" />
+    </div>
     <div class="page">
 
         <div class="left">
@@ -473,10 +515,14 @@
                 <p class="legal">By continuing you are agreeing to Virtual Internships's<br><a href="#">Terms of Use</a>
                     &nbsp;&amp;&nbsp; <a href="#">Privacy Policy</a></p>
 
-                <a href="#" class="intern-link"><svg viewBox="0 0 24 24">
-                        <line x1="19" y1="12" x2="5" y2="12" />
-                        <polyline points="12 19 5 12 12 5" />
-                    </svg><span>Not a company? Get started as an intern.</span></a>
+                <!-- Footer link -->
+                <a href="{{ route('choose_path') }}" class="footer-link">
+                    <svg width="24" height="24" viewBox="0 0 72 24" xmlns="http://www.w3.org/2000/svg"
+                        aria-hidden="true">
+                        <path d="M70 10H20V4L2 12L20 20V14H70V10Z" fill="black" />
+                    </svg>
+                    <span>Not a student? Continue as a company</span>
+                </a>
 
             </div>
         </div>

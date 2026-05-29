@@ -11,10 +11,17 @@ class LoginResponse implements LoginResponseContract
     {
         $user = Auth::user();
 
-        if ($user && empty($user->career_field)) {
-            return redirect()->route('career_fields');
+        if ($user && $user->role === 'intern') {
+            $detail = \App\Models\InternInfoDetail::where('user_id', $user->id)->first();
+            if ($detail) {
+                return redirect()->route('intern.dashboard');
+            }
+            // New user - start registration flow
+            return $user->career_field
+                ? redirect()->route('intern.opportunities')
+                : redirect()->route('career_fields');
         }
 
-        return redirect()->route('intern.opportunities');
+        return redirect()->route('home');
     }
 }

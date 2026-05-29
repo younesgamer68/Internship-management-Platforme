@@ -13,6 +13,37 @@
             font-family: 'Poppins', sans-serif;
         }
 
+        /* Top-left logo wrapper (matches get-started view) */
+        .logo-wrapper {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            z-index: 60;
+            padding: 6px 8px;
+            border-radius: 8px;
+            -webkit-backdrop-filter: blur(6px);
+            backdrop-filter: blur(6px);
+            transition: transform .12s ease, box-shadow .12s ease;
+        }
+
+        .logo-wrapper img {
+            display: block;
+            max-width: 96px;
+            height: auto;
+        }
+
+        @media (max-width: 768px) {
+            .logo-wrapper {
+                top: 10px;
+                left: 10px;
+                padding: 4px 6px;
+            }
+
+            .logo-wrapper img {
+                max-width: 72px;
+            }
+        }
+
         /* Hover overlay */
         .card-wrapper:hover .apply-overlay {
             opacity: 1;
@@ -48,6 +79,15 @@
             opacity: 1;
         }
 
+        .activity-scroll {
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .activity-scroll::-webkit-scrollbar {
+            display: none;
+        }
+
         /* Step timeline */
         .step-line {
             position: absolute;
@@ -61,6 +101,10 @@
 </head>
 
 <body class="bg-gray-50 min-h-screen text-gray-900 antialiased">
+
+    <div class="logo-wrapper">
+        <img src="{{ asset('images/Logos/TLM.png') }}" alt="Logo" />
+    </div>
 
     <section class="flex min-h-screen bg-gray-50 font-sans">
 
@@ -81,6 +125,8 @@
                         ['icon' => 'M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z', 'label' => 'Dashboard', 'active' => false, 'route' => '#'],
                         ['icon' => 'M21 21l-4.35-4.35M17 11A6 6 0 105 11a6 6 0 0012 0z', 'label' => 'Opportunities', 'active' => true, 'route' => 'intern.opportunities'],
                         ['icon' => 'M9 12h6M9 16h6M9 8h6M5 4h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V6a2 2 0 012-2z', 'label' => 'Applications', 'active' => false, 'route' => 'intern.application'],
+                        // Briefcase icon for Career Field
+                        ['icon' => 'M6 7V6a2 2 0 012-2h8a2 2 0 012 2v1m-12 0h12a2 2 0 012 2v7a2 2 0 01-2 2H6a2 2 0 01-2-2V9a2 2 0 012-2zm2 4h8', 'label' => 'Career Field', 'active' => false, 'route' => 'career_fields'],
                         ['icon' => 'M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2M12 11a4 4 0 100-8 4 4 0 000 8z', 'label' => 'Profile', 'active' => false, 'route' => '#'],
                         ['icon' => 'M9 17v-6h13M9 11V5H3v6M3 17h6M15 5v6', 'label' => 'Placement Tracker', 'active' => false, 'route' => '#'],
                         ['icon' => 'M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10', 'label' => 'Manage Internships', 'active' => false, 'route' => '#'],
@@ -92,16 +138,16 @@
                 @endphp
 
                 @foreach ($navItems as $item)
-                    @if($item['active'] || $item['label'] === 'Applications')
+                    @if($item['active'] || in_array($item['label'], ['Applications', 'Career Field']))
                             <a href="{{ $item['route'] !== '#' ? route($item['route']) : '#' }}" class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors
-                                                      {{ $item['active']
+                                                                                                                  {{ $item['active']
                         ? 'bg-gray-100 font-semibold border-l-4 border-teal-500'
                         : 'hover:bg-gray-50' }}" style="color: {{ $item['active'] ? '#444444' : '#7b7b7b' }}">
                                 <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="1.8"
                                     viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="{{ $item['icon'] }}" />
                                 </svg>
-                                <span>{{ $item['label'] }}</span>
+                                <span>{{ in_array($item['label'], ['Opportunities', 'Applications', 'Career Field']) ? $item['label'] : '<del>' . e($item['label']) . '</del>' }}</span>
                             </a>
                     @else
                         <div class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm cursor-not-allowed select-none"
@@ -110,7 +156,7 @@
                                 viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="{{ $item['icon'] }}" />
                             </svg>
-                            <span>{{ $item['label'] }}</span>
+                            <span><del>{{ $item['label'] }}</del></span>
                         </div>
                     @endif
                 @endforeach
@@ -299,7 +345,7 @@
                 </div>
 
                 {{-- Recent Activity --}}
-                <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 flex-1">
+                <div class="bg-white rounded-2xl h-20 border border-gray-100 shadow-sm p-5 flex-1">
                     <div class="flex items-center justify-between mb-4">
                         <p class="text-xs font-bold uppercase tracking-widest text-gray-500">Recent Activity</p>
                         <span class="flex items-center gap-1 text-[10px] text-green-500 font-semibold">
@@ -308,30 +354,28 @@
                         </span>
                     </div>
 
-                    @php
-                        $activities = [
-                            ['color' => 'bg-gray-200', 'initials' => '', 'text' => 'Interviews for a Entrepreneurship & Startups role', 'time' => '15h ago'],
-                            ['color' => 'bg-orange-400', 'initials' => 'SF', 'text' => '8 students from São Paulo, Brazil applied to a Data Science role', 'time' => '16h ago'],
-                            ['color' => 'bg-orange-500', 'initials' => 'SF', 'text' => '2 students from Cape Town, South Africa applied to a Real Estate role', 'time' => '18h ago'],
-                            ['color' => 'bg-teal-500', 'initials' => '1S', 'text' => '10 students from Singapore, Singapore enrolled in a UI/UX Design role', 'time' => ''],
-                        ];
-                    @endphp
-
-                    <div class="flex flex-col gap-4">
-                        @foreach ($activities as $act)
-                            <div class="flex items-start gap-3">
+                    <div id="recentActivityScroller" class="activity-scroll h-64 overflow-y-auto pr-1">
+                        <div class="flex flex-col gap-4">
+                            @forelse ($recentActivities as $act)
+                                <div class="flex items-start gap-3">
+                                    <div
+                                        class="w-7 h-7 rounded-full {{ $act['color'] }} flex items-center justify-center text-white text-[10px] font-bold flex-shrink-0 mt-0.5">
+                                        {{ $act['initials'] }}
+                                    </div>
+                                    <div>
+                                        <p class="text-xs text-gray-600 leading-snug">{{ $act['text'] }}</p>
+                                        @if ($act['time'])
+                                            <p class="text-[10px] text-gray-400 mt-0.5">{{ $act['time'] }}</p>
+                                        @endif
+                                    </div>
+                                </div>
+                            @empty
                                 <div
-                                    class="w-7 h-7 rounded-full {{ $act['color'] }} flex items-center justify-center text-white text-[10px] font-bold flex-shrink-0 mt-0.5">
-                                    {{ $act['initials'] }}
+                                    class="rounded-xl border border-dashed border-gray-200 px-4 py-5 text-center text-xs text-gray-400">
+                                    No recent activity yet.
                                 </div>
-                                <div>
-                                    <p class="text-xs text-gray-600 leading-snug">{{ $act['text'] }}</p>
-                                    @if ($act['time'])
-                                        <p class="text-[10px] text-gray-400 mt-0.5">{{ $act['time'] }}</p>
-                                    @endif
-                                </div>
-                            </div>
-                        @endforeach
+                            @endforelse
+                        </div>
                     </div>
                 </div>
             </div>
@@ -452,20 +496,25 @@
         <div class="modal-panel bg-white rounded-2xl shadow-2xl w-full max-w-sm mx-4 p-0 overflow-hidden">
             <div class="flex items-center justify-between px-6 pt-6 pb-1">
                 <h3 class="text-base font-bold" style="color: #444444">Log out</h3>
-                <button onclick="closeLogoutModal()" class="w-7 h-7 rounded-lg hover:bg-gray-100 flex items-center justify-center transition-colors">
-                    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+                <button onclick="closeLogoutModal()"
+                    class="w-7 h-7 rounded-lg hover:bg-gray-100 flex items-center justify-center transition-colors">
+                    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" stroke-width="2"
+                        viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                     </svg>
                 </button>
             </div>
             <div class="px-6 pb-6 pt-3">
-                <p class="text-sm text-gray-500 leading-relaxed">You are currently signing up, you could lose your progress.</p>
+                <p class="text-sm text-gray-500 leading-relaxed">You are currently signing up, you could lose your
+                    progress.</p>
             </div>
             <div class="flex items-center gap-3 px-6 py-4 border-t border-gray-100">
-                <button onclick="closeLogoutModal()" class="flex-1 px-4 py-2.5 rounded-xl border border-gray-200 bg-white text-sm font-semibold text-gray-700 hover:bg-gray-50 transition-colors text-center">
+                <button onclick="closeLogoutModal()"
+                    class="flex-1 px-4 py-2.5 rounded-xl border border-gray-200 bg-white text-sm font-semibold text-gray-700 hover:bg-gray-50 transition-colors text-center">
                     Cancel
                 </button>
-                <button onclick="document.getElementById('logout-form').submit();" class="flex-1 px-4 py-2.5 rounded-xl bg-red-600 hover:bg-red-700 text-white text-sm font-semibold transition-colors text-center">
+                <button onclick="document.getElementById('logout-form').submit();"
+                    class="flex-1 px-4 py-2.5 rounded-xl bg-red-600 hover:bg-red-700 text-white text-sm font-semibold transition-colors text-center">
                     Log out
                 </button>
             </div>
@@ -499,6 +548,59 @@
                 closeLogoutModal();
             }
         });
+
+        (function setupRecentActivityAutoScroll() {
+            const scroller = document.getElementById('recentActivityScroller');
+
+            if (!scroller) {
+                return;
+            }
+
+            let direction = 1;
+            let lastTimestamp = null;
+            let currentVelocity = 0;
+            const maxVelocity = 0.07; // slower max speed
+            const acceleration = 0.0025;
+            const deceleration = 0.08; // smoothing factor
+
+            function step(timestamp) {
+                if (lastTimestamp === null) {
+                    lastTimestamp = timestamp;
+                }
+
+                const delta = timestamp - lastTimestamp;
+                const maxScrollTop = scroller.scrollHeight - scroller.clientHeight;
+
+                if (maxScrollTop > 0) {
+                    const targetVelocity = direction * maxVelocity;
+                    // ease current velocity toward target for smooth transitions
+                    currentVelocity += (targetVelocity - currentVelocity) * deceleration;
+
+                    scroller.scrollTop += currentVelocity * delta;
+
+                    if (scroller.scrollTop >= maxScrollTop) {
+                        scroller.scrollTop = maxScrollTop;
+                        direction = -1;
+                        // gently invert velocity to avoid a hard snap
+                        currentVelocity = Math.min(currentVelocity, maxVelocity) * -0.6;
+                    } else if (scroller.scrollTop <= 0) {
+                        scroller.scrollTop = 0;
+                        direction = 1;
+                        currentVelocity = Math.max(currentVelocity, -maxVelocity) * 0.6;
+                    }
+
+                    // slowly ramp up to the max velocity
+                    if (Math.abs(currentVelocity) < Math.abs(maxVelocity)) {
+                        currentVelocity += direction * acceleration * delta;
+                    }
+                }
+
+                lastTimestamp = timestamp;
+                window.requestAnimationFrame(step);
+            }
+
+            window.requestAnimationFrame(step);
+        })();
     </script>
 
 </body>

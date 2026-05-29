@@ -105,6 +105,12 @@ class VerifyEmailCode extends Component
         $user = Auth::user();
 
         if ($user->role === 'intern') {
+            $detail = \App\Models\InternInfoDetail::where('user_id', $user->id)->first();
+            if ($detail) {
+                $this->redirect(route('intern.dashboard'));
+                return;
+            }
+            // New user - continue registration
             if ($user->career_field) {
                 $this->redirect(route('intern.opportunities'));
             } else {
