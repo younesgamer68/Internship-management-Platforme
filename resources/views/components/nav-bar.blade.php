@@ -5,6 +5,14 @@ Navbar — local state only; $store.ui.darkMode / lang / t() from $store.ui
 @props(['blueBg' => false])
 @props(['blackBg' => false])
 
+@php
+    $homeActive = request()->routeIs('navbarlink.home.*');
+    $companiesActive = request()->routeIs('navbarlink.companies.*');
+    $internshipsActive = request()->routeIs('navbarlink.internships.*');
+    $howItActive = request()->routeIs('navbarlink.howit.*');
+    $resourcesActive = request()->routeIs('navbarlink.resources.*');
+@endphp
+
 {{-- Utility bar is always pinned to the very top --}}
 
 <style>
@@ -26,7 +34,7 @@ Navbar — local state only; $store.ui.darkMode / lang / t() from $store.ui
 </style>
 <div class="absolute inset-x-0 z-50 transition-[top] duration-300 ease-out motion-reduce:transition-none">
     <div class="backdrop-blur-sm w-full transition-colors duration-300 animate-slide-down"
-        :style="@if($blueBg) 'background-color: #3ab0aa;' @elseif($blackBg) 'background-color: #061d21;' @else ($store.ui.darkMode ? 'background-color: rgba(0,0,0,0.3);' : 'background-color: rgba(255,255,255,0.4);') @endif"
+        :style="@if($blueBg) 'background-color: #00b1aa;' @elseif($blackBg) 'background-color: #061d21;' @else ($store.ui.darkMode ? 'background-color: rgba(0,0,0,0.3);' : 'background-color: rgba(255,255,255,0.4);') @endif"
         style="font-family: 'Poppins', sans-serif;">
         <div class="mx-auto flex h-8 max-w-6xl items-center justify-end gap-5 px-4 text-[11px]">
             @auth
@@ -42,9 +50,6 @@ Navbar — local state only; $store.ui.darkMode / lang / t() from $store.ui
                     :class="@if($blueBg || $blackBg) 'text-white hover:text-white' @else ($store.ui.darkMode ? 'text-gray-400 hover:text-white' : 'text-[#68737D] hover:text-[#17494D]') @endif"
                     x-text="$store.ui.t('utilitySignIn')"></a>
             @endauth
-            <a href="{{ route('help-center') }}" class="text-xs font-medium transition-colors duration-200"
-                :class="@if($blueBg || $blackBg) 'text-white hover:text-white' @else ($store.ui.darkMode ? 'text-gray-400 hover:text-white' : 'text-[#68737D] hover:text-[#17494D]') @endif"
-                x-text="$store.ui.t('utilityHelpCenter')"></a>
             <a href="{{ route('about') }}" class="text-xs font-medium transition-colors duration-200"
                 :class="@if($blueBg || $blackBg) 'text-white hover:text-white' @else ($store.ui.darkMode ? 'text-gray-400 hover:text-white' : 'text-[#68737D] hover:text-[#17494D]') @endif">About
                 us</a>
@@ -118,7 +123,7 @@ Navbar — local state only; $store.ui.darkMode / lang / t() from $store.ui
         :class="navHidden ? '-top-16' : (isAtTop ? 'top-7' : 'top-0')">
 
         <nav class="w-full transition-colors duration-300 backdrop-blur-sm animate-slide-down"
-            :style="@if($blueBg) 'background-color: #3ab0aa;' @elseif($blackBg) 'background-color: #061d21;' @else ($store.ui.darkMode ? 'background-color: rgba(0,0,0,0.3);' : 'background-color: rgba(255,255,255,0.4);') @endif"
+            :style="@if($blueBg) 'background-color: #00b1aa;' @elseif($blackBg) 'background-color: #061d21;' @else ($store.ui.darkMode ? 'background-color: rgba(0,0,0,0.3);' : 'background-color: rgba(255,255,255,0.4);') @endif"
             style="font-family: 'Poppins', sans-serif;">
 
             {{-- Main bar (h-[72px] taller) --}}
@@ -130,12 +135,121 @@ Navbar — local state only; $store.ui.darkMode / lang / t() from $store.ui
 
                 {{-- CENTER Desktop nav links --}}
                 <div class="hidden flex-1 items-center justify-center gap-6 md:flex">
+                    <div class="relative pb-8 -mb-8" @mouseenter="openDropdown('home')" @mouseleave="closeDropdown()">
+                        <button type="button"
+                            :style="@if($blueBg || $blackBg) '' @elseif($homeActive) 'color: #00b1aa;' @endif"
+                            :class="@if($blueBg || $blackBg) 'text-white hover:text-white' @else ($store.ui.darkMode ? 'text-gray-200 hover:text-white' : 'text-[#17494D] hover:text-[#00b1aa]') @endif"
+                            class="navlink-btn group relative flex items-center gap-1 rounded-lg px-2.5 py-1.5 text-[13px] font-semibold transition-colors duration-200">
+                            Home
+                            <svg class="h-3.5 w-3.5 transition-transform duration-200"
+                                :class="activeDropdown === 'home' ? 'rotate-180' : ''" viewBox="0 0 12 12" fill="none"
+                                stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="3 4.5 6 7.5 9 4.5" />
+                            </svg>
+                            <span
+                                class="absolute bottom-0 left-2 h-[2.5px] w-0 origin-left rounded-full transition-all duration-300 ease-out group-hover:w-[calc(100%-1rem)]"
+                                :class="[activeDropdown === 'home' ? 'w-[calc(100%-1rem)]' : '', 'bg-current']"></span>
+                        </button>
+                        <div x-show="activeDropdown === 'home'" @mouseenter="openDropdown('home')"
+                            x-transition:enter="transition ease-out duration-200"
+                            x-transition:enter-start="opacity-0 -translate-y-2"
+                            x-transition:enter-end="opacity-100 translate-y-0"
+                            x-transition:leave="transition ease-in duration-150"
+                            x-transition:leave-start="opacity-100 translate-y-0"
+                            x-transition:leave-end="opacity-0 -translate-y-2" x-cloak
+                            class="absolute left-1/2 top-7 z-40 mt-4 -translate-x-1/2" style="display:none">
+                            <div class="w-50 rounded-none border border-t-2 border-t-[#00b1aa] p-2 shadow-[0_12px_32px_rgba(0,0,0,.10)]"
+                                :class="$store.ui.darkMode ? 'bg-[#111827] border-gray-700' : 'bg-white border-gray-200'">
+                                <div class="space-y-0.5">
+                                    <a href="{{ route('navbarlink.home.features') }}"
+                                        :class="[{{ request()->routeIs('navbarlink.home.features') ? 'true' : 'false' }} ? 'border-[#00b1aa] bg-[#e6f7f7] text-[#00b1aa]' : ($store.ui.darkMode ? 'text-gray-200 hover:bg-white/10 hover:text-white hover:border-white/70' : 'text-[#2d2d2d] hover:bg-[#e6f7f7] hover:text-[#00b1aa] hover:border-[#00b1aa]')]"
+                                        class="block border-l-4 border-transparent px-5 py-2.5 text-xs font-bold transition-all duration-150">Features</a>
+                                    <a href="{{ route('navbarlink.home.statistics') }}"
+                                        :class="[{{ request()->routeIs('navbarlink.home.statistics') ? 'true' : 'false' }} ? 'border-[#00b1aa] bg-[#e6f7f7] text-[#00b1aa]' : ($store.ui.darkMode ? 'text-gray-200 hover:bg-white/10 hover:text-white hover:border-white/70' : 'text-[#2d2d2d] hover:bg-[#e6f7f7] hover:text-[#00b1aa] hover:border-[#00b1aa]')]"
+                                        class="block border-l-4 border-transparent px-5 py-2.5 text-xs font-bold transition-all duration-150">Statistics</a>
+                                    <a href="{{ route('navbarlink.home.opportunities') }}"
+                                        :class="[{{ request()->routeIs('navbarlink.home.opportunities') ? 'true' : 'false' }} ? 'border-[#00b1aa] bg-[#e6f7f7] text-[#00b1aa]' : ($store.ui.darkMode ? 'text-gray-200 hover:bg-white/10 hover:text-white hover:border-white/70' : 'text-[#2d2d2d] hover:bg-[#e6f7f7] hover:text-[#00b1aa] hover:border-[#00b1aa]')]"
+                                        class="block border-l-4 border-transparent px-5 py-2.5 text-xs font-bold transition-all duration-150">Latest
+                                        Opportunities</a>
+                                    <a href="{{ route('navbarlink.home.testimonials') }}"
+                                        :class="[{{ request()->routeIs('navbarlink.home.testimonials') ? 'true' : 'false' }} ? 'border-[#00b1aa] bg-[#e6f7f7] text-[#00b1aa]' : ($store.ui.darkMode ? 'text-gray-200 hover:bg-white/10 hover:text-white hover:border-white/70' : 'text-[#2d2d2d] hover:bg-[#e6f7f7] hover:text-[#00b1aa] hover:border-[#00b1aa]')]"
+                                        class="block border-l-4 border-transparent px-5 py-2.5 text-xs font-bold transition-all duration-150">Testimonials</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="relative pb-8 -mb-8" @mouseenter="openDropdown('internships')"
+                        @mouseleave="closeDropdown()">
+                        <button type="button"
+                            :style="@if($blueBg || $blackBg) '' @elseif($internshipsActive) 'color: #00b1aa;' @endif"
+                            :class="@if($blueBg || $blackBg) 'text-white hover:text-white' @else ($store.ui.darkMode ? 'text-gray-200 hover:text-white' : 'text-[#17494D] hover:text-[#00b1aa]') @endif"
+                            class="navlink-btn group relative flex items-center gap-1 rounded-lg px-2.5 py-1.5 text-[13px] font-semibold transition-colors duration-200">
+                            Internships
+                            <svg class="h-3.5 w-3.5 transition-transform duration-200"
+                                :class="activeDropdown === 'internships' ? 'rotate-180' : ''" viewBox="0 0 12 12"
+                                fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <polyline points="3 4.5 6 7.5 9 4.5" />
+                            </svg>
+                            <span
+                                class="absolute bottom-0 left-2 h-[2.5px] w-0 origin-left rounded-full transition-all duration-300 ease-out group-hover:w-[calc(100%-1rem)]"
+                                :class="[activeDropdown === 'internships' ? 'w-[calc(100%-1rem)]' : '', 'bg-current']"></span>
+                        </button>
+                        <div x-show="activeDropdown === 'internships'" @mouseenter="openDropdown('internships')"
+                            x-transition:enter="transition ease-out duration-200"
+                            x-transition:enter-start="opacity-0 -translate-y-2"
+                            x-transition:enter-end="opacity-100 translate-y-0"
+                            x-transition:leave="transition ease-in duration-150"
+                            x-transition:leave-start="opacity-100 translate-y-0"
+                            x-transition:leave-end="opacity-0 -translate-y-2" x-cloak
+                            class="absolute left-1/2 top-7 z-40 mt-4 -translate-x-1/2" style="display:none">
+                            <div class="w-50 rounded-none border border-t-2 border-t-[#00b1aa] p-2 shadow-[0_12px_32px_rgba(0,0,0,.10)]"
+                                :class="$store.ui.darkMode ? 'bg-[#111827] border-gray-700' : 'bg-white border-gray-200'">
+                                <div class="space-y-0.5">
+                                    <a href="{{ route('navbarlink.internships.browse') }}"
+                                        :class="[{{ request()->routeIs('navbarlink.internships.browse') ? 'true' : 'false' }} ? 'border-[#00b1aa] bg-[#e6f7f7] text-[#00b1aa]' : ($store.ui.darkMode ? 'text-gray-200 hover:bg-white/10 hover:text-white hover:border-white/70' : 'text-[#2d2d2d] hover:bg-[#e6f7f7] hover:text-[#00b1aa] hover:border-[#00b1aa]')]"
+                                        class="block border-l-4 border-transparent px-5 py-2.5 text-xs font-bold transition-all duration-150">Browse
+                                        Internships</a>
+                                    <a href="{{ route('navbarlink.internships.remote') }}"
+                                        :class="[{{ request()->routeIs('navbarlink.internships.remote') ? 'true' : 'false' }} ? 'border-[#00b1aa] bg-[#e6f7f7] text-[#00b1aa]' : ($store.ui.darkMode ? 'text-gray-200 hover:bg-white/10 hover:text-white hover:border-white/70' : 'text-[#2d2d2d] hover:bg-[#e6f7f7] hover:text-[#00b1aa] hover:border-[#00b1aa]')]"
+                                        class="block border-l-4 border-transparent px-5 py-2.5 text-xs font-bold transition-all duration-150">Remote
+                                        Internships</a>
+                                    <a href="{{ route('navbarlink.internships.on-site') }}"
+                                        :class="[{{ request()->routeIs('navbarlink.internships.on-site') ? 'true' : 'false' }} ? 'border-[#00b1aa] bg-[#e6f7f7] text-[#00b1aa]' : ($store.ui.darkMode ? 'text-gray-200 hover:bg-white/10 hover:text-white hover:border-white/70' : 'text-[#2d2d2d] hover:bg-[#e6f7f7] hover:text-[#00b1aa] hover:border-[#00b1aa]')]"
+                                        class="block border-l-4 border-transparent px-5 py-2.5 text-xs font-bold transition-all duration-150">On-site
+                                        Internships</a>
+                                    <a href="{{ route('navbarlink.internships.hybrid') }}"
+                                        :class="[{{ request()->routeIs('navbarlink.internships.hybrid') ? 'true' : 'false' }} ? 'border-[#00b1aa] bg-[#e6f7f7] text-[#00b1aa]' : ($store.ui.darkMode ? 'text-gray-200 hover:bg-white/10 hover:text-white hover:border-white/70' : 'text-[#2d2d2d] hover:bg-[#e6f7f7] hover:text-[#00b1aa] hover:border-[#00b1aa]')]"
+                                        class="block border-l-4 border-transparent px-5 py-2.5 text-xs font-bold transition-all duration-150">Hybrid
+                                        Internships</a>
+                                    <a href="{{ route('navbarlink.internships.paid') }}"
+                                        :class="[{{ request()->routeIs('navbarlink.internships.paid') ? 'true' : 'false' }} ? 'border-[#00b1aa] bg-[#e6f7f7] text-[#00b1aa]' : ($store.ui.darkMode ? 'text-gray-200 hover:bg-white/10 hover:text-white hover:border-white/70' : 'text-[#2d2d2d] hover:bg-[#e6f7f7] hover:text-[#00b1aa] hover:border-[#00b1aa]')]"
+                                        class="block border-l-4 border-transparent px-5 py-2.5 text-xs font-bold transition-all duration-150">Paid
+                                        Internships</a>
+                                    <a href="{{ route('navbarlink.internships.saved') }}"
+                                        :class="[{{ request()->routeIs('navbarlink.internships.saved') ? 'true' : 'false' }} ? 'border-[#00b1aa] bg-[#e6f7f7] text-[#00b1aa]' : ($store.ui.darkMode ? 'text-gray-200 hover:bg-white/10 hover:text-white hover:border-white/70' : 'text-[#2d2d2d] hover:bg-[#e6f7f7] hover:text-[#00b1aa] hover:border-[#00b1aa]')]"
+                                        class="block border-l-4 border-transparent px-5 py-2.5 text-xs font-bold transition-all duration-150">Saved
+                                        Internships</a>
+                                    <a href="{{ route('navbarlink.internships.categories') }}"
+                                        :class="[{{ request()->routeIs('navbarlink.internships.categories') ? 'true' : 'false' }} ? 'border-[#00b1aa] bg-[#e6f7f7] text-[#00b1aa]' : ($store.ui.darkMode ? 'text-gray-200 hover:bg-white/10 hover:text-white hover:border-white/70' : 'text-[#2d2d2d] hover:bg-[#e6f7f7] hover:text-[#00b1aa] hover:border-[#00b1aa]')]"
+                                        class="block border-l-4 border-transparent px-5 py-2.5 text-xs font-bold transition-all duration-150">Internship
+                                        Categories</a>
+                                    <a href="{{ route('navbarlink.internships.tracker') }}"
+                                        :class="[{{ request()->routeIs('navbarlink.internships.tracker') ? 'true' : 'false' }} ? 'border-[#00b1aa] bg-[#e6f7f7] text-[#00b1aa]' : ($store.ui.darkMode ? 'text-gray-200 hover:bg-white/10 hover:text-white hover:border-white/70' : 'text-[#2d2d2d] hover:bg-[#e6f7f7] hover:text-[#00b1aa] hover:border-[#00b1aa]')]"
+                                        class="block border-l-4 border-transparent px-5 py-2.5 text-xs font-bold transition-all duration-150">Application
+                                        Tracker</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="relative pb-8 -mb-8" @mouseenter="openDropdown('companies')"
                         @mouseleave="closeDropdown()">
-                        <button type="button" :class="[
-            @if($blueBg || $blackBg) 'text-white hover:text-white' @else ($store.ui.darkMode ? 'text-gray-200 hover:text-white' : 'text-[#17494D] hover:text-[#00b1aa]') @endif,
-            activeDropdown === 'companies' ? (@if($blueBg || $blackBg) 'text-white' @else ($store.ui.darkMode ? 'text-white' : 'text-[#00b1aa]') @endif) : ''
-        ]" class="navlink-btn group relative flex items-center gap-1 rounded-lg px-2.5 py-1.5 text-[13px] font-medium transition-colors duration-200">
+                        <button type="button"
+                            :style="@if($blueBg || $blackBg) '' @elseif($companiesActive) 'color: #00b1aa;' @endif"
+                            :class="@if($blueBg || $blackBg) 'text-white hover:text-white' @else ($store.ui.darkMode ? 'text-gray-200 hover:text-white' : 'text-[#17494D] hover:text-[#00b1aa]') @endif"
+                            class="navlink-btn group relative flex items-center gap-1 rounded-lg px-2.5 py-1.5 text-[13px] font-semibold transition-colors duration-200">
                             Companies
                             <svg class="h-3.5 w-3.5 transition-transform duration-200"
                                 :class="activeDropdown === 'companies' ? 'rotate-180' : ''" viewBox="0 0 12 12"
@@ -145,12 +259,8 @@ Navbar — local state only; $store.ui.darkMode / lang / t() from $store.ui
                             </svg>
                             <span
                                 class="absolute bottom-0 left-2 h-[2.5px] w-0 origin-left rounded-full transition-all duration-300 ease-out group-hover:w-[calc(100%-1rem)]"
-                                :class="[
-                    activeDropdown === 'companies' ? 'w-[calc(100%-1rem)]' : '',
-                    @if($blueBg || $blackBg) 'bg-white' @else ($store.ui.darkMode ? 'bg-white' : 'bg-[#17494D]') @endif
-                ]"></span>
+                                :class="[activeDropdown === 'companies' ? 'w-[calc(100%-1rem)]' : '', 'bg-current']"></span>
                         </button>
-
                         <div x-show="activeDropdown === 'companies'" @mouseenter="openDropdown('companies')"
                             x-transition:enter="transition ease-out duration-200"
                             x-transition:enter-start="opacity-0 -translate-y-2"
@@ -162,44 +272,47 @@ Navbar — local state only; $store.ui.darkMode / lang / t() from $store.ui
                             <div class="w-50 rounded-none border border-t-2 border-t-[#00b1aa] p-2 shadow-[0_12px_32px_rgba(0,0,0,.10)]"
                                 :class="$store.ui.darkMode ? 'bg-[#111827] border-gray-700' : 'bg-white border-gray-200'">
                                 <div class="space-y-0.5">
-                                    <a href="{{ route('navbarlink.companies.host-an-intern') }}"
-                                        :class="[{{ request()->routeIs('navbarlink.companies.host-an-intern') ? 'true' : 'false' }} ? 'border-[#00b1aa] bg-[#e6f7f7] text-[#00b1aa]' : ($store.ui.darkMode ? 'text-gray-200 hover:bg-white/10 hover:text-white hover:border-white/70' : 'text-[#2d2d2d] hover:bg-[#e6f7f7] hover:text-[#00b1aa] hover:border-[#00b1aa]')]"
-                                        class="block border-l-4 border-transparent px-5 py-2.5 text-xs font-bold transition-all duration-150">Host
-                                        an Intern</a>
-                                    <a href="{{ route('navbarlink.companies.how-it-works') }}"
-                                        :class="[{{ request()->routeIs('navbarlink.companies.how-it-works') ? 'true' : 'false' }} ? 'border-[#00b1aa] bg-[#e6f7f7] text-[#00b1aa]' : ($store.ui.darkMode ? 'text-gray-200 hover:bg-white/10 hover:text-white hover:border-white/70' : 'text-[#2d2d2d] hover:bg-[#e6f7f7] hover:text-[#00b1aa] hover:border-[#00b1aa]')]"
-                                        class="block border-l-4 border-transparent px-5 py-2.5 text-xs font-bold transition-all duration-150">How
-                                        It Works</a>
-                                    <a href="{{ route('navbarlink.companies.faqs') }}"
-                                        :class="[{{ request()->routeIs('navbarlink.companies.faqs') ? 'true' : 'false' }} ? 'border-[#00b1aa] bg-[#e6f7f7] text-[#00b1aa]' : ($store.ui.darkMode ? 'text-gray-200 hover:bg-white/10 hover:text-white hover:border-white/70' : 'text-[#2d2d2d] hover:bg-[#e6f7f7] hover:text-[#00b1aa] hover:border-[#00b1aa]')]"
-                                        class="block border-l-4 border-transparent px-5 py-2.5 text-xs font-bold transition-all duration-150">FAQs</a>
+                                    <a href="{{ route('navbarlink.companies.partners') }}"
+                                        :class="[{{ request()->routeIs('navbarlink.companies.partners') ? 'true' : 'false' }} ? 'border-[#00b1aa] bg-[#e6f7f7] text-[#00b1aa]' : ($store.ui.darkMode ? 'text-gray-200 hover:bg-white/10 hover:text-white hover:border-white/70' : 'text-[#2d2d2d] hover:bg-[#e6f7f7] hover:text-[#00b1aa] hover:border-[#00b1aa]')]"
+                                        class="block border-l-4 border-transparent px-5 py-2.5 text-xs font-bold transition-all duration-150">Partner
+                                        Companies</a>
+                                    <a href="{{ route('navbarlink.companies.top-recruiters') }}"
+                                        :class="[{{ request()->routeIs('navbarlink.companies.top-recruiters') ? 'true' : 'false' }} ? 'border-[#00b1aa] bg-[#e6f7f7] text-[#00b1aa]' : ($store.ui.darkMode ? 'text-gray-200 hover:bg-white/10 hover:text-white hover:border-white/70' : 'text-[#2d2d2d] hover:bg-[#e6f7f7] hover:text-[#00b1aa] hover:border-[#00b1aa]')]"
+                                        class="block border-l-4 border-transparent px-5 py-2.5 text-xs font-bold transition-all duration-150">Top
+                                        Recruiters</a>
+                                    <a href="{{ route('navbarlink.companies.reviews') }}"
+                                        :class="[{{ request()->routeIs('navbarlink.companies.reviews') ? 'true' : 'false' }} ? 'border-[#00b1aa] bg-[#e6f7f7] text-[#00b1aa]' : ($store.ui.darkMode ? 'text-gray-200 hover:bg-white/10 hover:text-white hover:border-white/70' : 'text-[#2d2d2d] hover:bg-[#e6f7f7] hover:text-[#00b1aa] hover:border-[#00b1aa]')]"
+                                        class="block border-l-4 border-transparent px-5 py-2.5 text-xs font-bold transition-all duration-150">Company
+                                        Reviews</a>
+                                    <a href="{{ route('navbarlink.companies.become-a-partner') }}"
+                                        :class="[{{ request()->routeIs('navbarlink.companies.become-a-partner') ? 'true' : 'false' }} ? 'border-[#00b1aa] bg-[#e6f7f7] text-[#00b1aa]' : ($store.ui.darkMode ? 'text-gray-200 hover:bg-white/10 hover:text-white hover:border-white/70' : 'text-[#2d2d2d] hover:bg-[#e6f7f7] hover:text-[#00b1aa] hover:border-[#00b1aa]')]"
+                                        class="block border-l-4 border-transparent px-5 py-2.5 text-xs font-bold transition-all duration-150">Become
+                                        a Partner</a>
+                                    <a href="{{ route('navbarlink.companies.post-internship') }}"
+                                        :class="[{{ request()->routeIs('navbarlink.companies.post-internship') ? 'true' : 'false' }} ? 'border-[#00b1aa] bg-[#e6f7f7] text-[#00b1aa]' : ($store.ui.darkMode ? 'text-gray-200 hover:bg-white/10 hover:text-white hover:border-white/70' : 'text-[#2d2d2d] hover:bg-[#e6f7f7] hover:text-[#00b1aa] hover:border-[#00b1aa]')]"
+                                        class="block border-l-4 border-transparent px-5 py-2.5 text-xs font-bold transition-all duration-150">Post
+                                        an Internship</a>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="relative pb-8 -mb-8" @mouseenter="openDropdown('educators')"
-                        @mouseleave="closeDropdown()">
-                        <button type="button" :class="[
-            @if($blueBg || $blackBg) 'text-white hover:text-white' @else ($store.ui.darkMode ? 'text-gray-200 hover:text-white' : 'text-[#17494D] hover:text-[#00b1aa]') @endif,
-            activeDropdown === 'educators' ? (@if($blueBg || $blackBg) 'text-white' @else ($store.ui.darkMode ? 'text-white' : 'text-[#00b1aa]') @endif) : ''
-        ]" class="navlink-btn group relative flex items-center gap-1 rounded-lg px-2.5 py-1.5 text-[13px] font-medium transition-colors duration-200">
-                            Educators
+                    <div class="relative pb-8 -mb-8" @mouseenter="openDropdown('howit')" @mouseleave="closeDropdown()">
+                        <button type="button"
+                            :style="@if($blueBg || $blackBg) '' @elseif($howItActive) 'color: #00b1aa;' @endif"
+                            :class="@if($blueBg || $blackBg) 'text-white hover:text-white' @else ($store.ui.darkMode ? 'text-gray-200 hover:text-white' : 'text-[#17494D] hover:text-[#00b1aa]') @endif"
+                            class="navlink-btn group relative flex items-center gap-1 rounded-lg px-2.5 py-1.5 text-[13px] font-semibold transition-colors duration-200">
+                            How It Works
                             <svg class="h-3.5 w-3.5 transition-transform duration-200"
-                                :class="activeDropdown === 'educators' ? 'rotate-180' : ''" viewBox="0 0 12 12"
-                                fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round"
-                                stroke-linejoin="round">
+                                :class="activeDropdown === 'howit' ? 'rotate-180' : ''" viewBox="0 0 12 12" fill="none"
+                                stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
                                 <polyline points="3 4.5 6 7.5 9 4.5" />
                             </svg>
                             <span
                                 class="absolute bottom-0 left-2 h-[2.5px] w-0 origin-left rounded-full transition-all duration-300 ease-out group-hover:w-[calc(100%-1rem)]"
-                                :class="[
-                    activeDropdown === 'educators' ? 'w-[calc(100%-1rem)]' : '',
-                    @if($blueBg || $blackBg) 'bg-white' @else ($store.ui.darkMode ? 'bg-white' : 'bg-[#17494D]') @endif
-                ]"></span>
+                                :class="[activeDropdown === 'howit' ? 'w-[calc(100%-1rem)]' : '', 'bg-current']"></span>
                         </button>
-
-                        <div x-show="activeDropdown === 'educators'" @mouseenter="openDropdown('educators')"
+                        <div x-show="activeDropdown === 'howit'" @mouseenter="openDropdown('howit')"
                             x-transition:enter="transition ease-out duration-200"
                             x-transition:enter-start="opacity-0 -translate-y-2"
                             x-transition:enter-end="opacity-100 translate-y-0"
@@ -210,73 +323,22 @@ Navbar — local state only; $store.ui.darkMode / lang / t() from $store.ui
                             <div class="w-50 rounded-none border border-t-2 border-t-[#00b1aa] p-2 shadow-[0_12px_32px_rgba(0,0,0,.10)]"
                                 :class="$store.ui.darkMode ? 'bg-[#111827] border-gray-700' : 'bg-white border-gray-200'">
                                 <div class="space-y-0.5">
-                                    <a href="{{ route('navbarlink.educators.universities') }}"
-                                        :class="[{{ request()->routeIs('navbarlink.educators.universities') ? 'true' : 'false' }} ? 'border-[#00b1aa] bg-[#e6f7f7] text-[#00b1aa]' : ($store.ui.darkMode ? 'text-gray-200 hover:bg-white/10 hover:text-white hover:border-white/70' : 'text-[#2d2d2d] hover:bg-[#e6f7f7] hover:text-[#00b1aa] hover:border-[#00b1aa]')]"
-                                        class="block border-l-4 border-transparent px-5 py-2.5 text-xs font-bold transition-all duration-150">Universities</a>
-                                    <a href="{{ route('navbarlink.educators.bootcamps') }}"
-                                        :class="[{{ request()->routeIs('navbarlink.educators.bootcamps') ? 'true' : 'false' }} ? 'border-[#00b1aa] bg-[#e6f7f7] text-[#00b1aa]' : ($store.ui.darkMode ? 'text-gray-200 hover:bg-white/10 hover:text-white hover:border-white/70' : 'text-[#2d2d2d] hover:bg-[#e6f7f7] hover:text-[#00b1aa] hover:border-[#00b1aa]')]"
-                                        class="block border-l-4 border-transparent px-5 py-2.5 text-xs font-bold transition-all duration-150">Bootcamps</a>
-                                    <a href="{{ route('navbarlink.educators.governments') }}"
-                                        :class="[{{ request()->routeIs('navbarlink.educators.governments') ? 'true' : 'false' }} ? 'border-[#00b1aa] bg-[#e6f7f7] text-[#00b1aa]' : ($store.ui.darkMode ? 'text-gray-200 hover:bg-white/10 hover:text-white hover:border-white/70' : 'text-[#2d2d2d] hover:bg-[#e6f7f7] hover:text-[#00b1aa] hover:border-[#00b1aa]')]"
-                                        class="block border-l-4 border-transparent px-5 py-2.5 text-xs font-bold transition-all duration-150">Governments</a>
-                                    <a href="{{ route('navbarlink.educators.affiliates') }}"
-                                        :class="[{{ request()->routeIs('navbarlink.educators.affiliates') ? 'true' : 'false' }} ? 'border-[#00b1aa] bg-[#e6f7f7] text-[#00b1aa]' : ($store.ui.darkMode ? 'text-gray-200 hover:bg-white/10 hover:text-white hover:border-white/70' : 'text-[#2d2d2d] hover:bg-[#e6f7f7] hover:text-[#00b1aa] hover:border-[#00b1aa]')]"
-                                        class="block border-l-4 border-transparent px-5 py-2.5 text-xs font-bold transition-all duration-150">Affiliates</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="relative pb-8 -mb-8" @mouseenter="openDropdown('interns')"
-                        @mouseleave="closeDropdown()">
-                        <button type="button" :class="[
-            @if($blueBg || $blackBg) 'text-white hover:text-white' @else ($store.ui.darkMode ? 'text-gray-200 hover:text-white' : 'text-[#17494D] hover:text-[#00b1aa]') @endif,
-            activeDropdown === 'interns' ? (@if($blueBg || $blackBg) 'text-white' @else ($store.ui.darkMode ? 'text-white' : 'text-[#00b1aa]') @endif) : ''
-        ]" class="navlink-btn group relative flex items-center gap-1 rounded-lg px-2.5 py-1.5 text-[13px] font-medium transition-colors duration-200">
-                            Internships
-                            <svg class="h-3.5 w-3.5 transition-transform duration-200"
-                                :class="activeDropdown === 'interns' ? 'rotate-180' : ''" viewBox="0 0 12 12"
-                                fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round"
-                                stroke-linejoin="round">
-                                <polyline points="3 4.5 6 7.5 9 4.5" />
-                            </svg>
-                            <span
-                                class="absolute bottom-0 left-2 h-[2.5px] w-0 origin-left rounded-full transition-all duration-300 ease-out group-hover:w-[calc(100%-1rem)]"
-                                :class="[
-                    activeDropdown === 'interns' ? 'w-[calc(100%-1rem)]' : '',
-                    @if($blueBg || $blackBg) 'bg-white' @else ($store.ui.darkMode ? 'bg-white' : 'bg-[#17494D]') @endif
-                ]"></span>
-                        </button>
-
-                        <div x-show="activeDropdown === 'interns'" @mouseenter="openDropdown('interns')"
-                            x-transition:enter="transition ease-out duration-200"
-                            x-transition:enter-start="opacity-0 -translate-y-2"
-                            x-transition:enter-end="opacity-100 translate-y-0"
-                            x-transition:leave="transition ease-in duration-150"
-                            x-transition:leave-start="opacity-100 translate-y-0"
-                            x-transition:leave-end="opacity-0 -translate-y-2" x-cloak
-                            class="absolute left-1/2 top-7 z-40 mt-4 -translate-x-1/2" style="display:none">
-                            <div class="w-50 rounded-none border border-t-2 border-t-[#00b1aa] p-2 shadow-[0_12px_32px_rgba(0,0,0,.10)]"
-                                :class="$store.ui.darkMode ? 'bg-[#111827] border-gray-700' : 'bg-white border-gray-200'">
-                                <div class="space-y-0.5">
-                                    <a href="{{ route('navbarlink.interns.apply-for-internships') }}"
-                                        :class="[{{ request()->routeIs('navbarlink.interns.apply-for-internships') ? 'true' : 'false' }} ? 'border-[#00b1aa] bg-[#e6f7f7] text-[#00b1aa]' : ($store.ui.darkMode ? 'text-gray-200 hover:bg-white/10 hover:text-white hover:border-white/70' : 'text-[#2d2d2d] hover:bg-[#e6f7f7] hover:text-[#00b1aa] hover:border-[#00b1aa]')]"
-                                        class="block border-l-4 border-transparent px-5 py-2.5 text-xs font-bold transition-all duration-150">Apply
-                                        for Internships</a>
-                                    <a href="{{ route('navbarlink.interns.how-it-works') }}"
-                                        :class="[{{ request()->routeIs('navbarlink.interns.how-it-works') ? 'true' : 'false' }} ? 'border-[#00b1aa] bg-[#e6f7f7] text-[#00b1aa]' : ($store.ui.darkMode ? 'text-gray-200 hover:bg-white/10 hover:text-white hover:border-white/70' : 'text-[#2d2d2d] hover:bg-[#e6f7f7] hover:text-[#00b1aa] hover:border-[#00b1aa]')]"
-                                        class="block border-l-4 border-transparent px-5 py-2.5 text-xs font-bold transition-all duration-150">How
-                                        It Works</a>
-                                    <a href="{{ route('navbarlink.interns.career-fields') }}"
-                                        :class="[{{ request()->routeIs('navbarlink.interns.career-fields') ? 'true' : 'false' }} ? 'border-[#00b1aa] bg-[#e6f7f7] text-[#00b1aa]' : ($store.ui.darkMode ? 'text-gray-200 hover:bg-white/10 hover:text-white hover:border-white/70' : 'text-[#2d2d2d] hover:bg-[#e6f7f7] hover:text-[#00b1aa] hover:border-[#00b1aa]')]"
-                                        class="block border-l-4 border-transparent px-5 py-2.5 text-xs font-bold transition-all duration-150">Career
-                                        Fields</a>
-                                    <a href="{{ route('navbarlink.interns.experiences') }}"
-                                        :class="[{{ request()->routeIs('navbarlink.interns.experiences') ? 'true' : 'false' }} ? 'border-[#00b1aa] bg-[#e6f7f7] text-[#00b1aa]' : ($store.ui.darkMode ? 'text-gray-200 hover:bg-white/10 hover:text-white hover:border-white/70' : 'text-[#2d2d2d] hover:bg-[#e6f7f7] hover:text-[#00b1aa] hover:border-[#00b1aa]')]"
-                                        class="block border-l-4 border-transparent px-5 py-2.5 text-xs font-bold transition-all duration-150">Experiences</a>
-                                    <a href="{{ route('navbarlink.interns.faqs') }}"
-                                        :class="[{{ request()->routeIs('navbarlink.interns.faqs') ? 'true' : 'false' }} ? 'border-[#00b1aa] bg-[#e6f7f7] text-[#00b1aa]' : ($store.ui.darkMode ? 'text-gray-200 hover:bg-white/10 hover:text-white hover:border-white/70' : 'text-[#2d2d2d] hover:bg-[#e6f7f7] hover:text-[#00b1aa] hover:border-[#00b1aa]')]"
-                                        class="block border-l-4 border-transparent px-5 py-2.5 text-xs font-bold transition-all duration-150">FAQs</a>
+                                    <a href="{{ route('navbarlink.howit.students') }}"
+                                        :class="[{{ request()->routeIs('navbarlink.howit.students') ? 'true' : 'false' }} ? 'border-[#00b1aa] bg-[#e6f7f7] text-[#00b1aa]' : ($store.ui.darkMode ? 'text-gray-200 hover:bg-white/10 hover:text-white hover:border-white/70' : 'text-[#2d2d2d] hover:bg-[#e6f7f7] hover:text-[#00b1aa] hover:border-[#00b1aa]')]"
+                                        class="block border-l-4 border-transparent px-5 py-2.5 text-xs font-bold transition-all duration-150">For
+                                        Students</a>
+                                    <a href="{{ route('navbarlink.howit.companies') }}"
+                                        :class="[{{ request()->routeIs('navbarlink.howit.companies') ? 'true' : 'false' }} ? 'border-[#00b1aa] bg-[#e6f7f7] text-[#00b1aa]' : ($store.ui.darkMode ? 'text-gray-200 hover:bg-white/10 hover:text-white hover:border-white/70' : 'text-[#2d2d2d] hover:bg-[#e6f7f7] hover:text-[#00b1aa] hover:border-[#00b1aa]')]"
+                                        class="block border-l-4 border-transparent px-5 py-2.5 text-xs font-bold transition-all duration-150">For
+                                        Companies</a>
+                                    <a href="{{ route('navbarlink.howit.universities') }}"
+                                        :class="[{{ request()->routeIs('navbarlink.howit.universities') ? 'true' : 'false' }} ? 'border-[#00b1aa] bg-[#e6f7f7] text-[#00b1aa]' : ($store.ui.darkMode ? 'text-gray-200 hover:bg-white/10 hover:text-white hover:border-white/70' : 'text-[#2d2d2d] hover:bg-[#e6f7f7] hover:text-[#00b1aa] hover:border-[#00b1aa]')]"
+                                        class="block border-l-4 border-transparent px-5 py-2.5 text-xs font-bold transition-all duration-150">For
+                                        Universities</a>
+                                    <a href="{{ route('navbarlink.howit.recruitment') }}"
+                                        :class="[{{ request()->routeIs('navbarlink.howit.recruitment') ? 'true' : 'false' }} ? 'border-[#00b1aa] bg-[#e6f7f7] text-[#00b1aa]' : ($store.ui.darkMode ? 'text-gray-200 hover:bg-white/10 hover:text-white hover:border-white/70' : 'text-[#2d2d2d] hover:bg-[#e6f7f7] hover:text-[#00b1aa] hover:border-[#00b1aa]')]"
+                                        class="block border-l-4 border-transparent px-5 py-2.5 text-xs font-bold transition-all duration-150">Recruitment
+                                        Process</a>
                                 </div>
                             </div>
                         </div>
@@ -284,10 +346,10 @@ Navbar — local state only; $store.ui.darkMode / lang / t() from $store.ui
 
                     <div class="relative pb-8 -mb-8" @mouseenter="openDropdown('resources')"
                         @mouseleave="closeDropdown()">
-                        <button type="button" :class="[
-            @if($blueBg || $blackBg) 'text-white hover:text-white' @else ($store.ui.darkMode ? 'text-gray-200 hover:text-white' : 'text-[#17494D] hover:text-[#00b1aa]') @endif,
-            activeDropdown === 'resources' ? (@if($blueBg || $blackBg) 'text-white' @else ($store.ui.darkMode ? 'text-white' : 'text-[#00b1aa]') @endif) : ''
-        ]" class="navlink-btn group relative flex items-center gap-1 rounded-lg px-2.5 py-1.5 text-[13px] font-medium transition-colors duration-200">
+                        <button type="button"
+                            :style="@if($blueBg || $blackBg) '' @elseif($resourcesActive) 'color: #00b1aa;' @endif"
+                            :class="@if($blueBg || $blackBg) 'text-white hover:text-white' @else ($store.ui.darkMode ? 'text-gray-200 hover:text-white' : 'text-[#17494D] hover:text-[#00b1aa]') @endif"
+                            class="navlink-btn group relative flex items-center gap-1 rounded-lg px-2.5 py-1.5 text-[13px] font-semibold transition-colors duration-200">
                             Resources
                             <svg class="h-3.5 w-3.5 transition-transform duration-200"
                                 :class="activeDropdown === 'resources' ? 'rotate-180' : ''" viewBox="0 0 12 12"
@@ -297,12 +359,8 @@ Navbar — local state only; $store.ui.darkMode / lang / t() from $store.ui
                             </svg>
                             <span
                                 class="absolute bottom-0 left-2 h-[2.5px] w-0 origin-left rounded-full transition-all duration-300 ease-out group-hover:w-[calc(100%-1rem)]"
-                                :class="[
-                    activeDropdown === 'resources' ? 'w-[calc(100%-1rem)]' : '',
-                    @if($blueBg || $blackBg) 'bg-white' @else ($store.ui.darkMode ? 'bg-white' : 'bg-[#17494D]') @endif
-                ]"></span>
+                                :class="[activeDropdown === 'resources' ? 'w-[calc(100%-1rem)]' : '', 'bg-current']"></span>
                         </button>
-
                         <div x-show="activeDropdown === 'resources'" @mouseenter="openDropdown('resources')"
                             x-transition:enter="transition ease-out duration-200"
                             x-transition:enter-start="opacity-0 -translate-y-2"
@@ -314,71 +372,29 @@ Navbar — local state only; $store.ui.darkMode / lang / t() from $store.ui
                             <div class="w-50 rounded-none border border-t-2 border-t-[#00b1aa] p-2 shadow-[0_12px_32px_rgba(0,0,0,.10)]"
                                 :class="$store.ui.darkMode ? 'bg-[#111827] border-gray-700' : 'bg-white border-gray-200'">
                                 <div class="space-y-0.5">
+                                    <a href="{{ route('navbarlink.resources.cv-builder') }}"
+                                        :class="[{{ request()->routeIs('navbarlink.resources.cv-builder') ? 'true' : 'false' }} ? 'border-[#00b1aa] bg-[#e6f7f7] text-[#00b1aa]' : ($store.ui.darkMode ? 'text-gray-200 hover:bg-white/10 hover:text-white hover:border-white/70' : 'text-[#2d2d2d] hover:bg-[#e6f7f7] hover:text-[#00b1aa] hover:border-[#00b1aa]')]"
+                                        class="block border-l-4 border-transparent px-5 py-2.5 text-xs font-bold transition-all duration-150">CV
+                                        Builder</a>
+                                    <a href="{{ route('navbarlink.resources.resume-tips') }}"
+                                        :class="[{{ request()->routeIs('navbarlink.resources.resume-tips') ? 'true' : 'false' }} ? 'border-[#00b1aa] bg-[#e6f7f7] text-[#00b1aa]' : ($store.ui.darkMode ? 'text-gray-200 hover:bg-white/10 hover:text-white hover:border-white/70' : 'text-[#2d2d2d] hover:bg-[#e6f7f7] hover:text-[#00b1aa] hover:border-[#00b1aa]')]"
+                                        class="block border-l-4 border-transparent px-5 py-2.5 text-xs font-bold transition-all duration-150">Resume
+                                        Tips</a>
+                                    <a href="{{ route('navbarlink.resources.interview-preparation') }}"
+                                        :class="[{{ request()->routeIs('navbarlink.resources.interview-preparation') ? 'true' : 'false' }} ? 'border-[#00b1aa] bg-[#e6f7f7] text-[#00b1aa]' : ($store.ui.darkMode ? 'text-gray-200 hover:bg-white/10 hover:text-white hover:border-white/70' : 'text-[#2d2d2d] hover:bg-[#e6f7f7] hover:text-[#00b1aa] hover:border-[#00b1aa]')]"
+                                        class="block border-l-4 border-transparent px-5 py-2.5 text-xs font-bold transition-all duration-150">Interview
+                                        Preparation</a>
+                                    <a href="{{ route('navbarlink.resources.career-roadmaps') }}"
+                                        :class="[{{ request()->routeIs('navbarlink.resources.career-roadmaps') ? 'true' : 'false' }} ? 'border-[#00b1aa] bg-[#e6f7f7] text-[#00b1aa]' : ($store.ui.darkMode ? 'text-gray-200 hover:bg-white/10 hover:text-white hover:border-white/70' : 'text-[#2d2d2d] hover:bg-[#e6f7f7] hover:text-[#00b1aa] hover:border-[#00b1aa]')]"
+                                        class="block border-l-4 border-transparent px-5 py-2.5 text-xs font-bold transition-all duration-150">Career
+                                        Roadmaps</a>
                                     <a href="{{ route('navbarlink.resources.blog') }}"
                                         :class="[{{ request()->routeIs('navbarlink.resources.blog') ? 'true' : 'false' }} ? 'border-[#00b1aa] bg-[#e6f7f7] text-[#00b1aa]' : ($store.ui.darkMode ? 'text-gray-200 hover:bg-white/10 hover:text-white hover:border-white/70' : 'text-[#2d2d2d] hover:bg-[#e6f7f7] hover:text-[#00b1aa] hover:border-[#00b1aa]')]"
                                         class="block border-l-4 border-transparent px-5 py-2.5 text-xs font-bold transition-all duration-150">Blog</a>
-                                    <div :class="$store.ui.darkMode ? 'bg-gray-700' : 'bg-[#e8e8e8]'"
-                                        class="mx-4 my-1 h-px"></div>
-                                    <a href="{{ route('navbarlink.resources.help-center') }}"
-                                        :class="[{{ request()->routeIs('navbarlink.resources.help-center') ? 'true' : 'false' }} ? 'border-[#00b1aa] bg-[#e6f7f7] text-[#00b1aa]' : ($store.ui.darkMode ? 'text-gray-200 hover:bg-white/10 hover:text-white hover:border-white/70' : 'text-[#2d2d2d] hover:bg-[#e6f7f7] hover:text-[#00b1aa] hover:border-[#00b1aa]')]"
-                                        class="block border-l-4 border-transparent px-5 py-2.5 text-xs font-bold transition-all duration-150">Help
-                                        Center</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="relative pb-8 -mb-8" @mouseenter="openDropdown('about_us')"
-                        @mouseleave="closeDropdown()">
-                        <button type="button" :class="[
-            @if($blueBg || $blackBg) 'text-white hover:text-white' @else ($store.ui.darkMode ? 'text-gray-200 hover:text-white' : 'text-[#17494D] hover:text-[#00b1aa]') @endif,
-            activeDropdown === 'about_us' ? (@if($blueBg || $blackBg) 'text-white' @else ($store.ui.darkMode ? 'text-white' : 'text-[#00b1aa]') @endif) : ''
-        ]" class="navlink-btn group relative flex items-center gap-1 rounded-lg px-2.5 py-1.5 text-[13px] font-medium transition-colors duration-200">
-                            About Us
-                            <svg class="h-3.5 w-3.5 transition-transform duration-200"
-                                :class="activeDropdown === 'about_us' ? 'rotate-180' : ''" viewBox="0 0 12 12"
-                                fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round"
-                                stroke-linejoin="round">
-                                <polyline points="3 4.5 6 7.5 9 4.5" />
-                            </svg>
-                            <span
-                                class="absolute bottom-0 left-2 h-[2.5px] w-0 origin-left rounded-full transition-all duration-300 ease-out group-hover:w-[calc(100%-1rem)]"
-                                :class="[
-                    activeDropdown === 'about_us' ? 'w-[calc(100%-1rem)]' : '',
-                    @if($blueBg || $blackBg) 'bg-white' @else ($store.ui.darkMode ? 'bg-white' : 'bg-[#17494D]') @endif
-                ]"></span>
-                        </button>
-
-                        <div x-show="activeDropdown === 'about_us'" @mouseenter="openDropdown('about_us')"
-                            x-transition:enter="transition ease-out duration-200"
-                            x-transition:enter-start="opacity-0 -translate-y-2"
-                            x-transition:enter-end="opacity-100 translate-y-0"
-                            x-transition:leave="transition ease-in duration-150"
-                            x-transition:leave-start="opacity-100 translate-y-0"
-                            x-transition:leave-end="opacity-0 -translate-y-2" x-cloak
-                            class="absolute left-1/2 top-7 z-40 mt-4 -translate-x-1/2" style="display:none">
-                            <div class="w-50 rounded-none border border-t-2 border-t-[#00b1aa] p-2 shadow-[0_12px_32px_rgba(0,0,0,.10)]"
-                                :class="$store.ui.darkMode ? 'bg-[#111827] border-gray-700' : 'bg-white border-gray-200'">
-                                <div class="space-y-0.5">
-                                    <a href="{{ route('navbarlink.about-us.our-mission') }}"
-                                        :class="[{{ request()->routeIs('navbarlink.about-us.our-mission') ? 'true' : 'false' }} ? 'border-[#00b1aa] bg-[#e6f7f7] text-[#00b1aa]' : ($store.ui.darkMode ? 'text-gray-200 hover:bg-white/10 hover:text-white hover:border-white/70' : 'text-[#2d2d2d] hover:bg-[#e6f7f7] hover:text-[#00b1aa] hover:border-[#00b1aa]')]"
-                                        class="block border-l-4 border-transparent px-5 py-2.5 text-xs font-bold transition-all duration-150">Our
-                                        Mission</a>
-                                    <a href="{{ route('navbarlink.about-us.our-team') }}"
-                                        :class="[{{ request()->routeIs('navbarlink.about-us.our-team') ? 'true' : 'false' }} ? 'border-[#00b1aa] bg-[#e6f7f7] text-[#00b1aa]' : ($store.ui.darkMode ? 'text-gray-200 hover:bg-white/10 hover:text-white hover:border-white/70' : 'text-[#2d2d2d] hover:bg-[#e6f7f7] hover:text-[#00b1aa] hover:border-[#00b1aa]')]"
-                                        class="block border-l-4 border-transparent px-5 py-2.5 text-xs font-bold transition-all duration-150">Our
-                                        Team</a>
-                                    <a href="{{ route('navbarlink.about-us.join-us') }}"
-                                        :class="[{{ request()->routeIs('navbarlink.about-us.join-us') ? 'true' : 'false' }} ? 'border-[#00b1aa] bg-[#e6f7f7] text-[#00b1aa]' : ($store.ui.darkMode ? 'text-gray-200 hover:bg-white/10 hover:text-white hover:border-white/70' : 'text-[#2d2d2d] hover:bg-[#e6f7f7] hover:text-[#00b1aa] hover:border-[#00b1aa]')]"
-                                        class="block border-l-4 border-transparent px-5 py-2.5 text-xs font-bold transition-all duration-150">Join
-                                        Us</a>
-                                    <a href="{{ route('navbarlink.about-us.press') }}"
-                                        :class="[{{ request()->routeIs('navbarlink.about-us.press') ? 'true' : 'false' }} ? 'border-[#00b1aa] bg-[#e6f7f7] text-[#00b1aa]' : ($store.ui.darkMode ? 'text-gray-200 hover:bg-white/10 hover:text-white hover:border-white/70' : 'text-[#2d2d2d] hover:bg-[#e6f7f7] hover:text-[#00b1aa] hover:border-[#00b1aa]')]"
-                                        class="block border-l-4 border-transparent px-5 py-2.5 text-xs font-bold transition-all duration-150">Press</a>
-                                    <a href="{{ route('navbarlink.about-us.contact-us') }}"
-                                        :class="[{{ request()->routeIs('navbarlink.about-us.contact-us') ? 'true' : 'false' }} ? 'border-[#00b1aa] bg-[#e6f7f7] text-[#00b1aa]' : ($store.ui.darkMode ? 'text-gray-200 hover:bg-white/10 hover:text-white hover:border-white/70' : 'text-[#2d2d2d] hover:bg-[#e6f7f7] hover:text-[#00b1aa] hover:border-[#00b1aa]')]"
-                                        class="block border-l-4 border-transparent px-5 py-2.5 text-xs font-bold transition-all duration-150">Contact
-                                        Us</a>
+                                    <a href="{{ route('navbarlink.resources.guides-tutorials') }}"
+                                        :class="[{{ request()->routeIs('navbarlink.resources.guides-tutorials') ? 'true' : 'false' }} ? 'border-[#00b1aa] bg-[#e6f7f7] text-[#00b1aa]' : ($store.ui.darkMode ? 'text-gray-200 hover:bg-white/10 hover:text-white hover:border-white/70' : 'text-[#2d2d2d] hover:bg-[#e6f7f7] hover:text-[#00b1aa] hover:border-[#00b1aa]')]"
+                                        class="block border-l-4 border-transparent px-5 py-2.5 text-xs font-bold transition-all duration-150">Guides
+                                        &amp; Tutorials</a>
                                 </div>
                             </div>
                         </div>
@@ -470,6 +486,14 @@ Navbar — local state only; $store.ui.darkMode / lang / t() from $store.ui
                                     class="rounded-xl bg-[#f79123] px-5 py-2 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-[#e07d0e] hover:shadow-md">
                                     <span x-text="$store.ui.t('dashboard')"></span>
                                 </a>
+                                <form method="POST" action="{{ route('logout') }}" class="inline">
+                                    @csrf
+                                    <button type="submit"
+                                        :class="@if($blueBg || $blackBg) 'border-white text-white hover:bg-white/10 hover:border-white' @else ($store.ui.darkMode ? 'border-gray-500 text-gray-200 hover:bg-white/10 hover:border-gray-300' : 'border-[#1F1F1F] text-[#1F1F1F] hover:bg-gray-50') @endif"
+                                        class="rounded-xl border px-5 py-2 text-sm font-semibold transition-all duration-200 hover:shadow-md">
+                                        Logout
+                                    </button>
+                                </form>
                             @else
                                 <a href="{{ route('choose_path') }}"
                                     :class="@if($blueBg || $blackBg) 'border-white text-white hover:bg-white/10 hover:border-white' @else ($store.ui.darkMode ? 'border-gray-500 text-gray-200 hover:bg-white/10 hover:border-gray-300' : 'border-[#1F1F1F] text-[#1F1F1F] hover:bg-gray-50') @endif"
@@ -510,172 +534,94 @@ Navbar — local state only; $store.ui.darkMode / lang / t() from $store.ui
                 x-cloak :class="$store.ui.darkMode ? 'bg-gray-950 border-gray-800' : 'bg-white border-gray-200'"
                 class="border-b md:hidden" style="display:none">
                 <div class="mx-auto max-w-6xl space-y-1 px-4 py-3">
-                    {{-- Mobile: Companies --}}
+                    <a href="{{ url('/') }}" class="block rounded-lg px-4 py-2.5 text-sm font-semibold">Home</a>
                     <div x-data="{ open: false }">
                         <button @click="open = !open"
-                            :class="$store.ui.darkMode ? 'text-gray-200 hover:bg-white/10' : 'text-gray-900 hover:bg-gray-100'"
-                            class="flex w-full items-center justify-between rounded-lg px-4 py-2.5 text-sm font-medium transition-colors duration-200">
-                            Companies
+                            class="flex w-full items-center justify-between rounded-lg px-4 py-2.5 text-sm font-semibold">Internships
                             <svg class="h-4 w-4 transition-transform duration-200" :class="open ? 'rotate-180' : ''"
                                 fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-                            </svg>
-                        </button>
+                            </svg></button>
                         <div x-show="open" x-collapse class="ml-4 space-y-1">
-                            <a href="{{ route('navbarlink.companies.host-an-intern') }}"
-                                :class="[{{ request()->routeIs('navbarlink.companies.host-an-intern') ? 'true' : 'false' }} ? 'bg-[#e6f7f7] text-[#00b1aa] font-semibold' : ($store.ui.darkMode ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-gray-900')]"
-                                class="block rounded-lg px-4 py-2.5 text-sm transition-colors duration-150 hover:bg-gray-50 dark:hover:bg-gray-800">Host
-                                an Intern</a>
-                            <a href="{{ route('navbarlink.companies.how-it-works') }}"
-                                :class="[{{ request()->routeIs('navbarlink.companies.how-it-works') ? 'true' : 'false' }} ? 'bg-[#e6f7f7] text-[#00b1aa] font-semibold' : ($store.ui.darkMode ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-gray-900')]"
-                                class="block rounded-lg px-4 py-2.5 text-sm transition-colors duration-150 hover:bg-gray-50 dark:hover:bg-gray-800">How
-                                It Works</a>
-                            <a href="{{ route('navbarlink.companies.faqs') }}"
-                                :class="[{{ request()->routeIs('navbarlink.companies.faqs') ? 'true' : 'false' }} ? 'bg-[#e6f7f7] text-[#00b1aa] font-semibold' : ($store.ui.darkMode ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-gray-900')]"
-                                class="block rounded-lg px-4 py-2.5 text-sm transition-colors duration-150 hover:bg-gray-50 dark:hover:bg-gray-800">FAQs</a>
+                            <a href="{{ route('navbarlink.internships.browse') }}"
+                                class="block rounded-lg px-4 py-2.5 text-sm">Browse Internships</a>
+                            <a href="{{ route('navbarlink.internships.remote') }}"
+                                class="block rounded-lg px-4 py-2.5 text-sm">Remote Internships</a>
+                            <a href="{{ route('navbarlink.internships.on-site') }}"
+                                class="block rounded-lg px-4 py-2.5 text-sm">On-site Internships</a>
+                            <a href="{{ route('navbarlink.internships.hybrid') }}"
+                                class="block rounded-lg px-4 py-2.5 text-sm">Hybrid Internships</a>
+                            <a href="{{ route('navbarlink.internships.paid') }}"
+                                class="block rounded-lg px-4 py-2.5 text-sm">Paid Internships</a>
+                            <a href="{{ route('navbarlink.internships.saved') }}"
+                                class="block rounded-lg px-4 py-2.5 text-sm">Saved Internships</a>
+                            <a href="{{ route('navbarlink.internships.categories') }}"
+                                class="block rounded-lg px-4 py-2.5 text-sm">Internship Categories</a>
+                            <a href="{{ route('navbarlink.internships.tracker') }}"
+                                class="block rounded-lg px-4 py-2.5 text-sm">Application Tracker</a>
                         </div>
                     </div>
-                    {{-- Mobile: Educators --}}
                     <div x-data="{ open: false }">
                         <button @click="open = !open"
-                            :class="$store.ui.darkMode ? 'text-gray-200 hover:bg-white/10' : 'text-gray-900 hover:bg-gray-100'"
-                            class="flex w-full items-center justify-between rounded-lg px-4 py-2.5 text-sm font-medium transition-colors duration-200">
-                            Educators
+                            class="flex w-full items-center justify-between rounded-lg px-4 py-2.5 text-sm font-semibold">Companies
                             <svg class="h-4 w-4 transition-transform duration-200" :class="open ? 'rotate-180' : ''"
                                 fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-                            </svg>
-                        </button>
+                            </svg></button>
                         <div x-show="open" x-collapse class="ml-4 space-y-1">
-                            <a href="{{ route('navbarlink.educators.universities') }}"
-                                :class="[{{ request()->routeIs('navbarlink.educators.universities') ? 'true' : 'false' }} ? 'bg-[#e6f7f7] text-[#00b1aa] font-semibold' : ($store.ui.darkMode ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-gray-900')]"
-                                class="block rounded-lg px-4 py-2.5 text-sm transition-colors duration-150 hover:bg-gray-50 dark:hover:bg-gray-800">Universities</a>
-                            <a href="{{ route('navbarlink.educators.bootcamps') }}"
-                                :class="[{{ request()->routeIs('navbarlink.educators.bootcamps') ? 'true' : 'false' }} ? 'bg-[#e6f7f7] text-[#00b1aa] font-semibold' : ($store.ui.darkMode ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-gray-900')]"
-                                class="block rounded-lg px-4 py-2.5 text-sm transition-colors duration-150 hover:bg-gray-50 dark:hover:bg-gray-800">Bootcamps</a>
-                            <a href="{{ route('navbarlink.educators.governments') }}"
-                                :class="[{{ request()->routeIs('navbarlink.educators.governments') ? 'true' : 'false' }} ? 'bg-[#e6f7f7] text-[#00b1aa] font-semibold' : ($store.ui.darkMode ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-gray-900')]"
-                                class="block rounded-lg px-4 py-2.5 text-sm transition-colors duration-150 hover:bg-gray-50 dark:hover:bg-gray-800">Governments</a>
-                            <a href="{{ route('navbarlink.educators.affiliates') }}"
-                                :class="[{{ request()->routeIs('navbarlink.educators.affiliates') ? 'true' : 'false' }} ? 'bg-[#e6f7f7] text-[#00b1aa] font-semibold' : ($store.ui.darkMode ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-gray-900')]"
-                                class="block rounded-lg px-4 py-2.5 text-sm transition-colors duration-150 hover:bg-gray-50 dark:hover:bg-gray-800">Affiliates</a>
+                            <a href="{{ route('navbarlink.companies.partners') }}"
+                                class="block rounded-lg px-4 py-2.5 text-sm">Partner Companies</a>
+                            <a href="{{ route('navbarlink.companies.top-recruiters') }}"
+                                class="block rounded-lg px-4 py-2.5 text-sm">Top Recruiters</a>
+                            <a href="{{ route('navbarlink.companies.reviews') }}"
+                                class="block rounded-lg px-4 py-2.5 text-sm">Company Reviews</a>
+                            <a href="{{ route('navbarlink.companies.become-a-partner') }}"
+                                class="block rounded-lg px-4 py-2.5 text-sm">Become a Partner</a>
+                            <a href="{{ route('navbarlink.companies.post-internship') }}"
+                                class="block rounded-lg px-4 py-2.5 text-sm">Post an Internship</a>
                         </div>
                     </div>
-                    {{-- Mobile: Interns --}}
                     <div x-data="{ open: false }">
                         <button @click="open = !open"
-                            :class="$store.ui.darkMode ? 'text-gray-200 hover:bg-white/10' : 'text-gray-900 hover:bg-gray-100'"
-                            class="flex w-full items-center justify-between rounded-lg px-4 py-2.5 text-sm font-medium transition-colors duration-200">
-                            Interns
-                            <svg class="h-4 w-4 transition-transform duration-200" :class="open ? 'rotate-180' : ''"
-                                fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                            class="flex w-full items-center justify-between rounded-lg px-4 py-2.5 text-sm font-semibold">How
+                            It Works <svg class="h-4 w-4 transition-transform duration-200"
+                                :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" stroke-width="1.5"
+                                viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-                            </svg>
-                        </button>
+                            </svg></button>
                         <div x-show="open" x-collapse class="ml-4 space-y-1">
-                            <a href="{{ route('navbarlink.interns.apply-for-internships') }}"
-                                :class="[{{ request()->routeIs('navbarlink.interns.apply-for-internships') ? 'true' : 'false' }} ? 'bg-[#e6f7f7] text-[#00b1aa] font-semibold' : ($store.ui.darkMode ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-gray-900')]"
-                                class="block rounded-lg px-4 py-2.5 text-sm transition-colors duration-150 hover:bg-gray-50 dark:hover:bg-gray-800">Apply
-                                for Internships</a>
-                            <a href="{{ route('navbarlink.interns.how-it-works') }}"
-                                :class="[{{ request()->routeIs('navbarlink.interns.how-it-works') ? 'true' : 'false' }} ? 'bg-[#e6f7f7] text-[#00b1aa] font-semibold' : ($store.ui.darkMode ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-gray-900')]"
-                                class="block rounded-lg px-4 py-2.5 text-sm transition-colors duration-150 hover:bg-gray-50 dark:hover:bg-gray-800">How
-                                It Works</a>
-                            <a href="{{ route('navbarlink.interns.career-fields') }}"
-                                :class="[{{ request()->routeIs('navbarlink.interns.career-fields') ? 'true' : 'false' }} ? 'bg-[#e6f7f7] text-[#00b1aa] font-semibold' : ($store.ui.darkMode ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-gray-900')]"
-                                class="block rounded-lg px-4 py-2.5 text-sm transition-colors duration-150 hover:bg-gray-50 dark:hover:bg-gray-800">Career
-                                Fields</a>
-                            <a href="{{ route('navbarlink.interns.experiences') }}"
-                                :class="[{{ request()->routeIs('navbarlink.interns.experiences') ? 'true' : 'false' }} ? 'bg-[#e6f7f7] text-[#00b1aa] font-semibold' : ($store.ui.darkMode ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-gray-900')]"
-                                class="block rounded-lg px-4 py-2.5 text-sm transition-colors duration-150 hover:bg-gray-50 dark:hover:bg-gray-800">Experiences</a>
-                            <a href="{{ route('navbarlink.interns.faqs') }}"
-                                :class="[{{ request()->routeIs('navbarlink.interns.faqs') ? 'true' : 'false' }} ? 'bg-[#e6f7f7] text-[#00b1aa] font-semibold' : ($store.ui.darkMode ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-gray-900')]"
-                                class="block rounded-lg px-4 py-2.5 text-sm transition-colors duration-150 hover:bg-gray-50 dark:hover:bg-gray-800">FAQs</a>
+                            <a href="{{ route('navbarlink.howit.students') }}"
+                                class="block rounded-lg px-4 py-2.5 text-sm">For Students</a>
+                            <a href="{{ route('navbarlink.howit.companies') }}"
+                                class="block rounded-lg px-4 py-2.5 text-sm">For Companies</a>
+                            <a href="{{ route('navbarlink.howit.universities') }}"
+                                class="block rounded-lg px-4 py-2.5 text-sm">For Universities</a>
+                            <a href="{{ route('navbarlink.howit.recruitment') }}"
+                                class="block rounded-lg px-4 py-2.5 text-sm">Recruitment Process</a>
                         </div>
                     </div>
-                    {{-- Mobile: Resources --}}
                     <div x-data="{ open: false }">
                         <button @click="open = !open"
-                            :class="$store.ui.darkMode ? 'text-gray-200 hover:bg-white/10' : 'text-gray-900 hover:bg-gray-100'"
-                            class="flex w-full items-center justify-between rounded-lg px-4 py-2.5 text-sm font-medium transition-colors duration-200">
-                            Resources
+                            class="flex w-full items-center justify-between rounded-lg px-4 py-2.5 text-sm font-semibold">Resources
                             <svg class="h-4 w-4 transition-transform duration-200" :class="open ? 'rotate-180' : ''"
                                 fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-                            </svg>
-                        </button>
+                            </svg></button>
                         <div x-show="open" x-collapse class="ml-4 space-y-1">
+                            <a href="{{ route('navbarlink.resources.cv-builder') }}"
+                                class="block rounded-lg px-4 py-2.5 text-sm">CV Builder</a>
+                            <a href="{{ route('navbarlink.resources.resume-tips') }}"
+                                class="block rounded-lg px-4 py-2.5 text-sm">Resume Tips</a>
+                            <a href="{{ route('navbarlink.resources.interview-preparation') }}"
+                                class="block rounded-lg px-4 py-2.5 text-sm">Interview Preparation</a>
+                            <a href="{{ route('navbarlink.resources.career-roadmaps') }}"
+                                class="block rounded-lg px-4 py-2.5 text-sm">Career Roadmaps</a>
                             <a href="{{ route('navbarlink.resources.blog') }}"
-                                :class="[{{ request()->routeIs('navbarlink.resources.blog') ? 'true' : 'false' }} ? 'bg-[#e6f7f7] text-[#00b1aa] font-semibold' : ($store.ui.darkMode ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-gray-900')]"
-                                class="block rounded-lg px-4 py-2.5 text-sm transition-colors duration-150 hover:bg-gray-50 dark:hover:bg-gray-800">Blog</a>
-                            <a href="{{ route('navbarlink.resources.help-center') }}"
-                                :class="[{{ request()->routeIs('navbarlink.resources.help-center') ? 'true' : 'false' }} ? 'bg-[#e6f7f7] text-[#00b1aa] font-semibold' : ($store.ui.darkMode ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-gray-900')]"
-                                class="block rounded-lg px-4 py-2.5 text-sm transition-colors duration-150 hover:bg-gray-50 dark:hover:bg-gray-800">Help
-                                Center</a>
-                        </div>
-                        <a href="{{ route('navbarlink.about-us.our-mission') }}"
-                            :class="[{{ request()->routeIs('navbarlink.about-us.our-mission') ? 'true' : 'false' }} ? 'bg-[#e6f7f7] text-[#00b1aa] font-semibold' : ($store.ui.darkMode ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-gray-900')]"
-                            class="block rounded-lg px-4 py-2.5 text-sm transition-colors duration-150 hover:bg-gray-50 dark:hover:bg-gray-800">Our
-                            Mission</a>
-                        <a href="{{ route('navbarlink.about-us.our-team') }}"
-                            :class="[{{ request()->routeIs('navbarlink.about-us.our-team') ? 'true' : 'false' }} ? 'bg-[#e6f7f7] text-[#00b1aa] font-semibold' : ($store.ui.darkMode ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-gray-900')]"
-                            class="block rounded-lg px-4 py-2.5 text-sm transition-colors duration-150 hover:bg-gray-50 dark:hover:bg-gray-800">Our
-                            Team</a>
-                        <a href="{{ route('navbarlink.about-us.join-us') }}"
-                            :class="[{{ request()->routeIs('navbarlink.about-us.join-us') ? 'true' : 'false' }} ? 'bg-[#e6f7f7] text-[#00b1aa] font-semibold' : ($store.ui.darkMode ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-gray-900')]"
-                            class="block rounded-lg px-4 py-2.5 text-sm transition-colors duration-150 hover:bg-gray-50 dark:hover:bg-gray-800">Join
-                            Us</a>
-                        <a href="{{ route('navbarlink.about-us.press') }}"
-                            :class="[{{ request()->routeIs('navbarlink.about-us.press') ? 'true' : 'false' }} ? 'bg-[#e6f7f7] text-[#00b1aa] font-semibold' : ($store.ui.darkMode ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-gray-900')]"
-                            class="block rounded-lg px-4 py-2.5 text-sm transition-colors duration-150 hover:bg-gray-50 dark:hover:bg-gray-800">Press</a>
-                        <a href="{{ route('navbarlink.about-us.contact-us') }}"
-                            :class="[{{ request()->routeIs('navbarlink.about-us.contact-us') ? 'true' : 'false' }} ? 'bg-[#e6f7f7] text-[#00b1aa] font-semibold' : ($store.ui.darkMode ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-gray-900')]"
-                            class="block rounded-lg px-4 py-2.5 text-sm transition-colors duration-150 hover:bg-gray-50 dark:hover:bg-gray-800">Contact
-                            Us</a>
-                    </div>
-                    {{-- Mobile: About Us --}}
-                    <div x-data="{ open: false }">
-                        <button @click="open = !open"
-                            :class="$store.ui.darkMode ? 'text-gray-200 hover:bg-white/10' : 'text-gray-900 hover:bg-gray-100'"
-                            class="flex w-full items-center justify-between rounded-lg px-4 py-2.5 text-sm font-medium transition-colors duration-200">
-                            About Us
-                            <svg class="h-4 w-4 transition-transform duration-200" :class="open ? 'rotate-180' : ''"
-                                fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-                            </svg>
-                        </button>
-                        <div x-show="open" x-collapse class="ml-4 space-y-1">
-                            <a href="{{ route('navbarlink.about-us.our-mission') }}"
-                                :class="[{{ request()->routeIs('navbarlink.about-us.our-mission') ? 'true' : 'false' }} ? 'bg-[#e6f7f7] text-[#00b1aa] font-semibold' : ($store.ui.darkMode ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-gray-900')]"
-                                class="block rounded-lg px-4 py-2.5 text-sm transition-colors duration-150 hover:bg-gray-50 dark:hover:bg-gray-800">Our
-                                Mission</a>
-                            <a href="{{ route('navbarlink.about-us.our-team') }}"
-                                :class="[{{ request()->routeIs('navbarlink.about-us.our-team') ? 'true' : 'false' }} ? 'bg-[#e6f7f7] text-[#00b1aa] font-semibold' : ($store.ui.darkMode ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-gray-900')]"
-                                class="block rounded-lg px-4 py-2.5 text-sm transition-colors duration-150 hover:bg-gray-50 dark:hover:bg-gray-800">Our
-                                Team</a>
-                            <a href="{{ route('navbarlink.about-us.join-us') }}"
-                                :class="[{{ request()->routeIs('navbarlink.about-us.join-us') ? 'true' : 'false' }} ? 'bg-[#e6f7f7] text-[#00b1aa] font-semibold' : ($store.ui.darkMode ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-gray-900')]"
-                                class="block rounded-lg px-4 py-2.5 text-sm transition-colors duration-150 hover:bg-gray-50 dark:hover:bg-gray-800">Join
-                                Us</a>
-                            <a href="{{ route('navbarlink.about-us.press') }}"
-                                :class="[{{ request()->routeIs('navbarlink.about-us.press') ? 'true' : 'false' }} ? 'bg-[#e6f7f7] text-[#00b1aa] font-semibold' : ($store.ui.darkMode ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-gray-900')]"
-                                class="block rounded-lg px-4 py-2.5 text-sm transition-colors duration-150 hover:bg-gray-50 dark:hover:bg-gray-800">Press</a>
-                            <a href="{{ route('navbarlink.about-us.contact-us') }}"
-                                :class="[{{ request()->routeIs('navbarlink.about-us.contact-us') ? 'true' : 'false' }} ? 'bg-[#e6f7f7] text-[#00b1aa] font-semibold' : ($store.ui.darkMode ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-gray-900')]"
-                                class="block rounded-lg px-4 py-2.5 text-sm transition-colors duration-150 hover:bg-gray-50 dark:hover:bg-gray-800">Contact
-                                Us</a>
+                                class="block rounded-lg px-4 py-2.5 text-sm">Blog</a>
+                            <a href="{{ route('navbarlink.resources.guides-tutorials') }}"
+                                class="block rounded-lg px-4 py-2.5 text-sm">Guides &amp; Tutorials</a>
                         </div>
                     </div>
-                    <a href="{{ route('help-center') }}"
-                        :class="$store.ui.darkMode ? 'text-gray-200 hover:bg-white/10' : 'text-gray-900 hover:bg-gray-100'"
-                        class="block rounded-lg px-6 py-3 text-sm font-medium transition-colors duration-200">
-                        Help Center
-                    </a>
-                    <a href="{{ route('contact') }}"
-                        :class="$store.ui.darkMode ? 'text-gray-200 hover:bg-white/10' : 'text-gray-900 hover:bg-gray-100'"
-                        class="block rounded-lg px-6 py-3 text-sm font-medium transition-colors duration-200">
-                        Contact
-                    </a>
                     {{-- Mobile: Auth --}}
                     <div class="space-y-2 border-t pt-4"
                         :class="$store.ui.darkMode ? 'border-gray-800' : 'border-gray-200'">
@@ -685,6 +631,14 @@ Navbar — local state only; $store.ui.darkMode / lang / t() from $store.ui
                                     class="block rounded-xl bg-[#f79123] px-5 py-2.5 text-center text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-[#e07d0e] hover:shadow-md">
                                     <span x-text="$store.ui.t('dashboard')"></span>
                                 </a>
+                                <form method="POST" action="{{ route('logout') }}" class="block w-full">
+                                    @csrf
+                                    <button type="submit"
+                                        :class="$store.ui.darkMode ? 'border-gray-500 text-gray-200 hover:border-gray-300' : 'border-[#1F1F1F] text-[#1F1F1F] hover:bg-gray-50'"
+                                        class="block w-full rounded-[10px] border px-5 py-2.5 text-center text-sm font-semibold shadow-sm transition-all duration-200 hover:shadow-md">
+                                        Logout
+                                    </button>
+                                </form>
                             @else
                                 <a href="{{ route('choose_path') }}"
                                     :class="$store.ui.darkMode ? 'border-gray-500 text-gray-200 hover:border-gray-300' : 'border-[#1F1F1F] text-[#1F1F1F] hover:bg-gray-50'"

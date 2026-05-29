@@ -9,52 +9,73 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
 
 class QuickRegisterController extends Controller
 {
-    /**
-     * Handle quick registration:
-     * 1. Validate email
-     * 2. Create user account (random password)
-     * 3. Auto-login
-     * 4. Send welcome email (async)
-     * 5. Redirect to dashboard
-     */
     public function store(Request $request)
     {
-        // ── 1. Validate ──────────────────────────────────────────────
         $request->validate([
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
+            'email' => ['required', 'string', 'email', 'max:255'],
         ], [
             'email.required' => 'Please enter your email address.',
             'email.email' => 'Please enter a valid email address.',
-            'email.unique' => 'This email is already registered. Please log in instead.',
         ]);
 
-        // ── 2. Create user ────────────────────────────────────────────
-        // Extract name from email (e.g. john.doe@gmail.com → John Doe)
+        $existingUser = User::query()->where('email', $request->email)->first();
+
+        // If the user already exists and is verified → log them in directly
+        if ($existingUser && $existingUser->email_verified_at) {
+            Auth::login($existingUser);
+
+            if ($existingUser->role === 'intern') {
+                $detail = \App\Models\InternInfoDetail::where('user_id', $existingUser->id)->first();
+                if ($detail) {
+                    return redirect()->route('intern.dashboard');
+                }
+            }
+
+            if ($existingUser->career_field) {
+                return redirect()->route('intern.opportunities');
+            }
+
+            return redirect()->route('career_fields');
+        }
+
         $rawName = explode('@', $request->email)[0];
         $name = Str::title(str_replace(['.', '_', '-'], ' ', $rawName));
 
-        $user = User::create([
+        $user = $existingUser ?: User::create([
             'name' => $name,
             'email' => $request->email,
-            'password' => Hash::make(Str::random(32)), // Random password — user can set later
+            'password' => null,
+            'role' => 'intern',
+            'email_verified_at' => null,
         ]);
 
-        // ── 3. Auto-login ─────────────────────────────────────────────
-        Auth::login($user);
+        $code = str_pad((string) random_int(0, 999999), 6, '0', STR_PAD_LEFT);
 
-        // ── 4. Send welcome email (queued) ────────────────────────────
+        DB::table('email_verification_codes')
+            ->where('user_id', $user->id)
+            ->delete();
+
+        DB::table('email_verification_codes')->insert([
+            'user_id' => $user->id,
+            'code' => $code,
+            'expires_at' => now()->addMinute(),
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        session()->put('pending_user_email', $user->email);
+
         try {
-            Mail::to($user->email)->queue(new WelcomeMail($user));
+            Mail::to($user->email)->queue(new \App\Mail\VerificationCode($code));
         } catch (\Exception $e) {
-            // Don't block registration if email fails — just log it
-            logger()->error('Welcome email failed for user '.$user->id.': '.$e->getMessage());
+            logger()->error('Verification email failed for user '.$user->id.': '.$e->getMessage());
         }
 
-        // ── 5. Redirect to company setup ─────────────────────────────
-        return redirect()->route('setup-company')
-            ->with('success', 'Welcome to InterLink! Check your email for a confirmation.');
+        return redirect()->route('verification.guest.notice')
+            ->with('status', 'verification-code-sent');
     }
 }

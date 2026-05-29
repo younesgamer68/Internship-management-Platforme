@@ -15,7 +15,7 @@ test('new users can register', function () {
     ]);
 
     $response->assertSessionHasNoErrors()
-        ->assertRedirect(route('setup-company'));
+        ->assertRedirect(route('career_fields'));
 
     $this->assertAuthenticated();
 });

@@ -70,6 +70,9 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
+        $this->call(InternshipPlatformSeeder::class);
+        $this->call(RecentActivitySeeder::class);
+
         $this->command->info('Seeded: company and demo users (admin/manager/intern)');
         $this->command->info('Admin credentials: email=admin@internlink.test password=AdminPass123!');
     }
