@@ -333,7 +333,8 @@ Route::get('/intern/dashboard', function () {
                     ? redirect()->route('intern.opportunities')
                     : redirect()->route('career_fields');
             }
-            return view('signe-up.intern.InterDashboard', compact('user', 'detail'));
+            $companySlug = $user->company ? $user->company->slug : 'internlink-demo';
+            return redirect()->route('student.dashboard', ['company' => $companySlug]);
         }
     }
     return redirect()->route('login');
@@ -653,32 +654,112 @@ Route::post('/company/setup', [CompanyFormController::class, 'store'])->name('co
 Route::get('/dashboard', function () {
     if (auth()->check()) {
         $user = auth()->user();
-        if ($user->role === 'intern') {
-            $detail = \App\Models\UserInfo::where('user_id', $user->id)->first();
-            if ($detail) {
-                return redirect()->route('intern.dashboard');
-            }
-            return redirect()->route('app.home');
-        }
+        $companySlug = $user->company ? $user->company->slug : 'internlink-demo';
         
-        if ($user->role === 'admin' || $user->role === 'company_manager') {
+        if ($user->role === 'intern') {
+            return redirect()->route('student.dashboard', ['company' => $companySlug]);
+        }
+        if ($user->role === 'company_manager') {
             if (!$user->company_id) {
                 return redirect()->route('company.setup');
             }
-            return view('signe-up.company.dashboard-company');
+            return redirect()->route('agent.dashboard', ['company' => $companySlug]);
+        }
+        if ($user->role === 'admin') {
+            return redirect()->route('admin.dashboard', ['company' => $companySlug]);
         }
     }
-    return view('signe-up.admin.dashboard');
+    return redirect()->route('login');
 })->middleware('auth')->name('home');
 
-Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
-    Route::get('/reports', function () { return view('signe-up.admin.reports'); })->name('reports');
-    Route::get('/universities', function () { return view('signe-up.admin.universities'); })->name('universities');
-    Route::get('/departments', function () { return view('signe-up.admin.departments'); })->name('departments');
-    Route::get('/internships', function () { return view('signe-up.admin.internships'); })->name('internships');
-    Route::get('/users', function () { return view('signe-up.admin.users'); })->name('users');
-    Route::get('/settings', function () { return view('signe-up.admin.settings'); })->name('settings');
-    Route::get('/support', function () { return view('signe-up.admin.support'); })->name('support');
+Route::middleware(['auth'])->prefix('{company}')->group(function () {
+    Route::get('/dashboard', function () {
+        $user = Auth::user();
+        $companySlug = $user->company ? $user->company->slug : 'internlink-demo';
+        return redirect()->route('agent.dashboard', ['company' => $companySlug]);
+    })->name('dashboard');
+
+    Route::view('/home', 'app.dashboard')->name('agent.dashboard');
+    Route::view('/admin/dashboard', 'app.admin.dashboard')->name('admin.dashboard');
+
+    // Company Portal Sub-pages
+    Route::get('/internships/offers', function () {
+        return view('app.company.offers');
+    })->name('company.offers');
+
+    Route::get('/internships/applicants', function () {
+        return view('app.company.applicants');
+    })->name('company.applicants');
+
+    Route::get('/internships/interviews', function () {
+        return view('app.company.interviews');
+    })->name('company.interviews');
+
+    Route::get('/company/analytics', function () {
+        return view('app.company.analytics');
+    })->name('company.analytics');
+
+    Route::get('/company/settings', function () {
+        return view('app.company.settings');
+    })->name('company.settings');
+
+    Route::get('/company/support', function () {
+        return view('app.company.support');
+    })->name('company.support');
+
+    // Student Portal Sub-pages
+    Route::get('/student/dashboard', function () {
+        return view('app.student.dashboard');
+    })->name('student.dashboard');
+
+    Route::get('/student/listings', function () {
+        return view('app.student.listings');
+    })->name('student.listings');
+
+    Route::get('/student/applications', function () {
+        return view('app.student.applications');
+    })->name('student.applications');
+
+    Route::get('/student/documents', function () {
+        return view('app.student.documents');
+    })->name('student.documents');
+
+    Route::get('/student/profile', function () {
+        return view('app.student.profile');
+    })->name('student.profile');
+
+    Route::get('/student/support', function () {
+        return view('app.student.support');
+    })->name('student.support');
+
+    // Admin Portal Sub-pages
+    Route::get('/admin/users', function () {
+        return view('app.admin.users');
+    })->name('admin.users');
+
+    Route::get('/admin/universities', function () {
+        return view('app.admin.universities');
+    })->name('admin.universities');
+
+    Route::get('/admin/departments', function () {
+        return view('app.admin.departments');
+    })->name('admin.departments');
+
+    Route::get('/admin/internships', function () {
+        return view('app.admin.internships');
+    })->name('admin.internships');
+
+    Route::get('/admin/reports', function () {
+        return view('app.admin.reports');
+    })->name('admin.reports');
+
+    Route::get('/admin/settings', function () {
+        return view('app.admin.settings');
+    })->name('admin.settings');
+
+    Route::get('/admin/support', function () {
+        return view('app.admin.support');
+    })->name('admin.support');
 });
 
 require __DIR__.'/settings.php';

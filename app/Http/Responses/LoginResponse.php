@@ -10,23 +10,16 @@ class LoginResponse implements LoginResponseContract
     public function toResponse($request)
     {
         $user = Auth::user();
+        $companySlug = $user->company ? $user->company->slug : 'internlink-demo';
 
-        if ($user && $user->role === 'intern') {
-            $detail = \App\Models\UserInfo::where('user_id', $user->id)->first();
-            if ($detail) {
-                return redirect()->route('intern.dashboard');
-            }
-            // New user - start registration flow
-            return $user->career_field
-                ? redirect()->route('intern.opportunities')
-                : redirect()->route('career_fields');
-        }
-        if ($user && ($user->role === 'admin' || $user->role === 'company_manager')) {
-            if (!$user->company_id) {
-                return redirect()->route('company.setup');
-            }
+        if ($user->isAdmin()) {
+            return redirect()->route('admin.dashboard', ['company' => $companySlug]);
+        } elseif ($user->isCompanyManager()) {
+            return redirect()->route('agent.dashboard', ['company' => $companySlug]);
+        } elseif ($user->isIntern()) {
+            return redirect()->route('student.dashboard', ['company' => $companySlug]);
         }
 
-        return redirect()->route('home');
+        return redirect('/home');
     }
 }

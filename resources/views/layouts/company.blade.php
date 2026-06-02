@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta name="csrf-token" content="{{ csrf_token() }}"/>
     
-    <title>{{ $title ?? 'Admin Dashboard' }} - InternLink</title>
+    <title>{{ $title ?? 'Company Dashboard' }} - InternLink</title>
     
     <link rel="icon" href="{{ asset('images/Logos/Small%20Logo.png') }}" type="image/png">
     
@@ -20,7 +20,7 @@
     <!-- App Vite (Tailwind CSS & JS) -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     
-    <!-- Custom Style Sheet for Admin UI -->
+    <!-- Custom Style Sheet for Dashboard UI (matching Admin) -->
     <link rel="stylesheet" href="{{ asset('admin-assets/css/global.css') }}?v={{ time() }}"/>
     <link rel="stylesheet" href="{{ asset('admin-assets/css/sidebar.css') }}?v={{ time() }}"/>
     <link rel="stylesheet" href="{{ asset('admin-assets/css/dashboard.css') }}?v={{ time() }}"/>
@@ -42,12 +42,27 @@
         .sidebar.collapsed .sidebar-logo .logo-small {
             display: block !important;
         }
+        
+        /* Breadcrumb chip for company */
+        .topbar-role-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 12px;
+            border-radius: 20px;
+            background: var(--primary-bg);
+            color: var(--primary);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+        }
     </style>
     
     @livewireStyles
     @fluxAppearance
 
-    {{-- ── ADMIN SETTINGS: Apply saved preferences before first paint ── --}}
+    {{-- ── SETTINGS SYSTEM: Apply saved preferences before first paint ── --}}
     <script>
     (function() {
         // ── Theme ──
@@ -89,41 +104,42 @@
   <!-- Sidebar -->
   <aside class="sidebar" id="sidebar">
     <a href="{{ route('app.home') }}" class="sidebar-logo" style="display: flex; justify-content: center;">
-      <!-- Light Theme Full Logo (includes symbol + text) -->
+      <!-- Full Logo (symbol + text) -->
       <img src="{{ asset('images/Logos/TLM.png') }}" alt="InternLink" class="logo-full" style="height: 44px; max-width: 100%; object-fit: contain;">
       <!-- Small Logo Symbol (shown only when collapsed) -->
       <img src="{{ asset('images/Logos/Small Logo.png') }}" alt="InternLink" class="logo-small" style="height: 44px; width: 44px; object-fit: contain;">
     </a>
 
     <nav class="sidebar-nav">
-      <a href="{{ route('admin.dashboard', ['company' => $companySlug]) }}" class="nav-item {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
+      <a href="{{ route('agent.dashboard', ['company' => $companySlug]) }}"
+         class="nav-item {{ request()->routeIs('agent.dashboard','app.home','dashboard') ? 'active' : '' }}">
         <i class="fas fa-home"></i><span>Dashboard</span>
       </a>
-      <a href="{{ route('admin.users', ['company' => $companySlug]) }}" class="nav-item {{ request()->routeIs('admin.users') ? 'active' : '' }}">
-        <i class="fas fa-users"></i><span>Users</span>
+      <a href="{{ route('company.offers', ['company' => $companySlug]) }}"
+         class="nav-item {{ request()->routeIs('company.offers') ? 'active' : '' }}">
+        <i class="fas fa-briefcase"></i><span>Internship Offers</span>
       </a>
-      <a href="{{ route('admin.universities', ['company' => $companySlug]) }}" class="nav-item {{ request()->routeIs('admin.universities') ? 'active' : '' }}">
-        <i class="fas fa-university"></i><span>Universities</span>
+      <a href="{{ route('company.applicants', ['company' => $companySlug]) }}"
+         class="nav-item {{ request()->routeIs('company.applicants') ? 'active' : '' }}">
+        <i class="fas fa-users"></i><span>Applicants</span>
       </a>
-      <a href="{{ route('admin.departments', ['company' => $companySlug]) }}" class="nav-item {{ request()->routeIs('admin.departments') ? 'active' : '' }}">
-        <i class="fas fa-sitemap"></i><span>Departments</span>
+      <a href="{{ route('company.interviews', ['company' => $companySlug]) }}"
+         class="nav-item {{ request()->routeIs('company.interviews') ? 'active' : '' }}">
+        <i class="fas fa-calendar-check"></i><span>Interviews</span>
       </a>
-      
+
       <div class="sidebar-divider"></div>
-      
-      <a href="{{ route('admin.internships', ['company' => $companySlug]) }}" class="nav-item {{ request()->routeIs('admin.internships') ? 'active' : '' }}">
-        <i class="fas fa-briefcase"></i><span>Internships</span>
+
+      <a href="{{ route('company.analytics', ['company' => $companySlug]) }}"
+         class="nav-item {{ request()->routeIs('company.analytics') ? 'active' : '' }}">
+        <i class="fas fa-chart-bar"></i><span>Analytics</span>
       </a>
-      <a href="{{ route('admin.reports', ['company' => $companySlug]) }}" class="nav-item {{ request()->routeIs('admin.reports') ? 'active' : '' }}">
-        <i class="fas fa-chart-bar"></i><span>Reports</span>
-      </a>
-      
-      <div class="sidebar-divider"></div>
-      
-      <a href="{{ route('admin.settings', ['company' => $companySlug]) }}" class="nav-item {{ request()->routeIs('admin.settings') ? 'active' : '' }}">
+      <a href="{{ route('company.settings', ['company' => $companySlug]) }}"
+         class="nav-item {{ request()->routeIs('company.settings') ? 'active' : '' }}">
         <i class="fas fa-gear"></i><span>Settings</span>
       </a>
-      <a href="{{ route('admin.support', ['company' => $companySlug]) }}" class="nav-item {{ request()->routeIs('admin.support') ? 'active' : '' }}">
+      <a href="{{ route('company.support', ['company' => $companySlug]) }}"
+         class="nav-item {{ request()->routeIs('company.support') ? 'active' : '' }}">
         <i class="fas fa-circle-question"></i><span>Support</span>
       </a>
     </nav>
@@ -139,7 +155,7 @@
         </div>
         <div class="sidebar-user-info">
           <div class="sidebar-user-name">{{ auth()->user()->name }}</div>
-          <div class="sidebar-user-role">Super Admin</div>
+          <div class="sidebar-user-role">{{ auth()->user()->company?->name ?? 'Company Account' }}</div>
         </div>
         <form id="logout-form-sidebar" method="POST" action="{{ route('logout') }}" style="display:none;">
             @csrf
@@ -150,7 +166,6 @@
       </div>
     </div>
 
-
   </aside>
 
   <!-- Mobile overlay -->
@@ -160,13 +175,21 @@
   <!-- Main -->
   <div class="main-content">
     <header class="topbar">
-      <div class="topbar-left">
-        <h1>{{ $title ?? 'Admin Dashboard' }}</h1>
+      <div class="topbar-left" style="display:flex;align-items:center;gap:14px;">
+        <h1>{{ $title ?? 'Dashboard' }}</h1>
+        <span class="topbar-role-chip">
+          <i class="fas fa-building" style="font-size:10px;"></i> Company
+        </span>
       </div>
       <div class="topbar-right">
+        <!-- Dark Mode Toggle Button -->
         <button type="button" id="dark-mode-toggle" title="Toggle dark mode" onclick="toggleGlobalDarkMode()" style="width: 36px; height: 36px; border-radius: 50%; background: var(--gray-50); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; color: var(--gray-600); cursor: pointer; transition: all 0.2s; margin-right: 4px;" onmouseover="this.style.background='var(--gray-100)';" onmouseout="this.style.background='var(--gray-50)';">
           <i class="fas fa-moon" id="dark-mode-icon" style="font-size: 14px;"></i>
         </button>
+
+
+
+        <!-- User avatar button -->
         <div class="user-avatar-btn">
           <div class="avatar">
             @if (auth()->user()->avatar)
@@ -195,7 +218,7 @@
 @livewireScripts
 @fluxScripts
 
-<!-- Admin Sidebar & Main JS Scripts -->
+<!-- Sidebar & Main JS Scripts -->
 <script src="{{ asset('admin-assets/js/sidebar.js') }}"></script>
 <script src="{{ asset('admin-assets/js/main.js') }}"></script>
 
@@ -249,6 +272,36 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
-@stack('modals')
+<div id="globalToast" style="position:fixed;bottom:28px;right:28px;background:var(--gray-900,#1e293b);color:#fff;border-radius:12px;padding:13px 20px;font-size:13px;font-weight:500;display:flex;align-items:center;gap:10px;box-shadow:0 8px 24px rgba(0,0,0,.22);z-index:9999;transform:translateY(80px);opacity:0;transition:all .35s cubic-bezier(.16,1,.3,1);pointer-events:none;">
+  <span id="globalToastIcon"></span>
+  <span id="globalToastMessage">Saved!</span>
+</div>
+
+<script>
+window.showGlobalToast = function(msg, type = 'success') {
+    const t = document.getElementById('globalToast');
+    if (!t) return;
+    const msgEl = document.getElementById('globalToastMessage');
+    const icon = document.getElementById('globalToastIcon');
+    if (msgEl) msgEl.textContent = msg;
+    if (icon) {
+        if (type === 'danger' || type === 'error') {
+            icon.innerHTML = '<i class="fas fa-circle-xmark" style="color:#EF4444;font-size:16px;"></i>';
+        } else if (type === 'info' || type === 'warning') {
+            icon.innerHTML = '<i class="fas fa-circle-info" style="color:#F59E0B;font-size:16px;"></i>';
+        } else {
+            icon.innerHTML = '<i class="fas fa-circle-check" style="color:#10B981;font-size:16px;"></i>';
+        }
+    }
+    t.style.transform = 'translateY(0)';
+    t.style.opacity = '1';
+    
+    // Clear display after 3 seconds
+    setTimeout(() => {
+        t.style.transform = 'translateY(80px)';
+        t.style.opacity = '0';
+    }, 3000);
+};
+</script>
 </body>
 </html>

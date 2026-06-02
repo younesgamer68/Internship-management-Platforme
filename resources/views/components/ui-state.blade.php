@@ -3,43 +3,32 @@ Global UI State — Alpine.store('ui') for shared darkMode, lang, t()
 Wrap your page content with <x-ui-state> ... </x-ui-state>
 ===================================================================== --}}
 <script>
+    (function() {
+        if (localStorage.getItem('adminDarkMode') === 'true' || localStorage.getItem('theme') === 'dark') {
+            document.documentElement.classList.add('dark');
+            document.documentElement.classList.add('admin-dark');
+        }
+    })();
+</script>
+<script>
     document.addEventListener('alpine:init', () => {
-        const darkModeStorageKey = 'internlink.darkMode';
-
-        const readStoredDarkMode = () => {
-            try {
-                const storedValue = window.localStorage.getItem(darkModeStorageKey);
-
-                if (storedValue !== null) {
-                    return storedValue === '1';
-                }
-            } catch (error) {
-                // Ignore storage access failures and fall back to system preference.
-            }
-
-            return window.matchMedia?.('(prefers-color-scheme: dark)')?.matches ?? false;
-        };
-
-        const initialDarkMode = readStoredDarkMode();
-
-        document.documentElement.classList.toggle('dark', initialDarkMode);
-
         Alpine.store('ui', {
-            darkMode: initialDarkMode,
-            lang: @json(app()->getLocale() === 'fr' ? 'French' : 'English'),
+            darkMode: localStorage.getItem('adminDarkMode') === 'true' || localStorage.getItem('theme') === 'dark',
+            lang: (function() {
+                const storedLang = localStorage.getItem('adminLanguage');
+                if (storedLang === 'English' || storedLang === 'French') return storedLang;
+                try {
+                    const appearance = JSON.parse(localStorage.getItem('adminAppearance') || '{}');
+                    if (appearance.lang === 'en') return 'English';
+                    if (appearance.lang === 'fr') return 'French';
+                } catch(e) {}
+                return 'English';
+            })(),
             loading: false,
 
             showLoading(ms = 800) {
                 this.loading = true;
                 setTimeout(() => { this.loading = false; }, ms);
-            },
-
-            setDarkMode(value) {
-                this.darkMode = Boolean(value);
-            },
-
-            toggleDarkMode() {
-                this.setDarkMode(!this.darkMode);
             },
 
             /* -- i18n translation map -- */
@@ -1002,18 +991,34 @@ Wrap your page content with <x-ui-state> ... </x-ui-state>
             init() {
                 /* Sync dark class on <html> whenever darkMode changes */
                 this._watchDark();
+                /* Sync lang changes to localStorage reactively */
+                this._watchLang();
             },
 
             _watchDark() {
                 /* Alpine.effect runs reactively whenever darkMode changes */
                 Alpine.effect(() => {
-                    try {
-                        window.localStorage.setItem(darkModeStorageKey, this.darkMode ? '1' : '0');
-                    } catch (error) {
-                        // Ignore storage write failures so the UI still works.
-                    }
-
                     document.documentElement.classList.toggle('dark', this.darkMode);
+                    document.documentElement.classList.toggle('admin-dark', this.darkMode);
+                    localStorage.setItem('adminDarkMode', this.darkMode ? 'true' : 'false');
+                    localStorage.setItem('theme', this.darkMode ? 'dark' : 'light');
+                });
+            },
+
+            _watchLang() {
+                /* Alpine.effect runs reactively whenever lang changes */
+                Alpine.effect(() => {
+                    localStorage.setItem('adminLanguage', this.lang);
+                    try {
+                        const appearance = JSON.parse(localStorage.getItem('adminAppearance') || '{}');
+                        appearance.lang = (this.lang === 'French' ? 'fr' : 'en');
+                        localStorage.setItem('adminAppearance', JSON.stringify(appearance));
+                        
+                        const selectEl = document.getElementById('a-lang');
+                        if (selectEl && selectEl.value !== appearance.lang) {
+                            selectEl.value = appearance.lang;
+                        }
+                    } catch(e) {}
                 });
             },
         });

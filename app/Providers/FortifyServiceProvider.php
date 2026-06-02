@@ -4,7 +4,6 @@ namespace App\Providers;
 
 use App\Actions\Fortify\CreateNewUser;
 use App\Actions\Fortify\ResetUserPassword;
-use App\Http\Responses\RegisterResponse;
 use App\Models\User;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
@@ -14,8 +13,9 @@ use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Laravel\Fortify\Contracts\LogoutResponse;
-use Laravel\Fortify\Contracts\RegisterResponse as RegisterResponseContract;
+use Laravel\Fortify\Contracts\LoginResponse as LoginResponseContract;
 use Laravel\Fortify\Fortify;
+use App\Http\Responses\LoginResponse;
 
 class FortifyServiceProvider extends ServiceProvider
 {
@@ -33,7 +33,7 @@ class FortifyServiceProvider extends ServiceProvider
             }
         });
 
-        $this->app->instance(RegisterResponseContract::class, new RegisterResponse);
+        $this->app->singleton(LoginResponseContract::class, LoginResponse::class);
     }
 
     /**
@@ -59,7 +59,7 @@ class FortifyServiceProvider extends ServiceProvider
 
         Fortify::authenticateUsing(function (Request $request) {
             /** @var \Illuminate\Database\Eloquent\Builder $query */
-            $user = User::query()->where('email', $request->input('email'))->first();
+            $user = User::where('email', '=', $request->email)->first(['*']);
             if ($user && $user->password === null) {
                 // If it's a pending user (invited, no password set yet),
                 // put their email into session for the SetPassword view.
