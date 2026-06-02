@@ -1,71 +1,220 @@
-﻿<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+@extends('layouts.public')
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+@section('title', 'Internship Categories Directory — Interlink')
+@section('meta_description', 'Explore tech disciplines. Discover active listings, core stack parameters, and stipend averages across software engineering, UX, PM, and data.')
 
-    <title>Intern Link</title>
+@section('content')
+<div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
 
-    <link rel="icon" href="{{ asset('images/Logos/Small%20Logo.png') }}" type="image/png">
-    <link rel="apple-touch-icon" href="{{ asset('images/Logos/Small%20Logo.png') }}">
+    <!-- Header -->
+    <div class="border-b border-zinc-200 pb-5 mb-10">
+        <h1 class="text-3xl font-bold leading-7 text-zinc-900 sm:truncate sm:text-4xl">Internship Disciplines</h1>
+        <p class="mt-2 text-sm text-zinc-500 font-medium">Explore specific sectors. Filter active postings, learn technical requirements, and view benchmark compensation details.</p>
+    </div>
 
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600,700|righteous:400" rel="stylesheet" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Montserrat:wght@400;500;600;700&family=Raleway:wght@400;500;600&family=Poppins:wght@400;600;700;800&family=Nunito:wght@400;600;700&family=Sora:wght@600;700&family=DM+Sans:wght@500;700&family=Inter:wght@600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap"
-        rel="stylesheet" />
+    <!-- Categories Filter & Search -->
+    <div class="mb-8 flex bg-white border border-zinc-200 rounded p-4 shadow-soft">
+        <div class="flex-grow relative">
+            <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3.5 text-zinc-400 text-xs"></i>
+            <input 
+                type="text" 
+                placeholder="Search disciplines or skills (e.g. PyTorch, Kubernetes, Figma)..." 
+                class="w-full pl-9 pr-4 py-2 text-xs border border-zinc-200 bg-[#F8FAFA] rounded placeholder-zinc-400 focus:bg-white transition-colors"
+            >
+        </div>
+    </div>
 
-    @vite(['resources/css/welcome.css'])
-
-    <!-- Alpine.js: plugin first, then core -->
-    <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/collapse@3.14.8/dist/cdn.min.js"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.8/dist/cdn.min.js"></script>
-    <x-ui-state />
-
-</head>
-
-<body x-data
-    class="welcome-body flex min-h-screen flex-col bg-[#ffffff] text-[#17494D] font-[Instrument_Sans,ui-sans-serif,system-ui,sans-serif] antialiased transition-colors duration-300"
-    :class="$store.ui.darkMode ? 'bg-black text-white' : 'bg-[#ffffff] text-[#17494D]'">
-
-    <!-- Navigation -->
-    <x-nav-bar />
-    <x-loading-overlay />
-
-    <main class="flex-1">
-        <section class="mx-auto max-w-6xl px-6 py-16">
-            <div class="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
+    <!-- Categories Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        
+        <!-- Category: Backend -->
+        <div class="bg-white border border-zinc-200 rounded-xl p-6 shadow-soft flex flex-col justify-between hover:border-zinc-300 transition-colors">
+            <div class="space-y-4">
+                <div class="flex justify-between items-center">
+                    <span class="h-10 w-10 bg-[#00B1AA]/5 text-[#00B1AA] rounded-lg flex items-center justify-center text-lg"><i class="fa-solid fa-server"></i></span>
+                    <span class="text-xs bg-[#00B1AA]/5 text-[#00B1AA] font-semibold px-2 py-0.5 rounded-full">42 active roles</span>
+                </div>
                 <div>
-                    <p class="text-sm font-semibold uppercase tracking-[0.24em] text-[#00b1aa]">Internships</p>
-                    <h1 class="mt-4 text-4xl font-bold tracking-tight text-gray-900 md:text-5xl">Internship Categories</h1>
-                    <p class="mt-4 max-w-2xl text-lg text-gray-600">Explore internship discovery, filters, and tracking tools that help students move from browsing to applying with confidence.</p>
-                    <div class="mt-8 grid gap-4 sm:grid-cols-3">
-                        <div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm"><p class="font-semibold text-gray-900">Filter</p><p class="mt-2 text-sm text-gray-600">Narrow by format, pay, and location.</p></div>
-                        <div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm"><p class="font-semibold text-gray-900">Save</p><p class="mt-2 text-sm text-gray-600">Keep promising roles in one place.</p></div>
-                        <div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm"><p class="font-semibold text-gray-900">Track</p><p class="mt-2 text-sm text-gray-600">Follow applications from draft to outcome.</p></div>
+                    <h3 class="font-bold text-base text-zinc-900">Backend & API Engineering</h3>
+                    <p class="text-xs text-zinc-500 mt-1 leading-relaxed">Design relational schemas, optimize cache systems, and write transactional codebases.</p>
+                </div>
+                <div class="space-y-1.5">
+                    <span class="block text-[10px] font-bold text-zinc-400 uppercase tracking-wide">Core Stack Requirements</span>
+                    <div class="flex flex-wrap gap-1">
+                        <span class="bg-zinc-100 text-zinc-700 text-[9px] font-semibold px-1.5 py-0.5 rounded">Go</span>
+                        <span class="bg-zinc-100 text-zinc-700 text-[9px] font-semibold px-1.5 py-0.5 rounded">PostgreSQL</span>
+                        <span class="bg-zinc-100 text-zinc-700 text-[9px] font-semibold px-1.5 py-0.5 rounded">Redis</span>
+                        <span class="bg-zinc-100 text-zinc-700 text-[9px] font-semibold px-1.5 py-0.5 rounded">Kafka</span>
                     </div>
                 </div>
-                <aside class="rounded-3xl border border-gray-200 bg-white p-6 shadow-sm">
-                    <p class="text-sm font-semibold uppercase tracking-[0.2em] text-gray-500">Quick actions</p>
-                    <ul class="mt-4 space-y-3 text-sm text-gray-700">
-                        <li>Browse active opportunities.</li>
-                        <li>Compare remote and on-site options.</li>
-                        <li>Review saved roles and progress.</li>
-                    </ul>
-                </aside>
             </div>
-        </section>
-    </main>
+            <div class="border-t border-zinc-100 pt-4 mt-6 flex justify-between items-center text-xs">
+                <span class="text-zinc-500">Avg: <strong class="text-zinc-900">$58.00/hr</strong></span>
+                <a href="/internships/browse" class="text-[#00B1AA] font-bold hover:text-[#00B1AA]">Browse category &rarr;</a>
+            </div>
+        </div>
 
-    {{-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-    footer
-    â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• --}}
+        <!-- Category: Frontend -->
+        <div class="bg-white border border-zinc-200 rounded-xl p-6 shadow-soft flex flex-col justify-between hover:border-zinc-300 transition-colors">
+            <div class="space-y-4">
+                <div class="flex justify-between items-center">
+                    <span class="h-10 w-10 bg-rose-50 text-rose-600 rounded-lg flex items-center justify-center text-lg"><i class="fa-solid fa-code"></i></span>
+                    <span class="text-xs bg-rose-50 text-rose-700 font-semibold px-2 py-0.5 rounded-full">34 active roles</span>
+                </div>
+                <div>
+                    <h3 class="font-bold text-base text-zinc-900">Frontend & Framework Core</h3>
+                    <p class="text-xs text-zinc-500 mt-1 leading-relaxed">Build performant layouts, manage client rendering loops, and build design system components.</p>
+                </div>
+                <div class="space-y-1.5">
+                    <span class="block text-[10px] font-bold text-zinc-400 uppercase tracking-wide">Core Stack Requirements</span>
+                    <div class="flex flex-wrap gap-1">
+                        <span class="bg-zinc-100 text-zinc-700 text-[9px] font-semibold px-1.5 py-0.5 rounded">React</span>
+                        <span class="bg-zinc-100 text-zinc-700 text-[9px] font-semibold px-1.5 py-0.5 rounded">Next.js</span>
+                        <span class="bg-zinc-100 text-zinc-700 text-[9px] font-semibold px-1.5 py-0.5 rounded">TypeScript</span>
+                        <span class="bg-zinc-100 text-zinc-700 text-[9px] font-semibold px-1.5 py-0.5 rounded">Tailwind</span>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-zinc-100 pt-4 mt-6 flex justify-between items-center text-xs">
+                <span class="text-zinc-500">Avg: <strong class="text-zinc-900">$52.00/hr</strong></span>
+                <a href="/internships/browse" class="text-[#00B1AA] font-bold hover:text-[#00B1AA]">Browse category &rarr;</a>
+            </div>
+        </div>
 
-    <x-footer />
+        <!-- Category: Design -->
+        <div class="bg-white border border-zinc-200 rounded-xl p-6 shadow-soft flex flex-col justify-between hover:border-zinc-300 transition-colors">
+            <div class="space-y-4">
+                <div class="flex justify-between items-center">
+                    <span class="h-10 w-10 bg-emerald-50 text-emerald-600 rounded-lg flex items-center justify-center text-lg"><i class="fa-solid fa-bezier-curve"></i></span>
+                    <span class="text-xs bg-emerald-50 text-emerald-700 font-semibold px-2 py-0.5 rounded-full">21 active roles</span>
+                </div>
+                <div>
+                    <h3 class="font-bold text-base text-zinc-900">Product Design & UI/UX</h3>
+                    <p class="text-xs text-zinc-500 mt-1 leading-relaxed">Map visual component properties, run usability surveys, and assemble high-fidelity prototypes.</p>
+                </div>
+                <div class="space-y-1.5">
+                    <span class="block text-[10px] font-bold text-zinc-400 uppercase tracking-wide">Core Stack Requirements</span>
+                    <div class="flex flex-wrap gap-1">
+                        <span class="bg-zinc-100 text-zinc-700 text-[9px] font-semibold px-1.5 py-0.5 rounded">Figma</span>
+                        <span class="bg-zinc-100 text-zinc-700 text-[9px] font-semibold px-1.5 py-0.5 rounded">Prototyping</span>
+                        <span class="bg-zinc-100 text-zinc-700 text-[9px] font-semibold px-1.5 py-0.5 rounded">Design Systems</span>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-zinc-100 pt-4 mt-6 flex justify-between items-center text-xs">
+                <span class="text-zinc-500">Avg: <strong class="text-zinc-900">$45.00/hr</strong></span>
+                <a href="/internships/browse" class="text-[#00B1AA] font-bold hover:text-[#00B1AA]">Browse category &rarr;</a>
+            </div>
+        </div>
 
-</body>
+        <!-- Category: ML & AI (New) -->
+        <div class="bg-white border border-zinc-200 rounded-xl p-6 shadow-soft flex flex-col justify-between hover:border-zinc-300 transition-colors">
+            <div class="space-y-4">
+                <div class="flex justify-between items-center">
+                    <span class="h-10 w-10 bg-purple-50 text-purple-600 rounded-lg flex items-center justify-center text-lg"><i class="fa-solid fa-brain"></i></span>
+                    <span class="text-xs bg-purple-50 text-purple-700 font-semibold px-2 py-0.5 rounded-full">18 active roles</span>
+                </div>
+                <div>
+                    <h3 class="font-bold text-base text-zinc-900">Machine Learning & AI</h3>
+                    <p class="text-xs text-zinc-500 mt-1 leading-relaxed">Train deep neural models, optimize embeddings search latency, and evaluate model recall rates.</p>
+                </div>
+                <div class="space-y-1.5">
+                    <span class="block text-[10px] font-bold text-zinc-400 uppercase tracking-wide">Core Stack Requirements</span>
+                    <div class="flex flex-wrap gap-1">
+                        <span class="bg-zinc-100 text-zinc-700 text-[9px] font-semibold px-1.5 py-0.5 rounded">Python</span>
+                        <span class="bg-zinc-100 text-zinc-700 text-[9px] font-semibold px-1.5 py-0.5 rounded">PyTorch</span>
+                        <span class="bg-zinc-100 text-zinc-700 text-[9px] font-semibold px-1.5 py-0.5 rounded">Vector DBs</span>
+                        <span class="bg-zinc-100 text-zinc-700 text-[9px] font-semibold px-1.5 py-0.5 rounded">C++</span>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-zinc-100 pt-4 mt-6 flex justify-between items-center text-xs">
+                <span class="text-zinc-500">Avg: <strong class="text-zinc-900">$65.00/hr</strong></span>
+                <a href="/internships/browse" class="text-[#00B1AA] font-bold hover:text-[#00B1AA]">Browse category &rarr;</a>
+            </div>
+        </div>
 
-</html>
+        <!-- Category: Infrastructure & DevOps (New) -->
+        <div class="bg-white border border-zinc-200 rounded-xl p-6 shadow-soft flex flex-col justify-between hover:border-zinc-300 transition-colors">
+            <div class="space-y-4">
+                <div class="flex justify-between items-center">
+                    <span class="h-10 w-10 bg-blue-50 text-blue-600 rounded-lg flex items-center justify-center text-lg"><i class="fa-solid fa-network-wired"></i></span>
+                    <span class="text-xs bg-blue-50 text-blue-700 font-semibold px-2 py-0.5 rounded-full">15 active roles</span>
+                </div>
+                <div>
+                    <h3 class="font-bold text-base text-zinc-900">Infrastructure & DevOps</h3>
+                    <p class="text-xs text-zinc-500 mt-1 leading-relaxed">Configure virtual machines, orchestrate cluster environments, and improve CI/CD pipelines.</p>
+                </div>
+                <div class="space-y-1.5">
+                    <span class="block text-[10px] font-bold text-zinc-400 uppercase tracking-wide">Core Stack Requirements</span>
+                    <div class="flex flex-wrap gap-1">
+                        <span class="bg-zinc-100 text-zinc-700 text-[9px] font-semibold px-1.5 py-0.5 rounded">Docker</span>
+                        <span class="bg-zinc-100 text-zinc-700 text-[9px] font-semibold px-1.5 py-0.5 rounded">Kubernetes</span>
+                        <span class="bg-zinc-100 text-zinc-700 text-[9px] font-semibold px-1.5 py-0.5 rounded">Terraform</span>
+                        <span class="bg-zinc-100 text-zinc-700 text-[9px] font-semibold px-1.5 py-0.5 rounded">AWS/GCP</span>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-zinc-100 pt-4 mt-6 flex justify-between items-center text-xs">
+                <span class="text-zinc-500">Avg: <strong class="text-zinc-900">$51.50/hr</strong></span>
+                <a href="/internships/browse" class="text-[#00B1AA] font-bold hover:text-[#00B1AA]">Browse category &rarr;</a>
+            </div>
+        </div>
+
+        <!-- Category: DevRel & Docs (New) -->
+        <div class="bg-white border border-zinc-200 rounded-xl p-6 shadow-soft flex flex-col justify-between hover:border-zinc-300 transition-colors">
+            <div class="space-y-4">
+                <div class="flex justify-between items-center">
+                    <span class="h-10 w-10 bg-amber-50 text-amber-600 rounded-lg flex items-center justify-center text-lg"><i class="fa-solid fa-bullhorn"></i></span>
+                    <span class="text-xs bg-amber-50 text-amber-700 font-semibold px-2 py-0.5 rounded-full">12 active roles</span>
+                </div>
+                <div>
+                    <h3 class="font-bold text-base text-zinc-900">Developer Relations</h3>
+                    <p class="text-xs text-zinc-500 mt-1 leading-relaxed">Compose educational API documentation, build template packages, and triage community reports.</p>
+                </div>
+                <div class="space-y-1.5">
+                    <span class="block text-[10px] font-bold text-zinc-400 uppercase tracking-wide">Core Stack Requirements</span>
+                    <div class="flex flex-wrap gap-1">
+                        <span class="bg-zinc-100 text-zinc-700 text-[9px] font-semibold px-1.5 py-0.5 rounded">Node.js</span>
+                        <span class="bg-zinc-100 text-zinc-700 text-[9px] font-semibold px-1.5 py-0.5 rounded">Technical Blog</span>
+                        <span class="bg-zinc-100 text-zinc-700 text-[9px] font-semibold px-1.5 py-0.5 rounded">Git SDKs</span>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-zinc-100 pt-4 mt-6 flex justify-between items-center text-xs">
+                <span class="text-zinc-500">Avg: <strong class="text-zinc-900">$45.00/hr</strong></span>
+                <a href="/internships/browse" class="text-[#00B1AA] font-bold hover:text-[#00B1AA]">Browse category &rarr;</a>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Custom Specializations Directory (New Section) -->
+    <div class="space-y-6 mt-12 border-t border-zinc-200 pt-10">
+        <h2 class="text-lg font-bold text-zinc-900">Specialized Domain Tracks</h2>
+        <p class="text-xs text-zinc-500 max-w-xl leading-relaxed">Beyond our primary engineering tracks, Interlink coordinates with registrar boards to support niche specialization approvals.</p>
+        
+        <div class="grid grid-cols-1 sm:grid-cols-4 gap-6 text-xs pt-4">
+            <div class="bg-white border border-zinc-200 rounded-xl p-5 shadow-soft">
+                <h4 class="font-bold text-zinc-900">Cybersecurity Analyst</h4>
+                <p class="text-zinc-500 mt-1">Focus on log analysis, Pen Testing sandbox scripts, and WAF configuration reviews. <span class="font-bold text-[#00B1AA] block mt-1.5">Avg: $56/hr</span></p>
+            </div>
+            <div class="bg-white border border-zinc-200 rounded-xl p-5 shadow-soft">
+                <h4 class="font-bold text-zinc-900">Data Analytics</h4>
+                <p class="text-zinc-500 mt-1">Focus on business intelligence models, SQL database query logs, and dashboard metrics. <span class="font-bold text-[#00B1AA] block mt-1.5">Avg: $38/hr</span></p>
+            </div>
+            <div class="bg-white border border-zinc-200 rounded-xl p-5 shadow-soft">
+                <h4 class="font-bold text-zinc-900">Systems Architecture</h4>
+                <p class="text-zinc-500 mt-1">Focus on RPC protocols, sharding configurations, cache policies, and latency diagnostics. <span class="font-bold text-[#00B1AA] block mt-1.5">Avg: $62/hr</span></p>
+            </div>
+            <div class="bg-white border border-zinc-200 rounded-xl p-5 shadow-soft">
+                <h4 class="font-bold text-zinc-900">Mobile Development</h4>
+                <p class="text-zinc-500 mt-1">Focus on iOS/Android native structures, memory profiling, and SDK deployments. <span class="font-bold text-[#00B1AA] block mt-1.5">Avg: $48/hr</span></p>
+            </div>
+        </div>
+    </div>
+
+</div>
+@endsection
+
+

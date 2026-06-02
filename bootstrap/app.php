@@ -23,6 +23,7 @@ return Application::configure(basePath: dirname(__DIR__))
 
         // Append web middleware
         $middleware->web(append: [
+            \App\Http\Middleware\SetLocale::class,
             \App\Http\Middleware\IdentifyCompanyFromSubdomain::class,
             \App\Http\Middleware\TrackUserActivity::class,
         ]);

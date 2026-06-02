@@ -1,71 +1,128 @@
-﻿<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+@extends('layouts.public')
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+@section('title', 'Corporate Partners Directory — Interlink')
+@section('meta_description', 'Discover verified tech companies hiring interns. Filter by headquarters, size, ratings, and open listings.')
 
-    <title>Intern Link</title>
+@section('content')
+<div x-data="{
+    searchQuery: '',
+    selectedSector: 'All',
+    partners: [
+        { id: 1, name: 'Stripe', logo: 'S', logoBg: 'bg-[#635bff]', description: 'Financial infrastructure for the internet. Millions of companies use Stripe to accept payments.', sector: 'Fintech', size: '5,000+ employees', headquarters: 'San Francisco, CA', roles: 3, speed: 'Fast responder (24h)', rating: 4.9 },
+        { id: 2, name: 'Vercel', logo: 'V', logoBg: 'bg-black', description: 'Vercel provides developer experience and infrastructure to deploy and scale Next.js apps.', sector: 'DevTools', size: '200-500 employees', headquarters: 'Remote / NYC', roles: 2, speed: 'Responds in 2 days', rating: 4.8 },
+        { id: 3, name: 'Figma', logo: 'F', logoBg: 'bg-[#f24e1e]', description: 'Figma is a collaborative interface design web application used by teams globally.', sector: 'Design', size: '1,000-2,000 employees', headquarters: 'San Francisco, CA', roles: 1, speed: 'Fast responder (48h)', rating: 4.7 },
+        { id: 4, name: 'Linear', logo: 'L', logoBg: 'bg-zinc-900 border border-zinc-700', description: 'Linear helps software teams streamline project management, tasks, and roadmaps.', sector: 'Productivity', size: '50-100 employees', headquarters: 'Remote / London', roles: 1, speed: 'Fast responder (24h)', rating: 4.9 },
+        { id: 5, name: 'Supabase', logo: 'S', logoBg: 'bg-[#3ecf8e]', description: 'Supabase is an open source Firebase alternative providing Postgres databases, auth, and storage.', sector: 'AI & Database', size: '100-200 employees', headquarters: 'Remote', roles: 2, speed: 'Fast responder (24h)', rating: 4.8 },
+        { id: 6, name: 'Resend', logo: 'R', logoBg: 'bg-zinc-800', description: 'Resend is the email platform built for developers, enabling clean layout renders and easy integrations.', sector: 'Developer Communications', size: '20-50 employees', headquarters: 'Remote', roles: 1, speed: 'Fast responder (24h)', rating: 4.9 },
+        { id: 7, name: 'Retool', logo: 'R', logoBg: 'bg-[#2563EB]', description: 'Retool makes it incredibly fast to build internal tools, database editors, and dashboards.', sector: 'DevTools', size: '500-1,000 employees', headquarters: 'San Francisco, CA', roles: 2, speed: 'Responds in 3 days', rating: 4.7 },
+        { id: 8, name: 'Pinecone', logo: 'P', logoBg: 'bg-[#2b1b54]', description: 'Pinecone is a managed, easily scalable vector database designed to accelerate AI applications.', sector: 'AI & Database', size: '100-200 employees', headquarters: 'Remote', roles: 1, speed: 'Fast responder (48h)', rating: 4.9 }
+    ],
+    get filtered() {
+        return this.partners.filter(p => {
+            if (this.searchQuery && !p.name.toLowerCase().includes(this.searchQuery.toLowerCase()) && !p.description.toLowerCase().includes(this.searchQuery.toLowerCase())) {
+                return false;
+            }
+            if (this.selectedSector !== 'All' && p.sector !== this.selectedSector) {
+                return false;
+            }
+            return true;
+        });
+    }
+}" class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
 
-    <link rel="icon" href="{{ asset('images/Logos/Small%20Logo.png') }}" type="image/png">
-    <link rel="apple-touch-icon" href="{{ asset('images/Logos/Small%20Logo.png') }}">
+    <!-- Header -->
+    <div class="border-b border-[#E5E7EB] pb-5 mb-8">
+        <h1 class="text-2xl font-bold tracking-tight text-[#444444] sm:text-3xl">Corporate Directory</h1>
+        <p class="mt-1.5 text-xs text-[#7B7B7B] font-medium font-sans">Verify active startup hiring cycles, average response durations, and verified stipend transparency metrics.</p>
+    </div>
 
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600,700|righteous:400" rel="stylesheet" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Montserrat:wght@400;500;600;700&family=Raleway:wght@400;500;600&family=Poppins:wght@400;600;700;800&family=Nunito:wght@400;600;700&family=Sora:wght@600;700&family=DM+Sans:wght@500;700&family=Inter:wght@600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap"
-        rel="stylesheet" />
+    <!-- Filters -->
+    <div class="flex flex-col md:flex-row gap-4 bg-white border border-[#E5E7EB] rounded p-4 shadow-soft mb-8">
+        <div class="flex-grow relative">
+            <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3.5 text-[#7B7B7B] text-xs"></i>
+            <input 
+                x-model="searchQuery" 
+                type="text" 
+                placeholder="Search company profiles..." 
+                class="w-full pl-9 pr-4 py-2 text-xs border border-[#E5E7EB] bg-[#F8FAFA] rounded placeholder-[#7B7B7B] focus:bg-white transition-colors"
+            >
+        </div>
+        <select x-model="selectedSector" class="text-xs bg-[#F8FAFA] border border-[#E5E7EB] rounded p-2.5 font-medium min-w-[150px]">
+            <option value="All">All Sectors</option>
+            <option value="Fintech">Fintech</option>
+            <option value="DevTools">Developer Tools</option>
+            <option value="Design">Product Design</option>
+            <option value="Productivity">Productivity / SaaS</option>
+            <option value="AI & Database">AI & Databases</option>
+            <option value="Developer Communications">Developer Communications</option>
+        </select>
+    </div>
 
-    @vite(['resources/css/welcome.css'])
-
-    <!-- Alpine.js: plugin first, then core -->
-    <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/collapse@3.14.8/dist/cdn.min.js"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.8/dist/cdn.min.js"></script>
-    <x-ui-state />
-
-</head>
-
-<body x-data
-    class="welcome-body flex min-h-screen flex-col bg-[#ffffff] text-[#17494D] font-[Instrument_Sans,ui-sans-serif,system-ui,sans-serif] antialiased transition-colors duration-300"
-    :class="$store.ui.darkMode ? 'bg-black text-white' : 'bg-[#ffffff] text-[#17494D]'">
-
-    <!-- Navigation -->
-    <x-nav-bar />
-    <x-loading-overlay />
-
-    <main class="flex-1">
-        <section class="mx-auto max-w-6xl px-6 py-16">
-            <div class="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
-                <div>
-                    <p class="text-sm font-semibold uppercase tracking-[0.24em] text-[#00b1aa]">Companies</p>
-                    <h1 class="mt-4 text-4xl font-bold tracking-tight text-gray-900 md:text-5xl">Partner Companies</h1>
-                    <p class="mt-4 max-w-2xl text-lg text-gray-600">Showcase the employer-facing side of the platform, from partner discovery to posting internships and reviewing recruiters.</p>
-                    <div class="mt-8 grid gap-4 sm:grid-cols-3">
-                        <div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm"><p class="font-semibold text-gray-900">Partner</p><p class="mt-2 text-sm text-gray-600">Build relationships with trusted employers.</p></div>
-                        <div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm"><p class="font-semibold text-gray-900">Promote</p><p class="mt-2 text-sm text-gray-600">Highlight openings to the right candidates.</p></div>
-                        <div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm"><p class="font-semibold text-gray-900">Hire</p><p class="mt-2 text-sm text-gray-600">Turn internships into a reliable talent pipeline.</p></div>
+    <!-- Partner Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <template x-for="p in filtered" :key="p.id">
+            <div class="bg-white border border-[#E5E7EB] rounded p-6 shadow-soft hover:border-[#00B1AA] transition-colors flex flex-col justify-between">
+                <div class="space-y-4">
+                    <div class="flex justify-between items-start">
+                        <div class="flex items-center gap-3">
+                            <div :class="p.logoBg" class="h-10 w-10 rounded flex items-center justify-center text-white font-extrabold text-lg" x-text="p.logo"></div>
+                            <div>
+                                <h3 class="font-bold text-sm text-[#444444]" x-text="p.name"></h3>
+                                <span class="text-[10px] font-bold text-[#7B7B7B] uppercase tracking-wider" x-text="p.sector"></span>
+                            </div>
+                        </div>
+                        <span class="text-xs font-semibold text-zinc-800 flex items-center gap-0.5"><i class="fa-solid fa-star text-amber-400"></i> <span x-text="p.rating"></span></span>
+                    </div>
+                    
+                    <p class="text-xs text-[#7B7B7B] leading-relaxed" x-text="p.description"></p>
+                    
+                    <div class="border-y border-zinc-100 py-3 space-y-2 text-xs text-[#444444]">
+                        <div class="flex justify-between">
+                            <span class="text-[#7B7B7B]">Headquarters:</span>
+                            <span class="font-semibold" x-text="p.headquarters"></span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-[#7B7B7B]">Company Size:</span>
+                            <span class="font-semibold" x-text="p.size"></span>
+                        </div>
                     </div>
                 </div>
-                <aside class="rounded-3xl border border-gray-200 bg-white p-6 shadow-sm">
-                    <p class="text-sm font-semibold uppercase tracking-[0.2em] text-gray-500">Employer tools</p>
-                    <ul class="mt-4 space-y-3 text-sm text-gray-700">
-                        <li>Browse partner companies and recruiters.</li>
-                        <li>Compare reviews before posting.</li>
-                        <li>Start a partnership or internship listing.</li>
-                    </ul>
-                </aside>
+
+                <div class="border-t border-[#E5E7EB] pt-4 mt-6 space-y-3 text-[11px] text-[#7B7B7B]">
+                    <div class="flex justify-between items-center">
+                        <span class="flex items-center gap-1.5"><i class="fa-solid fa-reply text-xs text-[#00B1AA]"></i> <span x-text="p.speed"></span></span>
+                        <span class="font-bold text-[#00B1AA] bg-[#00B1AA]/5 px-2.5 py-0.5 rounded-full" x-text="`${p.roles} open internships`"></span>
+                    </div>
+                    <a href="/internships/browse" class="block w-full text-center font-bold text-white bg-[#00B1AA] hover:bg-[#009c95] rounded py-2 transition-colors text-xs shadow-soft">View active postings</a>
+                </div>
             </div>
-        </section>
-    </main>
+        </template>
+    </div>
 
-    {{-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-    footer
-    â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• --}}
+    <!-- Partner Program Info (New Section) -->
+    <div class="space-y-6 mt-12 border-t border-zinc-200 pt-10">
+        <h2 class="text-lg font-bold text-zinc-900">Partner Program Benefits</h2>
+        <p class="text-xs text-zinc-500 max-w-xl leading-relaxed">Join Interlink's elite corporate matching network. Expand your university presence and automatically audit candidates.</p>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-xs">
+            <div class="bg-white border border-zinc-200 rounded-xl p-5 shadow-soft space-y-2">
+                <span class="text-[#00B1AA] font-bold text-lg"><i class="fa-solid fa-graduation-cap"></i></span>
+                <h3 class="font-bold text-zinc-900">Target Campus Access</h3>
+                <p class="text-zinc-500 leading-relaxed">Direct placements at elite CS departments (Stanford, MIT, CMU, Berkeley). Postings feed straight to academic registrar databases.</p>
+            </div>
+            <div class="bg-white border border-zinc-200 rounded-xl p-5 shadow-soft space-y-2">
+                <span class="text-[#00B1AA] font-bold text-lg"><i class="fa-solid fa-handshake-angle"></i></span>
+                <h3 class="font-bold text-zinc-900">Automated Legal CPT</h3>
+                <p class="text-zinc-500 leading-relaxed">Generate pre-vetted visa work agreements and course mappings automatically, avoiding corporate immigration bottleneck loops.</p>
+            </div>
+            <div class="bg-white border border-zinc-200 rounded-xl p-5 shadow-soft space-y-2">
+                <span class="text-[#00B1AA] font-bold text-lg"><i class="fa-solid fa-bolt"></i></span>
+                <h3 class="font-bold text-zinc-900">Vetted Match Pipelines</h3>
+                <p class="text-zinc-500 leading-relaxed">Filters candidates automatically based on GitHub repo commits, verified GPA status, and Prof recommendations.</p>
+            </div>
+        </div>
+    </div>
 
-    <x-footer />
+</div>
+@endsection
 
-</body>
 
-</html>

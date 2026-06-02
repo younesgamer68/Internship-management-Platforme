@@ -33,7 +33,7 @@ Navbar — local state only; $store.ui.darkMode / lang / t() from $store.ui
                         class="block rounded-lg px-2 py-2 text-[15px]">Company Reviews</a>
                     <a href="{{ route('navbarlink.howit.students') }}"
                         class="block rounded-lg px-2 py-2 text-[15px]">How It Works</a>
-                    <a href="{{ route('navbarlink.faq') }}" class="block rounded-lg px-2 py-2 text-[15px]">FAQ</a>
+                    <a href="{{ route('navbarlink.howit.faq') }}" class="block rounded-lg px-2 py-2 text-[15px]">FAQ</a>
                 </div>
             </div>
     </div>

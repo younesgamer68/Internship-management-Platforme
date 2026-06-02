@@ -1,888 +1,1641 @@
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
-{{-- ============================================================
-     InterLink — Internship Management Platform
-     Features Page — Body Content Only
-     Font: Poppins | Primary: #00b1aa | Light mode only
-     Setup: Add Poppins to <head> + extend tailwind.config.js
-     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-     tailwind.config: fontFamily: { poppins: ['Poppins','sans-serif'] }
-     AlpineJS needed for FAQ + feature tabs:
-     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-     ============================================================ --}}
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
-<div class="font-poppins bg-white text-gray-900 overflow-x-hidden">
+    <title>Intern Link</title>
+
+    <link rel="icon" href="{{ asset('images/Logos/Small%20Logo.png') }}" type="image/png">
+    <link rel="apple-touch-icon" href="{{ asset('images/Logos/Small%20Logo.png') }}">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600,700|righteous:400" rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Montserrat:wght@400;500;600;700&family=Raleway:wght@400;500;600&family=Poppins:wght@400;600;700;800&family=Nunito:wght@400;600;700&family=Sora:wght@600;700&family=DM+Sans:wght@500;700&family=Inter:wght@600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap"
+        rel="stylesheet" />
+
+    @vite(['resources/css/welcome.css'])
+
+    <style>
+        /* Page-scoped dark mode overrides */
+        body.page-dark {
+            background-color: #071018 !important;
+            color: #e6eef0 !important;
+        }
+
+        body.page-dark section,
+        body.page-dark .bg-white {
+            background-color: #071018 !important;
+        }
+
+        body.page-dark .text-gray-500,
+        body.page-dark .text-gray-600,
+        body.page-dark .text-gray-700 {
+            color: #9fb6bb !important;
+        }
+
+        body.page-dark .text-gray-900,
+        body.page-dark .text-[#17494D],
+        body.page-dark .text-[#2d2d2d] {
+            color: #e6eef0 !important;
+        }
+
+        body.page-dark a,
+        body.page-dark .text-[#00b1aa] {
+            color: #7be8df !important;
+        }
+
+        body.page-dark .border-gray-200 {
+            border-color: #233036 !important;
+        }
+
+        body.page-dark .bg-[#ededed],
+        body.page-dark .bg-[#ffffff] {
+            background-color: #071018 !important;
+        }
+
+        /* make cards and panels slightly lighter than background */
+        body.page-dark .bg-white/60,
+        body.page-dark .bg-white\/60 {
+            background-color: rgba(255, 255, 255, 0.03) !important;
+        }
+
+        /* ensure subtle accents remain visible */
+        body.page-dark .text-yellow-400,
+        body.page-dark .text-yellow-300 {
+            color: #f6d365 !important;
+        }
+
+        /* keep buttons readable */
+        body.page-dark .bg-[#00b0aa],
+        body.page-dark .bg-[#00b1aa] {
+            background-color: #00b1aa !important;
+        }
+
+        /* Hide hero grid and decorative dots when page dark mode is active */
+        body.page-dark .hero-grid,
+        body.page-dark .hero-grid-fade,
+        body.page-dark .hero-dots {
+            display: none !important;
+        }
+
+        /* Make hero heading and subheadline white in dark mode */
+        body.page-dark .hero-section h1,
+        body.page-dark .hero-section p {
+            color: #ffffff !important;
+        }
+
+        /* Book Demo button: visible in dark mode */
+        body.page-dark .book-demo-btn {
+            background-color: transparent !important;
+            color: #e6eef0 !important;
+            border-color: rgba(255, 255, 255, 0.12) !important;
+        }
+
+        body.page-dark .book-demo-btn:hover {
+            background-color: rgba(255, 255, 255, 0.03) !important;
+        }
+
+        /* Make the decorative surface white in dark mode (page-specific) */
+        body.page-dark .hero-surface {
+            background-color: #ffffff !important;
+        }
+
+        /* Discover section dark-mode overrides */
+        body.page-dark .discover-section-wrapper,
+        body.page-dark #discoverSection {
+            background-color: #071018 !important;
+        }
+
+        body.page-dark .discover-title,
+        body.page-dark .discover-subtitle {
+            color: #ffffff !important;
+        }
+
+        body.page-dark .discover-tab {
+            background-color: #ffffff !important;
+            color: #111827 !important;
+            border-color: rgba(255, 255, 255, 0.08) !important;
+        }
+
+        body.page-dark .discover-tab:hover {
+            background-color: #f3f4f6 !important;
+            color: #111827 !important;
+        }
+
+        body.page-dark .discover-tab.is-active {
+            background-color: #111827 !important;
+            color: #ffffff !important;
+            box-shadow: 0 10px 24px -14px rgba(0, 0, 0, 0.65) !important;
+        }
+
+        /* Remaining white sections: keep text readable in dark mode */
+        body.page-dark .bg-white h2,
+        body.page-dark .bg-white h3,
+        body.page-dark .bg-white h4,
+        body.page-dark .bg-white h5,
+        body.page-dark .bg-white h6,
+        body.page-dark .bg-white p,
+        body.page-dark .bg-white li,
+        body.page-dark .bg-white span,
+        body.page-dark .bg-white a {
+            color: #e6eef0 !important;
+        }
+
+        body.page-dark .bg-white .text-gray-900,
+        body.page-dark .bg-white .text-gray-800,
+        body.page-dark .bg-white .text-gray-700,
+        body.page-dark .bg-white .text-gray-600,
+        body.page-dark .bg-white .text-gray-500,
+        body.page-dark .bg-white .text-indigo-900,
+        body.page-dark .bg-white .text-indigo-700,
+        body.page-dark .bg-white .text-blue-600,
+        body.page-dark .bg-white .text-blue-500,
+        body.page-dark .bg-white .text-orange-500,
+        body.page-dark .bg-white .text-emerald-700,
+        body.page-dark .bg-white .text-pink-500,
+        body.page-dark .bg-white .text-cyan-600,
+        body.page-dark .bg-white .text-teal-600 {
+            color: #e6eef0 !important;
+        }
+    </style>
+
+    <!-- Alpine.js: plugin first, then core -->
+    <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/collapse@3.14.8/dist/cdn.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.8/dist/cdn.min.js"></script>
+    <x-ui-state />
+
+</head>
+
+<body
+    x-data="{ pageDarkMode: false, init() { window.pageDarkModeToggle = () => { $store.ui.showLoading(400); setTimeout(() => { $store.ui.darkMode = !$store.ui.darkMode }, 150) }; Alpine.effect(() => { const isDark = $store.ui.darkMode; this.pageDarkMode = isDark; window.pageDarkModeActive = isDark; document.body.classList.toggle('page-dark', isDark); window.dispatchEvent(new CustomEvent('page-dark-mode-change', { detail: { active: isDark } })); }); } }"
+    class="welcome-body flex min-h-screen flex-col bg-[#ffffff] text-[#17494D] font-[Instrument_Sans,ui-sans-serif,system-ui,sans-serif] antialiased transition-colors duration-300"
+    :class="pageDarkMode ? 'bg-black text-white' : 'bg-[#ffffff] text-[#17494D]'">
+
+    <!-- Navigation -->
+    <x-nav-bar />
+    <x-loading-overlay />
 
 
+    {{-- ═══════════════════════════════════════════════════════════════════
+    Jeor section in ladding page
+    ═══════════════════════════════════════════════════════════════════ --}}
 
-    {{-- ============================================================
-         1. HERO SECTION — white bg, large type, image mosaic
-         ============================================================ --}}
-    <section class="relative min-h-screen flex items-center pt-16 bg-white overflow-hidden">
+    <section class="relative mt-12 overflow-hidden bg-white hero-section">
 
-        {{-- Subtle decorative shapes --}}
-        <div class="absolute top-24 right-10 w-3 h-3 rounded-full" style="background-color:#00b1aa"></div>
-        <div class="absolute top-40 right-1/3 w-2 h-2 rotate-45" style="background-color:#00b1aa; opacity:0.4"></div>
-        <div class="absolute bottom-32 left-16 w-4 h-4 rotate-45 border-2" style="border-color:#00b1aa; opacity:0.3"></div>
-        <div class="absolute top-1/3 left-1/4 w-2 h-2 rounded-full bg-orange-300 opacity-60"></div>
+        {{-- Background Grid Pattern --}}
+        <div class="absolute inset-0 z-0 hero-grid"
+            style="background-image: linear-gradient(to right, #e5e7eb 1px, transparent 1px), linear-gradient(to bottom, #e5e7eb 1px, transparent 1px); background-size: 40px 40px;">
+        </div>
+        {{-- Grid fade overlay --}}
+        <div class="absolute inset-0 z-0 hero-grid-fade bg-gradient-to-b from-white/60 via-transparent to-white/80">
+        </div>
 
-        <div class="max-w-7xl mx-auto px-6 lg:px-8 py-24 w-full">
-            <div class="grid lg:grid-cols-2 gap-16 items-center">
+        {{-- Corner Dot Decorations --}}
+        {{-- Top Left dots --}}
+        <div class="absolute top-6 left-6 z-10 grid grid-cols-4 gap-1.5 hero-dots">
+            @foreach(range(1, 20) as $dot)
+            <div class="w-1 h-1 rounded-full bg-gray-300"></div>
+            @endforeach
+        </div>
+        {{-- Top Right dots --}}
+        <div class="absolute top-6 right-6 z-10 grid grid-cols-4 gap-1.5 hero-dots">
+            @foreach(range(1, 20) as $dot)
+            <div class="w-1 h-1 rounded-full bg-gray-300"></div>
+            @endforeach
+        </div>
+        {{-- Bottom Left dots --}}
+        <div class="absolute bottom-24 left-6 z-10 grid grid-cols-4 gap-1.5 hero-dots">
+            @foreach(range(1, 20) as $dot)
+            <div class="w-1 h-1 rounded-full bg-gray-300"></div>
+            @endforeach
+        </div>
+        {{-- Bottom Right dots --}}
+        <div class="absolute bottom-24 right-6 z-10 grid grid-cols-4 gap-1.5 hero-dots">
+            @foreach(range(1, 20) as $dot)
+            <div class="w-1 h-1 rounded-full bg-gray-300"></div>
+            @endforeach
+        </div>
 
-                {{-- Left: Copy --}}
-                <div>
-                    <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full border text-xs font-bold uppercase tracking-widest mb-8" style="color:#00b1aa; border-color:rgba(0,177,170,0.3); background:rgba(0,177,170,0.05)">
-                        The #1 Internship Platform
-                    </div>
-                    <h1 class="text-5xl lg:text-6xl font-black leading-tight text-gray-900 mb-6">
-                        Powerful Features for<br>
-                        <span style="color:#00b1aa">Students,</span> Companies<br>&amp; Administrators
-                    </h1>
-                    <p class="text-lg text-gray-500 leading-relaxed mb-10 max-w-lg">
-                        InterLink bridges the gap between talented students and world-class companies. Our intelligent platform streamlines every step — from discovery to offer letter.
-                    </p>
-                    <div class="flex flex-wrap gap-4 mb-14">
-                        <a href="#students" class="text-sm font-bold text-white px-8 py-4 rounded-full transition-all hover:shadow-xl hover:-translate-y-0.5" style="background-color:#00b1aa">Explore Opportunities</a>
-                        <a href="#companies" class="text-sm font-bold text-gray-900 px-8 py-4 rounded-full border-2 border-gray-200 transition-all hover:border-gray-400 hover:-translate-y-0.5 bg-white">Partner With Us</a>
-                    </div>
+        <div class="relative z-10 max-w-6xl mx-auto px-6 pt-20 pb-5">
 
-                    {{-- Stats --}}
-                    <div class="flex flex-wrap gap-10 pt-8 border-t border-gray-100">
-                        <div>
-                            <p class="text-3xl font-black text-gray-900">500+</p>
-                            <p class="text-sm text-gray-400 font-medium mt-1">Partner Companies</p>
-                        </div>
-                        <div>
-                            <p class="text-3xl font-black text-gray-900">10k+</p>
-                            <p class="text-sm text-gray-400 font-medium mt-1">Active Students</p>
-                        </div>
-                        <div>
-                            <p class="text-3xl font-black text-gray-900">2k+</p>
-                            <p class="text-sm text-gray-400 font-medium mt-1">Live Internships</p>
-                        </div>
-                    </div>
+            {{-- Headline --}}
+            <div class="text-center mb-5">
+                <h1 class="text-5xl font-extrabold text-gray-900 leading-tight tracking-tight">
+                    {{ __('hero.title_line1') }}
+                    <span class="text-[#00B1AA]">{{ __('hero.brand') }}</span>
+                    <br>
+                    {{ __('hero.title_line2') }}
+                </h1>
+            </div>
+
+            {{-- Subheadline --}}
+            <p class="text-center text-gray-500 text-sm max-w-xl mx-auto mb-8 leading-relaxed">
+                {{ __('hero.subtitle') }}
+            </p>
+
+            {{-- CTA Buttons --}}
+            <div class="flex items-center justify-center gap-4 mb-12">
+                <a href="#"
+                    class="inline-flex items-center gap-2 bg-[#00b0aa] hover:bg-gray-700 text-white text-sm font-semibold px-6 py-3 rounded-full transition-all duration-200 shadow-sm">
+                    {{ __('hero.cta_try') }}
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor" stroke-width="2.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                    </svg>
+                </a>
+                <a href="#"
+                    class="inline-flex items-center gap-2 bg-white hover:bg-gray-50 text-gray-900 book-demo-btn text-sm font-semibold px-6 py-3 rounded-full border border-gray-300 transition-all duration-200 shadow-sm">
+                    {{ __('hero.cta_demo') }}
+                </a>
+
+            </div>
+
+
+            {{-- Browser / Dashboard Mockup --}}
+            <div class="relative mb-15 flex justify-center">
+
+                {{-- Green background surface --}}
+                <div
+                    class="absolute bottom-0 right-0 w-2/3 h-2/3 bg-[#00000093] hero-surface rounded-3xl blur-3xl -translate-y-8 translate-x-8">
                 </div>
 
-                {{-- Right: Image mosaic with floating card --}}
-                <div class="relative">
-                    <div class="grid grid-cols-2 gap-3">
-                        <div class="space-y-3">
-                            <div class="rounded-2xl overflow-hidden shadow-lg">
-                                <img src="https://cdn.prod.website-files.com/63eb3eaf146906eaa999e318/642d90c73077e2ced7d76141_Adult%20Learner%201%20(1).webp" alt="Student" class="w-full h-52 object-cover">
-                            </div>
-                            <div class="rounded-2xl overflow-hidden shadow-md">
-                                <img src="https://cdn.prod.website-files.com/63eb3eaf146906eaa999e318/642d90c73077e2ced7d76141_Adult%20Learner%201%20(1).webp" alt="Student" class="w-full h-36 object-cover">
-                            </div>
-                        </div>
-                        <div class="space-y-3 mt-10">
-                            <div class="rounded-2xl overflow-hidden shadow-md">
-                                <img src="https://cdn.prod.website-files.com/63eb3eaf146906eaa999e318/642d90c73077e2ced7d76141_Adult%20Learner%201%20(1).webp" alt="Student" class="w-full h-36 object-cover">
-                            </div>
-                            <div class="rounded-2xl overflow-hidden shadow-lg">
-                                <img src="https://cdn.prod.website-files.com/63eb3eaf146906eaa999e318/642d90c73077e2ced7d76141_Adult%20Learner%201%20(1).webp" alt="Student" class="w-full h-52 object-cover">
-                            </div>
-                        </div>
-                    </div>
-
-                    {{-- Floating notification card --}}
-                    <div class="absolute -bottom-5 -left-5 bg-white rounded-2xl shadow-xl border border-gray-100 px-5 py-4 max-w-48">
-                        <p class="text-xs text-gray-400 font-medium mb-1">New match found</p>
-                        <p class="text-sm font-bold text-gray-900">Software Engineer Intern</p>
-                        <div class="flex items-center gap-2 mt-2">
-                            <img src="https://cdn.prod.website-files.com/63eb3eaf146906eaa999e318/642d90c73077e2ced7d76141_Adult%20Learner%201%20(1).webp" alt="avatar" class="w-5 h-5 rounded-full object-cover">
-                            <span class="text-xs text-gray-400">94% match</span>
-                        </div>
-                    </div>
-
-                    {{-- Floating accept badge --}}
-                    <div class="absolute -top-4 -right-4 bg-white rounded-2xl shadow-xl border border-gray-100 px-4 py-3">
-                        <p class="text-xs font-bold" style="color:#00b1aa">Application Accepted</p>
-                        <p class="text-xs text-gray-400 mt-0.5">Google · Summer 2025</p>
-                    </div>
+                {{-- Alternative: More solid green surface --}}
+                <div
+                    class="absolute -bottom-18 right-14 w-[90%] h-[100%] bg-[#00b0aa] rounded-2xl -translate-y-12 translate-x-12">
                 </div>
 
+                {{-- Browser Window --}}
+                <div
+                    class="relative w-full max-w-5xl bg-white rounded-t-xl shadow-2xl border border-gray-200 overflow-hidden z-10">
+
+                    {{-- Browser Top Bar --}}
+                    {{-- (Your browser top bar content here if any) --}}
+
+                    {{-- Empty image placeholder --}}
+                    <img src="{{ asset('images/site%20photos/interdashord.png') }}" alt="Dashboard preview"
+                        class="w-full object-cover object-top block"
+                        style="min-height: 480px; background-color: #f9fafb;" />
+
+                </div>
             </div>
         </div>
     </section>
 
-    {{-- ============================================================
-         2. STUDENT FEATURES — Inspired by Image 1:
-            Left: accordion feature tabs | Right: teal-bg app preview card
-         ============================================================ --}}
-    <section id="students" class="py-28 bg-white">
-        <div class="max-w-7xl mx-auto px-6 lg:px-8">
 
-            <div class="mb-14">
-                <span class="inline-block text-xs font-bold uppercase tracking-widest px-4 py-1.5 rounded-full border mb-4" style="color:#00b1aa; border-color:rgba(0,177,170,0.3); background:rgba(0,177,170,0.05)">For Students</span>
-                <h2 class="text-4xl lg:text-5xl font-black text-gray-900 max-w-2xl">Everything You Need to Land Your Dream Internship</h2>
-            </div>
+    {{-- ═══════════════════════════════════════════════════════════════════
+    As Featured In (Marquee)
+    ═══════════════════════════════════════════════════════════════════ --}}
+    <section class="w-full  overflow-hidden bg-[#ededed] py-14 px-0">
+        <style>
+            @keyframes marquee-scroll {
+                0% {
+                    transform: translateX(0);
+                }
 
-            <div class="grid lg:grid-cols-2 gap-12 items-start" x-data="{ active: 0 }">
+                100% {
+                    transform: translateX(-50%);
+                }
+            }
 
-                {{-- Left: Feature accordion tabs (like Image 1) --}}
-                <div class="space-y-2">
-                    @foreach([
-                        ['Search Internships', 'Discover thousands of internship listings filtered by field, location, duration, and company size. Our smart search returns the most relevant results first.'],
-                        ['Save Offers', 'Bookmark your favourite listings and revisit them at any time. Build your personal shortlist with a single click and never lose track of a great opportunity.'],
-                        ['Track Applications', 'Stay on top of every application with a real-time status board. Know exactly where you stand at every stage — from submitted to offer received.'],
-                        ['Upload CV', 'Upload your CV once and apply to hundreds of internships instantly. Maintain multiple CV versions and choose the right one per application.'],
-                        ['Personalized Recommendations', 'Our AI engine analyses your profile, skills, and preferences to surface the internships most likely to match your career goals — automatically.'],
-                        ['Internship Alerts', 'Set up smart keyword alerts and get notified the moment a new internship matching your criteria is posted. Never miss the right opportunity.'],
-                    ] as $i => [$title, $desc])
-                    <div class="rounded-2xl border transition-all duration-300 overflow-hidden cursor-pointer"
-                         :class="active === {{ $i }} ? 'border-gray-900 bg-white shadow-md' : 'border-gray-100 bg-gray-50 hover:border-gray-200'"
-                         x-on:click="active = {{ $i }}">
-                        <div class="flex items-center justify-between px-6 py-5">
-                            <h3 class="font-bold text-gray-900" :class="active === {{ $i }} ? 'text-gray-900' : 'text-gray-600'">{{ $title }}</h3>
-                            <div class="w-5 h-5 rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0"
-                                 :class="active === {{ $i }} ? 'text-white' : 'text-gray-400 bg-gray-200'"
-                                 :style="active === {{ $i }} ? 'background-color:#00b1aa' : ''">
-                                <span x-text="active === {{ $i }} ? '−' : '+'"></span>
-                            </div>
-                        </div>
-                        <div x-show="active === {{ $i }}" x-collapse class="px-6 pb-5">
-                            <p class="text-sm text-gray-500 leading-relaxed mb-4">{{ $desc }}</p>
-                            <img src="https://cdn.prod.website-files.com/63eb3eaf146906eaa999e318/642d90c73077e2ced7d76141_Adult%20Learner%201%20(1).webp" alt="{{ $title }}" class="w-full h-40 object-cover rounded-xl">
-                        </div>
-                    </div>
-                    @endforeach
-                </div>
+            .marquee-track {
+                animation: marquee-scroll 28s linear infinite;
+            }
+        </style>
 
-                {{-- Right: App preview card with teal bg (like Image 1 right panel) --}}
-                <div class="sticky top-24">
-                    <div class="rounded-3xl overflow-hidden shadow-2xl relative" style="background-color:#00b1aa">
-                        <div class="p-6 pb-0">
-                            {{-- Fake browser top bar --}}
-                            <div class="bg-white/20 rounded-xl px-4 py-2 mb-4 flex items-center gap-2">
-                                <div class="w-2 h-2 rounded-full bg-white/50"></div>
-                                <div class="w-2 h-2 rounded-full bg-white/50"></div>
-                                <div class="w-2 h-2 rounded-full bg-white/50"></div>
-                                <div class="flex-1 text-center text-xs text-white/70 font-medium">interlink.io/dashboard</div>
-                            </div>
-                            {{-- App UI mockup images stacked --}}
-                            <div class="rounded-t-2xl overflow-hidden shadow-xl">
-                                <img src="https://cdn.prod.website-files.com/63eb3eaf146906eaa999e318/642d90c73077e2ced7d76141_Adult%20Learner%201%20(1).webp" alt="App preview" class="w-full h-64 object-cover">
-                            </div>
-                        </div>
-                        {{-- Card info at bottom --}}
-                        <div class="p-6 pt-4">
-                            <div class="bg-white rounded-2xl p-4 flex items-center gap-4">
-                                <img src="https://cdn.prod.website-files.com/63eb3eaf146906eaa999e318/642d90c73077e2ced7d76141_Adult%20Learner%201%20(1).webp" alt="student" class="w-10 h-10 rounded-full object-cover">
-                                <div class="flex-1">
-                                    <p class="text-sm font-bold text-gray-900">Application Sent</p>
-                                    <p class="text-xs text-gray-400">Google · Software Engineer Intern</p>
-                                </div>
-                                <span class="text-xs font-bold px-3 py-1 rounded-full text-white" style="background-color:#00b1aa">Active</span>
-                            </div>
-                            <div class="bg-white/10 rounded-2xl p-4 mt-3">
-                                <p class="text-xs font-semibold text-white mb-2">Suggested for you</p>
-                                <div class="space-y-2">
-                                    @foreach(['Data Analyst · Microsoft', 'UX Designer · Airbnb', 'Backend Dev · Stripe'] as $suggestion)
-                                    <div class="flex items-center gap-3">
-                                        <img src="https://cdn.prod.website-files.com/63eb3eaf146906eaa999e318/642d90c73077e2ced7d76141_Adult%20Learner%201%20(1).webp" alt="co" class="w-7 h-7 rounded-lg object-cover">
-                                        <p class="text-xs text-white/80">{{ $suggestion }}</p>
-                                    </div>
-                                    @endforeach
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        <h2
+            class="mx-auto mb-11 text-center font-[Poppins] text-[clamp(1.5rem,3vw,2rem)] font-extrabold tracking-[-0.2px] text-[#00b5ad]">
+            As Featured In
+        </h2>
 
-            </div>
-        </div>
-    </section>
+        <div class="w-full overflow-hidden"
+            style="-webkit-mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%); mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);">
+            <div class="marquee-track flex max-w-max items-center pointer-events-none select-none" id="marquee-track">
 
-    {{-- ============================================================
-         3. COMPANY FEATURES — Inspired by Image 4:
-            Center heading + two-column UI card layout with labels
-         ============================================================ --}}
-    <section id="companies" class="py-28" style="background-color:#fafaf9">
-        <div class="max-w-7xl mx-auto px-6 lg:px-8">
-
-            {{-- Decorative dots --}}
-            <div class="relative text-center mb-16">
-                <div class="absolute top-0 left-1/4 w-2 h-2 rounded-full" style="background-color:#00b1aa; opacity:0.5"></div>
-                <div class="absolute top-4 right-1/4 w-3 h-3 rotate-45 border-2 border-orange-300 opacity-60"></div>
-                <span class="inline-block text-xs font-bold uppercase tracking-widest px-4 py-1.5 rounded-full border mb-4" style="color:#00b1aa; border-color:rgba(0,177,170,0.3); background:rgba(0,177,170,0.05)">For Companies</span>
-                <h2 class="text-4xl lg:text-5xl font-black text-gray-900 max-w-3xl mx-auto leading-tight">
-                    Manage your entire hiring process,<br>from sourcing to onboarding
-                </h2>
-            </div>
-
-            {{-- Two-column feature showcase (Image 4 style) --}}
-            <div class="grid md:grid-cols-2 gap-8 mb-16">
-
-                {{-- Col 1: Post & Attract --}}
-                <div class="bg-white rounded-3xl p-8 shadow-sm border border-gray-100 hover:shadow-lg transition-shadow">
-                    {{-- UI Mockup image --}}
-                    <div class="relative mb-6">
-                        <div class="rounded-2xl overflow-hidden shadow-md bg-gray-50 p-4">
-                            <div class="bg-white rounded-xl shadow-sm p-4 mb-3">
-                                <div class="flex items-center gap-3 mb-3">
-                                    <img src="https://cdn.prod.website-files.com/63eb3eaf146906eaa999e318/642d90c73077e2ced7d76141_Adult%20Learner%201%20(1).webp" alt="co" class="w-8 h-8 rounded-lg object-cover">
-                                    <div>
-                                        <p class="text-xs font-bold text-gray-900">New Internship Listing</p>
-                                        <p class="text-xs text-gray-400">Backend Developer · Remote</p>
-                                    </div>
-                                </div>
-                                <div class="space-y-2">
-                                    <div class="h-2 bg-gray-100 rounded-full w-full"></div>
-                                    <div class="h-2 bg-gray-100 rounded-full w-3/4"></div>
-                                    <div class="h-2 bg-gray-100 rounded-full w-5/6"></div>
-                                </div>
-                                <div class="mt-3 flex gap-2">
-                                    <div class="h-6 rounded-lg px-3 text-xs font-bold text-white flex items-center" style="background-color:#00b1aa">Publish Now</div>
-                                    <div class="h-6 rounded-lg px-3 text-xs font-medium text-gray-500 bg-gray-100 flex items-center">Save Draft</div>
-                                </div>
-                            </div>
-                            <div class="grid grid-cols-2 gap-2">
-                                <img src="https://cdn.prod.website-files.com/63eb3eaf146906eaa999e318/642d90c73077e2ced7d76141_Adult%20Learner%201%20(1).webp" alt="platform" class="rounded-xl h-20 w-full object-cover">
-                                <img src="https://cdn.prod.website-files.com/63eb3eaf146906eaa999e318/642d90c73077e2ced7d76141_Adult%20Learner%201%20(1).webp" alt="platform" class="rounded-xl h-20 w-full object-cover">
-                            </div>
-                        </div>
-                    </div>
-                    <p class="text-xs font-bold uppercase tracking-widest mb-2" style="color:#00b1aa">Source &amp; Attract</p>
-                    <h3 class="text-2xl font-black text-gray-900 mb-3">Post and attract top student talent</h3>
-                    <p class="text-gray-500 text-sm leading-relaxed mb-5">Create rich listings in minutes. Set requirements, duration, stipend, and deadlines. Instantly reach thousands of qualified students.</p>
-                    <a href="#" class="text-xs font-bold uppercase tracking-widest" style="color:#00b1aa">Learn More &rarr;</a>
-                </div>
-
-                {{-- Col 2: Evaluate & Collaborate --}}
-                <div class="bg-white rounded-3xl p-8 shadow-sm border border-gray-100 hover:shadow-lg transition-shadow">
-                    <div class="relative mb-6">
-                        <div class="rounded-2xl overflow-hidden shadow-md bg-gray-50 p-4">
-                            {{-- Fake candidate list --}}
-                            <div class="space-y-2 mb-3">
-                                @foreach([['Sara K.','UX Design','95%'],['Ahmed R.','Backend Dev','88%'],['Nadia B.','Data Science','82%']] as [$cname,$crole,$score])
-                                <div class="bg-white rounded-xl p-3 flex items-center gap-3 shadow-sm">
-                                    <img src="https://cdn.prod.website-files.com/63eb3eaf146906eaa999e318/642d90c73077e2ced7d76141_Adult%20Learner%201%20(1).webp" alt="candidate" class="w-8 h-8 rounded-full object-cover">
-                                    <div class="flex-1">
-                                        <p class="text-xs font-bold text-gray-900">{{ $cname }}</p>
-                                        <p class="text-xs text-gray-400">{{ $crole }}</p>
-                                    </div>
-                                    <span class="text-xs font-bold" style="color:#00b1aa">{{ $score }}</span>
-                                </div>
-                                @endforeach
-                            </div>
-                            <img src="https://cdn.prod.website-files.com/63eb3eaf146906eaa999e318/642d90c73077e2ced7d76141_Adult%20Learner%201%20(1).webp" alt="Interview UI" class="rounded-xl h-24 w-full object-cover">
-                        </div>
-                    </div>
-                    <p class="text-xs font-bold uppercase tracking-widest mb-2" style="color:#00b1aa">Evaluate &amp; Collaborate</p>
-                    <h3 class="text-2xl font-black text-gray-900 mb-3">Move the right applicants forward</h3>
-                    <p class="text-gray-500 text-sm leading-relaxed mb-5">Compare candidates side by side, use AI ranking, schedule interviews, and collaborate with your team — all in one dashboard.</p>
-                    <a href="#" class="text-xs font-bold uppercase tracking-widest" style="color:#00b1aa">Learn More &rarr;</a>
-                </div>
-            </div>
-
-            {{-- Second row of company features --}}
-            <div class="grid md:grid-cols-3 gap-6">
-                @foreach([
-                    ['Interview Scheduling', 'Source & Schedule', 'Automated interview invitations with calendar sync. Coordinate availability between your team and candidates without email back-and-forth.'],
-                    ['Analytics Dashboard', 'Insights & Data', 'Track listing performance, application rates, and conversion metrics. Make data-driven decisions to sharpen your hiring strategy.'],
-                    ['Company Profile Management', 'Build Your Brand', 'Showcase your culture, values, and benefits. A compelling employer page helps attract students who are the right cultural fit.'],
-                ] as [$ftitle, $flabel, $fdesc])
-                <div class="bg-white rounded-2xl p-6 border border-gray-100 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group">
-                    <img src="https://cdn.prod.website-files.com/63eb3eaf146906eaa999e318/642d90c73077e2ced7d76141_Adult%20Learner%201%20(1).webp" alt="{{ $ftitle }}" class="w-full h-36 object-cover rounded-xl mb-5 group-hover:scale-105 transition-transform duration-300">
-                    <p class="text-xs font-bold uppercase tracking-widest mb-2" style="color:#00b1aa">{{ $flabel }}</p>
-                    <h4 class="font-black text-gray-900 mb-2">{{ $ftitle }}</h4>
-                    <p class="text-sm text-gray-500 leading-relaxed">{{ $fdesc }}</p>
-                </div>
-                @endforeach
-            </div>
-        </div>
-    </section>
-
-    {{-- ============================================================
-         4. ADMIN FEATURES — Light bg with data table + stat cards
-            (no dark full sections — only white/gray-50)
-         ============================================================ --}}
-    <section id="admin" class="py-28 bg-white">
-        <div class="max-w-7xl mx-auto px-6 lg:px-8">
-
-            <div class="grid lg:grid-cols-2 gap-16 items-start">
-
-                {{-- Left: Copy + stat cards --}}
-                <div>
-                    <span class="inline-block text-xs font-bold uppercase tracking-widest px-4 py-1.5 rounded-full border mb-6" style="color:#00b1aa; border-color:rgba(0,177,170,0.3); background:rgba(0,177,170,0.05)">Admin Panel</span>
-                    <h2 class="text-4xl lg:text-5xl font-black text-gray-900 mb-6">Full Platform Control at Your Fingertips</h2>
-                    <p class="text-gray-500 text-lg leading-relaxed mb-10">Administrators get a powerful command centre to oversee every aspect of the InterLink ecosystem — users, companies, content, and analytics.</p>
-
-                    {{-- Stat cards grid --}}
-                    <div class="grid grid-cols-2 gap-4 mb-8">
-                        @foreach([
-                            ['12,450','Total Users'],
-                            ['584','Companies'],
-                            ['2,310','Internships Posted'],
-                            ['98','Open Tickets'],
-                        ] as [$val,$label])
-                        <div class="rounded-2xl p-5 border border-gray-100 bg-gray-50 hover:shadow-md transition-shadow">
-                            <p class="text-3xl font-black text-gray-900">{{ $val }}</p>
-                            <p class="text-sm text-gray-400 font-medium mt-1">{{ $label }}</p>
-                            <div class="h-1 rounded-full mt-3 w-12" style="background-color:#00b1aa"></div>
-                        </div>
-                        @endforeach
-                    </div>
-
-                    {{-- Feature list --}}
-                    <div class="space-y-3">
-                        @foreach(['User Moderation','Reports Management','Ticket Management','Platform Analytics','Role Permissions','Security Monitoring'] as $feat)
-                        <div class="flex items-center gap-3 px-4 py-3 rounded-xl border border-gray-100 bg-gray-50 hover:border-gray-300 transition-colors">
-                            <div class="w-2 h-2 rounded-full flex-shrink-0" style="background-color:#00b1aa"></div>
-                            <span class="text-sm font-semibold text-gray-700">{{ $feat }}</span>
-                        </div>
-                        @endforeach
-                    </div>
-                </div>
-
-                {{-- Right: Admin table preview + images --}}
-                <div class="space-y-4">
-                    {{-- Table preview --}}
-                    <div class="rounded-2xl border border-gray-100 overflow-hidden shadow-sm bg-white">
-                        <div class="px-6 py-4 border-b border-gray-100 flex items-center justify-between bg-gray-50">
-                            <p class="font-bold text-gray-900 text-sm">Recent Platform Activity</p>
-                            <span class="text-xs font-bold px-3 py-1 rounded-full text-white" style="background-color:#00b1aa">Live</span>
-                        </div>
-                        <table class="w-full">
-                            <thead>
-                                <tr class="border-b border-gray-100">
-                                    <th class="px-5 py-3 text-left text-xs font-semibold text-gray-400 uppercase">User</th>
-                                    <th class="px-5 py-3 text-left text-xs font-semibold text-gray-400 uppercase">Action</th>
-                                    <th class="px-5 py-3 text-left text-xs font-semibold text-gray-400 uppercase">Status</th>
-                                </tr>
-                            </thead>
-                            <tbody class="divide-y divide-gray-50">
-                                @foreach([
-                                    ['Sara K.','Applied to Internship','Active'],
-                                    ['TechCorp','Posted New Listing','Verified'],
-                                    ['Ahmed R.','Updated CV','Active'],
-                                    ['StartupX','Scheduled Interview','Pending'],
-                                    ['Admin','Reviewed Report #44','Resolved'],
-                                ] as [$uname,$uaction,$ustatus])
-                                <tr class="hover:bg-gray-50 transition-colors">
-                                    <td class="px-5 py-3">
-                                        <div class="flex items-center gap-2">
-                                            <img src="https://cdn.prod.website-files.com/63eb3eaf146906eaa999e318/642d90c73077e2ced7d76141_Adult%20Learner%201%20(1).webp" alt="avatar" class="w-7 h-7 rounded-full object-cover">
-                                            <span class="text-sm font-medium text-gray-700">{{ $uname }}</span>
-                                        </div>
-                                    </td>
-                                    <td class="px-5 py-3 text-xs text-gray-500">{{ $uaction }}</td>
-                                    <td class="px-5 py-3">
-                                        <span class="text-xs font-semibold px-2 py-1 rounded-full
-                                            @if($ustatus==='Active') bg-green-50 text-green-600
-                                            @elseif($ustatus==='Pending') bg-yellow-50 text-yellow-600
-                                            @elseif($ustatus==='Verified') text-white @else bg-blue-50 text-blue-600 @endif"
-                                            @if($ustatus==='Verified') style="background-color:#00b1aa" @endif>
-                                            {{ $ustatus }}
-                                        </span>
-                                    </td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-
-                    {{-- Image row --}}
-                    <div class="grid grid-cols-3 gap-3">
-                        @for($i=0;$i<3;$i++)
-                        <div class="rounded-xl overflow-hidden shadow-sm">
-                            <img src="https://cdn.prod.website-files.com/63eb3eaf146906eaa999e318/642d90c73077e2ced7d76141_Adult%20Learner%201%20(1).webp" alt="Admin" class="w-full h-24 object-cover hover:scale-105 transition-transform duration-300">
-                        </div>
-                        @endfor
-                    </div>
-
-                    {{-- Wide image --}}
-                    <div class="rounded-2xl overflow-hidden shadow-sm">
-                        <img src="https://cdn.prod.website-files.com/63eb3eaf146906eaa999e318/642d90c73077e2ced7d76141_Adult%20Learner%201%20(1).webp" alt="Admin" class="w-full h-36 object-cover">
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    {{-- ============================================================
-         5. PLATFORM FEATURES — Inspired by Image 3:
-            Left copy block with decorative accent / right image
-         ============================================================ --}}
-    <section class="py-28" style="background-color:#fafaf9">
-        <div class="max-w-7xl mx-auto px-6 lg:px-8">
-
-            <div class="grid lg:grid-cols-2 gap-16 items-center mb-20">
-
-                {{-- Left --}}
-                <div class="relative">
-                    <div class="absolute -top-6 -left-4 w-8 h-8" style="color:#00b1aa">
-                        <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <line x1="20" y1="0" x2="20" y2="40" stroke="#00b1aa" stroke-width="3"/>
-                            <line x1="0" y1="20" x2="40" y2="20" stroke="#00b1aa" stroke-width="3"/>
-                            <line x1="6" y1="6" x2="34" y2="34" stroke="#00b1aa" stroke-width="3"/>
-                            <line x1="34" y1="6" x2="6" y2="34" stroke="#00b1aa" stroke-width="3"/>
+                <!-- SET A -->
+                <div class="flex items-center gap-20 px-10 flex-shrink-0">
+                    <div class="flex items-center justify-center flex-shrink-0 opacity-55 grayscale">
+                        <svg width="110" height="40" viewBox="0 0 110 40" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <rect x="0" y="0" width="34" height="40" rx="2" fill="#888" />
+                            <rect x="38" y="0" width="34" height="40" rx="2" fill="#888" />
+                            <rect x="76" y="0" width="34" height="40" rx="2" fill="#888" /><text x="17" y="27"
+                                text-anchor="middle" font-family="Arial Black,sans-serif" font-size="20"
+                                font-weight="900" fill="#fff">B</text><text x="55" y="27" text-anchor="middle"
+                                font-family="Arial Black,sans-serif" font-size="20" font-weight="900"
+                                fill="#fff">B</text><text x="93" y="27" text-anchor="middle"
+                                font-family="Arial Black,sans-serif" font-size="20" font-weight="900"
+                                fill="#fff">C</text>
                         </svg>
                     </div>
-                    <span class="inline-block text-xs font-bold uppercase tracking-widest px-4 py-1.5 rounded-full border mb-6" style="color:#00b1aa; border-color:rgba(0,177,170,0.3); background:rgba(0,177,170,0.05)">Platform-Wide Features</span>
-                    <h2 class="text-4xl lg:text-5xl font-black text-gray-900 mb-6">Built for the Modern World</h2>
-                    <p class="text-gray-500 text-lg leading-relaxed mb-4">Every feature on InterLink is designed with simplicity, speed, and security in mind — so everyone can focus on what matters most.</p>
-                    <p class="text-gray-400 text-base leading-relaxed mb-10">From real-time notifications to AI-powered matching, our platform is continuously updated with the tools professionals expect.</p>
-                    <a href="#" class="inline-block text-sm font-bold text-white px-8 py-4 rounded-full hover:shadow-xl hover:-translate-y-0.5 transition-all" style="background-color:#00b1aa">Explore the Platform</a>
-                </div>
-
-                {{-- Right: image with floating cards --}}
-                <div class="relative">
-                    <div class="rounded-3xl overflow-hidden shadow-xl">
-                        <img src="https://cdn.prod.website-files.com/63eb3eaf146906eaa999e318/642d90c73077e2ced7d76141_Adult%20Learner%201%20(1).webp" alt="Platform" class="w-full h-96 object-cover">
+                    <div class="flex items-center justify-center flex-shrink-0 opacity-55 grayscale">
+                        <svg width="160" height="44" viewBox="0 0 160 44" fill="none"
+                            xmlns="http://www.w3.org/2000/svg"><text x="0" y="18" font-family="Georgia,serif"
+                                font-size="13" font-weight="400" fill="#888">Business</text><text x="0" y="40"
+                                font-family="Georgia,serif" font-size="26" font-weight="700" font-style="italic"
+                                fill="#888">Leader</text></svg>
                     </div>
-                    <div class="absolute top-6 -left-6 bg-white rounded-2xl shadow-xl border border-gray-100 p-4 w-44">
-                        <p class="text-xs text-gray-400 mb-1">AI Match Score</p>
-                        <p class="text-2xl font-black" style="color:#00b1aa">94%</p>
-                        <img src="https://cdn.prod.website-files.com/63eb3eaf146906eaa999e318/642d90c73077e2ced7d76141_Adult%20Learner%201%20(1).webp" alt="match" class="w-full h-14 object-cover rounded-xl mt-2">
+                    <div class="flex items-center justify-center flex-shrink-0 opacity-55 grayscale">
+                        <svg width="130" height="36" viewBox="0 0 130 36" fill="none"
+                            xmlns="http://www.w3.org/2000/svg"><text x="0" y="28" font-family="Arial,sans-serif"
+                                font-size="26" font-weight="400" fill="#888">edtech</text><text x="92" y="28"
+                                font-family="Arial Black,sans-serif" font-size="28" font-weight="900"
+                                fill="#888">X</text></svg>
                     </div>
-                    <div class="absolute -bottom-5 -right-5 bg-white rounded-2xl shadow-xl border border-gray-100 p-4">
-                        <p class="text-xs text-gray-400 mb-1">New Message</p>
-                        <div class="flex items-center gap-2">
-                            <img src="https://cdn.prod.website-files.com/63eb3eaf146906eaa999e318/642d90c73077e2ced7d76141_Adult%20Learner%201%20(1).webp" alt="msg" class="w-8 h-8 rounded-full object-cover">
-                            <div>
-                                <p class="text-xs font-bold text-gray-900">TechCorp replied</p>
-                                <p class="text-xs text-gray-400">Interview confirmed</p>
-                            </div>
-                        </div>
+                    <div class="flex items-center justify-center flex-shrink-0 opacity-55 grayscale">
+                        <svg width="120" height="36" viewBox="0 0 120 36" fill="none"
+                            xmlns="http://www.w3.org/2000/svg"><text x="0" y="30" font-family="Georgia,serif"
+                                font-size="34" font-weight="700" font-style="italic" fill="#888">Forbes</text></svg>
                     </div>
-                </div>
-
-            </div>
-
-            {{-- 6-feature grid --}}
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
-                @foreach([
-                    ['Real-time Notifications', 'Instant alerts for new applications, messages, status updates, and deadlines — delivered across all devices the moment they happen.'],
-                    ['Messaging System', 'A built-in chat interface so students and recruiters can communicate without ever leaving the platform. Full message history included.'],
-                    ['AI Recommendations', 'Machine learning models continuously improve suggestions for both students and companies based on behaviour and outcomes.'],
-                    ['Secure Authentication', 'Two-factor authentication, OAuth login, and session management to protect every account on the platform.'],
-                    ['Responsive Interface', 'Optimised for all screen sizes. Use InterLink seamlessly on mobile, tablet, or desktop with a consistent experience.'],
-                    ['Multi-role Access', 'One platform, three distinct experiences — Student, Company, and Admin — each tailored to the exact needs of that role.'],
-                ] as [$ftitle, $fdesc])
-                <div class="bg-white rounded-2xl p-6 border border-gray-100 hover:shadow-md hover:-translate-y-1 transition-all duration-300 group">
-                    <img src="https://cdn.prod.website-files.com/63eb3eaf146906eaa999e318/642d90c73077e2ced7d76141_Adult%20Learner%201%20(1).webp" alt="{{ $ftitle }}" class="w-full h-32 object-cover rounded-xl mb-5 group-hover:scale-105 transition-transform duration-300">
-                    <h4 class="font-black text-gray-900 mb-2">{{ $ftitle }}</h4>
-                    <p class="text-sm text-gray-500 leading-relaxed">{{ $fdesc }}</p>
-                </div>
-                @endforeach
-            </div>
-        </div>
-    </section>
-
-    {{-- ============================================================
-         6. UI SHOWCASE — device frames on light bg
-         ============================================================ --}}
-    <section class="py-28 bg-white">
-        <div class="max-w-7xl mx-auto px-6 lg:px-8">
-
-            <div class="text-center mb-16">
-                <span class="inline-block text-xs font-bold uppercase tracking-widest px-4 py-1.5 rounded-full border mb-4" style="color:#00b1aa; border-color:rgba(0,177,170,0.3); background:rgba(0,177,170,0.05)">Beautiful by Design</span>
-                <h2 class="text-4xl lg:text-5xl font-black text-gray-900 mb-4">See It in Action</h2>
-                <p class="text-gray-500 max-w-xl mx-auto">A platform that looks as good as it performs — across every device and screen size.</p>
-            </div>
-
-            {{-- Desktop browser frame --}}
-            <div class="mb-8 shadow-2xl rounded-2xl overflow-hidden border border-gray-200">
-                <div class="bg-gray-100 px-5 py-3 flex items-center gap-2 border-b border-gray-200">
-                    <div class="w-3 h-3 rounded-full bg-red-400"></div>
-                    <div class="w-3 h-3 rounded-full bg-yellow-400"></div>
-                    <div class="w-3 h-3 rounded-full bg-green-400"></div>
-                    <div class="flex-1 mx-4 bg-white rounded-lg px-3 py-1 text-xs text-gray-400 text-center">interlink.io/dashboard</div>
-                </div>
-                <img src="https://cdn.prod.website-files.com/63eb3eaf146906eaa999e318/642d90c73077e2ced7d76141_Adult%20Learner%201%20(1).webp" alt="Desktop Dashboard" class="w-full h-80 object-cover">
-            </div>
-
-            {{-- Tablet + Mobile row --}}
-            <div class="grid md:grid-cols-5 gap-6 items-end mb-12">
-                {{-- Tablet --}}
-                <div class="md:col-span-3">
-                    <div class="bg-gray-800 rounded-3xl p-3 shadow-2xl">
-                        <div class="rounded-2xl overflow-hidden">
-                            <img src="https://cdn.prod.website-files.com/63eb3eaf146906eaa999e318/642d90c73077e2ced7d76141_Adult%20Learner%201%20(1).webp" alt="Tablet" class="w-full h-60 object-cover">
-                        </div>
+                    <div class="flex items-center justify-center flex-shrink-0 opacity-55 grayscale">
+                        <svg width="140" height="44" viewBox="0 0 140 44" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <rect x="0" y="0" width="44" height="44" rx="4" fill="#888" /><text x="22" y="18"
+                                text-anchor="middle" font-family="Arial,sans-serif" font-size="9" font-weight="700"
+                                fill="#fff">IHE</text>
+                            <line x1="6" y1="22" x2="38" y2="22" stroke="#fff" stroke-width="1.5" /><text x="22" y="32"
+                                text-anchor="middle" font-family="Arial,sans-serif" font-size="7.5" font-weight="400"
+                                fill="#fff">Inside</text><text x="22" y="40" text-anchor="middle"
+                                font-family="Arial,sans-serif" font-size="7.5" font-weight="400" fill="#fff">Higher
+                                Ed</text><text x="58" y="20" font-family="Arial,sans-serif" font-size="13"
+                                font-weight="700" fill="#888">Inside</text><text x="58" y="34"
+                                font-family="Arial,sans-serif" font-size="13" font-weight="700" fill="#888">Higher
+                                Ed</text>
+                        </svg>
                     </div>
-                    <p class="text-center text-sm text-gray-400 font-medium mt-4">Tablet — Student Dashboard</p>
-                </div>
-                {{-- Mobile --}}
-                <div class="md:col-span-2 flex flex-col items-center">
-                    <div class="bg-gray-800 rounded-[2rem] p-2 shadow-2xl w-44">
-                        <div class="rounded-[1.5rem] overflow-hidden">
-                            <img src="https://cdn.prod.website-files.com/63eb3eaf146906eaa999e318/642d90c73077e2ced7d76141_Adult%20Learner%201%20(1).webp" alt="Mobile" class="w-full h-72 object-cover">
-                        </div>
+                    <div class="flex items-center justify-center flex-shrink-0 opacity-55 grayscale">
+                        <svg width="160" height="36" viewBox="0 0 160 36" fill="none"
+                            xmlns="http://www.w3.org/2000/svg"><text x="0" y="28" font-family="Georgia,serif"
+                                font-size="26" font-weight="700" fill="#888">The Guardian</text></svg>
                     </div>
-                    <p class="text-center text-sm text-gray-400 font-medium mt-4">Mobile — Job Search</p>
-                </div>
-            </div>
-
-            {{-- Screenshot gallery: glassmorphism --}}
-            <div class="grid md:grid-cols-3 gap-5">
-                @foreach(['Student Dashboard','Company Hub','Admin Panel'] as $i => $label)
-                <div class="relative rounded-2xl overflow-hidden shadow-lg group">
-                    <img src="https://cdn.prod.website-files.com/63eb3eaf146906eaa999e318/642d90c73077e2ced7d76141_Adult%20Learner%201%20(1).webp" alt="{{ $label }}" class="w-full h-52 object-cover group-hover:scale-105 transition-transform duration-500">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent flex items-end p-5">
-                        <div class="backdrop-blur-sm bg-white/10 rounded-xl px-4 py-2 border border-white/20">
-                            <p class="text-white font-bold text-sm">{{ $label }}</p>
-                        </div>
+                    <div class="flex items-center justify-center flex-shrink-0 opacity-55 grayscale">
+                        <svg width="60" height="44" viewBox="0 0 60 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="0" y="0" width="60" height="44" rx="4" fill="#888" /><text x="30" y="18"
+                                text-anchor="middle" font-family="Arial,sans-serif" font-size="11" font-weight="900"
+                                fill="#fff">Times</text><text x="30" y="29" text-anchor="middle"
+                                font-family="Arial,sans-serif" font-size="8" font-weight="400"
+                                fill="#fff">Higher</text><text x="30" y="39" text-anchor="middle"
+                                font-family="Arial,sans-serif" font-size="8" font-weight="400"
+                                fill="#fff">Education</text>
+                        </svg>
+                    </div>
+                    <div class="flex items-center justify-center flex-shrink-0 opacity-55 grayscale">
+                        <svg width="100" height="36" viewBox="0 0 100 36" fill="none"
+                            xmlns="http://www.w3.org/2000/svg"><text x="0" y="30" font-family="Arial Black,sans-serif"
+                                font-size="32" font-weight="900" fill="#888">CNBC</text></svg>
                     </div>
                 </div>
-                @endforeach
-            </div>
 
-        </div>
-    </section>
-
-    {{-- ============================================================
-         7. HOW IT WORKS — step timeline on light bg
-         ============================================================ --}}
-    <section id="how-it-works" class="py-28" style="background-color:#fafaf9">
-        <div class="max-w-7xl mx-auto px-6 lg:px-8">
-
-            <div class="text-center mb-16">
-                <span class="inline-block text-xs font-bold uppercase tracking-widest px-4 py-1.5 rounded-full border mb-4" style="color:#00b1aa; border-color:rgba(0,177,170,0.3); background:rgba(0,177,170,0.05)">Simple Process</span>
-                <h2 class="text-4xl lg:text-5xl font-black text-gray-900 mb-4">How InterLink Works</h2>
-                <p class="text-gray-500 max-w-xl mx-auto">Three easy steps for students and companies to get started on InterLink.</p>
-            </div>
-
-            <div class="grid lg:grid-cols-2 gap-16">
-
-                {{-- Students steps --}}
-                <div>
-                    <div class="flex items-center gap-3 mb-8 pb-5 border-b border-gray-100">
-                        <img src="https://cdn.prod.website-files.com/63eb3eaf146906eaa999e318/642d90c73077e2ced7d76141_Adult%20Learner%201%20(1).webp" alt="Student" class="w-10 h-10 rounded-full object-cover">
-                        <h3 class="text-2xl font-black text-gray-900">For Students</h3>
+                <!-- SET B (Duplicate for seamless loop) -->
+                <div class="flex items-center gap-20 px-10 flex-shrink-0">
+                    <div class="flex items-center justify-center flex-shrink-0 opacity-55 grayscale">
+                        <svg width="110" height="40" viewBox="0 0 110 40" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <rect x="0" y="0" width="34" height="40" rx="2" fill="#888" />
+                            <rect x="38" y="0" width="34" height="40" rx="2" fill="#888" />
+                            <rect x="76" y="0" width="34" height="40" rx="2" fill="#888" /><text x="17" y="27"
+                                text-anchor="middle" font-family="Arial Black,sans-serif" font-size="20"
+                                font-weight="900" fill="#fff">B</text><text x="55" y="27" text-anchor="middle"
+                                font-family="Arial Black,sans-serif" font-size="20" font-weight="900"
+                                fill="#fff">B</text><text x="93" y="27" text-anchor="middle"
+                                font-family="Arial Black,sans-serif" font-size="20" font-weight="900"
+                                fill="#fff">C</text>
+                        </svg>
                     </div>
-                    @foreach([
-                        ['Create Your Profile', 'Sign up, fill in your skills, education, and career goals. Upload your CV and let your profile do the talking.'],
-                        ['Apply to Internships', 'Browse curated listings or follow AI recommendations. Apply in seconds using your saved profile — no forms to refill.'],
-                        ['Get Hired', 'Track your applications, attend interviews, and receive your offer — all managed within InterLink.'],
-                    ] as $i => [$stitle, $sdesc])
-                    <div class="flex gap-5 mb-0 relative">
-                        <div class="flex flex-col items-center">
-                            <div class="w-11 h-11 rounded-full flex items-center justify-center font-black text-white text-sm flex-shrink-0 z-10" style="background-color:#00b1aa">0{{ $i+1 }}</div>
-                            @if($i < 2)
-                            <div class="w-px flex-1 my-2" style="background-color:rgba(0,177,170,0.25)"></div>
-                            @endif
-                        </div>
-                        <div class="pb-8">
-                            <h4 class="text-lg font-bold text-gray-900 mb-1">{{ $stitle }}</h4>
-                            <p class="text-sm text-gray-500 leading-relaxed mb-3">{{ $sdesc }}</p>
-                            <img src="https://cdn.prod.website-files.com/63eb3eaf146906eaa999e318/642d90c73077e2ced7d76141_Adult%20Learner%201%20(1).webp" alt="{{ $stitle }}" class="w-full h-28 object-cover rounded-xl shadow-sm">
-                        </div>
+                    <div class="flex items-center justify-center flex-shrink-0 opacity-55 grayscale">
+                        <svg width="160" height="44" viewBox="0 0 160 44" fill="none"
+                            xmlns="http://www.w3.org/2000/svg"><text x="0" y="18" font-family="Georgia,serif"
+                                font-size="13" font-weight="400" fill="#888">Business</text><text x="0" y="40"
+                                font-family="Georgia,serif" font-size="26" font-weight="700" font-style="italic"
+                                fill="#888">Leader</text></svg>
                     </div>
-                    @endforeach
-                </div>
-
-                {{-- Companies steps --}}
-                <div>
-                    <div class="flex items-center gap-3 mb-8 pb-5 border-b border-gray-100">
-                        <img src="https://cdn.prod.website-files.com/63eb3eaf146906eaa999e318/642d90c73077e2ced7d76141_Adult%20Learner%201%20(1).webp" alt="Company" class="w-10 h-10 rounded-full object-cover">
-                        <h3 class="text-2xl font-black text-gray-900">For Companies</h3>
+                    <div class="flex items-center justify-center flex-shrink-0 opacity-55 grayscale">
+                        <svg width="130" height="36" viewBox="0 0 130 36" fill="none"
+                            xmlns="http://www.w3.org/2000/svg"><text x="0" y="28" font-family="Arial,sans-serif"
+                                font-size="26" font-weight="400" fill="#888">edtech</text><text x="92" y="28"
+                                font-family="Arial Black,sans-serif" font-size="28" font-weight="900"
+                                fill="#888">X</text></svg>
                     </div>
-                    @foreach([
-                        ['Post Opportunities', 'Create a company profile and publish internship listings in under five minutes. Reach thousands of qualified students instantly.'],
-                        ['Review Applicants', 'Use smart filters and AI ranking to identify the best candidates. Access CVs and portfolios side by side with your team.'],
-                        ['Hire Talent', 'Schedule interviews, send offer letters, and onboard your new interns — all from one central dashboard.'],
-                    ] as $i => [$stitle, $sdesc])
-                    <div class="flex gap-5 relative">
-                        <div class="flex flex-col items-center">
-                            <div class="w-11 h-11 rounded-full flex items-center justify-center font-black text-white text-sm flex-shrink-0 z-10" style="background-color:#00b1aa">0{{ $i+1 }}</div>
-                            @if($i < 2)
-                            <div class="w-px flex-1 my-2" style="background-color:rgba(0,177,170,0.25)"></div>
-                            @endif
-                        </div>
-                        <div class="pb-8">
-                            <h4 class="text-lg font-bold text-gray-900 mb-1">{{ $stitle }}</h4>
-                            <p class="text-sm text-gray-500 leading-relaxed mb-3">{{ $sdesc }}</p>
-                            <img src="https://cdn.prod.website-files.com/63eb3eaf146906eaa999e318/642d90c73077e2ced7d76141_Adult%20Learner%201%20(1).webp" alt="{{ $stitle }}" class="w-full h-28 object-cover rounded-xl shadow-sm">
-                        </div>
+                    <div class="flex items-center justify-center flex-shrink-0 opacity-55 grayscale">
+                        <svg width="120" height="36" viewBox="0 0 120 36" fill="none"
+                            xmlns="http://www.w3.org/2000/svg"><text x="0" y="30" font-family="Georgia,serif"
+                                font-size="34" font-weight="700" font-style="italic" fill="#888">Forbes</text></svg>
                     </div>
-                    @endforeach
+                    <div class="flex items-center justify-center flex-shrink-0 opacity-55 grayscale">
+                        <svg width="140" height="44" viewBox="0 0 140 44" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <rect x="0" y="0" width="44" height="44" rx="4" fill="#888" /><text x="22" y="18"
+                                text-anchor="middle" font-family="Arial,sans-serif" font-size="9" font-weight="700"
+                                fill="#fff">IHE</text>
+                            <line x1="6" y1="22" x2="38" y2="22" stroke="#fff" stroke-width="1.5" /><text x="22" y="32"
+                                text-anchor="middle" font-family="Arial,sans-serif" font-size="7.5" font-weight="400"
+                                fill="#fff">Inside</text><text x="22" y="40" text-anchor="middle"
+                                font-family="Arial,sans-serif" font-size="7.5" font-weight="400" fill="#fff">Higher
+                                Ed</text><text x="58" y="20" font-family="Arial,sans-serif" font-size="13"
+                                font-weight="700" fill="#888">Inside</text><text x="58" y="34"
+                                font-family="Arial,sans-serif" font-size="13" font-weight="700" fill="#888">Higher
+                                Ed</text>
+                        </svg>
+                    </div>
+                    <div class="flex items-center justify-center flex-shrink-0 opacity-55 grayscale">
+                        <svg width="160" height="36" viewBox="0 0 160 36" fill="none"
+                            xmlns="http://www.w3.org/2000/svg"><text x="0" y="28" font-family="Georgia,serif"
+                                font-size="26" font-weight="700" fill="#888">The Guardian</text></svg>
+                    </div>
+                    <div class="flex items-center justify-center flex-shrink-0 opacity-55 grayscale">
+                        <svg width="60" height="44" viewBox="0 0 60 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="0" y="0" width="60" height="44" rx="4" fill="#888" /><text x="30" y="18"
+                                text-anchor="middle" font-family="Arial,sans-serif" font-size="11" font-weight="900"
+                                fill="#fff">Times</text><text x="30" y="29" text-anchor="middle"
+                                font-family="Arial,sans-serif" font-size="8" font-weight="400"
+                                fill="#fff">Higher</text><text x="30" y="39" text-anchor="middle"
+                                font-family="Arial,sans-serif" font-size="8" font-weight="400"
+                                fill="#fff">Education</text>
+                        </svg>
+                    </div>
+                    <div class="flex items-center justify-center flex-shrink-0 opacity-55 grayscale">
+                        <svg width="100" height="36" viewBox="0 0 100 36" fill="none"
+                            xmlns="http://www.w3.org/2000/svg"><text x="0" y="30" font-family="Arial Black,sans-serif"
+                                font-size="32" font-weight="900" fill="#888">CNBC</text></svg>
+                    </div>
                 </div>
 
             </div>
         </div>
     </section>
 
-    {{-- ============================================================
-         8. SECURITY & TRUST — white bg, split layout
-         ============================================================ --}}
-    <section class="py-28 bg-white">
-        <div class="max-w-7xl mx-auto px-6 lg:px-8">
-            <div class="grid lg:grid-cols-2 gap-16 items-center">
 
-                <div>
-                    <span class="inline-block text-xs font-bold uppercase tracking-widest px-4 py-1.5 rounded-full border mb-6" style="color:#00b1aa; border-color:rgba(0,177,170,0.3); background:rgba(0,177,170,0.05)">Security &amp; Trust</span>
-                    <h2 class="text-4xl lg:text-5xl font-black text-gray-900 mb-6">Your Data is Safe With Us</h2>
-                    <p class="text-gray-500 text-lg leading-relaxed mb-10">InterLink is built on enterprise-grade infrastructure with multiple layers of protection — so students and companies can focus on connecting, not security.</p>
 
-                    <div class="grid grid-cols-2 gap-4">
-                        @foreach([
-                            ['Secure Authentication','Multi-factor authentication and OAuth 2.0 login protect every account.'],
-                            ['Data Protection','All personal data encrypted at rest and in transit using AES-256.'],
-                            ['Encrypted Communication','End-to-end encrypted messaging keeps private conversations private.'],
-                            ['Verified Companies','Every company goes through manual verification before going live.'],
-                        ] as [$ftitle,$fdesc])
-                        <div class="rounded-2xl p-5 border border-gray-100 bg-gray-50 hover:shadow-md transition-shadow">
-                            <div class="w-8 h-8 rounded-lg mb-3" style="background-color:rgba(0,177,170,0.12)"></div>
-                            <h4 class="font-bold text-gray-900 mb-1 text-sm">{{ $ftitle }}</h4>
-                            <p class="text-xs text-gray-500 leading-relaxed">{{ $fdesc }}</p>
-                        </div>
-                        @endforeach
-                    </div>
 
-                    {{-- Trust badges --}}
-                    <div class="flex flex-wrap gap-3 mt-8">
-                        @foreach(['GDPR Compliant','ISO 27001','SOC 2 Type II','256-bit SSL'] as $badge)
-                        <span class="text-xs font-bold px-4 py-2 rounded-full border border-gray-200 text-gray-600 bg-white shadow-sm">{{ $badge }}</span>
-                        @endforeach
-                    </div>
-                </div>
+    <section class="discover-section-wrapper"
+        style="transform: scale(0.85); transform-origin: center top; background-color: white; margin-bottom: -12%;">
 
-                <div class="relative">
-                    <div class="rounded-3xl overflow-hidden shadow-xl">
-                        <img src="https://cdn.prod.website-files.com/63eb3eaf146906eaa999e318/642d90c73077e2ced7d76141_Adult%20Learner%201%20(1).webp" alt="Security" class="w-full h-80 object-cover">
-                    </div>
-                    {{-- Overlay card --}}
-                    <div class="absolute bottom-6 left-6 right-6 bg-white/80 backdrop-blur rounded-2xl p-5 border border-white shadow-lg">
-                        <p class="font-black text-gray-900 mb-1">Bank-grade encryption on every request</p>
-                        <p class="text-sm text-gray-500">All data transmitted through InterLink is protected end-to-end.</p>
-                    </div>
-                    <div class="grid grid-cols-2 gap-3 mt-4">
-                        <img src="https://cdn.prod.website-files.com/63eb3eaf146906eaa999e318/642d90c73077e2ced7d76141_Adult%20Learner%201%20(1).webp" alt="Trust" class="rounded-2xl h-28 w-full object-cover shadow-sm">
-                        <img src="https://cdn.prod.website-files.com/63eb3eaf146906eaa999e318/642d90c73077e2ced7d76141_Adult%20Learner%201%20(1).webp" alt="Trust" class="rounded-2xl h-28 w-full object-cover shadow-sm">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+        {{-- ═══════════════════════════════════════════════════════════════════
+        DISCOVER — Tabbed image showcase (Vanilla JS Version)
+        ═══════════════════════════════════════════════════════════════════ --}}
+        <section id="discoverSection" class="w-full px-6 py-20" style="background-color: white;">
+            <div class="mx-auto flex w-full max-w-6xl flex-col items-center">
 
-    {{-- ============================================================
-         9. TESTIMONIALS — Inspired by Image 2:
-            Cream/light bg, image overlapping a deep navy content CARD
-            (navy used only as a content card, not full section)
-         ============================================================ --}}
-    <section class="py-28" style="background-color:#f7f4ef">
-        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+                {{-- Title --}}
+                <h2 class="discover-title mb-4 text-center text-4xl font-bold leading-[1.1] tracking-tight sm:text-5xl lg:text-[3.75rem]"
+                    style="color: #111827;">
+                    Discover powerful features
+                </h2>
 
-            <div class="text-center mb-16">
-                <span class="inline-block text-xs font-bold uppercase tracking-widest px-4 py-1.5 rounded-full border mb-4" style="color:#00b1aa; border-color:rgba(0,177,170,0.3); background:rgba(0,177,170,0.08)">Testimonials</span>
-                <h2 class="text-4xl lg:text-5xl font-black text-gray-900 mb-4">Loved by Students, Recruiters &amp; Universities</h2>
-                <p class="text-gray-500 max-w-xl mx-auto">Real stories from people who found success through InterLink.</p>
-            </div>
+                <p class="discover-subtitle mb-12 max-w-3xl text-center text-base leading-relaxed sm:text-lg"
+                    style="color: #6B7280;">
+                    Explore powerful workflows, ticket views, and reports built to help your team move faster with
+                    confidence.
+                </p>
 
-            {{-- Featured testimonial: Image 2 layout - image on left overlapping dark card --}}
-            <div class="relative mb-12">
-                {{-- Decorative shapes --}}
-                <div class="absolute -top-4 left-4 w-16 h-20 rounded-xl border-2 border-dashed border-gray-300 opacity-40"></div>
-                <div class="absolute -bottom-4 right-8 w-12 h-16 rounded-xl border-2 border-dashed border-gray-300 opacity-40"></div>
-
-                <div class="flex flex-col lg:flex-row items-center lg:items-stretch">
-                    {{-- Image (overlaps the dark card) --}}
-                    <div class="relative z-10 lg:-mr-8 flex-shrink-0 w-72 lg:w-80">
-                        <div class="rounded-2xl overflow-hidden shadow-2xl">
-                            <img src="https://cdn.prod.website-files.com/63eb3eaf146906eaa999e318/642d90c73077e2ced7d76141_Adult%20Learner%201%20(1).webp" alt="Testimonial" class="w-full h-72 lg:h-full object-cover">
-                        </div>
-                    </div>
-                    {{-- Dark navy content card (only the card, not the section) --}}
-                    <div class="rounded-2xl p-10 lg:pl-20 flex flex-col justify-center flex-1 shadow-xl" style="background-color:#0f1f3d">
-                        <p class="text-white text-2xl lg:text-3xl font-light leading-relaxed mb-8 italic">
-                            "InterLink transformed the way I approach internship hunting. The AI recommendations pointed me straight to companies that matched my skills. I landed my dream role within three weeks and received an offer that exceeded my expectations."
-                        </p>
-                        <div>
-                            <p class="text-white font-bold">Sara Amrani</p>
-                            <p class="text-gray-400 text-sm mt-1">Computer Science Student, Mohammed V University</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            {{-- Card grid testimonials --}}
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
-                @foreach([
-                    ['Youssef El Khadiri','Marketing Student, Hassan II University','The application tracking feature kept me completely organised during recruitment season. I always knew exactly where I stood with each company.'],
-                    ['Thomas Bergmann','HR Lead, TechCorp GmbH','We reduced time-to-hire by 60% after switching to InterLink. The candidate filtering is exceptional and the quality of applicants is noticeably higher.'],
-                    ['Nadia Boussaid','Data Science Student, ENSIAS','I uploaded my CV once and applied to 12 internships in a single afternoon. The UI is so clean and everything just works perfectly.'],
-                    ['Amina Tahir','Talent Acquisition, StartupX Morocco','Interview scheduling alone saved us hours every week. Our entire recruiting workflow is now centralised in InterLink and it has transformed how we hire.'],
-                    ['Prof. Rachid Belkacem','Career Services, ENSA Casablanca','We partnered with InterLink to help our students access better opportunities. The analytics give us clear visibility into graduate placement.'],
-                    ['Karim Mansouri','Full-Stack Developer Student, ENSA','From zero applications to three offers in 6 weeks. InterLink kept me focused and the alerts made sure I never missed a deadline.'],
-                ] as [$tname,$trole,$treview])
-                <div class="bg-white rounded-2xl p-7 border border-gray-100 hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
-                    <p class="text-gray-600 leading-relaxed mb-6 text-sm italic">"{{ $treview }}"</p>
-                    <div class="flex items-center gap-3 pt-5 border-t border-gray-100">
-                        <img src="https://cdn.prod.website-files.com/63eb3eaf146906eaa999e318/642d90c73077e2ced7d76141_Adult%20Learner%201%20(1).webp" alt="{{ $tname }}" class="w-10 h-10 rounded-full object-cover border-2 border-gray-100">
-                        <div>
-                            <p class="font-bold text-gray-900 text-sm">{{ $tname }}</p>
-                            <p class="text-xs text-gray-400">{{ $trole }}</p>
-                        </div>
-                    </div>
-                </div>
-                @endforeach
-            </div>
-
-            {{-- Image strip --}}
-            <div class="flex gap-3 mt-10 rounded-2xl overflow-hidden shadow-sm">
-                @for($i=0;$i<5;$i++)
-                <img src="https://cdn.prod.website-files.com/63eb3eaf146906eaa999e318/642d90c73077e2ced7d76141_Adult%20Learner%201%20(1).webp" alt="Team" class="flex-1 h-24 object-cover hover:scale-105 transition-transform duration-300">
-                @endfor
-            </div>
-
-        </div>
-    </section>
-
-    {{-- ============================================================
-         10. FAQ — white bg accordion
-         ============================================================ --}}
-    <section id="faq" class="py-28 bg-white">
-        <div class="max-w-4xl mx-auto px-6 lg:px-8">
-
-            <div class="grid lg:grid-cols-5 gap-16 items-start">
-
-                {{-- Left sticky heading + image --}}
-                <div class="lg:col-span-2 lg:sticky lg:top-28">
-                    <span class="inline-block text-xs font-bold uppercase tracking-widest px-4 py-1.5 rounded-full border mb-4" style="color:#00b1aa; border-color:rgba(0,177,170,0.3); background:rgba(0,177,170,0.05)">FAQ</span>
-                    <h2 class="text-3xl font-black text-gray-900 mb-4">Frequently Asked Questions</h2>
-                    <p class="text-gray-500 text-sm leading-relaxed mb-6">Can't find what you're looking for? Reach out to our support team anytime.</p>
-                    <a href="#" class="inline-block text-sm font-bold text-white px-6 py-3 rounded-full hover:shadow-lg hover:opacity-90 transition-all" style="background-color:#00b1aa">Contact Support</a>
-                    <div class="mt-6 rounded-2xl overflow-hidden shadow-sm">
-                        <img src="https://cdn.prod.website-files.com/63eb3eaf146906eaa999e318/642d90c73077e2ced7d76141_Adult%20Learner%201%20(1).webp" alt="Support" class="w-full h-40 object-cover">
-                    </div>
-                </div>
-
-                {{-- Right: accordion --}}
-                <div class="lg:col-span-3 space-y-3" x-data="{ open: null }">
-                    @foreach([
-                        ['How do students apply for internships?', 'Students create a free profile, upload their CV, and browse available listings. With one click they submit an application using their saved profile. Our AI also surfaces relevant listings automatically based on skills and interests.'],
-                        ['How do companies recruit through InterLink?', 'Companies register, verify their organisation, and post internship listings. They then review incoming applications through a candidate management dashboard, use filters to shortlist talent, and schedule interviews — all in one place.'],
-                        ['Is InterLink free to use for students?', 'Yes — InterLink is completely free for students. Create a profile, search listings, apply to internships, and communicate with recruiters at no cost. Companies subscribe to a plan based on the number of listings and features they need.'],
-                        ['How are interviews managed on the platform?', 'Once a recruiter shortlists a candidate, they send automated interview invitations through InterLink. The platform syncs with calendars, proposes available time slots, and sends reminders to both parties.'],
-                        ['Can universities partner with InterLink?', 'Absolutely. Universities can partner with InterLink to connect their students with vetted listings, track placement rates, and access aggregated analytics on student success across industries.'],
-                        ['How does InterLink verify companies?', 'All companies go through a manual verification process before their listings appear on the platform. We check business registration documents, website authenticity, and additional compliance checks.'],
-                    ] as $qi => [$question, $answer])
-                    <div class="rounded-2xl border border-gray-100 overflow-hidden bg-white shadow-sm" x-data="{ isOpen: false }">
-                        <button class="w-full px-6 py-5 flex items-center justify-between text-left hover:bg-gray-50 transition-colors" x-on:click="isOpen = !isOpen">
-                            <span class="font-bold text-gray-900 pr-4 text-sm">{{ $question }}</span>
-                            <span class="flex-shrink-0 w-7 h-7 rounded-full border border-gray-200 flex items-center justify-center text-sm font-bold transition-all"
-                                  :style="isOpen ? 'background-color:#00b1aa; border-color:#00b1aa; color:white' : 'color:#6b7280'">
-                                <span x-text="isOpen ? '−' : '+'"></span>
+                {{-- Tabs --}}
+                <div class="mb-12 w-full max-w-5xl">
+                    <div class="grid grid-cols-2 gap-2 md:grid-cols-4">
+                        <button type="button" data-tab="ticketList"
+                            class="tab-button discover-tab group relative cursor-pointer rounded-xl px-4 py-3 text-sm font-medium transition-all duration-300 bg-gray-900 text-white shadow-[0_10px_24px_-14px_rgba(0,0,0,0.5)]">
+                            Student List
+                        </button>
+                        <button type="button" data-tab="ticketView"
+                            class="tab-button discover-tab group relative cursor-pointer rounded-xl px-4 py-3 text-sm font-medium transition-all duration-300 text-gray-600 hover:bg-gray-100 hover:text-gray-900">
+                            Student View
+                        </button>
+                        <button type="button" data-tab="automations"
+                            class="tab-button discover-tab group relative cursor-pointer rounded-xl px-4 py-3 text-sm font-medium transition-all duration-300 text-gray-600 hover:bg-gray-100 hover:text-gray-900">
+                            <span class="inline-flex items-center gap-2">
+                                Support
+                                <span id="automationNotification" class="relative inline-flex h-2.5 w-2.5">
+                                    <span
+                                        class="absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75 animate-ping"></span>
+                                    <span
+                                        class="relative inline-flex h-2.5 w-2.5 rounded-full bg-red-500 animate-pulse"></span>
+                                </span>
                             </span>
                         </button>
-                        <div x-show="isOpen" x-collapse>
-                            <div class="px-6 pb-5">
-                                <p class="text-sm text-gray-500 leading-relaxed">{{ $answer }}</p>
+                        <button type="button" data-tab="reports"
+                            class="tab-button discover-tab group relative cursor-pointer rounded-xl px-4 py-3 text-sm font-medium transition-all duration-300 text-gray-600 hover:bg-gray-100 hover:text-gray-900">
+                            Analytics
+                        </button>
+                    </div>
+                </div>
+
+                {{-- Image container --}}
+                <div class="m-0 w-full max-w-[1800px] p-0">
+                    <img id="discoverImage" src="{{ asset('images/site%20photos/user-view.png') }}" alt="Ticket View"
+                        class="m-0 block h-auto w-full rounded-lg shadow-lg p-0 transition-opacity duration-500" />
+                </div>
+
+                {{-- CTA --}}
+                <a href="#register"
+                    class="mt-14 inline-flex items-center gap-2 rounded-xl px-10 py-3.5 text-base font-bold text-white transition-all duration-300 hover:-translate-y-0.5 hover:scale-[1.01] bg-red-600 hover:bg-red-500">
+                    <span>Get Started Today</span>
+                    <span aria-hidden="true">→</span>
+                </a>
+            </div>
+        </section>
+
+        <script>
+            (function () {
+                const section = document.getElementById('discoverSection');
+                if (!section) return;
+
+                // Tab configuration
+                const imageMap = {
+                    ticketList: '{{ asset('images/ site % 20photos/student-dashboard.png')
+            }}',
+            ticketView: '{{ asset('images / site % 20photos / user - view.png') }}',
+                automations: '{{ asset('images / site % 20photos / company - support.png') }}',
+                    reports: '{{ asset('images / site % 20photos / company - analytics.png') }}'
+                };
+
+            const altTextMap = {
+                ticketList: 'Ticket List View',
+                ticketView: 'Ticket Detail View',
+                automations: 'Automations Dashboard',
+                reports: 'Reports Analytics'
+            };
+
+            let currentTab = 'ticketView';
+            let transitionTimeout = null;
+            let resetTimeout = null;
+
+            // Get elements
+            const imageElement = section.querySelector('#discoverImage');
+            const buttons = section.querySelectorAll('.tab-button');
+            const automationNotification = document.getElementById('automationNotification');
+
+            if (!imageElement) return;
+
+            // Function to switch tabs
+            function switchTab(tab) {
+                if (currentTab === tab) return;
+
+                if (transitionTimeout) {
+                    clearTimeout(transitionTimeout);
+                }
+
+                if (resetTimeout) {
+                    clearTimeout(resetTimeout);
+                }
+
+                // Handle automation notification
+                if (tab === 'automations' && automationNotification) {
+                    automationNotification.style.display = 'none';
+                }
+
+                // Fade out
+                imageElement.style.opacity = '0';
+
+                // Change image after fade out
+                transitionTimeout = setTimeout(() => {
+                    currentTab = tab;
+                    imageElement.src = imageMap[tab];
+                    imageElement.alt = altTextMap[tab];
+
+                    // Fade in
+                    resetTimeout = setTimeout(() => {
+                        imageElement.style.opacity = '1';
+                    }, 50);
+                }, 300);
+
+                // Update button styles
+                updateButtonStyles(tab);
+            }
+
+            // Update button active styles
+            function updateButtonStyles(activeTab) {
+                const darkMode = document.body.classList.contains('page-dark');
+
+                buttons.forEach(button => {
+                    const tabName = button.getAttribute('data-tab');
+                    if (tabName === activeTab) {
+                        button.classList.add('is-active');
+                        button.classList.remove('text-gray-600', 'hover:bg-gray-100', 'hover:text-gray-900');
+                        if (darkMode) {
+                            button.classList.add('bg-gray-900', 'text-white', 'shadow-[0_10px_24px_-14px_rgba(0,0,0,0.5)]');
+                            button.classList.remove('bg-white', 'text-gray-900');
+                        } else {
+                            button.classList.add('bg-gray-900', 'text-white', 'shadow-[0_10px_24px_-14px_rgba(0,0,0,0.5)]');
+                        }
+                    } else {
+                        button.classList.remove('is-active');
+                        button.classList.remove('bg-gray-900', 'text-white', 'shadow-[0_10px_24px_-14px_rgba(0,0,0,0.5)]');
+                        if (darkMode) {
+                            button.classList.remove('text-gray-600', 'hover:bg-gray-100', 'hover:text-gray-900');
+                            button.classList.add('bg-white', 'text-gray-900');
+                        } else {
+                            button.classList.add('text-gray-600', 'hover:bg-gray-100', 'hover:text-gray-900');
+                        }
+                    }
+                });
+            }
+
+            // Add click event listeners
+            buttons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const tabName = button.getAttribute('data-tab');
+                    if (tabName) switchTab(tabName);
+                });
+            });
+
+            updateButtonStyles(currentTab);
+
+            window.addEventListener('page-dark-mode-change', () => {
+                updateButtonStyles(currentTab);
+            });
+
+            // Intersection Observer for reveal animation
+            if ('IntersectionObserver' in window) {
+                section.style.opacity = '0';
+                section.style.transform = 'translateY(2rem)';
+                section.style.filter = 'blur(4px)';
+                section.style.transition = 'opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1), filter 0.7s cubic-bezier(0.16, 1, 0.3, 1)';
+
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            section.style.opacity = '1';
+                            section.style.transform = 'translateY(0)';
+                            section.style.filter = 'blur(0)';
+                            observer.unobserve(section);
+                        }
+                    });
+                }, { threshold: 0.1 });
+
+                observer.observe(section);
+            } else {
+                section.style.opacity = '1';
+                section.style.transform = 'none';
+                section.style.filter = 'none';
+            }
+
+            // Set initial image opacity
+            imageElement.style.opacity = '1';
+            imageElement.style.transition = 'opacity 0.3s ease-in-out';
+            }) ();
+        </script>
+    </section>
+
+
+
+    <section class="bg-white py-20 px-6 overflow-hidden" style="font-family: 'Plus Jakarta Sans', sans-serif;">
+
+        <div class="max-w-6xl mx-auto">
+
+            {{-- Section Headline --}}
+            <h2
+                class="text-4xl md:text-5xl font-extrabold text-gray-900 text-center leading-tight tracking-tight mb-16  mx-auto">
+                Propel your business forward<br>
+                with Zixflow's Unified Workspace
+            </h2>
+
+            {{-- Two Column Layout --}}
+            <div class="flex flex-col md:flex-row items-center gap-12 md:gap-16">
+
+                {{-- Left: Text Content --}}
+                <div class="flex-1 max-w-sm">
+
+                    {{-- Badge --}}
+                    <span
+                        class="inline-block bg-emerald-100 text-emerald-700 text-xs font-semibold px-3 py-1 rounded-full mb-5">
+                        CRM platform
+                    </span>
+
+                    {{-- Heading --}}
+                    <h3 class="text-3xl md:text-4xl font-extrabold text-gray-900 leading-snug mb-4">
+                        One hub for all<br>relationships
+                    </h3>
+
+                    {{-- Description --}}
+                    <p class="text-sm text-gray-500 leading-relaxed mb-6">
+                        Manage sales, recruiting, partnerships, fundraising, &amp; more.
+                        Accelerate prospecting with LinkedIn Extension. Easily find and
+                        validate emails. Streamline your deal pipeline workflow and
+                        outreach efforts all from a single platform.
+                    </p>
+
+                    {{-- CTA Link --}}
+                    <a href="#"
+                        class="inline-flex items-center gap-1.5 text-sm font-semibold text-gray-900 hover:gap-3 transition-all duration-200">
+                        Explore
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor" stroke-width="2.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                        </svg>
+                    </a>
+
+                </div>
+
+                {{-- Right: Stacked Card with decorative backgrounds --}}
+                <div class="flex-1 relative flex items-center justify-center">
+
+                    {{-- Decorative layer: Orange surface (furthest back) --}}
+                    <div class="absolute bg-orange-400 rounded-2xl z-0"
+                        style="width: calc(100% - 24px); height: calc(100% - 1px); bottom: 20px; right: 60px;">
+                    </div>
+
+                    {{-- Decorative layer: Green surface (middle) --}}
+                    <div class="absolute bg-emerald-400 rounded-2xl z-10"
+                        style="width: calc(100% - 12px); height: calc(100% - 8px); bottom: 1px; right:30px;">
+                    </div>
+
+                    {{-- Main Card: Browser mockup shell --}}
+                    <div class="relative z-20  ">
+
+                        {{-- Browser Top Bar --}}
+                        <div class="flex items-center gap-2 px-4 py-3 bg-[#000000] ">
+                            <span class="w-2.5 h-2.5 rounded-full bg-[#b6b5b5]"></span>
+                            <span class="w-2.5 h-2.5 rounded-full bg-[#444444]"></span>
+                            <span class="w-2.5 h-2.5 rounded-full bg-[#444444]"></span>
+                        </div>
+
+                        <img src="{{ asset('images/Gifs/vid12.gif') }}" alt="CRM platform preview"
+                            class="w-full block object-cover object-top" />
+
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <section class="bg-white py-20 px-6 overflow-hidden" style="font-family: 'Plus Jakarta Sans', sans-serif;">
+
+        <div class="max-w-6xl mx-auto">
+
+
+
+            {{-- Two Column Layout --}}
+            <div class="flex flex-col md:flex-row items-center gap-12 md:gap-16">
+
+                {{-- Left: Text Content --}}
+                <div class="flex-1 max-w-sm">
+
+                    {{-- Badge --}}
+                    <span
+                        class="inline-block bg-emerald-100 text-emerald-700 text-xs font-semibold px-3 py-1 rounded-full mb-5">
+                        CRM platform
+                    </span>
+
+                    {{-- Heading --}}
+                    <h3 class="text-3xl md:text-4xl font-extrabold text-gray-900 leading-snug mb-4">
+                        One hub for all<br>relationships
+                    </h3>
+
+                    {{-- Description --}}
+                    <p class="text-sm text-gray-500 leading-relaxed mb-6">
+                        Manage sales, recruiting, partnerships, fundraising, &amp; more.
+                        Accelerate prospecting with LinkedIn Extension. Easily find and
+                        validate emails. Streamline your deal pipeline workflow and
+                        outreach efforts all from a single platform.
+                    </p>
+
+                    {{-- CTA Link --}}
+                    <a href="#"
+                        class="inline-flex items-center gap-1.5 text-sm font-semibold text-gray-900 hover:gap-3 transition-all duration-200">
+                        Explore
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor" stroke-width="2.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                        </svg>
+                    </a>
+
+                </div>
+
+                {{-- Right: Stacked Card with decorative backgrounds --}}
+                <div class="flex-1 relative flex items-center justify-center">
+
+                    {{-- Decorative layer: Orange surface (furthest back) --}}
+                    <div class="absolute bg-orange-400 rounded-2xl z-0"
+                        style="width: calc(100% - 24px); height: calc(100% - 1px); bottom: 20px; right: 60px;">
+                    </div>
+
+                    {{-- Decorative layer: Green surface (middle) --}}
+                    <div class="absolute bg-emerald-400 rounded-2xl z-10"
+                        style="width: calc(100% - 12px); height: calc(100% - 8px); bottom: 1px; right:30px;">
+                    </div>
+
+                    {{-- Main Card: Browser mockup shell --}}
+                    <div class="relative z-20  ">
+
+                        {{-- Browser Top Bar --}}
+                        <div class="flex items-center gap-2 px-4 py-3 bg-[#000000] ">
+                            <span class="w-2.5 h-2.5 rounded-full bg-[#b6b5b5]"></span>
+                            <span class="w-2.5 h-2.5 rounded-full bg-[#444444]"></span>
+                            <span class="w-2.5 h-2.5 rounded-full bg-[#444444]"></span>
+                        </div>
+
+                        {{-- Empty image — fill later --}}
+                        <img src="{{ asset('images/Gifs/dash.gif') }}" alt="CRM platform preview"
+                            class="w-full block object-cover object-top" />
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <section class="bg-white py-20 px-6 overflow-hidden" style="font-family: 'Plus Jakarta Sans', sans-serif;">
+
+        <div class="max-w-6xl mx-auto">
+
+
+
+            {{-- Two Column Layout --}}
+            <div class="flex flex-col md:flex-row items-center gap-12 md:gap-16">
+
+                {{-- Left: Text Content --}}
+                <div class="flex-1 max-w-sm">
+
+                    {{-- Badge --}}
+                    <span
+                        class="inline-block bg-emerald-100 text-emerald-700 text-xs font-semibold px-3 py-1 rounded-full mb-5">
+                        CRM platform
+                    </span>
+
+                    {{-- Heading --}}
+                    <h3 class="text-3xl md:text-4xl font-extrabold text-gray-900 leading-snug mb-4">
+                        One hub for all<br>relationships
+                    </h3>
+
+                    {{-- Description --}}
+                    <p class="text-sm text-gray-500 leading-relaxed mb-6">
+                        Manage sales, recruiting, partnerships, fundraising, &amp; more.
+                        Accelerate prospecting with LinkedIn Extension. Easily find and
+                        validate emails. Streamline your deal pipeline workflow and
+                        outreach efforts all from a single platform.
+                    </p>
+
+                    {{-- CTA Link --}}
+                    <a href="#"
+                        class="inline-flex items-center gap-1.5 text-sm font-semibold text-gray-900 hover:gap-3 transition-all duration-200">
+                        Explore
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor" stroke-width="2.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                        </svg>
+                    </a>
+
+                </div>
+
+                {{-- Right: Stacked Card with decorative backgrounds --}}
+                <div class="flex-1 relative flex items-center justify-center">
+
+                    {{-- Decorative layer: Orange surface (furthest back) --}}
+                    <div class="absolute bg-orange-400 rounded-2xl z-0"
+                        style="width: calc(100% - 24px); height: calc(100% - 1px); bottom: 20px; right: 60px;">
+                    </div>
+
+                    {{-- Decorative layer: Green surface (middle) --}}
+                    <div class="absolute bg-emerald-400 rounded-2xl z-10"
+                        style="width: calc(100% - 12px); height: calc(100% - 8px); bottom: 1px; right:30px;">
+                    </div>
+
+                    {{-- Main Card: Browser mockup shell --}}
+                    <div class="relative z-20  ">
+
+                        {{-- Browser Top Bar --}}
+                        <div class="flex items-center gap-2 px-4 py-3 bg-[#000000] ">
+                            <span class="w-2.5 h-2.5 rounded-full bg-[#b6b5b5]"></span>
+                            <span class="w-2.5 h-2.5 rounded-full bg-[#444444]"></span>
+                            <span class="w-2.5 h-2.5 rounded-full bg-[#444444]"></span>
+                        </div>
+
+
+                        {{-- Empty image — fill later --}}
+                        <img src="{{ asset('images/Gifs/alalitics.gif') }}" alt="CRM platform preview"
+                            class="w-full block object-cover object-top" />
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <section class="bg-white py-20 px-6 overflow-hidden relative" style="font-family: 'Plus Jakarta Sans', sans-serif;">
+
+        {{-- Decorative scattered shapes --}}
+        <div
+            class="absolute top-8 left-16 w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-b-[10px] border-b-orange-400 rotate-180">
+        </div>
+        <div class="absolute top-20 left-1/3 w-2.5 h-2.5 rounded-full bg-blue-500"></div>
+        <div class="absolute top-14 right-1/4 w-3 h-3 bg-emerald-400 rotate-45"></div>
+        <div
+            class="absolute top-36 right-12 w-0 h-0 border-l-[5px] border-l-transparent border-r-[5px] border-r-transparent border-b-[9px] border-b-orange-400 rotate-180">
+        </div>
+        <div
+            class="absolute bottom-1/3 right-6 w-0 h-0 border-l-[5px] border-l-transparent border-r-[5px] border-r-transparent border-b-[9px] border-b-blue-500 rotate-180">
+        </div>
+
+        <div class="max-w-5xl mx-auto">
+
+            {{-- Section Headline --}}
+            <h2
+                class="text-4xl md:text-5xl font-extrabold text-gray-900 text-center leading-tight tracking-tight mb-16 mx-auto">
+                Manage your entire process<br>
+
+                and management
+            </h2>
+
+            {{-- Two Columns --}}
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-14">
+
+                {{-- Column 1: Source & Attract --}}
+                <div class="flex flex-col">
+
+                    {{-- Image Placeholder --}}
+                    <div class="w-full rounded-2xl overflow-hidden mb-8 bg-gray-50" style="min-height: 300px;">
+                        <img src="https://webimages.zixflow.com/sendflow_b0f9ce3ee5.webp"
+                            alt="Source and attract candidates" class="w-full h-full object-cover block"
+                            style="min-height: 300px; background-color: #f9fafb;" />
+                    </div>
+
+                    {{-- Label --}}
+                    <span class="text-orange-500 text-xs font-bold uppercase tracking-widest mb-3">
+                        Source &amp; Attract
+                    </span>
+
+                    {{-- Heading --}}
+                    <h3 class="text-2xl md:text-3xl font-extrabold text-gray-900 leading-snug mb-3">
+                        Find and attract<br>candidates
+                    </h3>
+
+                    {{-- Description --}}
+                    <p class="text-sm text-gray-500 leading-relaxed mb-5 max-w-sm">
+                        Fill your pipeline quickly with one-click job posting to 200+ sites, AI-powered sourcing,
+                        employee referrals and more.
+                    </p>
+
+                    {{-- CTA --}}
+                    <a href="#"
+                        class="inline-flex items-center gap-1.5 text-xs font-bold text-blue-600 uppercase tracking-wider hover:gap-3 transition-all duration-200">
+                        Learn More
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor" stroke-width="2.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                        </svg>
+                    </a>
+
+                </div>
+
+                {{-- Column 2: Evaluate & Collaborate --}}
+                <div class="flex flex-col">
+
+                    {{-- Image Placeholder --}}
+                    <div class="w-full rounded-2xl overflow-hidden mb-8 bg-gray-50" style="min-height: 300px;">
+                        <img src="https://webimages.zixflow.com/engage_45f5571a0b.webp" alt="Evaluate and collaborate"
+                            class="w-full h-full object-cover block"
+                            style="min-height: 300px; background-color: #f9fafb;" />
+                    </div>
+
+                    {{-- Label --}}
+                    <span class="text-blue-500 text-xs font-bold uppercase tracking-widest mb-3">
+                        Evaluate &amp; Collaborate
+                    </span>
+
+                    {{-- Heading --}}
+                    <h3 class="text-2xl md:text-3xl font-extrabold text-gray-900 leading-snug mb-3">
+                        Move the right<br>applicants forward
+                    </h3>
+
+                    {{-- Description --}}
+                    <p class="text-sm text-gray-500 leading-relaxed mb-5 max-w-sm">
+                        Collaborate with hiring teams to evaluate applicants, gather feedback and decide who's best,
+                        all in one recruiting system.
+                    </p>
+
+                    {{-- CTA --}}
+                    <a href="#"
+                        class="inline-flex items-center gap-1.5 text-xs font-bold text-blue-600 uppercase tracking-wider hover:gap-3 transition-all duration-200">
+                        Learn More
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor" stroke-width="2.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                        </svg>
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section class="bg-white overflow-hidden relative" style="font-family: 'Plus Jakarta Sans', sans-serif;">
+
+        {{-- ===================== --}}
+        {{-- Scattered Decorations (white area, top) --}}
+        {{-- ===================== --}}
+
+        {{-- Green small triangle top center-left --}}
+        <div class="absolute z-10" style="top: 28px; left: 38%;">
+            <div class="w-0 h-0"
+                style="border-left: 5px solid transparent; border-right: 5px solid transparent; border-bottom: 9px solid #4ade80;">
+            </div>
+        </div>
+
+        {{-- Orange small dot top right area --}}
+        <div class="absolute w-2.5 h-2.5 rounded-full bg-orange-400 z-10" style="top: 22px; right: 22%;"></div>
+
+        {{-- Blue/teal diamond center-left white area --}}
+        <div class="absolute w-5 h-5 bg-cyan-400 rotate-45 z-10" style="top: 70px; left: 36%;"></div>
+
+        {{-- Teal small dot --}}
+        <div class="absolute w-2 h-2 rounded-full bg-emerald-400 z-10" style="top: 110px; left: 41%;"></div>
+
+        {{-- Dark navy triangle top right (inside wave) --}}
+        <div class="absolute z-20" style="top: 55px; right: 6%;">
+            <div class="w-0 h-0"
+                style="border-left: 14px solid transparent; border-right: 14px solid transparent; border-bottom: 22px solid #1e2a4a;">
+            </div>
+        </div>
+
+        {{-- Blue dot mid left --}}
+        <div class="absolute w-3 h-3 rounded-full bg-blue-500 z-10" style="top: 38%; left: 10%;"></div>
+
+        {{-- Teal tiny dot mid left --}}
+        <div class="absolute w-2 h-2 rounded-full bg-teal-400 z-10" style="top: 48%; left: 8%;"></div>
+
+        {{-- Yellow circle overlapping wave bottom --}}
+        <div class="absolute w-7 h-7 rounded-full bg-yellow-400 z-30" style="top: 62%; left: 14%;"></div>
+
+        {{-- ===================== --}}
+        {{-- ADDITIONAL DECORATIONS --}}
+        {{-- ===================== --}}
+
+        {{-- Purple diamond top right --}}
+        <div class="absolute w-4 h-4 bg-purple-500 rotate-12 z-10" style="top: 45px; right: 28%;"></div>
+
+        {{-- Pink small circle --}}
+        <div class="absolute w-1.5 h-1.5 rounded-full bg-pink-500 z-10" style="top: 95px; left: 32%;"></div>
+
+        {{-- Indigo triangle --}}
+        <div class="absolute z-10" style="top: 140px; left: 28%;">
+            <div class="w-0 h-0"
+                style="border-left: 8px solid transparent; border-right: 8px solid transparent; border-top: 12px solid #6366f1;">
+            </div>
+        </div>
+
+        {{-- Red micro dot --}}
+        <div class="absolute w-1 h-1 rounded-full bg-red-500 z-10" style="top: 165px; left: 45%;"></div>
+
+        {{-- Orange diamond --}}
+        <div class="absolute w-3 h-3 bg-orange-500 rotate-45 z-10" style="top: 190px; right: 15%;"></div>
+
+        {{-- Cyan circle --}}
+        <div class="absolute w-6 h-6 rounded-full bg-cyan-400 opacity-60 z-10" style="top: 55%; right: 12%;"></div>
+
+        {{-- Lime green triangle --}}
+        <div class="absolute z-10" style="bottom: 28%; right: 18%;">
+            <div class="w-0 h-0"
+                style="border-left: 6px solid transparent; border-right: 6px solid transparent; border-bottom: 10px solid #84cc16;">
+            </div>
+        </div>
+
+        {{-- Amber dot --}}
+        <div class="absolute w-2 h-2 rounded-full bg-amber-500 z-10" style="bottom: 35%; left: 5%;"></div>
+
+        {{-- Sky blue square --}}
+        <div class="absolute w-4 h-4 bg-sky-400 z-10" style="bottom: 20%; left: 12%;"></div>
+
+        {{-- Violet tiny dot --}}
+        <div class="absolute w-1.5 h-1.5 rounded-full bg-violet-600 z-10" style="bottom: 42%; right: 25%;"></div>
+
+        {{-- ===================== --}}
+        {{-- Dark Navy Wave Background --}}
+        {{-- ===================== --}}
+        <div class="relative w-full" style="min-height: 520px;">
+
+            {{-- Top SVG Wave Shape --}}
+            <div class="absolute inset-0 z-0 w-full h-full overflow-hidden">
+                <svg viewBox="0 0 1000 520" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"
+                    class="w-full h-full">
+                    <path d="M0,100 C150,180 350,20 550,70 C700,110 850,10 1000,0 L1000,520 L0,520 Z" fill="#1e2a4a" />
+                </svg>
+            </div>
+
+            {{-- Bottom SVG Wave Shape --}}
+            <div class="absolute -bottom-50 left-0 z-0 w-full overflow-hidden leading-none rotate-180">
+                <svg viewBox="0 0 1000 520" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"
+                    class="w-full h-[250px]">
+                    <path d="M0,100 C150,180 350,20 550,70 C700,110 850,10 1000,0 L1000,520 L0,520 Z" fill="#1e2a4a" />
+                </svg>
+            </div>
+
+            {{-- ===================== --}}
+            {{-- Decorations inside dark area --}}
+            {{-- ===================== --}}
+
+            {{-- White star shape top right --}}
+            <div class="absolute z-10 text-white opacity-20" style="top: 15%; right: 8%;">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M10 1l2.5 6.5L19 9l-5 4.5 1.5 7L10 15l-5.5 3.5L6 13.5 1 9l6.5-1.5L10 1z" />
+                </svg>
+            </div>
+
+            {{-- White small circle --}}
+            <div class="absolute w-1.5 h-1.5 rounded-full bg-white opacity-30 z-10" style="top: 22%; left: 15%;">
+            </div>
+
+            {{-- White medium circle --}}
+            <div class="absolute w-3 h-3 rounded-full bg-white opacity-20 z-10" style="top: 45%; right: 20%;"></div>
+
+            {{-- White diamond --}}
+            <div class="absolute w-4 h-4 bg-white opacity-15 rotate-45 z-10" style="bottom: 30%; left: 10%;"></div>
+
+            {{-- White tiny dot --}}
+            <div class="absolute w-1 h-1 rounded-full bg-white opacity-40 z-10" style="bottom: 18%; right: 32%;">
+            </div>
+
+            {{-- Dotted World Map (left side of dark area) --}}
+            <div class="absolute z-10 opacity-25" style="top: 250px; left: 6%; width: 42%;">
+                <img src="https://static.vecteezy.com/system/resources/previews/001/198/050/non_2x/dotted-world-map-png.png"
+                    alt="Dotted World Map" class="w-full h-full brightness-0 invert">
+            </div>
+
+            {{-- Right Content: Headline + Stats --}}
+            <div class="relative z-20 flex flex-col items-start justify-center h-full"
+                style="padding: 180px 6% 80px 52%;">
+
+                <h2 class="text-3xl md:text-4xl font-extrabold text-white leading-snug mb-4">
+                    Where great companies<br>hire great people
+                </h2>
+
+                <p class="text-sm text-indigo-200 leading-relaxed mb-10 max-w-xs">
+                    Since 2012, the world's best companies have depended on this platform to find and hire the
+                    people they depend on.
+                </p>
+
+                {{-- Stats --}}
+                <div class="flex flex-col gap-6">
+
+                    {{-- 27,000 Companies --}}
+                    <div class="flex items-center gap-4">
+                        <div
+                            class="w-10 h-10 rounded-full border-2 border-indigo-400 flex items-center justify-center flex-shrink-0">
+                            <svg class="w-5 h-5 text-indigo-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                                stroke-width="1.5">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                            </svg>
+                        </div>
+                        <div>
+                            <div class="text-3xl font-extrabold text-white leading-none">27,000</div>
+                            <div class="text-xs font-bold text-indigo-300 uppercase tracking-widest mt-0.5">
+                                Companies</div>
+                        </div>
+                    </div>
+
+                    {{-- 1,500,000 Hires --}}
+                    <div class="flex items-center gap-4">
+                        <div
+                            class="w-10 h-10 rounded-full border-2 border-indigo-400 flex items-center justify-center flex-shrink-0">
+                            <svg class="w-5 h-5 text-indigo-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                                stroke-width="1.5">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <div class="text-3xl font-extrabold text-white leading-none">1,500,000</div>
+                            <div class="text-xs font-bold text-indigo-300 uppercase tracking-widest mt-0.5">Hires
                             </div>
                         </div>
                     </div>
-                    @endforeach
-                </div>
 
-            </div>
-        </div>
-    </section>
+                    {{-- 160,000,000 Candidates --}}
+                    <div class="flex items-center mb-10 gap-4">
+                        <div
+                            class="w-10 h-10 rounded-full border-2 border-indigo-400 flex items-center justify-center flex-shrink-0">
+                            <svg class="w-5 h-5 text-indigo-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                                stroke-width="1.5">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <div class="text-3xl font-extrabold text-white leading-none">160,000,000</div>
+                            <div class="text-xs font-bold text-indigo-300 uppercase tracking-widest mt-0.5">
+                                Candidates</div>
+                        </div>
+                    </div>
 
-    {{-- ============================================================
-         11. FINAL CTA — teal bg with background image texture
-         ============================================================ --}}
-    <section class="py-28 relative overflow-hidden" style="background-color:#00b1aa">
-
-        {{-- Background image mosaic at very low opacity --}}
-        <div class="absolute inset-0 grid grid-cols-6 opacity-[0.08] pointer-events-none">
-            @for($i=0;$i<12;$i++)
-            <img src="https://cdn.prod.website-files.com/63eb3eaf146906eaa999e318/642d90c73077e2ced7d76141_Adult%20Learner%201%20(1).webp" alt="" class="h-full w-full object-cover">
-            @endfor
-        </div>
-
-        <div class="relative z-10 max-w-4xl mx-auto px-6 lg:px-8 text-center">
-
-            {{-- Stacked avatars --}}
-            <div class="flex justify-center mb-10">
-                <div class="flex -space-x-3">
-                    @for($i=0;$i<7;$i++)
-                    <img src="https://cdn.prod.website-files.com/63eb3eaf146906eaa999e318/642d90c73077e2ced7d76141_Adult%20Learner%201%20(1).webp" alt="User" class="w-11 h-11 rounded-full object-cover border-2 border-white shadow-md">
-                    @endfor
                 </div>
             </div>
 
-            <h2 class="text-4xl lg:text-6xl font-black text-white mb-6 leading-tight">Start Your Internship Journey Today</h2>
-            <p class="text-white/80 text-xl mb-12 max-w-2xl mx-auto leading-relaxed">Join thousands of students and hundreds of companies already using InterLink to connect, collaborate, and grow together.</p>
-
-            <div class="flex flex-wrap justify-center gap-4">
-                <a href="#" class="inline-block bg-white font-bold text-sm px-10 py-4 rounded-full hover:shadow-2xl hover:-translate-y-0.5 transition-all" style="color:#00b1aa">Join as Student</a>
-                <a href="#" class="inline-block bg-transparent border-2 border-white text-white font-bold text-sm px-10 py-4 rounded-full hover:bg-white/10 hover:-translate-y-0.5 transition-all">Register Company</a>
-            </div>
-
         </div>
-    </section>
 
-    {{-- ============================================================
-         12. FOOTER — dark footer (standard pattern, not a content section)
-         ============================================================ --}}
-    <footer class="bg-gray-900 text-gray-400 pt-20 pb-10">
-        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+        {{-- ===================== --}}
+        {{-- White Testimonial Card (overlaps wave bottom) --}}
+        {{-- ===================== --}}
+        <div class="relative z-30 mx-auto -mt-24 mb-0" style="max-width: 680px;">
+            <div class="bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden">
 
-            <div class="grid md:grid-cols-2 lg:grid-cols-5 gap-10 mb-16">
+                {{-- Subtle dot grid background inside card --}}
+                <div class="absolute inset-0 opacity-30 rounded-2xl pointer-events-none"
+                    style="background-image: radial-gradient(circle, #cbd5e1 1px, transparent 1px); background-size: 20px 20px;">
+                </div>
 
-                {{-- Brand block --}}
-                <div class="lg:col-span-2">
-                    <a href="#" class="flex items-baseline gap-0 mb-5">
-                        <span class="text-2xl font-black" style="color:#00b1aa">Inter</span><span class="text-2xl font-black text-white">Link</span>
+                {{-- ===================== --}}
+                {{-- Decorations inside card --}}
+                {{-- ===================== --}}
+
+                {{-- Tiny green dot inside card --}}
+                <div class="absolute w-1.5 h-1.5 rounded-full bg-emerald-400 z-20" style="top: 15px; right: 20px;">
+                </div>
+
+                {{-- Tiny blue dot inside card --}}
+                <div class="absolute w-1 h-1 rounded-full bg-blue-500 z-20" style="top: 25px; left: 30px;"></div>
+
+                {{-- Dots nav --}}
+                <div class="relative z-10 flex items-center justify-center gap-2.5 pt-6 pb-5">
+                    <div class="w-3 h-3 rounded-full border-2 border-cyan-500 bg-transparent"></div>
+                    <div class="w-3 h-3 rounded-full border-2 border-gray-300 bg-transparent"></div>
+                    <div class="w-3 h-3 rounded-full border-2 border-gray-300 bg-transparent"></div>
+                </div>
+
+                {{-- Card Body: 2 columns --}}
+                <div class="relative z-10 flex flex-col md:flex-row gap-6 px-10 pb-8">
+
+                    {{-- Left: Company stat --}}
+                    <div class="md:w-2/5 flex items-center justify-center md:justify-start">
+                        <p
+                            class="text-2xl md:text-3xl font-extrabold text-indigo-900 leading-snug text-center md:text-left">
+                            Navarro<br>reduces time to<br>hire by 50%
+                        </p>
+                    </div>
+
+                    {{-- Divider --}}
+                    <div class="hidden md:block w-px bg-gray-200 self-stretch mx-2"></div>
+
+                    {{-- Right: Quote --}}
+                    <div class="md:w-3/5 flex flex-col justify-between">
+                        <p class="text-sm text-gray-700 leading-relaxed mb-5 italic">
+                            "We've been filling positions a lot faster because our managers are now involved in the
+                            hiring process. So far we've made 150 hires in 6 months and we've reduced our time to
+                            hire from 50 days to 26."
+                        </p>
+
+                        {{-- Person --}}
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-full bg-gray-200 overflow-hidden flex-shrink-0">
+                                <img src="" alt="Jason Lesher" class="w-full h-full object-cover"
+                                    style="background-color: #e5e7eb;" />
+                            </div>
+                            <div>
+                                <div class="text-xs font-bold text-gray-900">Jason Lesher</div>
+                                <div class="text-xs text-gray-500">VP of Talent Acquisition, Navarro</div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                {{-- See More Link --}}
+                <div class="relative z-10 border-t border-gray-100 px-10 py-4 flex justify-center">
+                    <a href="#"
+                        class="inline-flex items-center gap-1.5 text-xs font-bold text-cyan-600 uppercase tracking-widest hover:gap-3 transition-all duration-200">
+                        See More Customer Stories
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor" stroke-width="2.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                        </svg>
                     </a>
-                    <p class="text-sm leading-relaxed mb-6 max-w-xs text-gray-400">The internship platform connecting talented students with world-class companies across every industry.</p>
-                    <div class="flex items-center gap-3">
-                        @for($i=0;$i<4;$i++)
-                        <img src="https://cdn.prod.website-files.com/63eb3eaf146906eaa999e318/642d90c73077e2ced7d76141_Adult%20Learner%201%20(1).webp" alt="Social" class="w-9 h-9 rounded-full object-cover border border-gray-700 hover:border-gray-400 transition-colors cursor-pointer">
-                        @endfor
+                </div>
+
+                {{-- Logo Strip --}}
+                <div
+                    class="relative z-10 border-t border-gray-100 px-10 py-5 flex items-center justify-between gap-4 flex-wrap">
+                    {{-- Square Enix --}}
+                    <span class="text-xs font-extrabold text-gray-700 uppercase tracking-widest">Square Enix</span>
+                    {{-- Lyst --}}
+                    <span class="text-sm font-bold text-gray-700 uppercase tracking-wider">LYST</span>
+                    {{-- Ryanair --}}
+                    <span class="text-xs font-bold text-gray-700 uppercase tracking-wider">✈ Ryanair</span>
+                    {{-- Moodle --}}
+                    <span class="text-sm font-bold text-orange-500 tracking-wide">moodle</span>
+                    {{-- Dribbble --}}
+                    <span class="text-sm font-bold text-pink-500 tracking-wide">dribbble</span>
+                    {{-- Joey Restaurants --}}
+                    <span class="text-xs font-bold text-gray-700 uppercase tracking-wide">Joey Restaurants</span>
+                    {{-- Bevi --}}
+                    <div class="flex items-center gap-1">
+                        <div class="w-4 h-4 rounded-full bg-blue-500 flex items-center justify-center">
+                            <div class="w-2 h-2 rounded-full bg-white"></div>
+                        </div>
+                        <span class="text-sm font-bold text-blue-600 tracking-wide">bevi</span>
                     </div>
                 </div>
 
-                <div>
-                    <p class="text-white font-bold mb-5 text-xs uppercase tracking-wider">Platform</p>
-                    <ul class="space-y-3 text-sm">
-                        @foreach(['For Students','For Companies','Admin Tools','How It Works','Pricing'] as $link)
-                        <li><a href="#" class="hover:text-white transition-colors">{{ $link }}</a></li>
-                        @endforeach
-                    </ul>
+            </div>
+        </div>
+
+        {{-- ===================== --}}
+        {{-- Bottom white area decorations --}}
+        {{-- ===================== --}}
+
+        {{-- Gray circle bottom left --}}
+        <div class="absolute w-5 h-5 rounded-full bg-gray-300 opacity-50 z-10" style="bottom: 30px; left: 5%;">
+        </div>
+
+        {{-- Dark gray dot --}}
+        <div class="absolute w-2 h-2 rounded-full bg-gray-400 z-10" style="bottom: 60px; right: 8%;"></div>
+
+        {{-- Light gray diamond --}}
+        <div class="absolute w-3 h-3 bg-gray-300 rotate-45 z-10" style="bottom: 100px; left: 15%;"></div>
+
+        {{-- Bottom white spacing --}}
+        <div class="h-16 bg-white"></div>
+
+    </section>
+
+
+    <section class="bg-white py-20 px-6" style="font-family: 'Plus Jakarta Sans', sans-serif;">
+
+        <div class="max-w-5xl mx-auto">
+            <div class="flex flex-col md:flex-row gap-16 items-start">
+
+                {{-- ===================== --}}
+                {{-- Left: Text Content --}}
+                {{-- ===================== --}}
+                <div class="flex-1 max-w-lg">
+
+                    {{-- Main Heading --}}
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-gray-900 leading-tight mb-4">
+                        Our take on HR software
+                    </h2>
+
+                    {{-- Intro --}}
+                    <p class="text-sm text-gray-600 leading-relaxed mb-6">
+                        At Workable, we believe HR software should work for you, not against you.
+                    </p>
+
+                    <p class="text-xs text-gray-500 mb-8">Here's what that means to us:</p>
+
+                    {{-- Points --}}
+                    <div class="flex flex-col gap-8">
+
+                        {{-- 1 --}}
+                        <div>
+                            <h4 class="text-sm font-bold text-gray-900 mb-2">No smoke and mirrors</h4>
+                            <p class="text-sm text-gray-600 leading-relaxed">
+                                Most HR software vendors hide their pricing.
+                                <a href="#" class="text-teal-600 hover:underline">We don't. It's right there on our
+                                    website.</a>
+                                Our trial isn't a neutered demo — it's our full product. We figure if we're not
+                                willing to be upfront before you buy, why would you trust us after?
+                            </p>
+                        </div>
+
+                        {{-- 2 --}}
+                        <div>
+                            <h4 class="text-sm font-bold text-gray-900 mb-2">Simplicity isn't simple</h4>
+                            <p class="text-sm text-gray-600 leading-relaxed">
+                                Our software feels easy because we've done the hard work. Under the hood, it's
+                                complex and powerful. But you don't need to know that. You just need to know it
+                                works.
+                                <a href="#" class="text-teal-600 hover:underline">We use great design and AI to hide
+                                    the complexity, not to dumb things down.</a>
+                            </p>
+                        </div>
+
+                        {{-- 3 --}}
+                        <div>
+                            <h4 class="text-sm font-bold text-gray-900 mb-2">Software shouldn't be a second job</h4>
+                            <p class="text-sm text-gray-600 leading-relaxed">
+                                You've got enough on your plate. Your HR software shouldn't add to it. We've made
+                                sure our platform plugs into your existing tools, comes with expert support, and
+                                doesn't require a PhD to implement.
+                                <a href="#" class="text-teal-600 hover:underline">Because your job is to run your
+                                    business, not to become an expert in our software.</a>
+                            </p>
+                        </div>
+
+                        {{-- 4 --}}
+                        <div>
+                            <h4 class="text-sm font-bold text-gray-900 mb-2">AI isn't the future, it's now</h4>
+                            <p class="text-sm text-gray-600 leading-relaxed">
+                                We're not just slapping an AI chatbot onto old software and calling it a day. We're
+                                baking AI into every part of our platform. It's there when you need it, doing the
+                                heavy lifting in the background.
+                                <a href="#" class="text-teal-600 hover:underline">As AI evolves, so will our
+                                    platform.</a>
+                                We're committed to keeping you at the forefront of what's possible.
+                            </p>
+                        </div>
+
+                        {{-- 5 --}}
+                        <div>
+                            <h4 class="text-sm font-bold text-gray-900 mb-2">We solve real problems</h4>
+                            <p class="text-sm text-gray-600 leading-relaxed">
+                                Most HR software is full of features you'll never use. We focus on the stuff that
+                                actually moves the needle. More candidates. Less busywork. Real productivity gains.
+                                We're not here to give you a thousand buttons to push.
+                                <a href="#" class="text-teal-600 hover:underline">We're here to solve your biggest
+                                    HR headaches.</a>
+                                The rest is just noise.
+                            </p>
+                        </div>
+
+                    </div>
                 </div>
 
-                <div>
-                    <p class="text-white font-bold mb-5 text-xs uppercase tracking-wider">Company</p>
-                    <ul class="space-y-3 text-sm">
-                        @foreach(['About Us','Blog','Careers','Press','Partners'] as $link)
-                        <li><a href="#" class="hover:text-white transition-colors">{{ $link }}</a></li>
-                        @endforeach
-                    </ul>
-                </div>
-
-                <div>
-                    <p class="text-white font-bold mb-5 text-xs uppercase tracking-wider">Contact</p>
-                    <ul class="space-y-3 text-sm">
-                        <li>hello@interlink.io</li>
-                        <li>+212 600 000 000</li>
-                        <li>Casablanca, Morocco</li>
-                        <li class="pt-2"><a href="#" class="hover:text-white transition-colors">Support Center</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors">Privacy Policy</a></li>
-                    </ul>
+                {{-- ===================== --}}
+                {{-- Right: Image --}}
+                {{-- ===================== --}}
+                <div class="w-full md:w-[340px] flex-shrink-0 sticky top-10 self-start">
+                    <img src="https://www.workable.com/static/images/home/letter/our-take_2x.webp?v=82beb40de575443c46bfb1ad9bfd026e"
+                        alt="Our take on HR software illustration" class="w-full h-auto rounded-2xl object-cover" />
                 </div>
 
             </div>
+        </div>
 
-            {{-- Footer image strip --}}
-            <div class="flex gap-3 mb-10 rounded-2xl overflow-hidden">
-                @for($i=0;$i<6;$i++)
-                <img src="https://cdn.prod.website-files.com/63eb3eaf146906eaa999e318/642d90c73077e2ced7d76141_Adult%20Learner%201%20(1).webp" alt="Team" class="flex-1 h-20 object-cover opacity-60 hover:opacity-100 transition-opacity">
-                @endfor
-            </div>
+    </section>
 
-            <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
-                <p class="text-xs">&copy; {{ date('Y') }} InterLink. All rights reserved.</p>
-                <div class="flex gap-6 text-xs">
-                    <a href="#" class="hover:text-white transition-colors">Terms of Service</a>
-                    <a href="#" class="hover:text-white transition-colors">Privacy Policy</a>
-                    <a href="#" class="hover:text-white transition-colors">Cookie Policy</a>
-                </div>
+
+    <section class="relative bg-[#0d0d0f] overflow-hidden py-16 px-8 md:px-16 w-full"
+        style="font-family: 'Plus Jakarta Sans', sans-serif; margin: 0; border-radius: 0;">
+
+        {{-- ===================== --}}
+        {{-- Grid Decorations --}}
+        {{-- ===================== --}}
+
+        {{-- Large background grid pattern --}}
+        <div class="absolute inset-0 z-0 opacity-20" style="background-image: 
+        linear-gradient(to right, #374151 1px, transparent 1px),
+        linear-gradient(to bottom, #374151 1px, transparent 1px);
+        background-size: 40px 40px;">
+        </div>
+
+        {{-- Dot grid decoration top-left --}}
+        <div class="absolute top-5 left-8 grid gap-2.5 z-10" style="grid-template-columns: repeat(6, 1fr);">
+            <div class="w-1 h-1 rounded-full bg-gray-600 opacity-60"></div>
+            <div class="w-1 h-1 rounded-full bg-gray-600 opacity-60"></div>
+            <div class="w-1 h-1 rounded-full bg-gray-600 opacity-60"></div>
+            <div class="w-1 h-1 rounded-full bg-gray-600 opacity-60"></div>
+            <div class="w-1 h-1 rounded-full bg-gray-600 opacity-60"></div>
+            <div class="w-1 h-1 rounded-full bg-gray-600 opacity-60"></div>
+            <div class="w-1 h-1 rounded-full bg-gray-600 opacity-60"></div>
+            <div class="w-1 h-1 rounded-full bg-gray-600 opacity-60"></div>
+            <div class="w-1 h-1 rounded-full bg-gray-600 opacity-60"></div>
+            <div class="w-1 h-1 rounded-full bg-gray-600 opacity-60"></div>
+            <div class="w-1 h-1 rounded-full bg-gray-600 opacity-60"></div>
+            <div class="w-1 h-1 rounded-full bg-gray-600 opacity-60"></div>
+            <div class="w-1 h-1 rounded-full bg-gray-600 opacity-60"></div>
+            <div class="w-1 h-1 rounded-full bg-gray-600 opacity-60"></div>
+            <div class="w-1 h-1 rounded-full bg-gray-600 opacity-60"></div>
+            <div class="w-1 h-1 rounded-full bg-gray-600 opacity-60"></div>
+            <div class="w-1 h-1 rounded-full bg-gray-600 opacity-60"></div>
+            <div class="w-1 h-1 rounded-full bg-gray-600 opacity-60"></div>
+        </div>
+
+        {{-- Dot grid decoration bottom-left --}}
+        <div class="absolute bottom-5 left-8 grid gap-2.5 z-10" style="grid-template-columns: repeat(6, 1fr);">
+            <div class="w-1 h-1 rounded-full bg-gray-600 opacity-60"></div>
+            <div class="w-1 h-1 rounded-full bg-gray-600 opacity-60"></div>
+            <div class="w-1 h-1 rounded-full bg-gray-600 opacity-60"></div>
+            <div class="w-1 h-1 rounded-full bg-gray-600 opacity-60"></div>
+            <div class="w-1 h-1 rounded-full bg-gray-600 opacity-60"></div>
+            <div class="w-1 h-1 rounded-full bg-gray-600 opacity-60"></div>
+            <div class="w-1 h-1 rounded-full bg-gray-600 opacity-60"></div>
+            <div class="w-1 h-1 rounded-full bg-gray-600 opacity-60"></div>
+            <div class="w-1 h-1 rounded-full bg-gray-600 opacity-60"></div>
+            <div class="w-1 h-1 rounded-full bg-gray-600 opacity-60"></div>
+            <div class="w-1 h-1 rounded-full bg-gray-600 opacity-60"></div>
+            <div class="w-1 h-1 rounded-full bg-gray-600 opacity-60"></div>
+        </div>
+
+        {{-- Dot grid decoration top-right --}}
+        <div class="absolute top-5 right-8 grid gap-2.5 z-10" style="grid-template-columns: repeat(6, 1fr);">
+            <div class="w-1 h-1 rounded-full bg-gray-600 opacity-40"></div>
+            <div class="w-1 h-1 rounded-full bg-gray-600 opacity-40"></div>
+            <div class="w-1 h-1 rounded-full bg-gray-600 opacity-40"></div>
+            <div class="w-1 h-1 rounded-full bg-gray-600 opacity-40"></div>
+            <div class="w-1 h-1 rounded-full bg-gray-600 opacity-40"></div>
+            <div class="w-1 h-1 rounded-full bg-gray-600 opacity-40"></div>
+            <div class="w-1 h-1 rounded-full bg-gray-600 opacity-40"></div>
+            <div class="w-1 h-1 rounded-full bg-gray-600 opacity-40"></div>
+            <div class="w-1 h-1 rounded-full bg-gray-600 opacity-40"></div>
+            <div class="w-1 h-1 rounded-full bg-gray-600 opacity-40"></div>
+            <div class="w-1 h-1 rounded-full bg-gray-600 opacity-40"></div>
+            <div class="w-1 h-1 rounded-full bg-gray-600 opacity-40"></div>
+            <div class="w-1 h-1 rounded-full bg-gray-600 opacity-40"></div>
+            <div class="w-1 h-1 rounded-full bg-gray-600 opacity-40"></div>
+            <div class="w-1 h-1 rounded-full bg-gray-600 opacity-40"></div>
+            <div class="w-1 h-1 rounded-full bg-gray-600 opacity-40"></div>
+            <div class="w-1 h-1 rounded-full bg-gray-600 opacity-40"></div>
+            <div class="w-1 h-1 rounded-full bg-gray-600 opacity-40"></div>
+        </div>
+
+        {{-- Dot grid decoration bottom-right --}}
+        <div class="absolute bottom-5 right-8 grid gap-2.5 z-10" style="grid-template-columns: repeat(6, 1fr);">
+            <div class="w-1 h-1 rounded-full bg-gray-600 opacity-40"></div>
+            <div class="w-1 h-1 rounded-full bg-gray-600 opacity-40"></div>
+            <div class="w-1 h-1 rounded-full bg-gray-600 opacity-40"></div>
+            <div class="w-1 h-1 rounded-full bg-gray-600 opacity-40"></div>
+            <div class="w-1 h-1 rounded-full bg-gray-600 opacity-40"></div>
+            <div class="w-1 h-1 rounded-full bg-gray-600 opacity-40"></div>
+            <div class="w-1 h-1 rounded-full bg-gray-600 opacity-40"></div>
+            <div class="w-1 h-1 rounded-full bg-gray-600 opacity-40"></div>
+            <div class="w-1 h-1 rounded-full bg-gray-600 opacity-40"></div>
+            <div class="w-1 h-1 rounded-full bg-gray-600 opacity-40"></div>
+            <div class="w-1 h-1 rounded-full bg-gray-600 opacity-40"></div>
+            <div class="w-1 h-1 rounded-full bg-gray-600 opacity-40"></div>
+        </div>
+
+        {{-- ===================== --}}
+        {{-- Additional Decorations --}}
+        {{-- ===================== --}}
+
+        {{-- Glowing orb top right --}}
+        <div class="absolute top-20 right-20 w-64 h-64 bg-indigo-500 rounded-full opacity-10 blur-3xl z-0"></div>
+
+        {{-- Glowing orb bottom left --}}
+        <div class="absolute bottom-20 left-20 w-80 h-80 bg-purple-500 rounded-full opacity-10 blur-3xl z-0"></div>
+
+        {{-- Small diamond shapes --}}
+        <div class="absolute top-32 right-32 w-2 h-2 bg-indigo-400 rotate-45 z-10"></div>
+        <div class="absolute bottom-32 left-32 w-3 h-3 bg-purple-400 rotate-45 z-10"></div>
+        <div class="absolute top-1/2 right-48 w-1.5 h-1.5 bg-cyan-400 rotate-45 z-10"></div>
+        <div class="absolute bottom-1/3 left-40 w-2 h-2 bg-pink-400 rotate-45 z-10"></div>
+
+        {{-- Small circles --}}
+        <div class="absolute top-40 right-64 w-1 h-1 rounded-full bg-cyan-400 z-10"></div>
+        <div class="absolute bottom-40 left-56 w-1.5 h-1.5 rounded-full bg-yellow-400 z-10"></div>
+        <div class="absolute top-1/3 right-28 w-2 h-2 rounded-full bg-emerald-400 z-10"></div>
+        <div class="absolute bottom-1/4 left-20 w-1 h-1 rounded-full bg-red-400 z-10"></div>
+
+        {{-- Cross/plus shapes --}}
+        <div class="absolute top-48 right-16 text-indigo-400 opacity-40 z-10" style="font-size: 12px;">+</div>
+        <div class="absolute bottom-48 left-12 text-purple-400 opacity-40 z-10" style="font-size: 10px;">+</div>
+        <div class="absolute top-1/2 right-72 text-cyan-400 opacity-30 z-10" style="font-size: 8px;">+</div>
+
+        {{-- Small stars --}}
+        <div class="absolute top-24 right-1/4 text-white opacity-20 z-10" style="font-size: 20px;">★</div>
+        <div class="absolute bottom-28 left-1/3 text-white opacity-15 z-10" style="font-size: 16px;">★</div>
+
+        {{-- Lines --}}
+        <div class="absolute top-60 right-20 w-16 h-px bg-gradient-to-r from-transparent to-indigo-500 opacity-30 z-10">
+        </div>
+        <div
+            class="absolute bottom-40 left-24 w-24 h-px bg-gradient-to-l from-transparent to-purple-500 opacity-30 z-10">
+        </div>
+
+        {{-- Content --}}
+        <div class="relative z-20 flex flex-col md:flex-row items-center justify-between gap-10 max-w-5xl mx-auto">
+
+            {{-- Headline --}}
+            <h2 class="text-4xl md:text-5xl font-extrabold text-white leading-tight tracking-tight">
+                <span
+                    class="inline-block bg-indigo-300/30 text-indigo-200 px-2 py-0.5 rounded-md mr-2">InterLink</span>is
+                the only<br>
+                platform you'll ever<br>
+                need
+            </h2>
+
+            {{-- Buttons --}}
+            <div class="flex items-center gap-4 flex-shrink-0">
+                <a href="#"
+                    class="inline-flex items-center gap-2 bg-white hover:bg-gray-100 text-gray-900 text-sm font-bold px-7 py-4 rounded-xl transition-all duration-200 shadow-lg whitespace-nowrap">
+                    Get started
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor" stroke-width="2.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                    </svg>
+                </a>
+                <a href="#"
+                    class="inline-flex items-center gap-2 bg-transparent hover:bg-white/10 text-white text-sm font-bold px-7 py-4 rounded-xl border border-gray-600 hover:border-gray-400 transition-all duration-200 whitespace-nowrap">
+                    Book a demo
+                </a>
             </div>
 
         </div>
-    </footer>
 
-</div>
+    </section>
+
+
+    <x-footer />
+
+</body>
+
+</html>

@@ -13,6 +13,7 @@ Props:
         'href' => null,
         'darkOnly' => false,
         'small' => null,
+        'logo' => null,
     ])@php
     $sizes = [
         'sm' => ['img' => 'width:30px; height:30px;', 'imgClass' => 'w-[30px] h-[30px]'],
@@ -21,30 +22,32 @@ Props:
         'xl' => ['img' => 'height:80px; width:auto;', 'imgClass' => ''],
     ];
     $s = $sizes[$size] ?? $sizes['md'];
+    $logoSrc = $logo ? asset($logo) : asset('images/Logos/TLM.png');
+    $logoDarkSrc = $logo ? asset($logo) : asset('images/Logos/TDM.png');
 @endphp
 @if ($href)
        <a href="{{ $href }}" class="shrink-0 transition hover:opacity-80 {{ $attributes->get('class', '') }}" wire:navigate>
             @if ($small)
-                <img x-show="!$store.ui.darkMode && isAtTop" src="{{ asset('images/Logos/TLM.png') }}" alt="InternLink Logo"
+                <img x-show="!$store.ui.darkMode && isAtTop" src="{{ $logoSrc }}" alt="InternLink Logo"
                     class="{{ $s['imgClass'] }} object-contain" style="{{ $s['img'] }}">
                 <img x-show="!$store.ui.darkMode && !isAtTop" src="{{ asset('images/Logos/Small Logo.png') }}" alt="InternLink Small Logo"
                     class="{{ $s['imgClass'] }} object-contain" style="{{ $s['img'] }} display:none;">
 
-                <img x-show="$store.ui.darkMode && isAtTop" src="{{ asset('images/Logos/TDM.png') }}" alt="InternLink Logo"
+                <img x-show="$store.ui.darkMode && isAtTop" src="{{ asset('images/Logos/logo-orange.png') }}" alt="InternLink Logo"
                     class="{{ $s['imgClass'] }} object-contain" style="{{ $s['img'] }} display:none;">
-                <img x-show="$store.ui.darkMode && !isAtTop" src="{{ asset($small) }}" alt="InternLink Small Logo"
+                <img x-show="$store.ui.darkMode && !isAtTop" src="{{ asset('images/Logos/small-logo-orange.png') }}" alt="InternLink Small Logo"
                     class="{{ $s['imgClass'] }} object-contain" style="{{ $s['img'] }} display:none;">
             @else
-                <img x-show="!$store.ui.darkMode" src="{{ asset('images/Logos/TLM.png') }}" alt="InternLink Logo"
+                <img x-show="!$store.ui.darkMode" src="{{ $logoSrc }}" alt="InternLink Logo"
                         class="{{ $s['imgClass'] }} object-contain" style="{{ $s['img'] }}">
-                <img x-show="$store.ui.darkMode" src="{{ asset('images/Logos/TDM.png') }}" alt="InternLink Logo"
+                <img x-show="$store.ui.darkMode" src="{{ $logoDarkSrc }}" alt="InternLink Logo"
                     class="{{ $s['imgClass'] }} object-contain" style="{{ $s['img'] }} display:none;">
             @endif
     </a>
 @else
     <div class="shrink-0 {{ $attributes->get('class', '') }}">
             @if ($small)
-                <img x-show="!$store.ui.darkMode && isAtTop" src="{{ asset('images/Logos/TLM.png') }}" alt="InternLink Logo"
+                <img x-show="!$store.ui.darkMode && isAtTop" src="{{ asset('images/Logos/logo-orange.png') }}" alt="InternLink Logo"
                     class="{{ $s['imgClass'] }} object-contain" style="{{ $s['img'] }}">
                 <img x-show="!$store.ui.darkMode && !isAtTop" src="{{ asset($small) }}" alt="InternLink Small Logo"
                     class="{{ $s['imgClass'] }} object-contain" style="{{ $s['img'] }} display:none;">
@@ -54,9 +57,9 @@ Props:
                 <img x-show="$store.ui.darkMode && !isAtTop" src="{{ asset($small) }}" alt="InternLink Small Logo"
                     class="{{ $s['imgClass'] }} object-contain" style="{{ $s['img'] }} display:none;">
             @else
-                <img x-show="!$store.ui.darkMode" src="{{ asset('images/Logos/TLM.png') }}" alt="InternLink Logo"
+                <img x-show="!$store.ui.darkMode" src="{{ $logoSrc }}" alt="InternLink Logo"
                         class="{{ $s['imgClass'] }} object-contain" style="{{ $s['img'] }}">
-                <img x-show="$store.ui.darkMode" src="{{ asset('images/Logos/TDM.png') }}" alt="InternLink Logo"
+                <img x-show="$store.ui.darkMode" src="{{ $logoDarkSrc }}" alt="InternLink Logo"
                     class="{{ $s['imgClass'] }} object-contain" style="{{ $s['img'] }} display:none;">
             @endif
         </div>

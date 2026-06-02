@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>Intern Link</title>
+    <title>InternLink</title>
 
     <link rel="icon" href="{{ asset('images/Logos/Small%20Logo.png') }}" type="image/png">
     <link rel="apple-touch-icon" href="{{ asset('images/Logos/Small%20Logo.png') }}">
@@ -20,6 +20,154 @@
 
     @vite(['resources/css/welcome.css'])
 
+    <style>
+        /* Page-scoped dark mode overrides */
+        body.page-dark {
+            background-color: #071018 !important;
+            color: #e6eef0 !important;
+        }
+
+        body.page-dark section,
+        body.page-dark .bg-white {
+            background-color: #071018 !important;
+        }
+
+        body.page-dark .text-gray-500,
+        body.page-dark .text-gray-600,
+        body.page-dark .text-gray-700 {
+            color: #9fb6bb !important;
+        }
+
+        body.page-dark .text-gray-900,
+        body.page-dark .text-[#17494D],
+        body.page-dark .text-[#2d2d2d] {
+            color: #e6eef0 !important;
+        }
+
+        body.page-dark a,
+        body.page-dark .text-[#00b1aa] {
+            color: #7be8df !important;
+        }
+
+        body.page-dark .hero-brand-text {
+            color: #00B1AA !important;
+        }
+
+        body.page-dark .border-gray-200 {
+            border-color: #233036 !important;
+        }
+
+        body.page-dark .bg-[#ededed],
+        body.page-dark .bg-[#ffffff] {
+            background-color: #071018 !important;
+        }
+
+        /* make cards and panels slightly lighter than background */
+        body.page-dark .bg-white/60,
+        body.page-dark .bg-white\/60 {
+            background-color: rgba(255, 255, 255, 0.03) !important;
+        }
+
+        /* ensure subtle accents remain visible */
+        body.page-dark .text-yellow-400,
+        body.page-dark .text-yellow-300 {
+            color: #f6d365 !important;
+        }
+
+        /* keep buttons readable */
+        body.page-dark .bg-[#00b0aa],
+        body.page-dark .bg-[#00b1aa] {
+            background-color: #00b1aa !important;
+        }
+
+        /* Hide hero grid and decorative dots when page dark mode is active */
+        body.page-dark .hero-grid,
+        body.page-dark .hero-grid-fade,
+        body.page-dark .hero-dots {
+            display: none !important;
+        }
+
+        /* Make hero heading and subheadline white in dark mode */
+        body.page-dark .hero-section h1,
+        body.page-dark .hero-section p {
+            color: #ffffff !important;
+        }
+
+        /* Book Demo button: keep white in dark mode */
+        body.page-dark .book-demo-btn {
+            background-color: #000000 !important;
+            color: #0f172a !important;
+            border-color: rgba(255, 255, 255, 0.644) !important;
+        }
+
+        body.page-dark .book-demo-btn:hover {
+            background-color: #e5e9eb27 !important;
+        }
+
+        /* Make the decorative surface white in dark mode (page-specific) */
+        body.page-dark .hero-surface {
+            background-color: #ffffff !important;
+        }
+
+        /* Discover section dark-mode overrides */
+        body.page-dark .discover-section-wrapper,
+        body.page-dark #discoverSection {
+            background-color: #071018 !important;
+        }
+
+        body.page-dark .discover-title,
+        body.page-dark .discover-subtitle {
+            color: #ffffff !important;
+        }
+
+        body.page-dark .discover-tab {
+            background-color: #ffffff !important;
+            color: #111827 !important;
+            border-color: rgba(255, 255, 255, 0.08) !important;
+        }
+
+        body.page-dark .discover-tab:hover {
+            background-color: #9a9b9c !important;
+            color: #111827 !important;
+        }
+
+        body.page-dark .discover-tab.is-active {
+            background-color: #f89122 !important;
+            color: #ffffff !important;
+            box-shadow: 0 10px 24px -14px rgba(0, 0, 0, 0.65) !important;
+        }
+
+        /* Remaining white sections: keep text readable in dark mode */
+        body.page-dark .bg-white h2,
+        body.page-dark .bg-white h3,
+        body.page-dark .bg-white h4,
+        body.page-dark .bg-white h5,
+        body.page-dark .bg-white h6,
+        body.page-dark .bg-white p,
+        body.page-dark .bg-white li,
+        body.page-dark .bg-white span,
+        body.page-dark .bg-white a {
+            color: #e6eef0 !important;
+        }
+
+        body.page-dark .bg-white .text-gray-900,
+        body.page-dark .bg-white .text-gray-800,
+        body.page-dark .bg-white .text-gray-700,
+        body.page-dark .bg-white .text-gray-600,
+        body.page-dark .bg-white .text-gray-500,
+        body.page-dark .bg-white .text-indigo-900,
+        body.page-dark .bg-white .text-indigo-700,
+        body.page-dark .bg-white .text-blue-600,
+        body.page-dark .bg-white .text-blue-500,
+        body.page-dark .bg-white .text-orange-500,
+        body.page-dark .bg-white .text-emerald-700,
+        body.page-dark .bg-white .text-pink-500,
+        body.page-dark .bg-white .text-cyan-600,
+        body.page-dark .bg-white .text-teal-600 {
+            color: #e6eef0 !important;
+        }
+    </style>
+
     <!-- Alpine.js: plugin first, then core -->
     <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/collapse@3.14.8/dist/cdn.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.8/dist/cdn.min.js"></script>
@@ -27,9 +175,10 @@
 
 </head>
 
-<body x-data
+<body
+    x-data="{ pageDarkMode: false, init() { window.pageDarkModeToggle = () => { $store.ui.showLoading(400); setTimeout(() => { $store.ui.darkMode = !$store.ui.darkMode }, 150) }; Alpine.effect(() => { const isDark = $store.ui.darkMode; this.pageDarkMode = isDark; window.pageDarkModeActive = isDark; document.body.classList.toggle('page-dark', isDark); window.dispatchEvent(new CustomEvent('page-dark-mode-change', { detail: { active: isDark } })); }); } }"
     class="welcome-body flex min-h-screen flex-col bg-[#ffffff] text-[#17494D] font-[Instrument_Sans,ui-sans-serif,system-ui,sans-serif] antialiased transition-colors duration-300"
-    :class="$store.ui.darkMode ? 'bg-black text-white' : 'bg-[#ffffff] text-[#17494D]'">
+    :class="pageDarkMode ? 'bg-black text-white' : 'bg-[#ffffff] text-[#17494D]'">
 
     <!-- Navigation -->
     <x-nav-bar />
@@ -40,36 +189,37 @@
     Jeor section in ladding page
     ═══════════════════════════════════════════════════════════════════ --}}
 
-    <section class="relative mt-12 overflow-hidden bg-white">
+    <section class="relative mt-12 overflow-hidden bg-white hero-section">
 
         {{-- Background Grid Pattern --}}
-        <div class="absolute inset-0 z-0"
+        <div class="absolute inset-0 z-0 hero-grid"
             style="background-image: linear-gradient(to right, #e5e7eb 1px, transparent 1px), linear-gradient(to bottom, #e5e7eb 1px, transparent 1px); background-size: 40px 40px;">
         </div>
         {{-- Grid fade overlay --}}
-        <div class="absolute inset-0 z-0 bg-gradient-to-b from-white/60 via-transparent to-white/80"></div>
+        <div class="absolute inset-0 z-0 hero-grid-fade bg-gradient-to-b from-white/60 via-transparent to-white/80">
+        </div>
 
         {{-- Corner Dot Decorations --}}
         {{-- Top Left dots --}}
-        <div class="absolute top-6 left-6 z-10 grid grid-cols-4 gap-1.5">
+        <div class="absolute top-6 left-6 z-10 grid grid-cols-4 gap-1.5 hero-dots">
             @foreach(range(1, 20) as $dot)
                 <div class="w-1 h-1 rounded-full bg-gray-300"></div>
             @endforeach
         </div>
         {{-- Top Right dots --}}
-        <div class="absolute top-6 right-6 z-10 grid grid-cols-4 gap-1.5">
+        <div class="absolute top-6 right-6 z-10 grid grid-cols-4 gap-1.5 hero-dots">
             @foreach(range(1, 20) as $dot)
                 <div class="w-1 h-1 rounded-full bg-gray-300"></div>
             @endforeach
         </div>
         {{-- Bottom Left dots --}}
-        <div class="absolute bottom-24 left-6 z-10 grid grid-cols-4 gap-1.5">
+        <div class="absolute bottom-24 left-6 z-10 grid grid-cols-4 gap-1.5 hero-dots">
             @foreach(range(1, 20) as $dot)
                 <div class="w-1 h-1 rounded-full bg-gray-300"></div>
             @endforeach
         </div>
         {{-- Bottom Right dots --}}
-        <div class="absolute bottom-24 right-6 z-10 grid grid-cols-4 gap-1.5">
+        <div class="absolute bottom-24 right-6 z-10 grid grid-cols-4 gap-1.5 hero-dots">
             @foreach(range(1, 20) as $dot)
                 <div class="w-1 h-1 rounded-full bg-gray-300"></div>
             @endforeach
@@ -80,42 +230,35 @@
             {{-- Headline --}}
             <div class="text-center mb-5">
                 <h1 class="text-5xl font-extrabold text-gray-900 leading-tight tracking-tight">
-                    Accelerate Growth with AI
-                    <span class="inline-flex items-center gap-1">
-                        <span class="text-yellow-400">✦</span>
-                        <span class="text-yellow-300 text-3xl">✦</span>
-                    </span>
+                    {{ __('hero.title_line1') }}
+                    <span class="text-[#00B1AA] hero-brand-text"
+                        style="color: #00B1AA !important;">{{ __('hero.brand') }}</span>
                     <br>
-                    Sales &amp; Marketing Automation
+                    {{ __('hero.title_line2') }}
                 </h1>
             </div>
 
             {{-- Subheadline --}}
             <p class="text-center text-gray-500 text-sm max-w-xl mx-auto mb-8 leading-relaxed">
-                Leading brands grow cost-efficiently with Zixflow. Manage entire customer journey with
-                Next generation CRM and Interactions over Email, SMS, and WhatsApp.
+                {{ __('hero.subtitle') }}
             </p>
 
             {{-- CTA Buttons --}}
             <div class="flex items-center justify-center gap-4 mb-12">
                 <a href="#"
-                    class="inline-flex items-center gap-2 bg-gray-900 hover:bg-gray-700 text-white text-sm font-semibold px-6 py-3 rounded-full transition-all duration-200 shadow-sm">
-                    Try it free
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor" stroke-width="2.5">
+                    class="inline-flex items-center gap-2 bg-[#00b0aa] hover:bg-[#009690] hover:shadow-lg text-white text-sm font-semibold px-6 py-3 rounded-full transition-all duration-200 shadow-sm">
+                    {{ __('hero.cta_try') }}
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                        class="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                     </svg>
                 </a>
                 <a href="#"
-                    class="inline-flex items-center gap-2 bg-white hover:bg-gray-50 text-gray-900 text-sm font-semibold px-6 py-3 rounded-full border border-gray-300 transition-all duration-200 shadow-sm">
-                    Book Demo
+                    class="inline-flex items-center gap-2 bg-white hover:bg-gray-100 dark:bg-white dark:border-gray-600 dark:text-gray-900 dark:hover:bg-gray-100 text-gray-900 book-demo-btn text-sm font-semibold px-6 py-3 rounded-full border border-gray-300 dark:border-gray-600 transition-all duration-200 shadow-sm hover:shadow-lg">
+                    {{ __('hero.cta_demo') }}
                 </a>
-
-
-
             </div>
-
-
 
 
             {{-- Browser / Dashboard Mockup --}}
@@ -123,12 +266,12 @@
 
                 {{-- Green background surface --}}
                 <div
-                    class="absolute bottom-0 right-0 w-2/3 h-2/3 bg-black  rounded-3xl blur-3xl -translate-y-8 translate-x-8">
+                    class="absolute bottom-0 right-0 w-2/3 h-2/3 bg-[#00000093] hero-surface rounded-3xl blur-3xl -translate-y-8 translate-x-8">
                 </div>
 
                 {{-- Alternative: More solid green surface --}}
                 <div
-                    class="absolute -bottom-18 right-14 w-[90%] h-[100%] bg-black rounded-2xl -translate-y-12 translate-x-12">
+                    class="absolute -bottom-18 right-14 w-[90%] h-[100%] bg-[#00b0aa] rounded-2xl -translate-y-12 translate-x-12">
                 </div>
 
                 {{-- Browser Window --}}
@@ -139,14 +282,15 @@
                     {{-- (Your browser top bar content here if any) --}}
 
                     {{-- Empty image placeholder --}}
-                    <img src="https://cdn.dribbble.com/users/623441/screenshots/3733726/attachments/838325/3_elements.png"
-                        alt="Dashboard preview" class="w-full object-cover object-top block"
+                    <img src="{{ asset('images/site%20photos/interdashord.png') }}" alt="Dashboard preview"
+                        class="w-full object-cover object-top block"
                         style="min-height: 480px; background-color: #f9fafb;" />
 
                 </div>
             </div>
         </div>
     </section>
+
 
 
     {{-- ═══════════════════════════════════════════════════════════════════
@@ -171,7 +315,7 @@
 
         <h2
             class="mx-auto mb-11 text-center font-[Poppins] text-[clamp(1.5rem,3vw,2rem)] font-extrabold tracking-[-0.2px] text-[#00b5ad]">
-            As Featured In
+            {!! __('welcome.featured.title') !!}
         </h2>
 
         <div class="w-full overflow-hidden"
@@ -331,43 +475,43 @@
     </section>
 
 
-
+    {{-- ═══════════════════════════════════════════════════════════════════
+    DISCOVER — Tabbed image showcase (Vanilla JS Version)
+    ═══════════════════════════════════════════════════════════════════ --}}
 
     <section class="discover-section-wrapper"
         style="transform: scale(0.85); transform-origin: center top; background-color: white; margin-bottom: -12%;">
 
-        {{-- ═══════════════════════════════════════════════════════════════════
-        DISCOVER — Tabbed image showcase (Vanilla JS Version)
-        ═══════════════════════════════════════════════════════════════════ --}}
+
         <section id="discoverSection" class="w-full px-6 py-20" style="background-color: white;">
             <div class="mx-auto flex w-full max-w-6xl flex-col items-center">
 
                 {{-- Title --}}
-                <h2 class="mb-4 text-center text-4xl font-bold leading-[1.1] tracking-tight sm:text-5xl lg:text-[3.75rem]"
+                <h2 class="discover-title mb-4 text-center text-4xl font-bold leading-[1.1] tracking-tight sm:text-5xl lg:text-[3.75rem]"
                     style="color: #111827;">
-                    Discover powerful features
+                    {!! __('welcome.discover.title') !!}
                 </h2>
 
-                <p class="mb-12 max-w-3xl text-center text-base leading-relaxed sm:text-lg" style="color: #6B7280;">
-                    Explore powerful workflows, ticket views, and reports built to help your team move faster with
-                    confidence.
+                <p class="discover-subtitle mb-12 max-w-3xl text-center text-base leading-relaxed sm:text-lg"
+                    style="color: #6B7280;">
+                    {!! __('welcome.discover.subtitle') !!}
                 </p>
 
                 {{-- Tabs --}}
                 <div class="mb-12 w-full max-w-5xl">
                     <div class="grid grid-cols-2 gap-2 md:grid-cols-4">
                         <button type="button" data-tab="ticketList"
-                            class="tab-button group relative cursor-pointer rounded-xl px-4 py-3 text-sm font-medium transition-all duration-300 bg-gray-900 text-white shadow-[0_10px_24px_-14px_rgba(0,0,0,0.5)]">
-                            Ticket List
+                            class="tab-button discover-tab group relative cursor-pointer rounded-xl px-4 py-3 text-sm font-medium transition-all duration-300 bg-gray-900 text-white shadow-[0_10px_24px_-14px_rgba(0,0,0,0.5)]">
+                            {!! __('welcome.discover.tab_student_list') !!}
                         </button>
                         <button type="button" data-tab="ticketView"
-                            class="tab-button group relative cursor-pointer rounded-xl px-4 py-3 text-sm font-medium transition-all duration-300 text-gray-600 hover:bg-gray-100 hover:text-gray-900">
-                            Ticket View
+                            class="tab-button discover-tab group relative cursor-pointer rounded-xl px-4 py-3 text-sm font-medium transition-all duration-300 text-gray-600 hover:bg-gray-100 hover:text-gray-900">
+                            {!! __('welcome.discover.tab_student_profile') !!}
                         </button>
                         <button type="button" data-tab="automations"
-                            class="tab-button group relative cursor-pointer rounded-xl px-4 py-3 text-sm font-medium transition-all duration-300 text-gray-600 hover:bg-gray-100 hover:text-gray-900">
+                            class="tab-button discover-tab group relative cursor-pointer rounded-xl px-4 py-3 text-sm font-medium transition-all duration-300 text-gray-600 hover:bg-gray-100 hover:text-gray-900">
                             <span class="inline-flex items-center gap-2">
-                                Automations
+                                {!! __('welcome.discover.tab_support') !!}
                                 <span id="automationNotification" class="relative inline-flex h-2.5 w-2.5">
                                     <span
                                         class="absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75 animate-ping"></span>
@@ -377,23 +521,23 @@
                             </span>
                         </button>
                         <button type="button" data-tab="reports"
-                            class="tab-button group relative cursor-pointer rounded-xl px-4 py-3 text-sm font-medium transition-all duration-300 text-gray-600 hover:bg-gray-100 hover:text-gray-900">
-                            Reports
+                            class="tab-button discover-tab group relative cursor-pointer rounded-xl px-4 py-3 text-sm font-medium transition-all duration-300 text-gray-600 hover:bg-gray-100 hover:text-gray-900">
+                            {!! __('welcome.discover.tab_analytics') !!}
                         </button>
                     </div>
                 </div>
 
                 {{-- Image container --}}
                 <div class="m-0 w-full max-w-[1800px] p-0">
-                    <img id="discoverImage" src="https://placehold.co/1200x800/dbeafe/1e40af?text=Ticket+View"
-                        alt="Ticket View"
+                    <img id="discoverImage" src="{{ asset('images/site%20photos/student-dashboard.png') }}"
+                        alt="{{ __('welcome.discover.alt_student_list') }}"
                         class="m-0 block h-auto w-full rounded-lg shadow-lg p-0 transition-opacity duration-500" />
                 </div>
 
                 {{-- CTA --}}
                 <a href="#register"
                     class="mt-14 inline-flex items-center gap-2 rounded-xl px-10 py-3.5 text-base font-bold text-white transition-all duration-300 hover:-translate-y-0.5 hover:scale-[1.01] bg-red-600 hover:bg-red-500">
-                    <span>Get Started Today</span>
+                    <span>{!! __('welcome.discover.cta') !!}</span>
                     <span aria-hidden="true">→</span>
                 </a>
             </div>
@@ -401,56 +545,63 @@
 
         <script>
             (function () {
-                // Tab configuration
-                const tabs = ['ticketList', 'ticketView', 'automations', 'reports'];
+                const section = document.getElementById('discoverSection');
+                if (!section) return;
+
                 const imageMap = {
-                    ticketList: 'https://placehold.co/1200x800/e2e8f0/64748b?text=Ticket+List',
-                    ticketView: 'https://placehold.co/1200x800/dbeafe/1e40af?text=Ticket+View',
-                    automations: 'https://placehold.co/1200x800/d1fae5/065f46?text=Automations',
-                    reports: 'https://placehold.co/1200x800/fef3c7/854d0e?text=Reports'
+                    ticketList: '{{ asset("images/site%20photos/student-dashboard.png") }}',
+                    ticketView: '{{ asset("images/site%20photos/user-view.png") }}',
+                    automations: '{{ asset("images/site%20photos/company-support.png") }}',
+                    reports: '{{ asset("images/site%20photos/company-analytics.png") }}'
                 };
 
                 const altTextMap = {
-                    ticketList: 'Ticket List View',
-                    ticketView: 'Ticket Detail View',
-                    automations: 'Automations Dashboard',
-                    reports: 'Reports Analytics'
+                    ticketList: @json(__('welcome.discover.alt_student_list')),
+                    ticketView: @json(__('welcome.discover.alt_student_profile')),
+                    automations: @json(__('welcome.discover.alt_support')),
+                    reports: @json(__('welcome.discover.alt_analytics'))
                 };
 
-                let currentTab = 'ticketView';
-                let isTransitioning = false;
+                let currentTab = 'ticketList';
+                let transitionTimeout = null;
+                let resetTimeout = null;
 
                 // Get elements
-                const imageElement = document.getElementById('discoverImage');
-                const buttons = document.querySelectorAll('.tab-button');
+                const imageElement = section.querySelector('#discoverImage');
+                const buttons = section.querySelectorAll('.tab-button');
                 const automationNotification = document.getElementById('automationNotification');
+
+                if (!imageElement) return;
 
                 // Function to switch tabs
                 function switchTab(tab) {
-                    if (isTransitioning || currentTab === tab) return;
+                    if (currentTab === tab) return;
+
+                    if (transitionTimeout) {
+                        clearTimeout(transitionTimeout);
+                    }
+
+                    if (resetTimeout) {
+                        clearTimeout(resetTimeout);
+                    }
 
                     // Handle automation notification
                     if (tab === 'automations' && automationNotification) {
                         automationNotification.style.display = 'none';
                     }
 
-                    isTransitioning = true;
-
                     // Fade out
                     imageElement.style.opacity = '0';
 
                     // Change image after fade out
-                    setTimeout(() => {
+                    transitionTimeout = setTimeout(() => {
                         currentTab = tab;
                         imageElement.src = imageMap[tab];
                         imageElement.alt = altTextMap[tab];
 
                         // Fade in
-                        setTimeout(() => {
+                        resetTimeout = setTimeout(() => {
                             imageElement.style.opacity = '1';
-                            setTimeout(() => {
-                                isTransitioning = false;
-                            }, 100);
                         }, 50);
                     }, 300);
 
@@ -460,14 +611,28 @@
 
                 // Update button active styles
                 function updateButtonStyles(activeTab) {
+                    const darkMode = document.body.classList.contains('page-dark');
+
                     buttons.forEach(button => {
                         const tabName = button.getAttribute('data-tab');
                         if (tabName === activeTab) {
+                            button.classList.add('is-active');
                             button.classList.remove('text-gray-600', 'hover:bg-gray-100', 'hover:text-gray-900');
-                            button.classList.add('bg-gray-900', 'text-white', 'shadow-[0_10px_24px_-14px_rgba(0,0,0,0.5)]');
+                            if (darkMode) {
+                                button.classList.add('bg-gray-900', 'text-white', 'shadow-[0_10px_24px_-14px_rgba(0,0,0,0.5)]');
+                                button.classList.remove('bg-white', 'text-gray-900');
+                            } else {
+                                button.classList.add('bg-gray-900', 'text-white', 'shadow-[0_10px_24px_-14px_rgba(0,0,0,0.5)]');
+                            }
                         } else {
+                            button.classList.remove('is-active');
                             button.classList.remove('bg-gray-900', 'text-white', 'shadow-[0_10px_24px_-14px_rgba(0,0,0,0.5)]');
-                            button.classList.add('text-gray-600', 'hover:bg-gray-100', 'hover:text-gray-900');
+                            if (darkMode) {
+                                button.classList.remove('text-gray-600', 'hover:bg-gray-100', 'hover:text-gray-900');
+                                button.classList.add('bg-white', 'text-gray-900');
+                            } else {
+                                button.classList.add('text-gray-600', 'hover:bg-gray-100', 'hover:text-gray-900');
+                            }
                         }
                     });
                 }
@@ -480,9 +645,14 @@
                     });
                 });
 
+                updateButtonStyles(currentTab);
+
+                window.addEventListener('page-dark-mode-change', () => {
+                    updateButtonStyles(currentTab);
+                });
+
                 // Intersection Observer for reveal animation
-                const section = document.getElementById('discoverSection');
-                if (section) {
+                if ('IntersectionObserver' in window) {
                     section.style.opacity = '0';
                     section.style.transform = 'translateY(2rem)';
                     section.style.filter = 'blur(4px)';
@@ -500,19 +670,24 @@
                     }, { threshold: 0.1 });
 
                     observer.observe(section);
+                } else {
+                    section.style.opacity = '1';
+                    section.style.transform = 'none';
+                    section.style.filter = 'none';
                 }
 
                 // Set initial image opacity
-                if (imageElement) {
-                    imageElement.style.opacity = '1';
-                    imageElement.style.transition = 'opacity 0.3s ease-in-out';
-                }
+                imageElement.style.opacity = '1';
+                imageElement.style.transition = 'opacity 0.3s ease-in-out';
             })();
         </script>
     </section>
 
 
 
+    {{-- ═══════════════════════════════════════════════════════════════════
+    Feature Section 1 — Student Portal
+    ═══════════════════════════════════════════════════════════════════ --}}
     <section class="bg-white py-20 px-6 overflow-hidden" style="font-family: 'Plus Jakarta Sans', sans-serif;">
 
         <div class="max-w-6xl mx-auto">
@@ -520,8 +695,7 @@
             {{-- Section Headline --}}
             <h2
                 class="text-4xl md:text-5xl font-extrabold text-gray-900 text-center leading-tight tracking-tight mb-16  mx-auto">
-                Propel your business forward<br>
-                with Zixflow's Unified Workspace
+                {!! __('welcome.student_portal.pre_heading') !!}
             </h2>
 
             {{-- Two Column Layout --}}
@@ -533,26 +707,23 @@
                     {{-- Badge --}}
                     <span
                         class="inline-block bg-emerald-100 text-emerald-700 text-xs font-semibold px-3 py-1 rounded-full mb-5">
-                        CRM platform
+                        {!! __('welcome.student_portal.badge') !!}
                     </span>
 
                     {{-- Heading --}}
                     <h3 class="text-3xl md:text-4xl font-extrabold text-gray-900 leading-snug mb-4">
-                        One hub for all<br>relationships
+                        {!! __('welcome.student_portal.heading') !!}
                     </h3>
 
                     {{-- Description --}}
                     <p class="text-sm text-gray-500 leading-relaxed mb-6">
-                        Manage sales, recruiting, partnerships, fundraising, &amp; more.
-                        Accelerate prospecting with LinkedIn Extension. Easily find and
-                        validate emails. Streamline your deal pipeline workflow and
-                        outreach efforts all from a single platform.
+                        {!! __('welcome.student_portal.desc') !!}
                     </p>
 
                     {{-- CTA Link --}}
                     <a href="#"
                         class="inline-flex items-center gap-1.5 text-sm font-semibold text-gray-900 hover:gap-3 transition-all duration-200">
-                        Explore
+                        {!! __('welcome.student_portal.cta') !!}
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor" stroke-width="2.5">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
@@ -584,9 +755,9 @@
                             <span class="w-2.5 h-2.5 rounded-full bg-[#444444]"></span>
                         </div>
 
-                        {{-- Empty image — fill later --}}
-                        <img src="https://camo.githubusercontent.com/3d004ee15396cac40d9fe6575c9054ea6b741ed2769badccc1ef1376766530e9/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f637265617469766574696d5f6275636b65742f6769746875622f6769662f626c61636b2d64617368626f6172642e676966"
-                            alt="CRM platform preview" class="w-full block object-cover object-top" />
+                        <img src="{{ asset('images/Gifs/vid12.gif') }}" alt="Student portal preview"
+                            class="w-full block object-cover object-top" />
+
 
                     </div>
 
@@ -598,11 +769,12 @@
 
     </section>
 
+    {{-- ═══════════════════════════════════════════════════════════════════
+    Feature Section 2 — Company Portal
+    ═══════════════════════════════════════════════════════════════════ --}}
     <section class="bg-white py-20 px-6 overflow-hidden" style="font-family: 'Plus Jakarta Sans', sans-serif;">
 
         <div class="max-w-6xl mx-auto">
-
-
 
             {{-- Two Column Layout --}}
             <div class="flex flex-col md:flex-row items-center gap-12 md:gap-16">
@@ -612,27 +784,24 @@
 
                     {{-- Badge --}}
                     <span
-                        class="inline-block bg-emerald-100 text-emerald-700 text-xs font-semibold px-3 py-1 rounded-full mb-5">
-                        CRM platform
+                        class="inline-block bg-blue-100 text-blue-700 text-xs font-semibold px-3 py-1 rounded-full mb-5">
+                        {!! __('welcome.company_portal.badge') !!}
                     </span>
 
                     {{-- Heading --}}
                     <h3 class="text-3xl md:text-4xl font-extrabold text-gray-900 leading-snug mb-4">
-                        One hub for all<br>relationships
+                        {!! __('welcome.company_portal.heading') !!}
                     </h3>
 
                     {{-- Description --}}
                     <p class="text-sm text-gray-500 leading-relaxed mb-6">
-                        Manage sales, recruiting, partnerships, fundraising, &amp; more.
-                        Accelerate prospecting with LinkedIn Extension. Easily find and
-                        validate emails. Streamline your deal pipeline workflow and
-                        outreach efforts all from a single platform.
+                        {!! __('welcome.company_portal.desc') !!}
                     </p>
 
                     {{-- CTA Link --}}
                     <a href="#"
                         class="inline-flex items-center gap-1.5 text-sm font-semibold text-gray-900 hover:gap-3 transition-all duration-200">
-                        Explore
+                        {!! __('welcome.company_portal.cta') !!}
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor" stroke-width="2.5">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
@@ -664,9 +833,8 @@
                             <span class="w-2.5 h-2.5 rounded-full bg-[#444444]"></span>
                         </div>
 
-                        {{-- Empty image — fill later --}}
-                        <img src="https://camo.githubusercontent.com/3d004ee15396cac40d9fe6575c9054ea6b741ed2769badccc1ef1376766530e9/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f637265617469766574696d5f6275636b65742f6769746875622f6769662f626c61636b2d64617368626f6172642e676966"
-                            alt="CRM platform preview" class="w-full block object-cover object-top" />
+                        <img src="{{ asset('images/Gifs/dash.gif') }}" alt="Company recruitment dashboard preview"
+                            class="w-full block object-cover object-top" />
 
                     </div>
 
@@ -678,11 +846,12 @@
 
     </section>
 
+    {{-- ═══════════════════════════════════════════════════════════════════
+    Feature Section 3 — Admin Portal
+    ═══════════════════════════════════════════════════════════════════ --}}
     <section class="bg-white py-20 px-6 overflow-hidden" style="font-family: 'Plus Jakarta Sans', sans-serif;">
 
         <div class="max-w-6xl mx-auto">
-
-
 
             {{-- Two Column Layout --}}
             <div class="flex flex-col md:flex-row items-center gap-12 md:gap-16">
@@ -692,27 +861,24 @@
 
                     {{-- Badge --}}
                     <span
-                        class="inline-block bg-emerald-100 text-emerald-700 text-xs font-semibold px-3 py-1 rounded-full mb-5">
-                        CRM platform
+                        class="inline-block bg-purple-100 text-purple-700 text-xs font-semibold px-3 py-1 rounded-full mb-5">
+                        {!! __('welcome.admin_portal.badge') !!}
                     </span>
 
                     {{-- Heading --}}
                     <h3 class="text-3xl md:text-4xl font-extrabold text-gray-900 leading-snug mb-4">
-                        One hub for all<br>relationships
+                        {!! __('welcome.admin_portal.heading') !!}
                     </h3>
 
                     {{-- Description --}}
                     <p class="text-sm text-gray-500 leading-relaxed mb-6">
-                        Manage sales, recruiting, partnerships, fundraising, &amp; more.
-                        Accelerate prospecting with LinkedIn Extension. Easily find and
-                        validate emails. Streamline your deal pipeline workflow and
-                        outreach efforts all from a single platform.
+                        {!! __('welcome.admin_portal.desc') !!}
                     </p>
 
                     {{-- CTA Link --}}
                     <a href="#"
                         class="inline-flex items-center gap-1.5 text-sm font-semibold text-gray-900 hover:gap-3 transition-all duration-200">
-                        Explore
+                        {!! __('welcome.admin_portal.cta') !!}
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor" stroke-width="2.5">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
@@ -744,9 +910,8 @@
                             <span class="w-2.5 h-2.5 rounded-full bg-[#444444]"></span>
                         </div>
 
-                        {{-- Empty image — fill later --}}
-                        <img src="https://camo.githubusercontent.com/3d004ee15396cac40d9fe6575c9054ea6b741ed2769badccc1ef1376766530e9/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f637265617469766574696d5f6275636b65742f6769746875622f6769662f626c61636b2d64617368626f6172642e676966"
-                            alt="CRM platform preview" class="w-full block object-cover object-top" />
+                        <img src="{{ asset('images/Gifs/alalitics.gif') }}" alt="Admin analytics dashboard preview"
+                            class="w-full block object-cover object-top" />
 
                     </div>
 
@@ -760,6 +925,9 @@
 
 
 
+    {{-- ═══════════════════════════════════════════════════════════════════
+    Two-Column Feature Cards — Source & Evaluate
+    ═══════════════════════════════════════════════════════════════════ --}}
     <section class="bg-white py-20 px-6 overflow-hidden relative" style="font-family: 'Plus Jakarta Sans', sans-serif;">
 
         {{-- Decorative scattered shapes --}}
@@ -780,44 +948,41 @@
             {{-- Section Headline --}}
             <h2
                 class="text-4xl md:text-5xl font-extrabold text-gray-900 text-center leading-tight tracking-tight mb-16 mx-auto">
-                Manage your entire process<br>
-
-                and management
+                {!! __('welcome.lifecycle.main_heading') !!}
             </h2>
 
             {{-- Two Columns --}}
             <div class="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-14">
 
-                {{-- Column 1: Source & Attract --}}
+                {{-- Column 1: Post & Attract --}}
                 <div class="flex flex-col">
 
                     {{-- Image Placeholder --}}
                     <div class="w-full rounded-2xl overflow-hidden mb-8 bg-gray-50" style="min-height: 300px;">
-                        <img src="https://webimages.zixflow.com/sendflow_b0f9ce3ee5.webp"
-                            alt="Source and attract candidates" class="w-full h-full object-cover block"
+                        <img src="https://webimages.zixflow.com/sendflow_b0f9ce3ee5.webp" alt="Post and attract interns"
+                            class="w-full h-full object-cover block"
                             style="min-height: 300px; background-color: #f9fafb;" />
                     </div>
 
                     {{-- Label --}}
                     <span class="text-orange-500 text-xs font-bold uppercase tracking-widest mb-3">
-                        Source &amp; Attract
+                        {!! __('welcome.lifecycle.post_badge') !!}
                     </span>
 
                     {{-- Heading --}}
                     <h3 class="text-2xl md:text-3xl font-extrabold text-gray-900 leading-snug mb-3">
-                        Find and attract<br>candidates
+                        {!! __('welcome.lifecycle.post_heading') !!}
                     </h3>
 
                     {{-- Description --}}
                     <p class="text-sm text-gray-500 leading-relaxed mb-5 max-w-sm">
-                        Fill your pipeline quickly with one-click job posting to 200+ sites, AI-powered sourcing,
-                        employee referrals and more.
+                        {!! __('welcome.lifecycle.post_desc') !!}
                     </p>
 
                     {{-- CTA --}}
                     <a href="#"
                         class="inline-flex items-center gap-1.5 text-xs font-bold text-blue-600 uppercase tracking-wider hover:gap-3 transition-all duration-200">
-                        Learn More
+                        {!! __('welcome.lifecycle.post_cta') !!}
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor" stroke-width="2.5">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
@@ -826,36 +991,35 @@
 
                 </div>
 
-                {{-- Column 2: Evaluate & Collaborate --}}
+                {{-- Column 2: Review & Place --}}
                 <div class="flex flex-col">
 
                     {{-- Image Placeholder --}}
                     <div class="w-full rounded-2xl overflow-hidden mb-8 bg-gray-50" style="min-height: 300px;">
-                        <img src="https://webimages.zixflow.com/engage_45f5571a0b.webp" alt="Evaluate and collaborate"
-                            class="w-full h-full object-cover block"
+                        <img src="https://webimages.zixflow.com/engage_45f5571a0b.webp"
+                            alt="Review and place applicants" class="w-full h-full object-cover block"
                             style="min-height: 300px; background-color: #f9fafb;" />
                     </div>
 
                     {{-- Label --}}
                     <span class="text-blue-500 text-xs font-bold uppercase tracking-widest mb-3">
-                        Evaluate &amp; Collaborate
+                        {!! __('welcome.lifecycle.review_badge') !!}
                     </span>
 
                     {{-- Heading --}}
                     <h3 class="text-2xl md:text-3xl font-extrabold text-gray-900 leading-snug mb-3">
-                        Move the right<br>applicants forward
+                        {!! __('welcome.lifecycle.review_heading') !!}
                     </h3>
 
                     {{-- Description --}}
                     <p class="text-sm text-gray-500 leading-relaxed mb-5 max-w-sm">
-                        Collaborate with hiring teams to evaluate applicants, gather feedback and decide who's best,
-                        all in one recruiting system.
+                        {!! __('welcome.lifecycle.review_desc') !!}
                     </p>
 
                     {{-- CTA --}}
                     <a href="#"
                         class="inline-flex items-center gap-1.5 text-xs font-bold text-blue-600 uppercase tracking-wider hover:gap-3 transition-all duration-200">
-                        Learn More
+                        {!! __('welcome.lifecycle.review_cta') !!}
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor" stroke-width="2.5">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
@@ -871,6 +1035,9 @@
     </section>
 
 
+    {{-- ═══════════════════════════════════════════════════════════════════
+    Global Stats Section — Dark Wave
+    ═══════════════════════════════════════════════════════════════════ --}}
     <section class="bg-white overflow-hidden relative" style="font-family: 'Plus Jakarta Sans', sans-serif;">
 
         {{-- ===================== --}}
@@ -1008,18 +1175,17 @@
                 style="padding: 180px 6% 80px 52%;">
 
                 <h2 class="text-3xl md:text-4xl font-extrabold text-white leading-snug mb-4">
-                    Where great companies<br>hire great people
+                    {!! __('welcome.stats.main_heading') !!}
                 </h2>
 
                 <p class="text-sm text-indigo-200 leading-relaxed mb-10 max-w-xs">
-                    Since 2012, the world's best companies have depended on this platform to find and hire the
-                    people they depend on.
+                    {!! __('welcome.stats.desc') !!}
                 </p>
 
                 {{-- Stats --}}
                 <div class="flex flex-col gap-6">
 
-                    {{-- 27,000 Companies --}}
+                    {{-- 5,000+ Companies --}}
                     <div class="flex items-center gap-4">
                         <div
                             class="w-10 h-10 rounded-full border-2 border-indigo-400 flex items-center justify-center flex-shrink-0">
@@ -1030,13 +1196,16 @@
                             </svg>
                         </div>
                         <div>
-                            <div class="text-3xl font-extrabold text-white leading-none">27,000</div>
+                            <div class="text-3xl font-extrabold text-white leading-none">
+                                {!! __('welcome.stats.stat1_num') !!}
+                            </div>
                             <div class="text-xs font-bold text-indigo-300 uppercase tracking-widest mt-0.5">
-                                Companies</div>
+                                {!! __('welcome.stats.stat1_label') !!}
+                            </div>
                         </div>
                     </div>
 
-                    {{-- 1,500,000 Hires --}}
+                    {{-- 80,000+ Placements --}}
                     <div class="flex items-center gap-4">
                         <div
                             class="w-10 h-10 rounded-full border-2 border-indigo-400 flex items-center justify-center flex-shrink-0">
@@ -1047,13 +1216,16 @@
                             </svg>
                         </div>
                         <div>
-                            <div class="text-3xl font-extrabold text-white leading-none">1,500,000</div>
-                            <div class="text-xs font-bold text-indigo-300 uppercase tracking-widest mt-0.5">Hires
+                            <div class="text-3xl font-extrabold text-white leading-none">
+                                {!! __('welcome.stats.stat2_num') !!}
+                            </div>
+                            <div class="text-xs font-bold text-indigo-300 uppercase tracking-widest mt-0.5">
+                                {!! __('welcome.stats.stat2_label') !!}
                             </div>
                         </div>
                     </div>
 
-                    {{-- 160,000,000 Candidates --}}
+                    {{-- 250,000+ Students --}}
                     <div class="flex items-center mb-10 gap-4">
                         <div
                             class="w-10 h-10 rounded-full border-2 border-indigo-400 flex items-center justify-center flex-shrink-0">
@@ -1064,9 +1236,12 @@
                             </svg>
                         </div>
                         <div>
-                            <div class="text-3xl font-extrabold text-white leading-none">160,000,000</div>
+                            <div class="text-3xl font-extrabold text-white leading-none">
+                                {!! __('welcome.stats.stat3_num') !!}
+                            </div>
                             <div class="text-xs font-bold text-indigo-300 uppercase tracking-widest mt-0.5">
-                                Candidates</div>
+                                {!! __('welcome.stats.stat3_label') !!}
+                            </div>
                         </div>
                     </div>
 
@@ -1111,7 +1286,7 @@
                     <div class="md:w-2/5 flex items-center justify-center md:justify-start">
                         <p
                             class="text-2xl md:text-3xl font-extrabold text-indigo-900 leading-snug text-center md:text-left">
-                            Navarro<br>reduces time to<br>hire by 50%
+                            {!! __('welcome.stats.testimonial_stat') !!}
                         </p>
                     </div>
 
@@ -1121,20 +1296,21 @@
                     {{-- Right: Quote --}}
                     <div class="md:w-3/5 flex flex-col justify-between">
                         <p class="text-sm text-gray-700 leading-relaxed mb-5 italic">
-                            "We've been filling positions a lot faster because our managers are now involved in the
-                            hiring process. So far we've made 150 hires in 6 months and we've reduced our time to
-                            hire from 50 days to 26."
+                            {!! __('welcome.stats.testimonial_quote') !!}
                         </p>
 
                         {{-- Person --}}
                         <div class="flex items-center gap-3">
                             <div class="w-10 h-10 rounded-full bg-gray-200 overflow-hidden flex-shrink-0">
-                                <img src="" alt="Jason Lesher" class="w-full h-full object-cover"
+                                <img src="https://img.magnific.com/free-photo/young-bearded-man-with-striped-shirt_273609-5677.jpg?semt=ais_hybrid&w=740&q=80"
+                                    alt="Sara Benali" class="w-full h-full object-cover"
                                     style="background-color: #e5e7eb;" />
                             </div>
                             <div>
-                                <div class="text-xs font-bold text-gray-900">Jason Lesher</div>
-                                <div class="text-xs text-gray-500">VP of Talent Acquisition, Navarro</div>
+                                <div class="text-xs font-bold text-gray-900">
+                                    {!! __('welcome.stats.testimonial_author') !!}
+                                </div>
+                                <div class="text-xs text-gray-500">{!! __('welcome.stats.testimonial_role') !!}</div>
                             </div>
                         </div>
                     </div>
@@ -1145,7 +1321,7 @@
                 <div class="relative z-10 border-t border-gray-100 px-10 py-4 flex justify-center">
                     <a href="#"
                         class="inline-flex items-center gap-1.5 text-xs font-bold text-cyan-600 uppercase tracking-widest hover:gap-3 transition-all duration-200">
-                        See More Customer Stories
+                        {!! __('welcome.stats.cta_more') !!}
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor" stroke-width="2.5">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
@@ -1156,24 +1332,17 @@
                 {{-- Logo Strip --}}
                 <div
                     class="relative z-10 border-t border-gray-100 px-10 py-5 flex items-center justify-between gap-4 flex-wrap">
-                    {{-- Square Enix --}}
-                    <span class="text-xs font-extrabold text-gray-700 uppercase tracking-widest">Square Enix</span>
-                    {{-- Lyst --}}
-                    <span class="text-sm font-bold text-gray-700 uppercase tracking-wider">LYST</span>
-                    {{-- Ryanair --}}
-                    <span class="text-xs font-bold text-gray-700 uppercase tracking-wider">✈ Ryanair</span>
-                    {{-- Moodle --}}
-                    <span class="text-sm font-bold text-orange-500 tracking-wide">moodle</span>
-                    {{-- Dribbble --}}
-                    <span class="text-sm font-bold text-pink-500 tracking-wide">dribbble</span>
-                    {{-- Joey Restaurants --}}
-                    <span class="text-xs font-bold text-gray-700 uppercase tracking-wide">Joey Restaurants</span>
-                    {{-- Bevi --}}
+                    <span class="text-xs font-extrabold text-gray-700 uppercase tracking-widest">MIT</span>
+                    <span class="text-sm font-bold text-gray-700 uppercase tracking-wider">HARVARD</span>
+                    <span class="text-xs font-bold text-gray-700 uppercase tracking-wider">✦ Stanford</span>
+                    <span class="text-sm font-bold text-orange-500 tracking-wide">Google</span>
+                    <span class="text-sm font-bold text-pink-500 tracking-wide">Airbnb</span>
+                    <span class="text-xs font-bold text-gray-700 uppercase tracking-wide">Microsoft</span>
                     <div class="flex items-center gap-1">
                         <div class="w-4 h-4 rounded-full bg-blue-500 flex items-center justify-center">
                             <div class="w-2 h-2 rounded-full bg-white"></div>
                         </div>
-                        <span class="text-sm font-bold text-blue-600 tracking-wide">bevi</span>
+                        <span class="text-sm font-bold text-blue-600 tracking-wide">IBM</span>
                     </div>
                 </div>
 
@@ -1200,90 +1369,93 @@
     </section>
 
 
-    <section class="bg-white py-20 px-6" style="font-family: 'Plus Jakarta Sans', sans-serif;">
+    {{-- ═══════════════════════════════════════════════════════════════════
+    Our Philosophy Section
+    ═══════════════════════════════════════════════════════════════════ --}}
+    <section class="bg-white dark:bg-gray-900 py-20 px-6" style="font-family: 'Plus Jakarta Sans', sans-serif;">
 
         <div class="max-w-5xl mx-auto">
-            <div class="flex flex-col md:flex-row gap-16 items-start">
+            {{-- Centered heading above both columns --}}
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-extrabold text-gray-900 dark:text-white leading-tight mb-4">
+                    {!! __('welcome.philosophy.main_heading') !!}
+                </h2>
+                <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed max-w-2xl mx-auto">
+                    {!! __('welcome.philosophy.intro1') !!}
+                </p>
+                <p class="text-xs text-gray-500 dark:text-gray-500 mt-2">{!! __('welcome.philosophy.intro2') !!}</p>
+            </div>
+
+            <div class="flex flex-col md:flex-row gap-16 items-start justify-center">
 
                 {{-- ===================== --}}
                 {{-- Left: Text Content --}}
                 {{-- ===================== --}}
-                <div class="flex-1 max-w-lg">
-
-                    {{-- Main Heading --}}
-                    <h2 class="text-3xl md:text-4xl font-extrabold text-gray-900 leading-tight mb-4">
-                        Our take on HR software
-                    </h2>
-
-                    {{-- Intro --}}
-                    <p class="text-sm text-gray-600 leading-relaxed mb-6">
-                        At Workable, we believe HR software should work for you, not against you.
-                    </p>
-
-                    <p class="text-xs text-gray-500 mb-8">Here's what that means to us:</p>
+                <div class="flex-1 max-w-lg mx-auto md:mx-0">
 
                     {{-- Points --}}
                     <div class="flex flex-col gap-8">
 
                         {{-- 1 --}}
                         <div>
-                            <h4 class="text-sm font-bold text-gray-900 mb-2">No smoke and mirrors</h4>
-                            <p class="text-sm text-gray-600 leading-relaxed">
-                                Most HR software vendors hide their pricing.
-                                <a href="#" class="text-teal-600 hover:underline">We don't. It's right there on our
-                                    website.</a>
-                                Our trial isn't a neutered demo — it's our full product. We figure if we're not
-                                willing to be upfront before you buy, why would you trust us after?
+                            <h4 class="text-sm font-bold text-gray-900 dark:text-white mb-2">
+                                {!! __('welcome.philosophy.point1_title') !!}
+                            </h4>
+                            <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                                {!! __('welcome.philosophy.point1_desc_pt1') !!}
+                                <a href="#"
+                                    class="text-teal-600 dark:text-teal-400 hover:underline">{!! __('welcome.philosophy.point1_desc_link') !!}</a>
+                                {!! __('welcome.philosophy.point1_desc_pt2') !!}
                             </p>
                         </div>
 
                         {{-- 2 --}}
                         <div>
-                            <h4 class="text-sm font-bold text-gray-900 mb-2">Simplicity isn't simple</h4>
-                            <p class="text-sm text-gray-600 leading-relaxed">
-                                Our software feels easy because we've done the hard work. Under the hood, it's
-                                complex and powerful. But you don't need to know that. You just need to know it
-                                works.
-                                <a href="#" class="text-teal-600 hover:underline">We use great design and AI to hide
-                                    the complexity, not to dumb things down.</a>
+                            <h4 class="text-sm font-bold text-gray-900 dark:text-white mb-2">
+                                {!! __('welcome.philosophy.point2_title') !!}
+                            </h4>
+                            <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                                {!! __('welcome.philosophy.point2_desc_pt1') !!}
+                                <a href="#"
+                                    class="text-teal-600 dark:text-teal-400 hover:underline">{!! __('welcome.philosophy.point2_desc_link') !!}</a>
                             </p>
                         </div>
 
                         {{-- 3 --}}
                         <div>
-                            <h4 class="text-sm font-bold text-gray-900 mb-2">Software shouldn't be a second job</h4>
-                            <p class="text-sm text-gray-600 leading-relaxed">
-                                You've got enough on your plate. Your HR software shouldn't add to it. We've made
-                                sure our platform plugs into your existing tools, comes with expert support, and
-                                doesn't require a PhD to implement.
-                                <a href="#" class="text-teal-600 hover:underline">Because your job is to run your
-                                    business, not to become an expert in our software.</a>
+                            <h4 class="text-sm font-bold text-gray-900 dark:text-white mb-2">
+                                {!! __('welcome.philosophy.point3_title') !!}
+                            </h4>
+                            <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                                {!! __('welcome.philosophy.point3_desc_pt1') !!}
+                                <a href="#"
+                                    class="text-teal-600 dark:text-teal-400 hover:underline">{!! __('welcome.philosophy.point3_desc_link') !!}</a>
                             </p>
                         </div>
 
                         {{-- 4 --}}
                         <div>
-                            <h4 class="text-sm font-bold text-gray-900 mb-2">AI isn't the future, it's now</h4>
-                            <p class="text-sm text-gray-600 leading-relaxed">
-                                We're not just slapping an AI chatbot onto old software and calling it a day. We're
-                                baking AI into every part of our platform. It's there when you need it, doing the
-                                heavy lifting in the background.
-                                <a href="#" class="text-teal-600 hover:underline">As AI evolves, so will our
-                                    platform.</a>
-                                We're committed to keeping you at the forefront of what's possible.
+                            <h4 class="text-sm font-bold text-gray-900 dark:text-white mb-2">
+                                {!! __('welcome.philosophy.point4_title') !!}
+                            </h4>
+                            <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                                {!! __('welcome.philosophy.point4_desc_pt1') !!}
+                                <a href="#"
+                                    class="text-teal-600 dark:text-teal-400 hover:underline">{!! __('welcome.philosophy.point4_desc_link') !!}</a>
+                                {!! __('welcome.philosophy.point4_desc_pt2') !!}
                             </p>
                         </div>
 
                         {{-- 5 --}}
                         <div>
-                            <h4 class="text-sm font-bold text-gray-900 mb-2">We solve real problems</h4>
-                            <p class="text-sm text-gray-600 leading-relaxed">
-                                Most HR software is full of features you'll never use. We focus on the stuff that
-                                actually moves the needle. More candidates. Less busywork. Real productivity gains.
-                                We're not here to give you a thousand buttons to push.
-                                <a href="#" class="text-teal-600 hover:underline">We're here to solve your biggest
-                                    HR headaches.</a>
-                                The rest is just noise.
+                            <h4 class="text-sm font-bold text-gray-900 dark:text-white mb-2">
+                                {!! __('welcome.philosophy.point5_title') !!}
+                            </h4>
+                            <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                                {!! __('welcome.philosophy.point5_desc_pt1') !!}
+                                <a href="#"
+                                    class="text-teal-600 dark:text-teal-400 hover:underline">{!! __('welcome.philosophy.point5_desc_link') !!}</a>
+                                {!! __('welcome.philosophy.point5_desc_pt2') !!}
                             </p>
                         </div>
 
@@ -1295,7 +1467,8 @@
                 {{-- ===================== --}}
                 <div class="w-full md:w-[340px] flex-shrink-0 sticky top-10 self-start">
                     <img src="https://www.workable.com/static/images/home/letter/our-take_2x.webp?v=82beb40de575443c46bfb1ad9bfd026e"
-                        alt="Our take on HR software illustration" class="w-full h-auto rounded-2xl object-cover" />
+                        alt="Our approach to internship management"
+                        class="w-full h-auto rounded-2xl object-cover shadow-lg" />
                 </div>
 
             </div>
@@ -1303,7 +1476,9 @@
 
     </section>
 
-
+    {{-- ═══════════════════════════════════════════════════════════════════
+    Final CTA Section — Dark
+    ═══════════════════════════════════════════════════════════════════ --}}
     <section class="relative bg-[#0d0d0f] overflow-hidden py-16 px-8 md:px-16 w-full"
         style="font-family: 'Plus Jakarta Sans', sans-serif; margin: 0; border-radius: 0;">
 
@@ -1437,17 +1612,15 @@
 
             {{-- Headline --}}
             <h2 class="text-4xl md:text-5xl font-extrabold text-white leading-tight tracking-tight">
-                <span class="inline-block bg-indigo-300/30 text-indigo-200 px-2 py-0.5 rounded-md mr-2">Zixflow</span>is
-                the only<br>
-                platform you'll ever<br>
-                need
+                <span
+                    class="inline-block bg-indigo-300/30 text-indigo-200 px-2 py-0.5 rounded-md mr-2">{!! __('welcome.final_cta.prefix') !!}</span>{!! __('welcome.final_cta.text') !!}
             </h2>
 
             {{-- Buttons --}}
             <div class="flex items-center gap-4 flex-shrink-0">
                 <a href="#"
                     class="inline-flex items-center gap-2 bg-white hover:bg-gray-100 text-gray-900 text-sm font-bold px-7 py-4 rounded-xl transition-all duration-200 shadow-lg whitespace-nowrap">
-                    Get started
+                    {!! __('welcome.final_cta.btn_started') !!}
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor" stroke-width="2.5">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
@@ -1455,7 +1628,7 @@
                 </a>
                 <a href="#"
                     class="inline-flex items-center gap-2 bg-transparent hover:bg-white/10 text-white text-sm font-bold px-7 py-4 rounded-xl border border-gray-600 hover:border-gray-400 transition-all duration-200 whitespace-nowrap">
-                    Book a demo
+                    {!! __('welcome.final_cta.btn_demo') !!}
                 </a>
             </div>
 

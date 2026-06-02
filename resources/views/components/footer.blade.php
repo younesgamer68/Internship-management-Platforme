@@ -104,36 +104,36 @@
 
             {{-- Col 1: Platform --}}
             <div>
-                <h5 class="text-white text-xs font-bold uppercase tracking-widest mb-4">Platform</h5>
+                <h5 class="text-white text-xs font-bold uppercase tracking-widest mb-4">{{ __('footer.sections.platform') }}</h5>
                 <ul class="flex flex-col gap-2.5">
-                    <li><a href="#" class="text-gray-400 hover:text-white text-sm transition-colors duration-150">CRM</a></li>
-                    <li><a href="#" class="text-gray-400 hover:text-white text-sm transition-colors duration-150">Marketing</a></li>
-                    <li><a href="#" class="text-gray-400 hover:text-white text-sm transition-colors duration-150">Engagement</a></li>
-                    <li><a href="#" class="text-gray-400 hover:text-white text-sm transition-colors duration-150">Automation</a></li>
-                    <li><a href="#" class="text-gray-400 hover:text-white text-sm transition-colors duration-150">Forms</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white text-sm transition-colors duration-150">{{ __('footer.links.crm') }}</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white text-sm transition-colors duration-150">{{ __('footer.links.marketing') }}</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white text-sm transition-colors duration-150">{{ __('footer.links.engagement') }}</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white text-sm transition-colors duration-150">{{ __('footer.links.automation') }}</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white text-sm transition-colors duration-150">{{ __('footer.links.forms') }}</a></li>
                 </ul>
             </div>
 
             {{-- Col 2: (no heading - continuation) --}}
             <div class="mt-7">
                 <ul class="flex flex-col gap-2.5">
-                    <li><a href="#" class="text-gray-400 hover:text-white text-sm transition-colors duration-150">SMS</a></li>
-                    <li><a href="#" class="text-gray-400 hover:text-white text-sm transition-colors duration-150">Email</a></li>
-                    <li><a href="#" class="text-gray-400 hover:text-white text-sm transition-colors duration-150">Whatsapp</a></li>
-                    <li><a href="#" class="text-gray-400 hover:text-white text-sm transition-colors duration-150">Email Validation</a></li>
-                    <li><a href="#" class="text-gray-400 hover:text-white text-sm transition-colors duration-150">Email Finder</a></li>
-                    <li><a href="#" class="text-gray-400 hover:text-white text-sm transition-colors duration-150">Inbox</a></li>
-                    <li><a href="#" class="text-gray-400 hover:text-white text-sm transition-colors duration-150">Zixflow AI</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white text-sm transition-colors duration-150">{{ __('footer.links.sms') }}</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white text-sm transition-colors duration-150">{{ __('footer.links.email') }}</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white text-sm transition-colors duration-150">{{ __('footer.links.whatsapp') }}</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white text-sm transition-colors duration-150">{{ __('footer.links.email_validation') }}</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white text-sm transition-colors duration-150">{{ __('footer.links.email_finder') }}</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white text-sm transition-colors duration-150">{{ __('footer.links.inbox') }}</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white text-sm transition-colors duration-150">{{ __('footer.links.zixflow_ai') }}</a></li>
                 </ul>
             </div>
 
             {{-- Col 3: (no heading - continuation) --}}
             <div class="mt-7">
                 <ul class="flex flex-col gap-2.5">
-                    <li><a href="#" class="text-gray-400 hover:text-white text-sm transition-colors duration-150">Templates</a></li>
-                    <li><a href="#" class="text-gray-400 hover:text-white text-sm transition-colors duration-150">Outbound Sales</a></li>
-                    <li><a href="#" class="text-gray-400 hover:text-white text-sm transition-colors duration-150">Inbound Sales</a></li>
-                    <li><a href="#" class="text-gray-400 hover:text-white text-sm transition-colors duration-150">Lead generation</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white text-sm transition-colors duration-150">{{ __('footer.links.templates') }}</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white text-sm transition-colors duration-150">{{ __('footer.links.outbound_sales') }}</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white text-sm transition-colors duration-150">{{ __('footer.links.inbound_sales') }}</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white text-sm transition-colors duration-150">{{ __('footer.links.lead_generation') }}</a></li>
                 </ul>
             </div>
 
@@ -142,29 +142,29 @@
 
             {{-- Col 5: Company --}}
             <div>
-                <h5 class="text-white text-xs font-bold uppercase tracking-widest mb-4">Company</h5>
+                <h5 class="text-white text-xs font-bold uppercase tracking-widest mb-4">{{ __('footer.sections.company') }}</h5>
                 <ul class="flex flex-col gap-2.5">
-                    <li><a href="#" class="text-gray-400 hover:text-white text-sm transition-colors duration-150">About us</a></li>
-                    <li><a href="#" class="text-gray-400 hover:text-white text-sm transition-colors duration-150">Careers</a></li>
-                    <li><a href="#" class="text-gray-400 hover:text-white text-sm transition-colors duration-150">Contact us</a></li>
-                    <li><a href="#" class="text-gray-400 hover:text-white text-sm transition-colors duration-150">Write Review</a></li>
-                    <li><a href="#" class="text-gray-400 hover:text-white text-sm transition-colors duration-150">Security</a></li>
-                    <li><a href="#" class="text-gray-400 hover:text-white text-sm transition-colors duration-150">Partners</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white text-sm transition-colors duration-150">{{ __('footer.links.about_us') }}</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white text-sm transition-colors duration-150">{{ __('footer.links.careers') }}</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white text-sm transition-colors duration-150">{{ __('footer.links.contact_us') }}</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white text-sm transition-colors duration-150">{{ __('footer.links.write_review') }}</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white text-sm transition-colors duration-150">{{ __('footer.links.security') }}</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white text-sm transition-colors duration-150">{{ __('footer.links.partners') }}</a></li>
                 </ul>
             </div>
 
             {{-- Col 6: Resources --}}
             <div>
-                <h5 class="text-white text-xs font-bold uppercase tracking-widest mb-4">Resources</h5>
+                <h5 class="text-white text-xs font-bold uppercase tracking-widest mb-4">{{ __('footer.sections.resources') }}</h5>
                 <ul class="flex flex-col gap-2.5">
-                    <li><a href="#" class="text-gray-400 hover:text-white text-sm transition-colors duration-150">Integrations</a></li>
-                    <li><a href="#" class="text-gray-400 hover:text-white text-sm transition-colors duration-150">Blog</a></li>
-                    <li><a href="#" class="text-gray-400 hover:text-white text-sm transition-colors duration-150">Video Tutorials</a></li>
-                    <li><a href="#" class="text-gray-400 hover:text-white text-sm transition-colors duration-150">Help center</a></li>
-                    <li><a href="#" class="text-gray-400 hover:text-white text-sm transition-colors duration-150">Developers</a></li>
-                    <li><a href="#" class="text-gray-400 hover:text-white text-sm transition-colors duration-150">Community</a></li>
-                    <li><a href="#" class="text-gray-400 hover:text-white text-sm transition-colors duration-150">For startups</a></li>
-                    <li><a href="#" class="text-gray-400 hover:text-white text-sm transition-colors duration-150">For enterprises</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white text-sm transition-colors duration-150">{{ __('footer.links.integrations') }}</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white text-sm transition-colors duration-150">{{ __('footer.links.blog') }}</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white text-sm transition-colors duration-150">{{ __('footer.links.video_tutorials') }}</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white text-sm transition-colors duration-150">{{ __('footer.links.help_center') }}</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white text-sm transition-colors duration-150">{{ __('footer.links.developers') }}</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white text-sm transition-colors duration-150">{{ __('footer.links.community') }}</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white text-sm transition-colors duration-150">{{ __('footer.links.for_startups') }}</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white text-sm transition-colors duration-150">{{ __('footer.links.for_enterprises') }}</a></li>
                 </ul>
             </div>
 

@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
@@ -27,9 +27,9 @@
 
 </head>
 
-<body x-data
+<body x-data="{ pageDarkMode: false, init() { window.pageDarkModeToggle = () => { $store.ui.showLoading(400); setTimeout(() => { $store.ui.darkMode = !$store.ui.darkMode }, 150) }; Alpine.effect(() => { const isDark = $store.ui.darkMode; this.pageDarkMode = isDark; window.pageDarkModeActive = isDark; document.body.classList.toggle('page-dark', isDark); window.dispatchEvent(new CustomEvent('page-dark-mode-change', { detail: { active: isDark } })); }); } }"
   class="welcome-body flex min-h-screen flex-col bg-[#ffffff] text-[#17494D] font-[Instrument_Sans,ui-sans-serif,system-ui,sans-serif] antialiased transition-colors duration-300"
-  :class="$store.ui.darkMode ? 'bg-black text-white' : 'bg-[#ffffff] text-[#17494D]'">
+  :class="pageDarkMode ? 'bg-black text-white' : 'bg-[#ffffff] text-[#17494D]'">
 
   <!-- Navigation -->
   <x-nav-bar />
@@ -217,7 +217,7 @@
           <div class="relative">
             <div class="rounded-3xl overflow-hidden shadow-2xl border-4 border-white">
               <img
-                src="https://cdn.prod.website-files.com/63eb3eaf146906eaa999e318/642d90c73077e2ced7d76141_Adult%20Learner%201%20(1).webp"
+                src="https://www.isixsigma.com/wp-content/uploads/2018/11/shutterstock_1687550977-scaled.jpg"
                 alt="Success metrics visual" class="w-full h-80 object-cover">
             </div>
             <div class="absolute -bottom-5 left-8 bg-white rounded-2xl shadow-xl px-6 py-4 border border-[#E5E7EB]">
@@ -258,17 +258,7 @@
           @endforeach
         </div>
 
-        {{-- Image row --}}
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-5 mt-12">
-          @for ($i = 0; $i < 4; $i++)
-            <div
-              class="rounded-2xl overflow-hidden shadow-md border border-[#E5E7EB] aspect-video hover:shadow-xl hover:scale-105 transition-all duration-300">
-              <img
-                src="https://cdn.prod.website-files.com/63eb3eaf146906eaa999e318/642d90c73077e2ced7d76141_Adult%20Learner%201%20(1).webp"
-                alt="InterLink moments" class="w-full h-full object-cover">
-            </div>
-          @endfor
-        </div>
+  
       </div>
     </section>
 
@@ -503,7 +493,7 @@
 
           <div class="rounded-3xl overflow-hidden shadow-xl border border-[#E5E7EB] relative group">
             <img
-              src="https://cdn.prod.website-files.com/63eb3eaf146906eaa999e318/642d90c73077e2ced7d76141_Adult%20Learner%201%20(1).webp"
+              src="https://img.freepik.com/free-photo/closeup-hands-using-computer-laptop-with-screen-showing-analysis-data_53876-23014.jpg"
               alt="Analytics visual"
               class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
             <div class="absolute inset-0 flex items-end p-6"
@@ -588,22 +578,7 @@
           @endforeach
         </div>
 
-        {{-- Images below timeline --}}
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-5">
-          @for ($i = 0; $i < 4; $i++)
-            <div class="group rounded-3xl overflow-hidden shadow-lg border border-[#E5E7EB] relative aspect-square">
-              <img
-                src="https://cdn.prod.website-files.com/63eb3eaf146906eaa999e318/642d90c73077e2ced7d76141_Adult%20Learner%201%20(1).webp"
-                alt="InterLink milestone {{ 2023 + $i }}"
-                class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
-              <div
-                class="absolute inset-0 flex items-end p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                style="background: linear-gradient(to top, rgba(0,177,170,.6), transparent)">
-                <p class="text-white text-sm font-bold">{{ 2023 + $i }}</p>
-              </div>
-            </div>
-          @endfor
-        </div>
+   
       </div>
     </section>
 
@@ -626,16 +601,7 @@
             <p class="text-[#666666] mt-5 leading-relaxed">The industries where InterLink is making the biggest impact —
               connecting talent with opportunity at scale.</p>
           </div>
-          <div class="grid grid-cols-3 gap-3">
-            @for ($i = 0; $i < 3; $i++)
-              <div
-                class="rounded-2xl overflow-hidden shadow-md border border-[#E5E7EB] aspect-square hover:scale-105 transition-transform duration-300">
-                <img
-                  src="https://cdn.prod.website-files.com/63eb3eaf146906eaa999e318/642d90c73077e2ced7d76141_Adult%20Learner%201%20(1).webp"
-                  alt="Sector visual" class="w-full h-full object-cover">
-              </div>
-            @endfor
-          </div>
+     
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -681,16 +647,7 @@
         </div>
 
         {{-- Image row --}}
-        <div class="grid grid-cols-3 md:grid-cols-6 gap-4 mt-12">
-          @for ($i = 0; $i < 6; $i++)
-            <div
-              class="rounded-2xl overflow-hidden shadow-md aspect-square hover:scale-105 transition-transform duration-300 border border-[#E5E7EB]">
-              <img
-                src="https://cdn.prod.website-files.com/63eb3eaf146906eaa999e318/642d90c73077e2ced7d76141_Adult%20Learner%201%20(1).webp"
-                alt="Sector photo" class="w-full h-full object-cover">
-            </div>
-          @endfor
-        </div>
+      
       </div>
     </section>
 
@@ -709,25 +666,14 @@
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center mb-16">
 
           {{-- Left image collage --}}
-          <div class="grid grid-cols-2 gap-4">
-            <div class="rounded-3xl overflow-hidden shadow-xl border border-[#E5E7EB] row-span-2 relative group">
+          <div class="">
+            <div class="rounded-3xl overflow-hidden shadow-xl border border-[#E5E7EB]  relative group">
               <img
-                src="https://cdn.prod.website-files.com/63eb3eaf146906eaa999e318/642d90c73077e2ced7d76141_Adult%20Learner%201%20(1).webp"
+                src="https://stream-blog-v2.imgix.net/blog/wp-content/uploads/223f3a7e9d7b0fb499e07ca35cee98d2/Frame.jpg?auto=format&auto=compress"
                 alt="Engagement visual 1"
                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
             </div>
-            <div class="rounded-3xl overflow-hidden shadow-xl border border-[#E5E7EB] relative group">
-              <img
-                src="https://cdn.prod.website-files.com/63eb3eaf146906eaa999e318/642d90c73077e2ced7d76141_Adult%20Learner%201%20(1).webp"
-                alt="Engagement visual 2"
-                class="w-full h-40 object-cover group-hover:scale-105 transition-transform duration-500">
-            </div>
-            <div class="rounded-3xl overflow-hidden shadow-xl border border-[#E5E7EB] relative group">
-              <img
-                src="https://cdn.prod.website-files.com/63eb3eaf146906eaa999e318/642d90c73077e2ced7d76141_Adult%20Learner%201%20(1).webp"
-                alt="Engagement visual 3"
-                class="w-full h-40 object-cover group-hover:scale-105 transition-transform duration-500">
-            </div>
+           
           </div>
 
           {{-- Right text --}}
@@ -751,7 +697,7 @@
                   <p class="text-2xl font-black" style="color:#00B1AA">1,248</p>
                   <p class="text-xs text-[#666666]">Active Users</p>
                 </div>
-                <div class="rounded-xl p-3" style="background:#FFF7ED">
+                <div class="rounded-xl p-3 bg-[#FFF7ED]">
                   <p class="text-2xl font-black" style="color:#F89122">342</p>
                   <p class="text-xs text-[#666666]">Applications Today</p>
                 </div>
@@ -783,18 +729,7 @@
           @endforeach
         </div>
 
-        {{-- Bottom image row --}}
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-5 mt-12">
-          @for ($i = 0; $i < 4; $i++)
-            <div
-              class="rounded-2xl overflow-hidden shadow-md border border-[#E5E7EB] h-48 hover:shadow-xl hover:scale-105 transition-all duration-300 group">
-              <img
-                src="https://cdn.prod.website-files.com/63eb3eaf146906eaa999e318/642d90c73077e2ced7d76141_Adult%20Learner%201%20(1).webp"
-                alt="Platform engagement"
-                class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
-            </div>
-          @endfor
-        </div>
+     
       </div>
     </section>
 

@@ -1,71 +1,86 @@
-﻿<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+@extends('layouts.public')
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+@section('title', 'Guides & Checklists — Interlink')
+@section('meta_description', 'Access printable checklists and standard manuals covering F-1 visa CPT rules, internship evaluations, and credit tracking.')
 
-    <title>Intern Link</title>
+@section('content')
+<div x-data="{
+    searchQuery: '',
+    selectedCategory: 'all',
+    guides: [
+        { id: 1, category: 'legal', fileType: 'PDF', fileSize: '420 KB', title: 'F-1 Student CPT Checklist', description: 'A comprehensive timeline checklist for international students. Guides you on syncing with your DSO, formatting offer letter clauses, and submitting CPT parameters.' },
+        { id: 2, category: 'credits', fileType: 'DOCX', fileSize: '180 KB', title: 'Advisor Credit Alignment Sheet', description: 'Ensure your placement matches course criteria. Contains template syllabus mappings, course code registration steps, and manager check-in timelines.' },
+        { id: 3, category: 'credits', fileType: 'PDF', fileSize: '320 KB', title: 'Weekly Placement Log Logbook Template', description: 'A standardized logging structure to track engineering metrics, blockers, pull requests, and weekly mentor signs.' },
+        { id: 4, category: 'recruiting', fileType: 'PDF', fileSize: '1.2 MB', title: 'Recruiter Cohort Onboarding Toolkit', description: 'Comprehensive documentation for managers setting up mentorship cycles, structuring standups, and filing evaluations.' },
+        { id: 5, category: 'resumes', fileType: 'MD', fileSize: '12 KB', title: 'Resume Blueprint Markdown Template', description: 'Clean, ATS-compliant raw Markdown file optimized for technical parsers and registrar single sign-on mapping.' },
+        { id: 6, category: 'interviews', fileType: 'PDF', fileSize: '850 KB', title: 'System Design Coding Cheat Sheet', description: 'Review sheet covering distributed transactions, ACID database limits, vector indexing, and reverse-proxy caches.' },
+        { id: 7, category: 'legal', fileType: 'PDF', fileSize: '290 KB', title: 'OPT STEM Extension Compliance Checklist', description: 'Full compliance log guiding international graduates on employer reporting, Form I-983 reviews, and training plans.' }
+    ],
+    get filtered() {
+        return this.guides.filter(g => {
+            const matchesCategory = this.selectedCategory === 'all' || g.category === this.selectedCategory;
+            const matchesQuery = !this.searchQuery || 
+                                 g.title.toLowerCase().includes(this.searchQuery.toLowerCase()) || 
+                                 g.description.toLowerCase().includes(this.searchQuery.toLowerCase());
+            return matchesCategory && matchesQuery;
+        });
+    }
+}" class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 space-y-12">
 
-    <link rel="icon" href="{{ asset('images/Logos/Small%20Logo.png') }}" type="image/png">
-    <link rel="apple-touch-icon" href="{{ asset('images/Logos/Small%20Logo.png') }}">
+    <!-- Header -->
+    <div class="border-b border-zinc-200 pb-8 text-center max-w-3xl mx-auto space-y-4">
+        <h1 class="text-3xl font-bold tracking-tight text-[#444444] sm:truncate sm:text-4xl">Platform Guides & Checklists</h1>
+        <p class="text-sm text-[#7B7B7B] font-medium leading-relaxed">Standard checklists and onboarding templates ready for download.</p>
+        
+        <div class="mt-6 relative max-w-lg mx-auto">
+            <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3.5 text-[#7B7B7B] text-xs"></i>
+            <input 
+                x-model="searchQuery" 
+                type="text" 
+                placeholder="Search download files..." 
+                class="w-full pl-9 pr-4 py-2 text-xs border border-[#E5E7EB] bg-white rounded placeholder-[#7B7B7B] focus:bg-white shadow-soft transition-colors focus:outline-none focus:ring-1 focus:ring-[#00B1AA]"
+            >
+        </div>
+    </div>
 
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600,700|righteous:400" rel="stylesheet" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Montserrat:wght@400;500;600;700&family=Raleway:wght@400;500;600&family=Poppins:wght@400;600;700;800&family=Nunito:wght@400;600;700&family=Sora:wght@600;700&family=DM+Sans:wght@500;700&family=Inter:wght@600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap"
-        rel="stylesheet" />
+    <!-- Category selector -->
+    <div class="flex flex-wrap justify-center gap-2 text-xs font-semibold">
+        <button @click="selectedCategory = 'all'" :class="selectedCategory === 'all' ? 'bg-[#00B1AA] text-white font-bold' : 'text-zinc-600 hover:text-zinc-900 bg-white border border-[#E5E7EB]'" class="px-3.5 py-2 rounded transition-colors shadow-soft">All Resources</button>
+        <button @click="selectedCategory = 'legal'" :class="selectedCategory === 'legal' ? 'bg-[#00B1AA] text-white font-bold' : 'text-zinc-600 hover:text-zinc-900 bg-white border border-[#E5E7EB]'" class="px-3.5 py-2 rounded transition-colors shadow-soft">Legal & Visas</button>
+        <button @click="selectedCategory = 'credits'" :class="selectedCategory === 'credits' ? 'bg-[#00B1AA] text-white font-bold' : 'text-zinc-600 hover:text-zinc-900 bg-white border border-[#E5E7EB]'" class="px-3.5 py-2 rounded transition-colors shadow-soft">University Credits</button>
+        <button @click="selectedCategory = 'recruiting'" :class="selectedCategory === 'recruiting' ? 'bg-[#00B1AA] text-white font-bold' : 'text-zinc-600 hover:text-zinc-900 bg-white border border-[#E5E7EB]'" class="px-3.5 py-2 rounded transition-colors shadow-soft">Recruiter Toolkits</button>
+        <button @click="selectedCategory = 'resumes'" :class="selectedCategory === 'resumes' ? 'bg-[#00B1AA] text-white font-bold' : 'text-zinc-600 hover:text-zinc-900 bg-white border border-[#E5E7EB]'" class="px-3.5 py-2 rounded transition-colors shadow-soft">Resume Blueprints</button>
+    </div>
 
-    @vite(['resources/css/welcome.css'])
-
-    <!-- Alpine.js: plugin first, then core -->
-    <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/collapse@3.14.8/dist/cdn.min.js"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.8/dist/cdn.min.js"></script>
-    <x-ui-state />
-
-</head>
-
-<body x-data
-    class="welcome-body flex min-h-screen flex-col bg-[#ffffff] text-[#17494D] font-[Instrument_Sans,ui-sans-serif,system-ui,sans-serif] antialiased transition-colors duration-300"
-    :class="$store.ui.darkMode ? 'bg-black text-white' : 'bg-[#ffffff] text-[#17494D]'">
-
-    <!-- Navigation -->
-    <x-nav-bar />
-    <x-loading-overlay />
-
-    <main class="flex-1">
-        <section class="mx-auto max-w-6xl px-6 py-16">
-            <div class="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
-                <div>
-                    <p class="text-sm font-semibold uppercase tracking-[0.24em] text-[#00b1aa]">Resources</p>
-                    <h1 class="mt-4 text-4xl font-bold tracking-tight text-gray-900 md:text-5xl">Guides & Tutorials</h1>
-                    <p class="mt-4 max-w-2xl text-lg text-gray-600">Provide practical tools, guides, and advice that help candidates prepare stronger applications and interviews.</p>
-                    <div class="mt-8 grid gap-4 sm:grid-cols-3">
-                        <div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm"><p class="font-semibold text-gray-900">Read</p><p class="mt-2 text-sm text-gray-600">Browse articles and guides in one place.</p></div>
-                        <div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm"><p class="font-semibold text-gray-900">Build</p><p class="mt-2 text-sm text-gray-600">Use practical tools to improve your profile.</p></div>
-                        <div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm"><p class="font-semibold text-gray-900">Prepare</p><p class="mt-2 text-sm text-gray-600">Turn advice into a stronger application plan.</p></div>
-                    </div>
+    <!-- Guides list -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-sm">
+        <template x-for="g in filtered" :key="g.id">
+            <div class="bg-white border border-[#E5E7EB] rounded p-5 shadow-soft hover:border-[#00B1AA] transition-all flex flex-col justify-between">
+                <div class="space-y-3">
+                    <span :class="g.category === 'legal' ? 'bg-indigo-50 text-indigo-700 ring-indigo-600/10' : g.category === 'credits' ? 'bg-emerald-50 text-emerald-700 ring-emerald-600/10' : 'bg-zinc-50 text-zinc-700 ring-zinc-600/10'" class="text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider" x-text="g.category"></span>
+                    <h3 class="font-bold text-sm text-[#444444]" x-text="g.title"></h3>
+                    <p class="text-xs text-[#7B7B7B] leading-relaxed" x-text="g.description"></p>
                 </div>
-                <aside class="rounded-3xl border border-gray-200 bg-white p-6 shadow-sm">
-                    <p class="text-sm font-semibold uppercase tracking-[0.2em] text-gray-500">Toolkit</p>
-                    <ul class="mt-4 space-y-3 text-sm text-gray-700">
-                        <li>CV and resume support.</li>
-                        <li>Interview prep and roadmaps.</li>
-                        <li>Blog posts and tutorial content.</li>
-                    </ul>
-                </aside>
+                <div class="border-t border-zinc-100 pt-4 mt-5 flex justify-between items-center text-xs">
+                    <span class="text-zinc-400 font-semibold" x-text="`${g.fileType} • ${g.fileSize}`"></span>
+                    <a href="#" @click.prevent="alert(`Downloading ${g.title}...`)" class="text-[#00B1AA] font-bold hover:text-[#009c95] transition-colors"><i class="fa-solid fa-download mr-1"></i> Download</a>
+                </div>
             </div>
-        </section>
-    </main>
+        </template>
+    </div>
 
-    {{-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-    footer
-    â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• --}}
+    <!-- Request Custom Templates Help desk -->
+    <div class="bg-white border border-[#E5E7EB] rounded-xl p-8 shadow-soft text-center max-w-xl mx-auto space-y-4">
+        <span class="text-[#00B1AA] text-2xl"><i class="fa-solid fa-circle-question"></i></span>
+        <h4 class="font-bold text-sm text-[#444444]">Need institutional customizations?</h4>
+        <p class="text-xs text-[#7B7B7B] leading-relaxed">
+            If your university registrar requires specific evaluation variables, NDA templates, or hourly logs configurations, contact our academic operations desk to build custom compliance blueprints.
+        </p>
+        <a href="mailto:registrar@interlink.edu" class="inline-block bg-[#444444] hover:bg-zinc-800 text-white font-bold text-xs px-5 py-2.5 rounded transition-colors shadow-soft">
+            Contact Registrar Support
+        </a>
+    </div>
 
-    <x-footer />
+</div>
+@endsection
 
-</body>
-
-</html>

@@ -26,6 +26,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // Set application locale from session if available so server-rendered
+        // translations follow the user's language choice.
+        if (session()->has('locale')) {
+            app()->setLocale(session('locale'));
+        }
+
         Model::preventLazyLoading();
         $this->configureDefaults();
 

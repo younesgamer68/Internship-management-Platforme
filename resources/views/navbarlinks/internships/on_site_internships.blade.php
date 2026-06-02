@@ -1,71 +1,182 @@
-﻿<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+@extends('layouts.public')
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+@section('title', 'On-site Internships — Interlink')
+@section('meta_description', 'Explore on-site technical internships featuring corporate campus access, face-to-face mentorship, and verified relocation/housing stipends.')
 
-    <title>Intern Link</title>
+@section('content')
+<div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+    
+    <!-- Header -->
+    <div class="border-b border-zinc-200 pb-5 md:flex md:items-center md:justify-between mb-8">
+        <div class="min-w-0 flex-1">
+            <span class="inline-flex items-center rounded bg-zinc-100 px-2 py-0.5 text-xs font-semibold text-zinc-800 mb-2">Office Campus Roles</span>
+            <h1 class="text-3xl font-bold leading-7 text-zinc-900 sm:truncate sm:text-4xl">On-site Placements</h1>
+            <p class="mt-2 text-sm text-zinc-500 font-medium">Immersive face-to-face mentorship at premier corporate headquarters. Verify relocation support packages directly.</p>
+        </div>
+    </div>
 
-    <link rel="icon" href="{{ asset('images/Logos/Small%20Logo.png') }}" type="image/png">
-    <link rel="apple-touch-icon" href="{{ asset('images/Logos/Small%20Logo.png') }}">
+    <!-- Onsite Perks Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10 text-sm">
+        <div class="bg-white border border-zinc-200 rounded-xl p-5 shadow-soft space-y-2">
+            <span class="text-[#00B1AA] font-bold text-lg"><i class="fa-solid fa-house-chimney"></i></span>
+            <h3 class="font-bold text-zinc-900">Housing Assistance</h3>
+            <p class="text-xs text-zinc-500 leading-relaxed">Companies on this list provide dedicated housing allowances or corporate apartments during summer blocks.</p>
+        </div>
+        <div class="bg-white border border-zinc-200 rounded-xl p-5 shadow-soft space-y-2">
+            <span class="text-[#00B1AA] font-bold text-lg"><i class="fa-solid fa-plane-departure"></i></span>
+            <h3 class="font-bold text-zinc-900">Travel Stipends</h3>
+            <p class="text-xs text-zinc-500 leading-relaxed">Round-trip flights to and from university locations are covered by the host employer's relocation package.</p>
+        </div>
+        <div class="bg-white border border-zinc-200 rounded-xl p-5 shadow-soft space-y-2">
+            <span class="text-[#00B1AA] font-bold text-lg"><i class="fa-solid fa-chalkboard-user"></i></span>
+            <h3 class="font-bold text-zinc-900">Direct Mentorship</h3>
+            <p class="text-xs text-zinc-500 leading-relaxed">Guaranteed physical desk proximity to your senior host developer or designer for accelerated feedback.</p>
+        </div>
+    </div>
 
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600,700|righteous:400" rel="stylesheet" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Montserrat:wght@400;500;600;700&family=Raleway:wght@400;500;600&family=Poppins:wght@400;600;700;800&family=Nunito:wght@400;600;700&family=Sora:wght@600;700&family=DM+Sans:wght@500;700&family=Inter:wght@600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap"
-        rel="stylesheet" />
+    <!-- Listings Stream -->
+    <div class="space-y-6">
+        <h2 class="text-lg font-bold text-zinc-900">Active Office Internships</h2>
 
-    @vite(['resources/css/welcome.css'])
-
-    <!-- Alpine.js: plugin first, then core -->
-    <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/collapse@3.14.8/dist/cdn.min.js"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.8/dist/cdn.min.js"></script>
-    <x-ui-state />
-
-</head>
-
-<body x-data
-    class="welcome-body flex min-h-screen flex-col bg-[#ffffff] text-[#17494D] font-[Instrument_Sans,ui-sans-serif,system-ui,sans-serif] antialiased transition-colors duration-300"
-    :class="$store.ui.darkMode ? 'bg-black text-white' : 'bg-[#ffffff] text-[#17494D]'">
-
-    <!-- Navigation -->
-    <x-nav-bar />
-    <x-loading-overlay />
-
-    <main class="flex-1">
-        <section class="mx-auto max-w-6xl px-6 py-16">
-            <div class="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
-                <div>
-                    <p class="text-sm font-semibold uppercase tracking-[0.24em] text-[#00b1aa]">Internships</p>
-                    <h1 class="mt-4 text-4xl font-bold tracking-tight text-gray-900 md:text-5xl">On-site Internships</h1>
-                    <p class="mt-4 max-w-2xl text-lg text-gray-600">Explore internship discovery, filters, and tracking tools that help students move from browsing to applying with confidence.</p>
-                    <div class="mt-8 grid gap-4 sm:grid-cols-3">
-                        <div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm"><p class="font-semibold text-gray-900">Filter</p><p class="mt-2 text-sm text-gray-600">Narrow by format, pay, and location.</p></div>
-                        <div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm"><p class="font-semibold text-gray-900">Save</p><p class="mt-2 text-sm text-gray-600">Keep promising roles in one place.</p></div>
-                        <div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm"><p class="font-semibold text-gray-900">Track</p><p class="mt-2 text-sm text-gray-600">Follow applications from draft to outcome.</p></div>
+        <div class="space-y-4">
+            <!-- Row 1 -->
+            <div class="bg-white border border-zinc-200 rounded-xl p-5 shadow-soft flex flex-col md:flex-row justify-between items-start md:items-center gap-4 hover:border-zinc-300 transition-colors">
+                <div class="flex items-center gap-4">
+                    <span class="h-12 w-12 bg-[#635bff] text-white font-extrabold rounded-lg flex items-center justify-center text-lg">S</span>
+                    <div>
+                        <h3 class="font-bold text-base text-zinc-900">Backend Systems Intern</h3>
+                        <p class="text-xs text-zinc-500 font-semibold">Stripe &bull; San Francisco HQ (Townsend St)</p>
+                        
+                        <div class="flex gap-2 mt-2">
+                            <span class="bg-zinc-100 text-zinc-700 text-[10px] font-semibold px-2 py-0.5 rounded">San Francisco</span>
+                            <span class="bg-[#00B1AA]/5 text-[#00B1AA] text-[10px] font-semibold px-2 py-0.5 rounded">Relocation & Housing Provided</span>
+                            <span class="bg-zinc-50 text-zinc-500 text-[10px] px-2 py-0.5 rounded border border-zinc-200">5 min walk from Caltrain</span>
+                        </div>
                     </div>
                 </div>
-                <aside class="rounded-3xl border border-gray-200 bg-white p-6 shadow-sm">
-                    <p class="text-sm font-semibold uppercase tracking-[0.2em] text-gray-500">Quick actions</p>
-                    <ul class="mt-4 space-y-3 text-sm text-gray-700">
-                        <li>Browse active opportunities.</li>
-                        <li>Compare remote and on-site options.</li>
-                        <li>Review saved roles and progress.</li>
-                    </ul>
-                </aside>
+
+                <div class="text-right flex md:flex-col items-center justify-between w-full md:w-auto mt-4 md:mt-0 border-t border-zinc-100 md:border-t-0 pt-3 md:pt-0">
+                    <span class="font-bold text-emerald-600 text-sm md:text-base">$62.50 / hour</span>
+                    <a href="/internships/browse" class="text-[#00B1AA] font-bold hover:text-[#00B1AA] text-xs mt-1">Apply Now &rarr;</a>
+                </div>
             </div>
-        </section>
-    </main>
 
-    {{-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-    footer
-    â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• --}}
+            <!-- Row 2 -->
+            <div class="bg-white border border-zinc-200 rounded-xl p-5 shadow-soft flex flex-col md:flex-row justify-between items-start md:items-center gap-4 hover:border-zinc-300 transition-colors">
+                <div class="flex items-center gap-4">
+                    <span class="h-12 w-12 bg-[#f24e1e] text-white font-extrabold rounded-lg flex items-center justify-center text-lg">F</span>
+                    <div>
+                        <h3 class="font-bold text-base text-zinc-900">Product Design Intern</h3>
+                        <p class="text-xs text-zinc-500 font-semibold">Figma &bull; New York City Campus (Hudson St)</p>
+                        
+                        <div class="flex gap-2 mt-2">
+                            <span class="bg-zinc-100 text-zinc-700 text-[10px] font-semibold px-2 py-0.5 rounded">New York City</span>
+                            <span class="bg-[#00B1AA]/5 text-[#00B1AA] text-[10px] font-semibold px-2 py-0.5 rounded">$2k/mo Housing Subsidy</span>
+                            <span class="bg-zinc-50 text-zinc-500 text-[10px] px-2 py-0.5 rounded border border-zinc-200">MTA Metrocard Covered</span>
+                        </div>
+                    </div>
+                </div>
 
-    <x-footer />
+                <div class="text-right flex md:flex-col items-center justify-between w-full md:w-auto mt-4 md:mt-0 border-t border-zinc-100 md:border-t-0 pt-3 md:pt-0">
+                    <span class="font-bold text-emerald-600 text-sm md:text-base">$48.00 / hour</span>
+                    <a href="/internships/browse" class="text-[#00B1AA] font-bold hover:text-[#00B1AA] text-xs mt-1">Apply Now &rarr;</a>
+                </div>
+            </div>
 
-</body>
+            <!-- Row 3 (Retool) -->
+            <div class="bg-white border border-zinc-200 rounded-xl p-5 shadow-soft flex flex-col md:flex-row justify-between items-start md:items-center gap-4 hover:border-zinc-300 transition-colors">
+                <div class="flex items-center gap-4">
+                    <span class="h-12 w-12 bg-[#2563EB] text-white font-extrabold rounded-lg flex items-center justify-center text-lg">R</span>
+                    <div>
+                        <h3 class="font-bold text-base text-zinc-900">Full-Stack Engineer Intern</h3>
+                        <p class="text-xs text-zinc-500 font-semibold">Retool &bull; San Francisco HQ (Mission St)</p>
+                        
+                        <div class="flex gap-2 mt-2">
+                            <span class="bg-zinc-100 text-zinc-700 text-[10px] font-semibold px-2 py-0.5 rounded">San Francisco</span>
+                            <span class="bg-[#00B1AA]/5 text-[#00B1AA] text-[10px] font-semibold px-2 py-0.5 rounded">Catered Lunches & Gym</span>
+                            <span class="bg-zinc-50 text-zinc-500 text-[10px] px-2 py-0.5 rounded border border-zinc-200">BART Shuttle Access</span>
+                        </div>
+                    </div>
+                </div>
 
-</html>
+                <div class="text-right flex md:flex-col items-center justify-between w-full md:w-auto mt-4 md:mt-0 border-t border-zinc-100 md:border-t-0 pt-3 md:pt-0">
+                    <span class="font-bold text-emerald-600 text-sm md:text-base">$58.00 / hour</span>
+                    <a href="/internships/browse" class="text-[#00B1AA] font-bold hover:text-[#00B1AA] text-xs mt-1">Apply Now &rarr;</a>
+                </div>
+            </div>
+
+            <!-- Row 4 (Cloudflare) -->
+            <div class="bg-white border border-zinc-200 rounded-xl p-5 shadow-soft flex flex-col md:flex-row justify-between items-start md:items-center gap-4 hover:border-zinc-300 transition-colors">
+                <div class="flex items-center gap-4">
+                    <span class="h-12 w-12 bg-[#f38020] text-white font-extrabold rounded-lg flex items-center justify-center text-lg">C</span>
+                    <div>
+                        <h3 class="font-bold text-base text-zinc-900">Security Operations Intern</h3>
+                        <p class="text-xs text-zinc-500 font-semibold">Cloudflare &bull; Austin HQ (Congress Ave)</p>
+                        
+                        <div class="flex gap-2 mt-2">
+                            <span class="bg-zinc-100 text-zinc-700 text-[10px] font-semibold px-2 py-0.5 rounded">Austin</span>
+                            <span class="bg-[#00B1AA]/5 text-[#00B1AA] text-[10px] font-semibold px-2 py-0.5 rounded">$1,500 Relocation Allowance</span>
+                            <span class="bg-zinc-50 text-zinc-500 text-[10px] px-2 py-0.5 rounded border border-zinc-200">Downtown Parking Paid</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-right flex md:flex-col items-center justify-between w-full md:w-auto mt-4 md:mt-0 border-t border-zinc-100 md:border-t-0 pt-3 md:pt-0">
+                    <span class="font-bold text-emerald-600 text-sm md:text-base">$56.00 / hour</span>
+                    <a href="/internships/browse" class="text-[#00B1AA] font-bold hover:text-[#00B1AA] text-xs mt-1">Apply Now &rarr;</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Corporate Housing Partners (New Section) -->
+    <div class="space-y-6 mt-12 border-t border-zinc-200 pt-10">
+        <h2 class="text-lg font-bold text-zinc-900">Verified Corporate Housing Networks</h2>
+        <p class="text-xs text-zinc-500 max-w-xl leading-relaxed">Interlink integrates with leading short-term rental platforms to provide pre-approved corporate apartments. Students can check availability directly upon receiving an offer sheet.</p>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-xs">
+            <div class="bg-white border border-zinc-200 rounded-xl p-5 shadow-soft space-y-2">
+                <span class="text-[#00B1AA] font-bold text-lg"><i class="fa-solid fa-hotel"></i></span>
+                <h3 class="font-bold text-zinc-900">Landing Corporate</h3>
+                <p class="text-zinc-500 leading-relaxed">Flexible furnished apartments in major tech corridors. Includes utilities, workspace Wi-Fi, and 24/7 building security. No security deposits required.</p>
+            </div>
+            <div class="bg-white border border-zinc-200 rounded-xl p-5 shadow-soft space-y-2">
+                <span class="text-[#00B1AA] font-bold text-lg"><i class="fa-solid fa-building"></i></span>
+                <h3 class="font-bold text-zinc-900">Blueground Internships</h3>
+                <p class="text-zinc-500 leading-relaxed">Premium downtown apartments with vetted commutes. Pre-negotiated 3-month leasing terms configured to sync with summer cohort calendar blocks.</p>
+            </div>
+            <div class="bg-white border border-zinc-200 rounded-xl p-5 shadow-soft space-y-2">
+                <span class="text-[#00B1AA] font-bold text-lg"><i class="fa-solid fa-city"></i></span>
+                <h3 class="font-bold text-zinc-900">Kasa Living</h3>
+                <p class="text-zinc-500 leading-relaxed">Tech-enabled short-term stays in SF, Seattle, and Austin. Keyless entry, on-site co-working lounges, and fully equipped kitchens.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Relocation Roadmap Timeline (New Section) -->
+    <div class="space-y-6 mt-12 border-t border-zinc-200 pt-10">
+        <h2 class="text-lg font-bold text-zinc-900">Relocation & Onboarding Checklist</h2>
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 text-xs">
+            <div class="bg-white border border-zinc-200 rounded-xl p-5 shadow-soft space-y-2">
+                <span class="font-bold text-[#00B1AA]">Week 1: Offer & Housing</span>
+                <p class="text-zinc-500 leading-relaxed">Review housing options on Interlink. Secure corporate lease or approve company housing allowances. Complete state taxation W-4 details.</p>
+            </div>
+            <div class="bg-white border border-zinc-200 rounded-xl p-5 shadow-soft space-y-2">
+                <span class="font-bold text-[#00B1AA]">Week 2: Travel & Logistics</span>
+                <p class="text-zinc-500 leading-relaxed">Book round-trip flights through corporate portals. Schedule moving deliveries. Generate transit card credentials.</p>
+            </div>
+            <div class="bg-white border border-zinc-200 rounded-xl p-5 shadow-soft space-y-2">
+                <span class="font-bold text-[#00B1AA]">Week 3: Hardware Delivery</span>
+                <p class="text-zinc-500 leading-relaxed">Confirm laptop shipping configurations. Receive secure software tokens and security badge instructions from internal IT.</p>
+            </div>
+            <div class="bg-white border border-zinc-200 rounded-xl p-5 shadow-soft space-y-2">
+                <span class="font-bold text-[#00B1AA]">Day 1: Desk Setup</span>
+                <p class="text-zinc-500 leading-relaxed">Arrive at HQ campus. Receive physical credentials badge. Synchronize with your designated senior manager mentor.</p>
+            </div>
+        </div>
+    </div>
+
+</div>
+@endsection
+
+
+

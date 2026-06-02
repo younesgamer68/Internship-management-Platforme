@@ -4,14 +4,42 @@ Wrap your page content with <x-ui-state> ... </x-ui-state>
 ===================================================================== --}}
 <script>
     document.addEventListener('alpine:init', () => {
+        const darkModeStorageKey = 'internlink.darkMode';
+
+        const readStoredDarkMode = () => {
+            try {
+                const storedValue = window.localStorage.getItem(darkModeStorageKey);
+
+                if (storedValue !== null) {
+                    return storedValue === '1';
+                }
+            } catch (error) {
+                // Ignore storage access failures and fall back to system preference.
+            }
+
+            return window.matchMedia?.('(prefers-color-scheme: dark)')?.matches ?? false;
+        };
+
+        const initialDarkMode = readStoredDarkMode();
+
+        document.documentElement.classList.toggle('dark', initialDarkMode);
+
         Alpine.store('ui', {
-            darkMode: false,
-            lang: 'English',
+            darkMode: initialDarkMode,
+            lang: @json(app()->getLocale() === 'fr' ? 'French' : 'English'),
             loading: false,
 
             showLoading(ms = 800) {
                 this.loading = true;
                 setTimeout(() => { this.loading = false; }, ms);
+            },
+
+            setDarkMode(value) {
+                this.darkMode = Boolean(value);
+            },
+
+            toggleDarkMode() {
+                this.setDarkMode(!this.darkMode);
             },
 
             /* -- i18n translation map -- */
@@ -979,6 +1007,12 @@ Wrap your page content with <x-ui-state> ... </x-ui-state>
             _watchDark() {
                 /* Alpine.effect runs reactively whenever darkMode changes */
                 Alpine.effect(() => {
+                    try {
+                        window.localStorage.setItem(darkModeStorageKey, this.darkMode ? '1' : '0');
+                    } catch (error) {
+                        // Ignore storage write failures so the UI still works.
+                    }
+
                     document.documentElement.classList.toggle('dark', this.darkMode);
                 });
             },

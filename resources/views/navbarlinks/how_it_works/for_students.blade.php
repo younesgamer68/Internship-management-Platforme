@@ -1,71 +1,195 @@
-﻿<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+@extends('layouts.public')
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+@section('title', 'How It Works for Students — Interlink')
+@section('meta_description', 'Learn how students secure premium technical internships on Interlink. Read about academic verification, stack matching, and university credits.')
 
-    <title>Intern Link</title>
+@section('content')
+<div x-data="{
+    studentTrack: 'engineering',
+    hoursWeekly: 20,
+    checklistItems: [
+        { id: 1, name: 'Link University Email (.edu SSO)', completed: true },
+        { id: 2, name: 'Connect GitHub Profile', completed: false },
+        { id: 3, name: 'Upload Unofficial Transcript', completed: false },
+        { id: 4, name: 'Add Faculty Advisor Details', completed: false },
+        { id: 5, name: 'Add at least 3 Stack Skill tags', completed: true }
+    ],
+    get profileStrength() {
+        const count = this.checklistItems.filter(item => item.completed).length;
+        if (count <= 2) return { level: 'Bronze', color: 'text-amber-700 bg-amber-50 ring-amber-600/10' };
+        if (count <= 4) return { level: 'Gold', color: 'text-yellow-800 bg-yellow-50 ring-yellow-600/10' };
+        return { level: 'Platinum Elite', color: 'text-[#00B1AA] bg-[#00B1AA]/5 ring-[#00B1AA]/10' };
+    },
+    get estStipend() {
+        let base = 35;
+        if (this.studentTrack === 'engineering') base = 52;
+        if (this.studentTrack === 'design') base = 44;
+        if (this.studentTrack === 'pm') base = 48;
+        return base * this.hoursWeekly;
+    }
+}" class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 space-y-12">
 
-    <link rel="icon" href="{{ asset('images/Logos/Small%20Logo.png') }}" type="image/png">
-    <link rel="apple-touch-icon" href="{{ asset('images/Logos/Small%20Logo.png') }}">
+    <!-- Header -->
+    <div class="border-b border-zinc-200 pb-8 text-center max-w-3xl mx-auto space-y-4">
+        <span class="text-xs bg-[#00B1AA]/5 text-[#00B1AA] font-bold uppercase px-3 py-1 rounded-full">For Students</span>
+        <h1 class="text-3xl font-extrabold tracking-tight text-[#444444] sm:text-4xl">Your path to top engineering & design teams</h1>
+        <p class="text-sm text-[#7B7B7B] leading-relaxed">
+            No generic applications. No black holes. Interlink matches your validated university record and project history directly to active hiring budgets.
+        </p>
+    </div>
 
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600,700|righteous:400" rel="stylesheet" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Montserrat:wght@400;500;600;700&family=Raleway:wght@400;500;600&family=Poppins:wght@400;600;700;800&family=Nunito:wght@400;600;700&family=Sora:wght@600;700&family=DM+Sans:wght@500;700&family=Inter:wght@600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap"
-        rel="stylesheet" />
+    <!-- Onboarding Process Steps -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        
+        <!-- Step 1 -->
+        <div class="bg-white border border-[#E5E7EB] rounded p-6 shadow-soft flex flex-col justify-between space-y-4">
+            <div class="space-y-3">
+                <div class="h-10 w-10 rounded bg-[#00B1AA]/10 text-[#00B1AA] flex items-center justify-center font-bold text-sm">01</div>
+                <h3 class="text-base font-bold text-[#444444]">Academic Verification</h3>
+                <p class="text-xs text-[#7B7B7B] leading-relaxed">
+                    Verify enrollment and transcript details automatically by registering with your university email. This adds a verified badge to your profile, building immediate recruiter trust.
+                </p>
+            </div>
+            <div class="bg-zinc-50 rounded border border-zinc-200 p-3 text-[10px] text-zinc-600 flex items-center gap-2">
+                <i class="fa-solid fa-graduation-cap text-[#00B1AA]"></i>
+                <span>Stanford, MIT, Berkeley, CMU, and 40+ registrar databases linked.</span>
+            </div>
+        </div>
 
-    @vite(['resources/css/welcome.css'])
+        <!-- Step 2 -->
+        <div class="bg-white border border-[#E5E7EB] rounded p-6 shadow-soft flex flex-col justify-between space-y-4">
+            <div class="space-y-3">
+                <div class="h-10 w-10 rounded bg-[#00B1AA]/10 text-[#00B1AA] flex items-center justify-center font-bold text-sm">02</div>
+                <h3 class="text-base font-bold text-[#444444]">GitHub Stack Parser</h3>
+                <p class="text-xs text-[#7B7B7B] leading-relaxed">
+                    Connect your GitHub profile. Our parsing script indexes your public repositories and contributions. We extract verified frameworks and tools (e.g. React, Next.js, Rust, Go) to generate a match score.
+                </p>
+            </div>
+            <div class="bg-zinc-50 rounded border border-zinc-200 p-3 text-[10px] text-zinc-600 flex items-center gap-2">
+                <i class="fa-solid fa-code-branch text-[#00B1AA]"></i>
+                <span>Parse repos, PR commits, and language ratios automatically.</span>
+            </div>
+        </div>
 
-    <!-- Alpine.js: plugin first, then core -->
-    <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/collapse@3.14.8/dist/cdn.min.js"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.8/dist/cdn.min.js"></script>
-    <x-ui-state />
+        <!-- Step 3 -->
+        <div class="bg-white border border-[#E5E7EB] rounded p-6 shadow-soft flex flex-col justify-between space-y-4">
+            <div class="space-y-3">
+                <div class="h-10 w-10 rounded bg-[#00B1AA]/10 text-[#00B1AA] flex items-center justify-center font-bold text-sm">03</div>
+                <h3 class="text-base font-bold text-[#444444]">Audited Course Credit</h3>
+                <p class="text-xs text-[#7B7B7B] leading-relaxed">
+                    All placements are pre-approved to satisfy department credit rules (e.g. CS-197). At weeks 4, 8, and 12, Interlink dispatches structural evaluations to your host manager, forwarding approvals to your advisor.
+                </p>
+            </div>
+            <div class="bg-zinc-50 rounded border border-zinc-200 p-3 text-[10px] text-zinc-600 flex items-center gap-2">
+                <i class="fa-solid fa-file-signature text-[#00B1AA]"></i>
+                <span>Direct university registrar synchronization and credit logs.</span>
+            </div>
+        </div>
 
-</head>
+    </div>
 
-<body x-data
-    class="welcome-body flex min-h-screen flex-col bg-[#ffffff] text-[#17494D] font-[Instrument_Sans,ui-sans-serif,system-ui,sans-serif] antialiased transition-colors duration-300"
-    :class="$store.ui.darkMode ? 'bg-black text-white' : 'bg-[#ffffff] text-[#17494D]'">
+    <!-- Student Profile Vetting Readiness Checklist -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+        
+        <!-- Interactive Verification Checklist -->
+        <div class="bg-white border border-[#E5E7EB] rounded-xl p-6 shadow-soft space-y-5">
+            <div>
+                <h3 class="font-bold text-sm text-[#444444]">Interactive Application Readiness Checklist</h3>
+                <p class="text-xs text-[#7B7B7B] mt-0.5">Toggle these items to see how complete your profile is and your matchmaking score status.</p>
+            </div>
+            <div class="space-y-3 text-xs">
+                <template x-for="item in checklistItems" :key="item.id">
+                    <div class="flex items-center gap-3">
+                        <input type="checkbox" x-model="item.completed" :id="`item_${item.id}`" class="h-4 w-4 rounded border-zinc-300 text-[#00B1AA] focus:ring-[#00B1AA]">
+                        <label :for="`item_${item.id}`" class="font-medium text-[#444444] select-none" x-text="item.name"></label>
+                    </div>
+                </template>
+                <div class="border-t border-zinc-100 pt-4 flex justify-between items-center">
+                    <span class="text-zinc-500 font-semibold">Estimated Match Level:</span>
+                    <span class="inline-flex items-center rounded-full px-2.5 py-0.5 text-[10px] font-bold ring-1 ring-inset" :class="profileStrength.color" x-text="profileStrength.level"></span>
+                </div>
+            </div>
+        </div>
 
-    <!-- Navigation -->
-    <x-nav-bar />
-    <x-loading-overlay />
-
-    <main class="flex-1">
-        <section class="mx-auto max-w-6xl px-6 py-16">
-            <div class="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
-                <div>
-                    <p class="text-sm font-semibold uppercase tracking-[0.24em] text-[#00b1aa]">How It Works</p>
-                    <h1 class="mt-4 text-4xl font-bold tracking-tight text-gray-900 md:text-5xl">For Students</h1>
-                    <p class="mt-4 max-w-2xl text-lg text-gray-600">Explain the workflow for students, companies, and universities so each audience knows the next step.</p>
-                    <div class="mt-8 grid gap-4 sm:grid-cols-3">
-                        <div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm"><p class="font-semibold text-gray-900">Learn</p><p class="mt-2 text-sm text-gray-600">Understand the process before taking action.</p></div>
-                        <div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm"><p class="font-semibold text-gray-900">Connect</p><p class="mt-2 text-sm text-gray-600">Link users to the right program or audience.</p></div>
-                        <div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm"><p class="font-semibold text-gray-900">Launch</p><p class="mt-2 text-sm text-gray-600">Move from guidance to application quickly.</p></div>
+        <!-- Interactive Stipend Estimator -->
+        <div class="bg-white border border-[#E5E7EB] rounded-xl p-6 shadow-soft space-y-5">
+            <div>
+                <h3 class="font-bold text-sm text-[#444444]">Average Internship Stipend Calculator</h3>
+                <p class="text-xs text-[#7B7B7B] mt-0.5">Estimate weekly stipends based on current placement rates.</p>
+            </div>
+            <div class="space-y-4 text-xs">
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-zinc-500 mb-1">Discipline Track</label>
+                        <select x-model="studentTrack" class="w-full bg-[#F8FAFA] border border-[#E5E7EB] rounded p-2 font-medium">
+                            <option value="engineering">Engineering</option>
+                            <option value="design">Product Design</option>
+                            <option value="pm">Product Management</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-zinc-500 mb-1">Weekly Commitment</label>
+                        <select x-model.number="hoursWeekly" class="w-full bg-[#F8FAFA] border border-[#E5E7EB] rounded p-2 font-medium">
+                            <option value="20">Part Time (20h)</option>
+                            <option value="40">Full Time (40h)</option>
+                        </select>
                     </div>
                 </div>
-                <aside class="rounded-3xl border border-gray-200 bg-white p-6 shadow-sm">
-                    <p class="text-sm font-semibold uppercase tracking-[0.2em] text-gray-500">Workflow notes</p>
-                    <ul class="mt-4 space-y-3 text-sm text-gray-700">
-                        <li>Use the page to orient each audience.</li>
-                        <li>Keep the sequence easy to scan.</li>
-                        <li>Show the final action clearly.</li>
-                    </ul>
-                </aside>
+                <div class="border-t border-zinc-100 pt-4 text-center">
+                    <span class="text-[#7B7B7B] block mb-1">Estimated Weekly Stipend:</span>
+                    <strong class="text-2xl font-black text-[#00B1AA]" x-text="`$${estStipend.toFixed(2)}`"></strong>
+                    <span class="text-[9px] text-[#7B7B7B] block mt-1">Based on active corporate agreements listed in the Corporate Directory.</span>
+                </div>
             </div>
-        </section>
-    </main>
+        </div>
 
-    {{-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-    footer
-    â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• --}}
+    </div>
 
-    <x-footer />
+    <!-- Student Placements Testimonials -->
+    <div class="bg-white border border-[#E5E7EB] rounded-xl p-8 shadow-soft">
+        <h3 class="text-xs font-bold text-[#444444] mb-6 text-center uppercase tracking-wider">Placement Success Stories</h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-xs text-[#7B7B7B]">
+            <div class="space-y-2">
+                <h4 class="font-bold text-[#444444] text-sm">"No resume filtering nonsense"</h4>
+                <p class="leading-relaxed">"Traditional portals just auto-filtered my resume because I was a freshman. Interlink linked my GitHub repositories, parsed my Rust compiler projects, and matched me directly with the Linear engineering lead."</p>
+                <span class="block font-bold text-[#444444] mt-3">Marcus Vance &middot; Linear Intern</span>
+            </div>
+            <div class="space-y-2">
+                <h4 class="font-bold text-[#444444] text-sm">"Credit mappings were seamless"</h4>
+                <p class="leading-relaxed">"Getting Stanford CS department credits for external work used to require pages of advisor reviews. With Interlink, Vercel’s weekly evaluations synced automatically, and I received my grade without delay."</p>
+                <span class="block font-bold text-[#444444] mt-3">Sasha Petrov &middot; Vercel Intern</span>
+            </div>
+            <div class="space-y-2">
+                <h4 class="font-bold text-[#444444] text-sm">"Transparent Stipends"</h4>
+                <p class="leading-relaxed">"I knew exactly what every company was paying per hour before I even entered the chats. Being able to compare stipend structures for Stripe and Figma was incredibly helpful."</p>
+                <span class="block font-bold text-[#444444] mt-3">Aisha Taylor &middot; Figma Intern</span>
+            </div>
+        </div>
+    </div>
 
-</body>
+    <!-- Detailed Student FAQs -->
+    <div class="bg-white border border-[#E5E7EB] rounded-xl p-8 shadow-soft space-y-6">
+        <h3 class="font-bold text-sm text-[#444444] text-center uppercase tracking-wider">Student Frequently Asked Questions</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-xs text-[#7B7B7B] leading-relaxed">
+            <div class="space-y-2">
+                <h4 class="font-bold text-zinc-800 text-sm">Is there any fee for students to use Interlink?</h4>
+                <p>No. Interlink is entirely free for university students and registrar affiliates. All infrastructure matching and credit automation costs are billed directly to B2B hiring partners.</p>
+            </div>
+            <div class="space-y-2">
+                <h4 class="font-bold text-zinc-800 text-sm">What if my university isn't in the verification database?</h4>
+                <p>If your school isn't listed, choose "External Candidate Onboarding" in the signup step. You will upload a verified copy of your university transcript, which our verification coordinators will audit within 48 hours.</p>
+            </div>
+            <div class="space-y-2">
+                <h4 class="font-bold text-zinc-800 text-sm">How does CPT/OPT visa coordination work?</h4>
+                <p>Interlink automatically generates pre-signed standard training agreements mapping directly to Department Homeland Security regulations. These agreements sync with your Designated School Official (DSO) for fast I-20 updates.</p>
+            </div>
+            <div class="space-y-2">
+                <h4 class="font-bold text-zinc-800 text-sm">Do all placements offer full-time conversion paths?</h4>
+                <p>While conversion paths are company-specific, 89.4% of partners offer direct return offer conversion paths. You can filter for companies with verified return-offer records in the Review Directory.</p>
+            </div>
+        </div>
+    </div>
 
-</html>
+</div>
+@endsection
+

@@ -1394,3 +1394,100 @@
     animation: fade-in-zoom 0.5s ease-out forwards;
 }
 
+/* ==========================================================================
+   Global Dark Mode Overrides (for welcome and navbarlinks pages)
+   ========================================================================== */
+
+body.page-dark {
+    background-color: #071018 !important;
+    color: #e6eef0 !important;
+}
+
+/* Main Backgrounds */
+body.page-dark section,
+body.page-dark .bg-white,
+body.page-dark .bg-[#ffffff],
+body.page-dark .bg-[#F8FAFA],
+body.page-dark .bg-[#ededed],
+body.page-dark .bg-[#F7F9FA],
+body.page-dark .bg-zinc-50,
+body.page-dark .bg-gray-50,
+body.page-dark .bg-emerald-50 {
+    background-color: #071018 !important;
+}
+
+/* Secondary Backgrounds (Cards, Panels) */
+body.page-dark .bg-white\/60,
+body.page-dark .bg-zinc-100,
+body.page-dark .bg-gray-100,
+body.page-dark .bg-blue-100,
+body.page-dark .bg-[#FFF7ED],
+body.page-dark .bg-emerald-100 {
+    background-color: rgba(255, 255, 255, 0.05) !important;
+}
+
+/* Text Colors - Primary */
+body.page-dark .text-gray-900,
+body.page-dark .text-gray-800,
+body.page-dark .text-[#17494D],
+body.page-dark .text-[#2d2d2d],
+body.page-dark .text-[#444444],
+body.page-dark .text-zinc-900,
+body.page-dark .text-black {
+    color: #ffffff !important;
+}
+
+/* Text Colors - Secondary/Muted */
+body.page-dark .text-gray-500,
+body.page-dark .text-gray-600,
+body.page-dark .text-gray-700,
+body.page-dark .text-[#7B7B7B],
+body.page-dark .text-zinc-500,
+body.page-dark .text-zinc-600 {
+    color: #9fb6bb !important;
+}
+
+/* Text Colors - Brand & Links */
+body.page-dark a,
+body.page-dark .text-[#00b1aa],
+body.page-dark .text-emerald-600,
+body.page-dark .text-emerald-700,
+body.page-dark .text-emerald-800,
+body.page-dark .text-blue-700 {
+    color: #7be8df !important;
+}
+
+/* Border Colors */
+body.page-dark .border-gray-200,
+body.page-dark .border-gray-300,
+body.page-dark .border-zinc-200,
+body.page-dark .border-zinc-100,
+body.page-dark .border-[#E5E7EB],
+body.page-dark .border-emerald-100 {
+    border-color: #233036 !important;
+}
+
+body.page-dark .ring-1 {
+    --tw-ring-color: #233036 !important;
+}
+
+/* Highlight / Accents */
+body.page-dark .text-yellow-400,
+body.page-dark .text-yellow-300,
+body.page-dark .text-amber-400 {
+    color: #f6d365 !important;
+}
+
+/* Buttons */
+body.page-dark .bg-[#00b0aa],
+body.page-dark .bg-[#00b1aa],
+body.page-dark .bg-emerald-600 {
+    background-color: #00b1aa !important;
+    color: #ffffff !important;
+}
+
+body.page-dark .bg-[#00b0aa]:hover,
+body.page-dark .bg-[#00b1aa]:hover,
+body.page-dark .bg-emerald-600:hover {
+    background-color: #009690 !important;
+}

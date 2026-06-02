@@ -351,6 +351,16 @@ Route::get('/get-started', function () {
     return view('signe-up.intern.get-started');
 })->name('get_started');
 
+// Locale switcher — set preferred language in session and redirect back
+Route::get('/locale/{lang}', function (Request $request, $lang) {
+    $allowed = ['en', 'fr'];
+    if (in_array($lang, $allowed)) {
+        session(['locale' => $lang]);
+        app()->setLocale($lang);
+    }
+    return redirect()->back();
+})->name('locale.switch');
+
 Route::view('/find-batch', 'signe-up.intern.find-batch')->name('find_batch');
 Route::view('/get-started-company', 'signe-up.company.get-started-company')->name('get_started_company');
 Route::view('/admin-login', 'signe-up.admin.admin-login')->name('admin.login');
@@ -360,44 +370,180 @@ Route::post('/admin-login', function (Request $request) {
         'password' => ['required', 'string'],
     ]);
 
-    // Demo bootstrap: allow these exact credentials and ensure an admin account exists.
-    if ($credentials['email'] === 'admin@internlink.test' && $credentials['password'] === 'AdminPass123!') {
-        $admin = \App\Models\User::firstOrCreate(
-            ['email' => 'admin@internlink.test'],
-            [
-                'name' => 'Admin',
-                'password' => \Illuminate\Support\Facades\Hash::make('AdminPass123!'),
-                'role' => 'admin',
-                'email_verified_at' => now(),
-            ]
-        );
-
-        if ($admin->role !== 'admin') {
-            $admin->role = 'admin';
-            $admin->save();
-        }
-
-        Auth::login($admin);
-        $request->session()->regenerate();
-        return redirect()->route('home');
+    if (!\Illuminate\Support\Facades\Schema::hasTable('admin')) {
+        \Illuminate\Support\Facades\Schema::create('admin', function (\Illuminate\Database\Schema\Blueprint $table) {
+            $table->id();
+            $table->string('email')->unique();
+            $table->string('password');
+            $table->timestamps();
+        });
+        \Illuminate\Support\Facades\DB::table('admin')->insert([
+            'email' => 'youness.ben-touttibt.00@edu.uiz.ac.ma',
+            'password' => 'admin123',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
     }
 
-    if (Auth::attempt($credentials)) {
-        $request->session()->regenerate();
+    $adminRow = \Illuminate\Support\Facades\DB::table('admin')->where('email', $credentials['email'])->first();
+    if ($adminRow) {
+        $stored = $adminRow->password ?? '';
+        $matches = false;
+        // Only call Hash::check if the stored value looks like a bcrypt/argon hash.
+        if (is_string($stored) && preg_match('/^\$2[aby]\$|^\$argon2/', $stored)) {
+            $matches = \Illuminate\Support\Facades\Hash::check($credentials['password'], $stored);
+        } else {
+            $matches = ($credentials['password'] === $stored);
+        }
+        if ($matches) {
+            $admin = \App\Models\User::firstOrCreate(
+                ['email' => $credentials['email']],
+                [
+                    'name' => 'Admin',
+                    'password' => \Illuminate\Support\Facades\Hash::make($credentials['password']),
+                    'role' => 'admin',
+                    'email_verified_at' => now(),
+                ]
+            );
 
-        if (Auth::user()?->role === 'admin') {
+            $admin->role = 'admin';
+            $admin->save();
+
+            Auth::login($admin);
+            $request->session()->regenerate();
             return redirect()->route('home');
         }
 
-        Auth::logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
+        return back()->withErrors([
+            'password' => 'The password is incorrect for this admin email.',
+        ])->onlyInput('email');
     }
 
     return back()->withErrors([
-        'email' => 'These credentials do not match an admin account.',
+        'email' => 'Admin email not found.',
     ])->onlyInput('email');
 })->middleware('guest')->name('admin.login.attempt');
+
+Route::post('/admin-password/request-code', function (Request $request) {
+    $request->validate([
+        'email' => ['required', 'email'],
+    ]);
+
+    $email = $request->input('email');
+
+    if (!\Illuminate\Support\Facades\Schema::hasTable('admin')) {
+        \Illuminate\Support\Facades\Schema::create('admin', function (\Illuminate\Database\Schema\Blueprint $table) {
+            $table->id();
+            $table->string('email')->unique();
+            $table->string('password');
+            $table->timestamps();
+        });
+        \Illuminate\Support\Facades\DB::table('admin')->insert([
+            'email' => 'youness.ben-touttibt.00@edu.uiz.ac.ma',
+            'password' => 'admin123',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+    }
+
+    if (!\Illuminate\Support\Facades\DB::table('admin')->where('email', $email)->exists()) {
+        // Create a default admin row for this email so the reset flow can proceed.
+        \Illuminate\Support\Facades\DB::table('admin')->insert([
+            'email' => $email,
+            'password' => 'admin123',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+    }
+
+    $admin = \App\Models\User::firstOrCreate(
+        ['email' => $email],
+        [
+            'name' => 'Admin',
+            'password' => \Illuminate\Support\Facades\Hash::make('AdminPass123!'),
+            'role' => 'admin',
+            'email_verified_at' => now(),
+        ]
+    );
+
+    $code = str_pad(random_int(0, 999999), 6, '0', STR_PAD_LEFT);
+
+    $request->session()->put('admin_password_reset', [
+        'email' => $email,
+        'code' => $code,
+        'verified' => false,
+        'expires_at' => now()->addMinutes(10),
+    ]);
+
+    \Illuminate\Support\Facades\Mail::to($email)->send(new \App\Mail\VerificationCode($code));
+
+    // Also log the code server-side so it's visible when mail isn't configured.
+    \Illuminate\Support\Facades\Log::info('Admin password reset code generated', ['email' => $email, 'code' => $code]);
+    \Illuminate\Support\Facades\Log::info('Mail driver in use', ['driver' => config('mail.default')]);
+
+    return response()->json(['message' => 'Verification code sent.']);
+})->middleware('guest')->name('admin.password.request_code');
+
+Route::post('/admin-password/verify-code', function (Request $request) {
+    $request->validate([
+        'code' => ['required', 'string'],
+    ]);
+
+    $payload = $request->session()->get('admin_password_reset', []);
+
+    if (empty($payload) || now()->greaterThan($payload['expires_at'] ?? now())) {
+        return response()->json(['message' => 'Verification code expired or invalid.'], 422);
+    }
+
+    if (!hash_equals($payload['code'], $request->input('code'))) {
+        return response()->json(['message' => 'Verification code is incorrect.'], 422);
+    }
+
+    $request->session()->put('admin_password_reset.verified', true);
+
+    return response()->json(['message' => 'Code verified.']);
+})->middleware('guest')->name('admin.password.verify_code');
+
+
+Route::post('/admin-password/update', function (Request $request) {
+    // Relaxed validation per request: keep required and confirmed but remove minimum length requirements.
+    $request->validate([
+        'password' => ['required', 'string', 'confirmed'],
+    ]);
+
+    $payload = $request->session()->get('admin_password_reset', []);
+
+    if (empty($payload) || empty($payload['verified'])) {
+        return response()->json(['message' => 'Unauthorized password reset attempt.'], 403);
+    }
+
+    $admin = \App\Models\User::firstOrCreate(
+        ['email' => $payload['email']],
+        [
+            'name' => 'Admin',
+            'password' => \Illuminate\Support\Facades\Hash::make($request->input('password')),
+            'role' => 'admin',
+            'email_verified_at' => now(),
+        ]
+    );
+
+    $admin->password = \Illuminate\Support\Facades\Hash::make($request->input('password'));
+    $admin->role = 'admin';
+    $admin->email_verified_at = now();
+    $admin->save();
+
+    // Also update or insert the password in the `admin` table so it stays in sync.
+    \Illuminate\Support\Facades\DB::table('admin')->updateOrInsert(
+        ['email' => $payload['email']],
+        ['password' => $request->input('password'), 'updated_at' => now()]
+    );
+
+    Auth::login($admin);
+    $request->session()->regenerate();
+    $request->session()->forget('admin_password_reset');
+
+    return response()->json(['redirect' => route('home')]);
+})->middleware('guest')->name('admin.password.update');
 
 // ====== NAVBAR LINKS ======
 // Home
@@ -428,6 +574,7 @@ Route::view('/how-it-works/students', 'navbarlinks.how_it_works.for_students')->
 Route::view('/how-it-works/companies', 'navbarlinks.how_it_works.for_companies')->name('navbarlink.howit.companies');
 Route::view('/how-it-works/universities', 'navbarlinks.how_it_works.for_universities')->name('navbarlink.howit.universities');
 Route::view('/how-it-works/recruitment-process', 'navbarlinks.how_it_works.recruitment_process')->name('navbarlink.howit.recruitment');
+Route::view('/how-it-works/faq', 'navbarlinks.how_it_works.faq')->name('navbarlink.howit.faq');
 
 // Resources
 Route::view('/resources/cv-builder', 'navbarlinks.resources.cv_builder')->name('navbarlink.resources.cv-builder');
@@ -502,7 +649,17 @@ Route::get('/dashboard', function () {
             return redirect()->route('app.home');
         }
     }
-    return view('dashboard');
+    return view('signe-up.admin.dashboard');
 })->middleware('auth')->name('home');
+
+Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/reports', function () { return view('signe-up.admin.reports'); })->name('reports');
+    Route::get('/universities', function () { return view('signe-up.admin.universities'); })->name('universities');
+    Route::get('/departments', function () { return view('signe-up.admin.departments'); })->name('departments');
+    Route::get('/internships', function () { return view('signe-up.admin.internships'); })->name('internships');
+    Route::get('/users', function () { return view('signe-up.admin.users'); })->name('users');
+    Route::get('/settings', function () { return view('signe-up.admin.settings'); })->name('settings');
+    Route::get('/support', function () { return view('signe-up.admin.support'); })->name('support');
+});
 
 require __DIR__.'/settings.php';

@@ -6,7 +6,7 @@ Wrap your page content with <x-ui-state> ... </x-ui-state>
     document.addEventListener('alpine:init', () => {
         Alpine.store('ui', {
             darkMode: false,
-            lang: 'English',
+            lang: @json(app()->getLocale() === 'fr' ? 'French' : 'English'),
 
             /* -- i18n translation map -- */
             t(key) {
