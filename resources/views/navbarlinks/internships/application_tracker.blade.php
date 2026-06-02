@@ -35,14 +35,14 @@
     <!-- Header -->
     <div class="border-b border-[#E5E7EB] pb-5 mb-8 md:flex md:items-center md:justify-between">
         <div class="min-w-0 flex-1">
-            <h1 class="text-2xl font-bold tracking-tight text-[#444444] sm:text-3xl">Application Manager</h1>
-            <p class="mt-1.5 text-xs text-[#7B7B7B] font-medium">Coordinate recruiter chats, checklist validations, and interviews in one place.</p>
+            <h1 class="text-2xl font-bold tracking-tight text-[#444444] sm:text-3xl">{{ __('Application Manager') }}</h1>
+            <p class="mt-1.5 text-xs text-[#7B7B7B] font-medium">{{ __('Coordinate recruiter chats, checklist validations, and interviews in one place.') }}</p>
         </div>
         
         <!-- Toggle Tabs -->
         <div class="mt-4 flex md:ml-4 md:mt-0 bg-zinc-200/80 p-0.5 rounded">
-            <button @click="activeTab = 'kanban'" :class="activeTab === 'kanban' ? 'bg-white text-zinc-900 shadow-sm' : 'text-zinc-600'" class="px-3.5 py-1.5 rounded text-xs font-semibold transition-all">Pipeline Board</button>
-            <button @click="activeTab = 'messages'" :class="activeTab === 'messages' ? 'bg-white text-zinc-900 shadow-sm' : 'text-zinc-600'" class="px-3.5 py-1.5 rounded text-xs font-semibold transition-all flex items-center gap-1">Recruiter Chat <span class="bg-[#00B1AA] text-white text-[9px] px-1.5 py-0.5 rounded-full font-bold">2</span></button>
+            <button @click="activeTab = 'kanban'" :class="activeTab === 'kanban' ? 'bg-white text-zinc-900 shadow-sm' : 'text-zinc-600'" class="px-3.5 py-1.5 rounded text-xs font-semibold transition-all">{{ __('Pipeline Board') }}</button>
+            <button @click="activeTab = 'messages'" :class="activeTab === 'messages' ? 'bg-white text-zinc-900 shadow-sm' : 'text-zinc-600'" class="px-3.5 py-1.5 rounded text-xs font-semibold transition-all flex items-center gap-1">{{ __('Recruiter Chat') }} <span class="bg-[#00B1AA] text-white text-[9px] px-1.5 py-0.5 rounded-full font-bold">2</span></button>
         </div>
     </div>
 
@@ -54,9 +54,9 @@
             
             <!-- Applied -->
             <div class="bg-zinc-100/70 border border-[#E5E7EB] rounded p-3 flex flex-col min-h-[450px]">
-                <span class="text-xs font-bold text-[#444444] uppercase tracking-wider mb-3 px-1 block">Applied</span>
+                <span class="text-xs font-bold text-[#444444] uppercase tracking-wider mb-3 px-1 block">{{ __('Applied') }}</span>
                 <div class="space-y-3 flex-grow">
-                    <template x-for="app in applications.filter(a => a.status === 'applied')" :key="app.id">
+                    <template x-for="app in applications.filter(a => {{ __('a.status === \'applied\')" :key="app.id">') }}
                         <div class="bg-white border border-[#E5E7EB] rounded p-3.5 shadow-soft space-y-3">
                             <div class="flex items-center gap-2">
                                 <div :class="app.logoBg" class="h-7 w-7 text-white font-bold rounded flex items-center justify-center text-xs" x-text="app.logo"></div>
@@ -64,7 +64,7 @@
                             </div>
                             <div class="flex justify-between items-center text-[10px]">
                                 <span class="text-zinc-400" x-text="app.date"></span>
-                                <button @click="updateStatus(app.id, 'phone_screen')" class="text-[#00B1AA] font-bold hover:text-[#009c95]">Next &rarr;</button>
+                                <button @click="updateStatus(app.id, 'phone_screen')" class="text-[#00B1AA] font-bold hover:text-[#009c95]">{{ __('Next &rarr;') }}</button>
                             </div>
                         </div>
                     </template>
@@ -73,17 +73,17 @@
 
             <!-- Phone Screen -->
             <div class="bg-zinc-100/70 border border-[#E5E7EB] rounded p-3 flex flex-col min-h-[450px]">
-                <span class="text-xs font-bold text-[#444444] uppercase tracking-wider mb-3 px-1 block">Phone Screen</span>
+                <span class="text-xs font-bold text-[#444444] uppercase tracking-wider mb-3 px-1 block">{{ __('Phone Screen') }}</span>
                 <div class="space-y-3 flex-grow">
-                    <template x-for="app in applications.filter(a => a.status === 'phone_screen')" :key="app.id">
+                    <template x-for="app in applications.filter(a => {{ __('a.status === \'phone_screen\')" :key="app.id">') }}
                         <div class="bg-white border border-[#E5E7EB] rounded p-3.5 shadow-soft space-y-3">
                             <div class="flex items-center gap-2">
                                 <div :class="app.logoBg" class="h-7 w-7 text-white font-bold rounded flex items-center justify-center text-xs" x-text="app.logo"></div>
                                 <h4 class="font-bold text-xs text-[#444444] truncate" x-text="app.role"></h4>
                             </div>
                             <div class="flex justify-between items-center text-[10px]">
-                                <button @click="updateStatus(app.id, 'applied')" class="text-[#7B7B7B] font-bold">&larr; Back</button>
-                                <button @click="updateStatus(app.id, 'interviewing')" class="text-[#00B1AA] font-bold hover:text-[#009c95]">Next &rarr;</button>
+                                <button @click="updateStatus(app.id, 'applied')" class="text-[#7B7B7B] font-bold">{{ __('&larr; Back') }}</button>
+                                <button @click="updateStatus(app.id, 'interviewing')" class="text-[#00B1AA] font-bold hover:text-[#009c95]">{{ __('Next &rarr;') }}</button>
                             </div>
                         </div>
                     </template>
@@ -92,17 +92,17 @@
 
             <!-- Interviewing -->
             <div class="bg-zinc-100/70 border border-[#E5E7EB] rounded p-3 flex flex-col min-h-[450px]">
-                <span class="text-xs font-bold text-[#444444] uppercase tracking-wider mb-3 px-1 block">Interviewing</span>
+                <span class="text-xs font-bold text-[#444444] uppercase tracking-wider mb-3 px-1 block">{{ __('Interviewing') }}</span>
                 <div class="space-y-3 flex-grow">
-                    <template x-for="app in applications.filter(a => a.status === 'interviewing')" :key="app.id">
+                    <template x-for="app in applications.filter(a => {{ __('a.status === \'interviewing\')" :key="app.id">') }}
                         <div class="bg-white border border-[#E5E7EB] rounded p-3.5 shadow-soft space-y-3">
                             <div class="flex items-center gap-2">
                                 <div :class="app.logoBg" class="h-7 w-7 text-white font-bold rounded flex items-center justify-center text-xs" x-text="app.logo"></div>
                                 <h4 class="font-bold text-[#444444] text-xs truncate" x-text="app.role"></h4>
                             </div>
                             <div class="flex justify-between items-center text-[10px]">
-                                <button @click="updateStatus(app.id, 'phone_screen')" class="text-[#7B7B7B] font-bold">&larr; Back</button>
-                                <button @click="updateStatus(app.id, 'offered')" class="text-[#00B1AA] font-bold hover:text-[#009c95]">Next &rarr;</button>
+                                <button @click="updateStatus(app.id, 'phone_screen')" class="text-[#7B7B7B] font-bold">{{ __('&larr; Back') }}</button>
+                                <button @click="updateStatus(app.id, 'offered')" class="text-[#00B1AA] font-bold hover:text-[#009c95]">{{ __('Next &rarr;') }}</button>
                             </div>
                         </div>
                     </template>
@@ -111,9 +111,9 @@
 
             <!-- Offered -->
             <div class="bg-zinc-100/70 border border-[#E5E7EB] rounded p-3 flex flex-col min-h-[450px]">
-                <span class="text-xs font-bold text-[#444444] uppercase tracking-wider mb-3 px-1 block">Offered</span>
+                <span class="text-xs font-bold text-[#444444] uppercase tracking-wider mb-3 px-1 block">{{ __('Offered') }}</span>
                 <div class="space-y-3 flex-grow">
-                    <template x-for="app in applications.filter(a => a.status === 'offered')" :key="app.id">
+                    <template x-for="app in applications.filter(a => {{ __('a.status === \'offered\')" :key="app.id">') }}
                         <div class="bg-white border border-[#10B981]/20 rounded p-3.5 shadow-soft space-y-3">
                             <div class="flex items-center gap-2">
                                 <div :class="app.logoBg" class="h-7 w-7 text-white font-bold rounded flex items-center justify-center text-xs" x-text="app.logo"></div>
@@ -121,8 +121,8 @@
                             </div>
                             <p class="text-[11px] text-[#444444] font-medium leading-normal bg-emerald-50 p-2 rounded" x-text="app.note"></p>
                             <div class="flex justify-between items-center text-[10px]">
-                                <button @click="updateStatus(app.id, 'interviewing')" class="text-[#7B7B7B] font-bold">&larr; Back</button>
-                                <span class="text-[#10B981] font-bold">Vetted Offer</span>
+                                <button @click="updateStatus(app.id, 'interviewing')" class="text-[#7B7B7B] font-bold">{{ __('&larr; Back') }}</button>
+                                <span class="text-[#10B981] font-bold">{{ __('Vetted Offer') }}</span>
                             </div>
                         </div>
                     </template>
@@ -135,46 +135,46 @@
         <aside class="lg:col-span-3 space-y-6">
             <!-- Reminders Box -->
             <div class="bg-white border border-[#E5E7EB] rounded p-5 shadow-soft space-y-4">
-                <h3 class="font-bold text-xs uppercase tracking-wider text-[#444444] border-b border-zinc-100 pb-1.5">Upcoming Loops</h3>
+                <h3 class="font-bold text-xs uppercase tracking-wider text-[#444444] border-b border-zinc-100 pb-1.5">{{ __('Upcoming Loops') }}</h3>
                 <div class="space-y-3 text-xs">
                     <div class="border-l-2 border-[#00B1AA] pl-3">
-                        <span class="block font-bold text-[#444444]">Stripe Tech Panel</span>
-                        <span class="block text-[#7B7B7B] font-medium mt-0.5">Thursday &bull; 2:00 PM EST</span>
+                        <span class="block font-bold text-[#444444]">{{ __('Stripe Tech Panel') }}</span>
+                        <span class="block text-[#7B7B7B] font-medium mt-0.5">{{ __('Thursday &bull; 2:00 PM EST') }}</span>
                     </div>
                     <div class="border-l-2 border-zinc-250 pl-3">
-                        <span class="block font-bold text-[#444444]">Vercel Contract Signature</span>
-                        <span class="block text-[#7B7B7B] font-medium mt-0.5">July 1 Deadline</span>
+                        <span class="block font-bold text-[#444444]">{{ __('Vercel Contract Signature') }}</span>
+                        <span class="block text-[#7B7B7B] font-medium mt-0.5">{{ __('July 1 Deadline') }}</span>
                     </div>
                     <div class="border-l-2 border-zinc-200 pl-3">
-                        <span class="block font-bold text-[#444444]">Supabase Intro Call</span>
-                        <span class="block text-[#7B7B7B] font-medium mt-0.5">Next Monday &bull; 11:30 AM PST</span>
+                        <span class="block font-bold text-[#444444]">{{ __('Supabase Intro Call') }}</span>
+                        <span class="block text-[#7B7B7B] font-medium mt-0.5">{{ __('Next Monday &bull; 11:30 AM PST') }}</span>
                     </div>
                     <div class="border-l-2 border-zinc-200 pl-3">
-                        <span class="block font-bold text-[#444444]">Pinecone similarity sync</span>
-                        <span class="block text-[#7B7B7B] font-medium mt-0.5">Next Wednesday &bull; 4:00 PM EST</span>
+                        <span class="block font-bold text-[#444444]">{{ __('Pinecone similarity sync') }}</span>
+                        <span class="block text-[#7B7B7B] font-medium mt-0.5">{{ __('Next Wednesday &bull; 4:00 PM EST') }}</span>
                     </div>
                 </div>
             </div>
 
             <!-- Documents checklist (New Sidebar Card) -->
             <div class="bg-white border border-[#E5E7EB] rounded p-5 shadow-soft space-y-4">
-                <h3 class="font-bold text-xs uppercase tracking-wider text-[#444444] border-b border-zinc-100 pb-1.5">Document Audit Checklist</h3>
+                <h3 class="font-bold text-xs uppercase tracking-wider text-[#444444] border-b border-zinc-100 pb-1.5">{{ __('Document Audit Checklist') }}</h3>
                 <div class="space-y-3.5 text-xs text-zinc-600 font-medium">
                     <div class="flex items-center gap-2">
                         <i class="fa-solid fa-circle-check text-emerald-600"></i>
-                        <span>Vercel Signed Offer (Escrow pending)</span>
+                        <span>{{ __('Vercel Signed Offer (Escrow pending)') }}</span>
                     </div>
                     <div class="flex items-center gap-2">
                         <i class="fa-solid fa-circle-check text-emerald-600"></i>
-                        <span>Stanford CS CPT form generated</span>
+                        <span>{{ __('Stanford CS CPT form generated') }}</span>
                     </div>
                     <div class="flex items-center gap-2">
                         <i class="fa-regular fa-circle text-zinc-300"></i>
-                        <span>Stripe NDA sign-off</span>
+                        <span>{{ __('Stripe NDA sign-off') }}</span>
                     </div>
                     <div class="flex items-center gap-2">
                         <i class="fa-regular fa-circle text-zinc-300"></i>
-                        <span>DSO authorization approval</span>
+                        <span>{{ __('DSO authorization approval') }}</span>
                     </div>
                 </div>
             </div>
@@ -201,28 +201,28 @@
         <div class="md:col-span-8 flex flex-col justify-between p-6 bg-[#F8FAFA]">
             <div class="space-y-4 flex-grow">
                 <div class="flex items-center gap-3 border-b border-[#E5E7EB] pb-3 mb-4">
-                    <span class="h-9 w-9 bg-zinc-900 text-white rounded-full flex items-center justify-center font-bold text-xs">TR</span>
+                    <span class="h-9 w-9 bg-zinc-900 text-white rounded-full flex items-center justify-center font-bold text-xs">{{ __('TR') }}</span>
                     <div>
-                        <span class="block text-xs font-bold text-[#444444]">Thomas Ruck</span>
-                        <span class="block text-[10px] text-[#7B7B7B] font-medium">Vercel Core Hiring Lead</span>
+                        <span class="block text-xs font-bold text-[#444444]">{{ __('Thomas Ruck') }}</span>
+                        <span class="block text-[10px] text-[#7B7B7B] font-medium">{{ __('Vercel Core Hiring Lead') }}</span>
                     </div>
                 </div>
                 
                 <!-- Chat Bubbles -->
                 <div class="space-y-3.5">
                     <div class="bg-white border border-[#E5E7EB] rounded p-3 max-w-md text-xs text-[#444444] leading-relaxed shadow-soft">
-                        Hi Alexander, I have attached your credit compliance agreement. Please review and sign.
+                        {{ __('Hi Alexander, I have attached your credit compliance agreement. Please review and sign.') }}
                     </div>
                     <div class="bg-[#00B1AA] text-white rounded p-3 max-w-md text-xs leading-relaxed ml-auto text-right">
-                        Received, thank you Thomas. I will review it with my Stanford advisor this afternoon and submit via Interlink.
+                        {{ __('Received, thank you Thomas. I will review it with my Stanford advisor this afternoon and submit via Interlink.') }}
                     </div>
                 </div>
             </div>
             
             <!-- Input area -->
             <form @submit.prevent="alert('Message dispatched to recruiter.')" class="mt-4 flex gap-2">
-                <input type="text" placeholder="Type your reply..." class="flex-grow rounded border border-[#E5E7EB] px-4 py-2 text-xs bg-white">
-                <button type="submit" class="rounded bg-[#00B1AA] hover:bg-[#009c95] text-white px-4 py-2 text-xs font-semibold">Send</button>
+                <input type="text" placeholder="{{ __('Type your reply...') }}" class="flex-grow rounded border border-[#E5E7EB] px-4 py-2 text-xs bg-white">
+                <button type="submit" class="rounded bg-[#00B1AA] hover:bg-[#009c95] text-white px-4 py-2 text-xs font-semibold">{{ __('Send') }}</button>
             </form>
         </div>
     </div>

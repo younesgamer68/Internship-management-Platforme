@@ -60,9 +60,9 @@
 
     <!-- Header -->
     <div class="border-b border-zinc-200 pb-8 text-center max-w-3xl mx-auto space-y-4">
-        <h1 class="text-3xl font-bold tracking-tight text-[#444444] sm:text-4xl">The Vetted Recruitment Lifecycle</h1>
+        <h1 class="text-3xl font-bold tracking-tight text-[#444444] sm:text-4xl">{{ __('The Vetted Recruitment Lifecycle') }}</h1>
         <p class="text-sm text-[#7B7B7B] font-medium leading-relaxed">
-            How Interlink accelerates candidate matching and simplifies legal compliance for startup hires. Click any step below to see details.
+            {{ __('How Interlink accelerates candidate matching and simplifies legal compliance for startup hires. Click any step below to see details.') }}
         </p>
     </div>
 
@@ -108,18 +108,18 @@
 
             <div class="space-y-4 pt-4 border-t border-zinc-100 text-xs">
                 <div>
-                    <span class="font-bold text-zinc-800 block"><i class="fa-solid fa-graduation-cap text-[#00B1AA] mr-1.5"></i> Student Checklist</span>
+                    <span class="font-bold text-zinc-800 block"><i class="fa-solid fa-graduation-cap text-[#00B1AA] mr-1.5"></i> {{ __('Student Checklist') }}</span>
                     <p class="text-[#7B7B7B] mt-1 leading-relaxed" x-text="stages[activeStage - 1].studentReq"></p>
                 </div>
                 <div>
-                    <span class="font-bold text-zinc-800 block"><i class="fa-solid fa-briefcase text-[#00B1AA] mr-1.5"></i> Employer Checklist</span>
+                    <span class="font-bold text-zinc-800 block"><i class="fa-solid fa-briefcase text-[#00B1AA] mr-1.5"></i> {{ __('Employer Checklist') }}</span>
                     <p class="text-[#7B7B7B] mt-1 leading-relaxed" x-text="stages[activeStage - 1].employerReq"></p>
                 </div>
             </div>
 
             <div class="bg-zinc-50 rounded p-4 border border-zinc-200 text-[10px] text-zinc-500 flex items-start gap-2">
                 <i class="fa-solid fa-circle-info text-[#00B1AA] mt-0.5"></i>
-                <span>All timeline stages are monitored by university advisors to guarantee CPT course compliance.</span>
+                <span>{{ __('All timeline stages are monitored by university advisors to guarantee CPT course compliance.') }}</span>
             </div>
         </div>
 
@@ -128,52 +128,52 @@
     <!-- SLAs Dashboard -->
     <div class="bg-white border border-[#E5E7EB] rounded-xl p-8 shadow-soft space-y-6">
         <div class="text-center max-w-xl mx-auto">
-            <h3 class="font-bold text-sm text-[#444444] uppercase tracking-wider">Recruitment Platform Performance Standards (SLAs)</h3>
-            <p class="text-xs text-[#7B7B7B] mt-0.5">Ensuring fast responses and legal certainty for students and startups.</p>
+            <h3 class="font-bold text-sm text-[#444444] uppercase tracking-wider">{{ __('Recruitment Platform Performance Standards (SLAs)') }}</h3>
+            <p class="text-xs text-[#7B7B7B] mt-0.5">{{ __('Ensuring fast responses and legal certainty for students and startups.') }}</p>
         </div>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center text-xs">
             <div class="space-y-1">
-                <p class="text-[#7B7B7B]">Resume Review</p>
-                <strong class="text-xl font-extrabold text-zinc-900">&lt; 72 Hours</strong>
-                <p class="text-[9px] text-[#7B7B7B]">Direct coordinator response rate</p>
+                <p class="text-[#7B7B7B]">{{ __('Resume Review') }}</p>
+                <strong class="text-xl font-extrabold text-zinc-900">{{ __('&lt; 72 Hours') }}</strong>
+                <p class="text-[9px] text-[#7B7B7B]">{{ __('Direct coordinator response rate') }}</p>
             </div>
             <div class="space-y-1">
-                <p class="text-[#7B7B7B]">Match Processing</p>
-                <strong class="text-xl font-extrabold text-[#00B1AA]">24 Hours</strong>
-                <p class="text-[9px] text-[#7B7B7B]">From configuration to list</p>
+                <p class="text-[#7B7B7B]">{{ __('Match Processing') }}</p>
+                <strong class="text-xl font-extrabold text-[#00B1AA]">{{ __('24 Hours') }}</strong>
+                <p class="text-[9px] text-[#7B7B7B]">{{ __('From configuration to list') }}</p>
             </div>
             <div class="space-y-1">
-                <p class="text-[#7B7B7B]">CPT Validation</p>
-                <strong class="text-xl font-extrabold text-zinc-900">&lt; 24 Hours</strong>
-                <p class="text-[9px] text-[#7B7B7B]">Legal agreement dispatch</p>
+                <p class="text-[#7B7B7B]">{{ __('CPT Validation') }}</p>
+                <strong class="text-xl font-extrabold text-zinc-900">{{ __('&lt; 24 Hours') }}</strong>
+                <p class="text-[9px] text-[#7B7B7B]">{{ __('Legal agreement dispatch') }}</p>
             </div>
             <div class="space-y-1">
-                <p class="text-[#7B7B7B]">Stipend Floor Check</p>
-                <strong class="text-xl font-extrabold text-emerald-600">Immediate</strong>
-                <p class="text-[9px] text-[#7B7B7B]">Automatic payroll validation</p>
+                <p class="text-[#7B7B7B]">{{ __('Stipend Floor Check') }}</p>
+                <strong class="text-xl font-extrabold text-emerald-600">{{ __('Immediate') }}</strong>
+                <p class="text-[9px] text-[#7B7B7B]">{{ __('Automatic payroll validation') }}</p>
             </div>
         </div>
     </div>
 
     <!-- Timeline FAQs -->
     <div class="bg-white border border-[#E5E7EB] rounded-xl p-8 shadow-soft space-y-6">
-        <h3 class="font-bold text-sm text-[#444444] text-center uppercase tracking-wider">Timeline Frequently Asked Questions</h3>
+        <h3 class="font-bold text-sm text-[#444444] text-center uppercase tracking-wider">{{ __('Timeline Frequently Asked Questions') }}</h3>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-xs text-[#7B7B7B] leading-relaxed">
             <div class="space-y-2">
-                <h4 class="font-bold text-zinc-800 text-sm">How fast do matches show up after posting?</h4>
-                <p>Because Interlink indexes candidate databases continuously, initial candidate matches are delivered to recruiter boards within 24 hours of list publication.</p>
+                <h4 class="font-bold text-zinc-800 text-sm">{{ __('How fast do matches show up after posting?') }}</h4>
+                <p>{{ __('Because Interlink indexes candidate databases continuously, initial candidate matches are delivered to recruiter boards within 24 hours of list publication.') }}</p>
             </div>
             <div class="space-y-2">
-                <h4 class="font-bold text-zinc-800 text-sm">What coding frameworks are supported for take-home sandboxes?</h4>
-                <p>We provide sandbox environments for React, Next.js, Rust, Go, Python, and PostgreSQL, compiling results automatically for recruiter dashboards.</p>
+                <h4 class="font-bold text-zinc-800 text-sm">{{ __('What coding frameworks are supported for take-home sandboxes?') }}</h4>
+                <p>{{ __('We provide sandbox environments for React, Next.js, Rust, Go, Python, and PostgreSQL, compiling results automatically for recruiter dashboards.') }}</p>
             </div>
             <div class="space-y-2">
-                <h4 class="font-bold text-zinc-800 text-sm">What happens if a student needs to delay their start date?</h4>
-                <p>Standard matching agreements accommodate start date offsets. Any changes sync to university registrar databases automatically, keeping credit calculations accurate.</p>
+                <h4 class="font-bold text-zinc-800 text-sm">{{ __('What happens if a student needs to delay their start date?') }}</h4>
+                <p>{{ __('Standard matching agreements accommodate start date offsets. Any changes sync to university registrar databases automatically, keeping credit calculations accurate.') }}</p>
             </div>
             <div class="space-y-2">
-                <h4 class="font-bold text-zinc-800 text-sm">Can companies expedite the compliance signature cycle?</h4>
-                <p>Yes. By utilizing our DocuSign registrar APIs, agreements can be authorized and signed by the academic advisor within hours of candidate selection.</p>
+                <h4 class="font-bold text-zinc-800 text-sm">{{ __('Can companies expedite the compliance signature cycle?') }}</h4>
+                <p>{{ __('Yes. By utilizing our DocuSign registrar APIs, agreements can be authorized and signed by the academic advisor within hours of candidate selection.') }}</p>
             </div>
         </div>
     </div>

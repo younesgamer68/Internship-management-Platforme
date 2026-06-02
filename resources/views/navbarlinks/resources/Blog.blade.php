@@ -20,37 +20,35 @@
     ],
     get filtered() {
         if (this.selectedCategory === 'all') return this.articles;
-        return this.articles.filter(a => a.category === this.selectedCategory);
-    }
-}" class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 space-y-12">
+        return this.articles.filter(a => {{ __('a.category === this.selectedCategory); } }" class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 space-y-12">') }}
 
     <!-- Header -->
     <div class="border-b border-zinc-200 pb-5">
-        <h1 class="text-3xl font-bold leading-7 text-[#444444] sm:truncate sm:text-4xl">Interlink Blog</h1>
-        <p class="mt-2 text-sm text-[#7B7B7B] font-medium">Strategic guidance on software engineering preparation, CPT guidelines, and design loops.</p>
+        <h1 class="text-3xl font-bold leading-7 text-[#444444] sm:truncate sm:text-4xl">{{ __('Interlink Blog') }}</h1>
+        <p class="mt-2 text-sm text-[#7B7B7B] font-medium">{{ __('Strategic guidance on software engineering preparation, CPT guidelines, and design loops.') }}</p>
     </div>
 
     <!-- Featured Post -->
     <article class="bg-zinc-950 text-white rounded-xl p-8 sm:p-12 shadow-soft-lg flex flex-col justify-between min-h-[300px]">
         <div class="max-w-xl space-y-4">
-            <span class="inline-flex items-center rounded-full bg-[#00B1AA]/20 px-3 py-1 text-xs font-semibold text-[#00B1AA] ring-1 ring-inset ring-[#00B1AA]/30">Featured Cover</span>
+            <span class="inline-flex items-center rounded-full bg-[#00B1AA]/20 px-3 py-1 text-xs font-semibold text-[#00B1AA] ring-1 ring-inset ring-[#00B1AA]/30">{{ __('Featured Cover') }}</span>
             <h2 class="text-2xl sm:text-3xl font-bold leading-tight">
-                <a href="#" class="hover:text-[#00B1AA]/80 transition-colors">The Art of the 12-Week Sprint: How to Land the Return Offer</a>
+                <a href="#" class="hover:text-[#00B1AA]/80 transition-colors">{{ __('The Art of the 12-Week Sprint: How to Land the Return Offer') }}</a>
             </h2>
-            <p class="text-xs text-zinc-400 leading-relaxed">How to negotiate roadmap objectives, show system ownership, and secure conversion offers before graduation. Study templates for weekly milestones and mentor reviews.</p>
+            <p class="text-xs text-zinc-400 leading-relaxed">{{ __('How to negotiate roadmap objectives, show system ownership, and secure conversion offers before graduation. Study templates for weekly milestones and mentor reviews.') }}</p>
         </div>
         <div class="border-t border-zinc-800 pt-5 mt-6 flex justify-between items-center text-[10px] text-zinc-400">
-            <span>By Thomas Ruck &bull; Head of Tech Recruiting, Vercel</span>
-            <span>June 4, 2026 &bull; 9 min read</span>
+            <span>{{ __('By Thomas Ruck &bull; Head of Tech Recruiting, Vercel') }}</span>
+            <span>{{ __('June 4, 2026 &bull; 9 min read') }}</span>
         </div>
     </article>
 
     <!-- Categories -->
     <div class="flex flex-wrap gap-2 border-b border-zinc-200 pb-4 text-xs font-semibold">
-        <button @click="selectedCategory = 'all'" :class="selectedCategory === 'all' ? 'bg-[#00B1AA] text-white font-bold' : 'text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100 bg-white border border-[#E5E7EB]'" class="px-3 py-1.5 rounded transition-colors shadow-soft">All Articles</button>
-        <button @click="selectedCategory = 'interviews'" :class="selectedCategory === 'interviews' ? 'bg-[#00B1AA] text-white font-bold' : 'text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100 bg-white border border-[#E5E7EB]'" class="px-3 py-1.5 rounded transition-colors shadow-soft">Interview Prep</button>
-        <button @click="selectedCategory = 'growth'" :class="selectedCategory === 'growth' ? 'bg-[#00B1AA] text-white font-bold' : 'text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100 bg-white border border-[#E5E7EB]'" class="px-3 py-1.5 rounded transition-colors shadow-soft">Career Growth</button>
-        <button @click="selectedCategory = 'design'" :class="selectedCategory === 'design' ? 'bg-[#00B1AA] text-white font-bold' : 'text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100 bg-white border border-[#E5E7EB]'" class="px-3 py-1.5 rounded transition-colors shadow-soft">UX Design</button>
+        <button @click="selectedCategory = 'all'" :class="selectedCategory === 'all' ? 'bg-[#00B1AA] text-white font-bold' : 'text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100 bg-white border border-[#E5E7EB]'" class="px-3 py-1.5 rounded transition-colors shadow-soft">{{ __('All Articles') }}</button>
+        <button @click="selectedCategory = 'interviews'" :class="selectedCategory === 'interviews' ? 'bg-[#00B1AA] text-white font-bold' : 'text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100 bg-white border border-[#E5E7EB]'" class="px-3 py-1.5 rounded transition-colors shadow-soft">{{ __('Interview Prep') }}</button>
+        <button @click="selectedCategory = 'growth'" :class="selectedCategory === 'growth' ? 'bg-[#00B1AA] text-white font-bold' : 'text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100 bg-white border border-[#E5E7EB]'" class="px-3 py-1.5 rounded transition-colors shadow-soft">{{ __('Career Growth') }}</button>
+        <button @click="selectedCategory = 'design'" :class="selectedCategory === 'design' ? 'bg-[#00B1AA] text-white font-bold' : 'text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100 bg-white border border-[#E5E7EB]'" class="px-3 py-1.5 rounded transition-colors shadow-soft">{{ __('UX Design') }}</button>
     </div>
 
     <!-- Article grid -->
@@ -72,16 +70,16 @@
 
     <!-- Newsletter -->
     <div class="bg-white border border-[#E5E7EB] rounded-xl p-8 text-center max-w-md mx-auto shadow-soft space-y-4">
-        <h4 class="font-bold text-sm text-[#444444]">Subscribe to Technical Career Guides</h4>
-        <p class="text-xs text-[#7B7B7B]">Join 8,000+ university scholars receiving interview checklists and partner recruiting schedules weekly.</p>
+        <h4 class="font-bold text-sm text-[#444444]">{{ __('Subscribe to Technical Career Guides') }}</h4>
+        <p class="text-xs text-[#7B7B7B]">{{ __('Join 8,000+ university scholars receiving interview checklists and partner recruiting schedules weekly.') }}</p>
         
         <div x-show="newsletterSubmitted" class="p-3 bg-emerald-50 text-emerald-800 border border-emerald-100 rounded text-xs">
-            <span class="font-bold">Subscription Confirmed!</span> Check your academic inbox for our pre-written resume templates.
+            <span class="font-bold">{{ __('Subscription Confirmed!') }}</span> {{ __('Check your academic inbox for our pre-written resume templates.') }}
         </div>
 
         <form x-show="!newsletterSubmitted" @submit.prevent="newsletterSubmitted = true" class="flex gap-2 text-xs">
             <input type="email" required placeholder="name@university.edu" class="flex-grow text-xs rounded border border-zinc-200 px-3 py-2 bg-[#F8FAFA] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#00B1AA]">
-            <button type="submit" class="rounded bg-[#00B1AA] hover:bg-[#009c95] text-white px-4 py-2 font-bold transition-colors shadow-soft">Subscribe</button>
+            <button type="submit" class="rounded bg-[#00B1AA] hover:bg-[#009c95] text-white px-4 py-2 font-bold transition-colors shadow-soft">{{ __('Subscribe') }}</button>
         </form>
     </div>
 

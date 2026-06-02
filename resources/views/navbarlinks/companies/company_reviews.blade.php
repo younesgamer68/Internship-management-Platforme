@@ -36,42 +36,42 @@
     <!-- Header -->
     <div class="border-b border-zinc-200 pb-5 mb-8 md:flex md:items-center md:justify-between">
         <div class="min-w-0 flex-1">
-            <h1 class="text-3xl font-bold leading-7 text-[#444444] sm:truncate sm:text-4xl">Student Reviews & Ratings</h1>
-            <p class="mt-2 text-sm text-[#7B7B7B] font-medium">Read reviews from students who completed placements at partner startups. Vetted for authenticity.</p>
+            <h1 class="text-3xl font-bold leading-7 text-[#444444] sm:truncate sm:text-4xl">{{ __('Student Reviews & Ratings') }}</h1>
+            <p class="mt-2 text-sm text-[#7B7B7B] font-medium">{{ __('Read reviews from students who completed placements at partner startups. Vetted for authenticity.') }}</p>
         </div>
     </div>
 
     <!-- Overall Rating Metrics Dashboard -->
     <div class="grid grid-cols-1 md:grid-cols-4 gap-6 text-sm">
         <div class="bg-white border border-[#E5E7EB] rounded p-5 shadow-soft text-center space-y-1">
-            <span class="text-xs text-[#7B7B7B] font-bold uppercase block">Average Work Culture</span>
+            <span class="text-xs text-[#7B7B7B] font-bold uppercase block">{{ __('Average Work Culture') }}</span>
             <p class="text-4xl font-extrabold text-[#00B1AA]">4.8 / 5.0</p>
-            <span class="text-[10px] text-[#7B7B7B] block">Based on 280+ post-internship logs</span>
+            <span class="text-[10px] text-[#7B7B7B] block">{{ __('Based on 280+ post-internship logs') }}</span>
         </div>
         <div class="bg-white border border-[#E5E7EB] rounded p-5 shadow-soft text-center space-y-1">
-            <span class="text-xs text-[#7B7B7B] font-bold uppercase block">Return Offer Rate</span>
+            <span class="text-xs text-[#7B7B7B] font-bold uppercase block">{{ __('Return Offer Rate') }}</span>
             <p class="text-4xl font-extrabold text-zinc-900">89.4%</p>
-            <span class="text-[10px] text-[#7B7B7B] block">Full-time conversion loops signed</span>
+            <span class="text-[10px] text-[#7B7B7B] block">{{ __('Full-time conversion loops signed') }}</span>
         </div>
         <div class="bg-white border border-[#E5E7EB] rounded p-5 shadow-soft text-center space-y-1">
-            <span class="text-xs text-[#7B7B7B] font-bold uppercase block">Stipend Compliance</span>
-            <p class="text-4xl font-extrabold text-emerald-600">100% Verified</p>
-            <span class="text-[10px] text-[#7B7B7B] block">Zero occurrences of sub-minimum rates</span>
+            <span class="text-xs text-[#7B7B7B] font-bold uppercase block">{{ __('Stipend Compliance') }}</span>
+            <p class="text-4xl font-extrabold text-emerald-600">{{ __('100% Verified') }}</p>
+            <span class="text-[10px] text-[#7B7B7B] block">{{ __('Zero occurrences of sub-minimum rates') }}</span>
         </div>
         <div class="bg-white border border-[#E5E7EB] rounded p-5 shadow-soft text-center space-y-1">
-            <span class="text-xs text-[#7B7B7B] font-bold uppercase block">Net Promoter Score</span>
+            <span class="text-xs text-[#7B7B7B] font-bold uppercase block">{{ __('Net Promoter Score') }}</span>
             <p class="text-4xl font-extrabold text-[#00B1AA]">84.0</p>
-            <span class="text-[10px] text-[#7B7B7B] block">Strongly recommended by student alumni</span>
+            <span class="text-[10px] text-[#7B7B7B] block">{{ __('Strongly recommended by student alumni') }}</span>
         </div>
     </div>
 
     <!-- Rating Distribution & Breakdown -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 bg-white border border-[#E5E7EB] rounded p-6 shadow-soft">
         <div class="space-y-3 col-span-2">
-            <h3 class="text-sm font-bold text-[#444444]">Detailed Ratings Distribution</h3>
+            <h3 class="text-sm font-bold text-[#444444]">{{ __('Detailed Ratings Distribution') }}</h3>
             <!-- Row 5 Star -->
             <div class="flex items-center text-xs text-[#7B7B7B] gap-3">
-                <span class="w-10 font-medium">5 star</span>
+                <span class="w-10 font-medium">{{ __('5 star') }}</span>
                 <div class="flex-grow h-2.5 bg-zinc-100 rounded-full overflow-hidden">
                     <div class="h-full bg-[#00B1AA]" style="width: 78%"></div>
                 </div>
@@ -79,7 +79,7 @@
             </div>
             <!-- Row 4 Star -->
             <div class="flex items-center text-xs text-[#7B7B7B] gap-3">
-                <span class="w-10 font-medium">4 star</span>
+                <span class="w-10 font-medium">{{ __('4 star') }}</span>
                 <div class="flex-grow h-2.5 bg-zinc-100 rounded-full overflow-hidden">
                     <div class="h-full bg-[#00B1AA]" style="width: 16%"></div>
                 </div>
@@ -87,7 +87,7 @@
             </div>
             <!-- Row 3 Star -->
             <div class="flex items-center text-xs text-[#7B7B7B] gap-3">
-                <span class="w-10 font-medium">3 star</span>
+                <span class="w-10 font-medium">{{ __('3 star') }}</span>
                 <div class="flex-grow h-2.5 bg-zinc-100 rounded-full overflow-hidden">
                     <div class="h-full bg-[#00B1AA]" style="width: 4%"></div>
                 </div>
@@ -95,7 +95,7 @@
             </div>
             <!-- Row 2 Star -->
             <div class="flex items-center text-xs text-[#7B7B7B] gap-3">
-                <span class="w-10 font-medium">2 star</span>
+                <span class="w-10 font-medium">{{ __('2 star') }}</span>
                 <div class="flex-grow h-2.5 bg-zinc-100 rounded-full overflow-hidden">
                     <div class="h-full bg-[#00B1AA]" style="width: 2%"></div>
                 </div>
@@ -103,7 +103,7 @@
             </div>
             <!-- Row 1 Star -->
             <div class="flex items-center text-xs text-[#7B7B7B] gap-3">
-                <span class="w-10 font-medium">1 star</span>
+                <span class="w-10 font-medium">{{ __('1 star') }}</span>
                 <div class="flex-grow h-2.5 bg-zinc-100 rounded-full overflow-hidden">
                     <div class="h-full bg-[#00B1AA]" style="width: 0%"></div>
                 </div>
@@ -111,12 +111,12 @@
             </div>
         </div>
         <div class="border-t md:border-t-0 md:border-l border-[#E5E7EB] pt-4 md:pt-0 md:pl-6 flex flex-col justify-center space-y-3">
-            <h4 class="text-xs font-bold text-[#444444]">Core Strengths Voted by Interns:</h4>
+            <h4 class="text-xs font-bold text-[#444444]">{{ __('Core Strengths Voted by Interns:') }}</h4>
             <ul class="text-xs text-[#7B7B7B] space-y-2">
-                <li class="flex items-center gap-2"><i class="fa-solid fa-square-check text-[#00B1AA]"></i> Direct Production Access</li>
-                <li class="flex items-center gap-2"><i class="fa-solid fa-square-check text-[#00B1AA]"></i> Weekly Mentor 1:1s</li>
-                <li class="flex items-center gap-2"><i class="fa-solid fa-square-check text-[#00B1AA]"></i> Flexible Working Hours</li>
-                <li class="flex items-center gap-2"><i class="fa-solid fa-square-check text-[#00B1AA]"></i> Modern Technology Stacks</li>
+                <li class="flex items-center gap-2"><i class="fa-solid fa-square-check text-[#00B1AA]"></i> {{ __('Direct Production Access') }}</li>
+                <li class="flex items-center gap-2"><i class="fa-solid fa-square-check text-[#00B1AA]"></i> {{ __('Weekly Mentor 1:1s') }}</li>
+                <li class="flex items-center gap-2"><i class="fa-solid fa-square-check text-[#00B1AA]"></i> {{ __('Flexible Working Hours') }}</li>
+                <li class="flex items-center gap-2"><i class="fa-solid fa-square-check text-[#00B1AA]"></i> {{ __('Modern Technology Stacks') }}</li>
             </ul>
         </div>
     </div>
@@ -129,26 +129,26 @@
             
             <!-- Filters -->
             <div class="bg-white border border-[#E5E7EB] rounded p-5 shadow-soft space-y-4">
-                <h3 class="text-xs font-bold text-[#444444] uppercase tracking-wider">Filter Reviews</h3>
+                <h3 class="text-xs font-bold text-[#444444] uppercase tracking-wider">{{ __('Filter Reviews') }}</h3>
                 <div class="space-y-3 text-xs">
                     <div>
-                        <label class="block text-zinc-500 mb-1">Company</label>
+                        <label class="block text-zinc-500 mb-1">{{ __('Company') }}</label>
                         <select x-model="searchCompany" class="w-full bg-[#F8FAFA] border border-[#E5E7EB] rounded p-2 font-medium">
-                            <option value="All">All Companies</option>
-                            <option value="Stripe">Stripe</option>
-                            <option value="Figma">Figma</option>
-                            <option value="Vercel">Vercel</option>
-                            <option value="Linear">Linear</option>
-                            <option value="Supabase">Supabase</option>
-                            <option value="Resend">Resend</option>
+                            <option value="All">{{ __('All Companies') }}</option>
+                            <option value="Stripe">{{ __('Stripe') }}</option>
+                            <option value="Figma">{{ __('Figma') }}</option>
+                            <option value="Vercel">{{ __('Vercel') }}</option>
+                            <option value="Linear">{{ __('Linear') }}</option>
+                            <option value="Supabase">{{ __('Supabase') }}</option>
+                            <option value="Resend">{{ __('Resend') }}</option>
                         </select>
                     </div>
                     <div>
-                        <label class="block text-zinc-500 mb-1">Rating Rating</label>
+                        <label class="block text-zinc-500 mb-1">{{ __('Rating Rating') }}</label>
                         <select x-model="selectedRating" class="w-full bg-[#F8FAFA] border border-[#E5E7EB] rounded p-2 font-medium">
-                            <option value="All">All Ratings</option>
-                            <option value="5">Excellent (4.9 - 5.0)</option>
-                            <option value="4">Very Good (3.9 - 4.8)</option>
+                            <option value="All">{{ __('All Ratings') }}</option>
+                            <option value="5">{{ __('Excellent (4.9 - 5.0)') }}</option>
+                            <option value="4">{{ __('Very Good (3.9 - 4.8)') }}</option>
                         </select>
                     </div>
                 </div>
@@ -157,49 +157,49 @@
             <!-- Interactive Draft Review Form -->
             <div class="bg-white border border-[#E5E7EB] rounded p-5 shadow-soft space-y-4">
                 <div>
-                    <h3 class="text-xs font-bold text-[#444444] uppercase tracking-wider">Leave a Review</h3>
-                    <p class="text-[10px] text-[#7B7B7B] mt-0.5">Mock draft a review to see live UI preview updates.</p>
+                    <h3 class="text-xs font-bold text-[#444444] uppercase tracking-wider">{{ __('Leave a Review') }}</h3>
+                    <p class="text-[10px] text-[#7B7B7B] mt-0.5">{{ __('Mock draft a review to see live UI preview updates.') }}</p>
                 </div>
                 <div class="space-y-3 text-xs">
                     <div>
-                        <label class="block text-zinc-500 mb-1">Company</label>
+                        <label class="block text-zinc-500 mb-1">{{ __('Company') }}</label>
                         <select x-model="draftCompany" class="w-full bg-[#F8FAFA] border border-[#E5E7EB] rounded p-1.5 font-medium">
-                            <option value="Stripe">Stripe</option>
-                            <option value="Figma">Figma</option>
-                            <option value="Vercel">Vercel</option>
-                            <option value="Linear">Linear</option>
-                            <option value="Supabase">Supabase</option>
-                            <option value="Resend">Resend</option>
+                            <option value="Stripe">{{ __('Stripe') }}</option>
+                            <option value="Figma">{{ __('Figma') }}</option>
+                            <option value="Vercel">{{ __('Vercel') }}</option>
+                            <option value="Linear">{{ __('Linear') }}</option>
+                            <option value="Supabase">{{ __('Supabase') }}</option>
+                            <option value="Resend">{{ __('Resend') }}</option>
                         </select>
                     </div>
                     <div>
-                        <label class="block text-zinc-500 mb-1">Role Title</label>
+                        <label class="block text-zinc-500 mb-1">{{ __('Role Title') }}</label>
                         <input x-model="draftRole" type="text" class="w-full bg-[#F8FAFA] border border-[#E5E7EB] rounded p-1.5 font-medium">
                     </div>
                     <div class="grid grid-cols-2 gap-2">
                         <div>
-                            <label class="block text-zinc-500 mb-1">Stipend ($/hr)</label>
+                            <label class="block text-zinc-500 mb-1">{{ __('Stipend ($/hr)') }}</label>
                             <input x-model="draftStipend" type="text" class="w-full bg-[#F8FAFA] border border-[#E5E7EB] rounded p-1.5 font-medium">
                         </div>
                         <div>
-                            <label class="block text-zinc-500 mb-1">Rating (1-5)</label>
+                            <label class="block text-zinc-500 mb-1">{{ __('Rating (1-5)') }}</label>
                             <input x-model.number="draftRating" type="number" step="0.1" min="1" max="5" class="w-full bg-[#F8FAFA] border border-[#E5E7EB] rounded p-1.5 font-medium">
                         </div>
                     </div>
                     <div>
-                        <label class="block text-zinc-500 mb-1">Return Offer Status</label>
+                        <label class="block text-zinc-500 mb-1">{{ __('Return Offer Status') }}</label>
                         <select x-model="draftConversion" class="w-full bg-[#F8FAFA] border border-[#E5E7EB] rounded p-1.5 font-medium">
-                            <option value="Conversion Offer Accepted">Accepted</option>
-                            <option value="Conversion Offer Pending">Pending Decision</option>
-                            <option value="No Offer / Went to Grad School">No Offer</option>
+                            <option value="Conversion Offer Accepted">{{ __('Accepted') }}</option>
+                            <option value="Conversion Offer Pending">{{ __('Pending Decision') }}</option>
+                            <option value="No Offer / Went to Grad School">{{ __('No Offer') }}</option>
                         </select>
                     </div>
                     <div>
-                        <label class="block text-zinc-500 mb-1">Feedback Description</label>
+                        <label class="block text-zinc-500 mb-1">{{ __('Feedback Description') }}</label>
                         <textarea x-model="draftContent" rows="3" class="w-full bg-[#F8FAFA] border border-[#E5E7EB] rounded p-1.5 font-medium leading-relaxed resize-none"></textarea>
                     </div>
                     <button @click="reviews.unshift({ id: Date.now(), company: draftCompany, role: draftRole, author: 'Anonymous Scholar', cohort: draftCohort, rating: draftRating, content: draftContent, stipend: draftStipend, conversion: draftConversion }); alert('Review draft inserted into live UI stream!')" class="w-full text-center bg-[#00B1AA] hover:bg-[#009c95] text-white font-bold py-2 rounded transition-colors shadow-soft">
-                        Inject Review Draft
+                        {{ __('Inject Review Draft') }}
                     </button>
                 </div>
             </div>
@@ -209,7 +209,7 @@
         <!-- Right Side: Reviews Stream & FAQ Guidelines -->
         <div class="lg:col-span-2 space-y-6">
             
-            <h2 class="text-lg font-bold text-[#444444]">Vetted Placement Reviews</h2>
+            <h2 class="text-lg font-bold text-[#444444]">{{ __('Vetted Placement Reviews') }}</h2>
 
             <!-- Review List Container -->
             <div class="space-y-4">
@@ -236,19 +236,19 @@
 
             <!-- Review Verification FAQ Section -->
             <div class="bg-white border border-[#E5E7EB] rounded p-6 shadow-soft space-y-5">
-                <h3 class="text-sm font-bold text-[#444444]">Review Moderation Policies & Trust FAQ</h3>
+                <h3 class="text-sm font-bold text-[#444444]">{{ __('Review Moderation Policies & Trust FAQ') }}</h3>
                 <div class="space-y-4 text-xs text-[#7B7B7B]">
                     <div>
-                        <h4 class="font-bold text-zinc-800">How do you ensure review authenticity?</h4>
-                        <p class="mt-1">All internship reviews require university email verification or GitHub single-sign-on matching the student account listed in the internship agreement. Submissions are matched against verified corporate registrar records before publishing.</p>
+                        <h4 class="font-bold text-zinc-800">{{ __('How do you ensure review authenticity?') }}</h4>
+                        <p class="mt-1">{{ __('All internship reviews require university email verification or GitHub single-sign-on matching the student account listed in the internship agreement. Submissions are matched against verified corporate registrar records before publishing.') }}</p>
                     </div>
                     <div>
-                        <h4 class="font-bold text-zinc-800">Are reviews fully anonymous?</h4>
-                        <p class="mt-1">Yes, students can choose to publish reviews with their full name, initials, or as a completely anonymous verified scholar. Recruiter agencies cannot access student names unless consent is explicit.</p>
+                        <h4 class="font-bold text-zinc-800">{{ __('Are reviews fully anonymous?') }}</h4>
+                        <p class="mt-1">{{ __('Yes, students can choose to publish reviews with their full name, initials, or as a completely anonymous verified scholar. Recruiter agencies cannot access student names unless consent is explicit.') }}</p>
                     </div>
                     <div>
-                        <h4 class="font-bold text-zinc-800">Can a corporate partner ask for a bad review to be deleted?</h4>
-                        <p class="mt-1">No. We maintain strict compliance records. While companies can post verified comments or responses to review threads, they cannot edit, delete, or alter any star metrics published by verified program alumni.</p>
+                        <h4 class="font-bold text-zinc-800">{{ __('Can a corporate partner ask for a bad review to be deleted?') }}</h4>
+                        <p class="mt-1">{{ __('No. We maintain strict compliance records. While companies can post verified comments or responses to review threads, they cannot edit, delete, or alter any star metrics published by verified program alumni.') }}</p>
                     </div>
                 </div>
             </div>

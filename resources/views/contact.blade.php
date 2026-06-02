@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->{{ __('getLocale()) }}">') }}
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>Contact Us - InternDesk</title>
+    <title>{{ __('Contact Us - InternDesk') }}</title>
 
     <link rel="icon" href="{{ asset('images/Logos/Small%20Logo.png') }}" type="image/png">
     <link rel="apple-touch-icon" href="{{ asset('images/Logos/Small%20Logo.png') }}">
@@ -96,7 +96,7 @@
                                     :class="$store.ui.darkMode
                                         ? 'border-white/20 bg-black/30 text-white placeholder-white/40 focus:border-white/40 focus:ring-1 focus:ring-white/20'
                                         : 'border-[#cde5e6] bg-white text-[#173f42] placeholder-[#7a9da0] focus:border-[#4ea4a8] focus:ring-1 focus:ring-[#b4e5e7]'"
-                                    :placeholder="$store.ui.t('contactFieldNamePlaceholder')" />
+                                    :placeholder="{{ __('$store.ui.t(\'contactFieldNamePlaceholder\')') }}" />
                             </div>
                             <div>
                                 <label for="contact_email" class="mb-1.5 block text-sm font-medium"
@@ -107,7 +107,7 @@
                                     :class="$store.ui.darkMode
                                         ? 'border-white/20 bg-black/30 text-white placeholder-white/40 focus:border-white/40 focus:ring-1 focus:ring-white/20'
                                         : 'border-[#cde5e6] bg-white text-[#173f42] placeholder-[#7a9da0] focus:border-[#4ea4a8] focus:ring-1 focus:ring-[#b4e5e7]'"
-                                    :placeholder="$store.ui.t('contactFieldEmailPlaceholder')" />
+                                    :placeholder="{{ __('$store.ui.t(\'contactFieldEmailPlaceholder\')') }}" />
                             </div>
                         </div>
 
@@ -122,7 +122,7 @@
                                     :class="$store.ui.darkMode
                                         ? 'border-white/20 bg-black/30 text-white placeholder-white/40 focus:border-white/40 focus:ring-1 focus:ring-white/20'
                                         : 'border-[#cde5e6] bg-white text-[#173f42] placeholder-[#7a9da0] focus:border-[#4ea4a8] focus:ring-1 focus:ring-[#b4e5e7]'"
-                                    :placeholder="$store.ui.t('contactFieldCompanyPlaceholder')" />
+                                    :placeholder="{{ __('$store.ui.t(\'contactFieldCompanyPlaceholder\')') }}" />
                             </div>
                             <div>
                                 <label for="contact_team_size" class="mb-1.5 block text-sm font-medium"
@@ -168,7 +168,7 @@
                                 :class="$store.ui.darkMode
                                     ? 'border-white/20 bg-black/30 text-white placeholder-white/40 focus:border-white/40 focus:ring-1 focus:ring-white/20'
                                     : 'border-[#cde5e6] bg-white text-[#173f42] placeholder-[#7a9da0] focus:border-[#4ea4a8] focus:ring-1 focus:ring-[#b4e5e7]'"
-                                :placeholder="$store.ui.t('contactFieldMessagePlaceholder')"></textarea>
+                                :placeholder="{{ __('$store.ui.t(\'contactFieldMessagePlaceholder\')') }}"></textarea>
                         </div>
 
                         <div class="flex flex-wrap items-center justify-between gap-4 pt-2">
@@ -232,7 +232,7 @@
 
         <section class="scroll-reveal relative w-full overflow-hidden border-b px-6 py-12 sm:py-14"
             :class="$store.ui.darkMode ? 'border-emerald-300/15 bg-black' : 'border-[#e2ecee] bg-[#f9fcfc]'"
-            aria-label="InterLink office locations">
+            aria-label="{{ __('InterLink office locations') }}">
             <div class="pointer-events-none absolute inset-0"
                 :class="$store.ui.darkMode
                     ? 'bg-[radial-gradient(circle_at_20%_20%,rgba(84,219,129,0.12),transparent_36%),radial-gradient(circle_at_88%_82%,rgba(39,176,95,0.18),transparent_40%)]'
@@ -246,228 +246,201 @@
 
                 <div class="scroll-stagger mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
                     <article class="space-y-1.5 text-sm">
-                        <h3 class="font-semibold" :class="$store.ui.darkMode ? 'text-white' : 'text-[#0f2230]'">Global
-                            HQ -
-                            MAP</h3>
-                        <p>181 Market Street</p>
-                        <p>San Francisco, CA 94105</p>
-                        <a href="#" class="font-semibold text-[#2d8a56] underline underline-offset-2">helpdesk.com</a>
+                        <h3 class="font-semibold" :class="$store.ui.darkMode ? 'text-white' : 'text-[#0f2230]'">{{ __('Global HQ - MAP') }}</h3>
+                        <p>{{ __('181 Market Street') }}</p>
+                        <p>{{ __('San Francisco, CA 94105') }}</p>
+                        <a href="#" class="font-semibold text-[#2d8a56] underline underline-offset-2">{{ __('helpdesk.com') }}</a>
                     </article>
 
                     <article class="space-y-1.5 text-sm">
                         <h3 class="font-semibold" :class="$store.ui.darkMode ? 'text-white' : 'text-[#0f2230]'">
-                            Australia -
-                            MAP</h3>
-                        <p>Level 13, 550 Bourke Street</p>
-                        <p>Melbourne, Victoria 3000</p>
+                            {{ __('Australia - MAP') }}</h3>
+                        <p>{{ __('Level 13, 550 Bourke Street') }}</p>
+                        <p>{{ __('Melbourne, Victoria 3000') }}</p>
                         <a href="#"
-                            class="font-semibold text-[#2d8a56] underline underline-offset-2">helpdesk.com/au</a>
+                            class="font-semibold text-[#2d8a56] underline underline-offset-2">{{ __('helpdesk.com/au') }}</a>
                     </article>
 
                     <article class="space-y-1.5 text-sm">
-                        <h3 class="font-semibold" :class="$store.ui.darkMode ? 'text-white' : 'text-[#0f2230]'">Brazil -
-                            MAP
+                        <h3 class="font-semibold" :class="$store.ui.darkMode ? 'text-white' : 'text-[#0f2230]'">{{ __('Brazil - MAP') }}
                         </h3>
-                        <p>Av. Paulista 920, 14th floor</p>
-                        <p>Sao Paulo, SP 04583-110</p>
+                        <p>{{ __('Av. Paulista 920, 14th floor') }}</p>
+                        <p>{{ __('Sao Paulo, SP 04583-110') }}</p>
                         <a href="#"
-                            class="font-semibold text-[#2d8a56] underline underline-offset-2">helpdesk.com.br</a>
+                            class="font-semibold text-[#2d8a56] underline underline-offset-2">{{ __('helpdesk.com.br') }}</a>
                     </article>
 
                     <article class="space-y-1.5 text-sm">
-                        <h3 class="font-semibold" :class="$store.ui.darkMode ? 'text-white' : 'text-[#0f2230]'">Canada -
-                            MAP
+                        <h3 class="font-semibold" :class="$store.ui.darkMode ? 'text-white' : 'text-[#0f2230]'">{{ __('Canada - MAP') }}
                         </h3>
-                        <p>385 Av. Viger O</p>
-                        <p>Montreal, QC H2Z 1M9</p>
+                        <p>{{ __('385 Av. Viger O') }}</p>
+                        <p>{{ __('Montreal, QC H2Z 1M9') }}</p>
                         <a href="#"
-                            class="font-semibold text-[#2d8a56] underline underline-offset-2">helpdesk.com/ca</a>
+                            class="font-semibold text-[#2d8a56] underline underline-offset-2">{{ __('helpdesk.com/ca') }}</a>
                     </article>
 
                     <article class="space-y-1.5 text-sm">
-                        <h3 class="font-semibold" :class="$store.ui.darkMode ? 'text-white' : 'text-[#0f2230]'">Denmark
-                            -
-                            MAP</h3>
-                        <p>Njalsgade 72C, 2</p>
-                        <p>2300 Kobenhavn S</p>
+                        <h3 class="font-semibold" :class="$store.ui.darkMode ? 'text-white' : 'text-[#0f2230]'">{{ __('Denmark - MAP') }}</h3>
+                        <p>{{ __('Njalsgade 72C, 2') }}</p>
+                        <p>{{ __('2300 Kobenhavn S') }}</p>
                         <a href="#"
-                            class="font-semibold text-[#2d8a56] underline underline-offset-2">helpdesk.com/dk</a>
+                            class="font-semibold text-[#2d8a56] underline underline-offset-2">{{ __('helpdesk.com/dk') }}</a>
                     </article>
 
                     <article class="space-y-1.5 text-sm">
-                        <h3 class="font-semibold" :class="$store.ui.darkMode ? 'text-white' : 'text-[#0f2230]'">France -
-                            MAP
+                        <h3 class="font-semibold" :class="$store.ui.darkMode ? 'text-white' : 'text-[#0f2230]'">{{ __('France - MAP') }}
                         </h3>
-                        <p>32 Rue de Trevise</p>
-                        <p>75009 Paris</p>
-                        <a href="#" class="font-semibold text-[#2d8a56] underline underline-offset-2">helpdesk.fr</a>
+                        <p>{{ __('32 Rue de Trevise') }}</p>
+                        <p>{{ __('75009 Paris') }}</p>
+                        <a href="#" class="font-semibold text-[#2d8a56] underline underline-offset-2">{{ __('helpdesk.fr') }}</a>
                     </article>
 
                     <article class="space-y-1.5 text-sm">
-                        <h3 class="font-semibold" :class="$store.ui.darkMode ? 'text-white' : 'text-[#0f2230]'">Germany
-                            -
-                            MAP</h3>
-                        <p>Paul-Lincke-Ufer 39/40, Hof 4</p>
-                        <p>10999 Berlin</p>
-                        <a href="#" class="font-semibold text-[#2d8a56] underline underline-offset-2">helpdesk.de</a>
+                        <h3 class="font-semibold" :class="$store.ui.darkMode ? 'text-white' : 'text-[#0f2230]'">{{ __('Germany - MAP') }}</h3>
+                        <p>{{ __('Paul-Lincke-Ufer 39/40, Hof 4') }}</p>
+                        <p>{{ __('10999 Berlin') }}</p>
+                        <a href="#" class="font-semibold text-[#2d8a56] underline underline-offset-2">{{ __('helpdesk.de') }}</a>
                     </article>
 
                     <article class="space-y-1.5 text-sm">
-                        <h3 class="font-semibold" :class="$store.ui.darkMode ? 'text-white' : 'text-[#0f2230]'">India,
-                            Bangalore - MAP</h3>
-                        <p>62/53 Church Street</p>
-                        <p>Bengaluru, Karnataka 560001</p>
+                        <h3 class="font-semibold" :class="$store.ui.darkMode ? 'text-white' : 'text-[#0f2230]'">{{ __('India, Bangalore - MAP') }}</h3>
+                        <p>{{ __('62/53 Church Street') }}</p>
+                        <p>{{ __('Bengaluru, Karnataka 560001') }}</p>
                         <a href="#"
-                            class="font-semibold text-[#2d8a56] underline underline-offset-2">helpdesk.com/in</a>
+                            class="font-semibold text-[#2d8a56] underline underline-offset-2">{{ __('helpdesk.com/in') }}</a>
                     </article>
 
                     <article class="space-y-1.5 text-sm">
-                        <h3 class="font-semibold" :class="$store.ui.darkMode ? 'text-white' : 'text-[#0f2230]'">India,
-                            Pune
-                            - MAP</h3>
-                        <p>North Main Road, Koregaon Park</p>
-                        <p>Pune, Maharashtra 411001</p>
+                        <h3 class="font-semibold" :class="$store.ui.darkMode ? 'text-white' : 'text-[#0f2230]'">{{ __('India, Pune - MAP') }}</h3>
+                        <p>{{ __('North Main Road, Koregaon Park') }}</p>
+                        <p>{{ __('Pune, Maharashtra 411001') }}</p>
                         <a href="#"
-                            class="font-semibold text-[#2d8a56] underline underline-offset-2">helpdesk.com/in</a>
+                            class="font-semibold text-[#2d8a56] underline underline-offset-2">{{ __('helpdesk.com/in') }}</a>
                     </article>
 
                     <article class="space-y-1.5 text-sm">
-                        <h3 class="font-semibold" :class="$store.ui.darkMode ? 'text-white' : 'text-[#0f2230]'">Ireland
-                            -
-                            MAP</h3>
-                        <p>55 Charlemont Place</p>
-                        <p>Dublin D02 F985</p>
-                        <a href="#" class="font-semibold text-[#2d8a56] underline underline-offset-2">helpdesk.ie</a>
+                        <h3 class="font-semibold" :class="$store.ui.darkMode ? 'text-white' : 'text-[#0f2230]'">{{ __('Ireland - MAP') }}</h3>
+                        <p>{{ __('55 Charlemont Place') }}</p>
+                        <p>{{ __('Dublin D02 F985') }}</p>
+                        <a href="#" class="font-semibold text-[#2d8a56] underline underline-offset-2">{{ __('helpdesk.ie') }}</a>
                     </article>
 
                     <article class="space-y-1.5 text-sm">
-                        <h3 class="font-semibold" :class="$store.ui.darkMode ? 'text-white' : 'text-[#0f2230]'">Italy -
-                            MAP
+                        <h3 class="font-semibold" :class="$store.ui.darkMode ? 'text-white' : 'text-[#0f2230]'">{{ __('Italy - MAP') }}
                         </h3>
-                        <p>Via San Marco 21</p>
-                        <p>20121 Milano</p>
+                        <p>{{ __('Via San Marco 21') }}</p>
+                        <p>{{ __('20121 Milano') }}</p>
                         <a href="#"
-                            class="font-semibold text-[#2d8a56] underline underline-offset-2">helpdesk.com/it</a>
+                            class="font-semibold text-[#2d8a56] underline underline-offset-2">{{ __('helpdesk.com/it') }}</a>
                     </article>
 
                     <article class="space-y-1.5 text-sm">
-                        <h3 class="font-semibold" :class="$store.ui.darkMode ? 'text-white' : 'text-[#0f2230]'">Japan -
-                            MAP
+                        <h3 class="font-semibold" :class="$store.ui.darkMode ? 'text-white' : 'text-[#0f2230]'">{{ __('Japan - MAP') }}
                         </h3>
-                        <p>1-2-1 Kyobashi, Chuo City</p>
-                        <p>Tokyo 104-0031</p>
-                        <a href="#" class="font-semibold text-[#2d8a56] underline underline-offset-2">helpdesk.co.jp</a>
+                        <p>{{ __('1-2-1 Kyobashi, Chuo City') }}</p>
+                        <p>{{ __('Tokyo 104-0031') }}</p>
+                        <a href="#" class="font-semibold text-[#2d8a56] underline underline-offset-2">{{ __('helpdesk.co.jp') }}</a>
                     </article>
 
                     <article class="space-y-1.5 text-sm">
-                        <h3 class="font-semibold" :class="$store.ui.darkMode ? 'text-white' : 'text-[#0f2230]'">Mexico -
-                            MAP
+                        <h3 class="font-semibold" :class="$store.ui.darkMode ? 'text-white' : 'text-[#0f2230]'">{{ __('Mexico - MAP') }}
                         </h3>
-                        <p>Paseo de la Reforma 250</p>
-                        <p>Cuauhtemoc, CDMX 06600</p>
+                        <p>{{ __('Paseo de la Reforma 250') }}</p>
+                        <p>{{ __('Cuauhtemoc, CDMX 06600') }}</p>
                         <a href="#"
-                            class="font-semibold text-[#2d8a56] underline underline-offset-2">helpdesk.com/mx</a>
+                            class="font-semibold text-[#2d8a56] underline underline-offset-2">{{ __('helpdesk.com/mx') }}</a>
                     </article>
 
                     <article class="space-y-1.5 text-sm">
                         <h3 class="font-semibold" :class="$store.ui.darkMode ? 'text-white' : 'text-[#0f2230]'">
-                            Netherlands - MAP
+                            {{ __('Netherlands - MAP') }}
                         </h3>
-                        <p>Herengracht 420</p>
-                        <p>1017 BZ Amsterdam</p>
-                        <a href="#" class="font-semibold text-[#2d8a56] underline underline-offset-2">helpdesk.nl</a>
+                        <p>{{ __('Herengracht 420') }}</p>
+                        <p>{{ __('1017 BZ Amsterdam') }}</p>
+                        <a href="#" class="font-semibold text-[#2d8a56] underline underline-offset-2">{{ __('helpdesk.nl') }}</a>
                     </article>
 
                     <article class="space-y-1.5 text-sm">
-                        <h3 class="font-semibold" :class="$store.ui.darkMode ? 'text-white' : 'text-[#0f2230]'">Nigeria
-                            - MAP
+                        <h3 class="font-semibold" :class="$store.ui.darkMode ? 'text-white' : 'text-[#0f2230]'">{{ __('Nigeria - MAP') }}
                         </h3>
-                        <p>15A Ozumba Mbadiwe Road</p>
-                        <p>Victoria Island, Lagos</p>
+                        <p>{{ __('15A Ozumba Mbadiwe Road') }}</p>
+                        <p>{{ __('Victoria Island, Lagos') }}</p>
                         <a href="#"
-                            class="font-semibold text-[#2d8a56] underline underline-offset-2">helpdesk.com/ng</a>
+                            class="font-semibold text-[#2d8a56] underline underline-offset-2">{{ __('helpdesk.com/ng') }}</a>
                     </article>
 
                     <article class="space-y-1.5 text-sm">
-                        <h3 class="font-semibold" :class="$store.ui.darkMode ? 'text-white' : 'text-[#0f2230]'">Norway -
-                            MAP
+                        <h3 class="font-semibold" :class="$store.ui.darkMode ? 'text-white' : 'text-[#0f2230]'">{{ __('Norway - MAP') }}
                         </h3>
-                        <p>Dronning Eufemias gate 16</p>
-                        <p>0191 Oslo</p>
-                        <a href="#" class="font-semibold text-[#2d8a56] underline underline-offset-2">helpdesk.no</a>
+                        <p>{{ __('Dronning Eufemias gate 16') }}</p>
+                        <p>{{ __('0191 Oslo') }}</p>
+                        <a href="#" class="font-semibold text-[#2d8a56] underline underline-offset-2">{{ __('helpdesk.no') }}</a>
                     </article>
 
                     <article class="space-y-1.5 text-sm">
-                        <h3 class="font-semibold" :class="$store.ui.darkMode ? 'text-white' : 'text-[#0f2230]'">Poland -
-                            MAP
+                        <h3 class="font-semibold" :class="$store.ui.darkMode ? 'text-white' : 'text-[#0f2230]'">{{ __('Poland - MAP') }}
                         </h3>
-                        <p>Rondo Daszynskiego 1</p>
-                        <p>00-843 Warsaw</p>
-                        <a href="#" class="font-semibold text-[#2d8a56] underline underline-offset-2">helpdesk.pl</a>
+                        <p>{{ __('Rondo Daszynskiego 1') }}</p>
+                        <p>{{ __('00-843 Warsaw') }}</p>
+                        <a href="#" class="font-semibold text-[#2d8a56] underline underline-offset-2">{{ __('helpdesk.pl') }}</a>
                     </article>
 
                     <article class="space-y-1.5 text-sm">
-                        <h3 class="font-semibold" :class="$store.ui.darkMode ? 'text-white' : 'text-[#0f2230]'">Portugal
-                            - MAP
+                        <h3 class="font-semibold" :class="$store.ui.darkMode ? 'text-white' : 'text-[#0f2230]'">{{ __('Portugal - MAP') }}
                         </h3>
-                        <p>Av. da Liberdade 245</p>
-                        <p>1250-143 Lisbon</p>
-                        <a href="#" class="font-semibold text-[#2d8a56] underline underline-offset-2">helpdesk.pt</a>
+                        <p>{{ __('Av. da Liberdade 245') }}</p>
+                        <p>{{ __('1250-143 Lisbon') }}</p>
+                        <a href="#" class="font-semibold text-[#2d8a56] underline underline-offset-2">{{ __('helpdesk.pt') }}</a>
                     </article>
 
                     <article class="space-y-1.5 text-sm">
                         <h3 class="font-semibold" :class="$store.ui.darkMode ? 'text-white' : 'text-[#0f2230]'">
-                            Singapore - MAP
+                            {{ __('Singapore - MAP') }}
                         </h3>
-                        <p>80 Robinson Road</p>
-                        <p>Singapore 068898</p>
+                        <p>{{ __('80 Robinson Road') }}</p>
+                        <p>{{ __('Singapore 068898') }}</p>
                         <a href="#"
-                            class="font-semibold text-[#2d8a56] underline underline-offset-2">helpdesk.com/sg</a>
+                            class="font-semibold text-[#2d8a56] underline underline-offset-2">{{ __('helpdesk.com/sg') }}</a>
                     </article>
 
                     <article class="space-y-1.5 text-sm">
-                        <h3 class="font-semibold" :class="$store.ui.darkMode ? 'text-white' : 'text-[#0f2230]'">South
-                            Africa - MAP
+                        <h3 class="font-semibold" :class="$store.ui.darkMode ? 'text-white' : 'text-[#0f2230]'">{{ __('South Africa - MAP') }}
                         </h3>
-                        <p>11 Alice Lane</p>
-                        <p>Sandton, Johannesburg 2196</p>
-                        <a href="#" class="font-semibold text-[#2d8a56] underline underline-offset-2">helpdesk.co.za</a>
+                        <p>{{ __('11 Alice Lane') }}</p>
+                        <p>{{ __('Sandton, Johannesburg 2196') }}</p>
+                        <a href="#" class="font-semibold text-[#2d8a56] underline underline-offset-2">{{ __('helpdesk.co.za') }}</a>
                     </article>
 
                     <article class="space-y-1.5 text-sm">
-                        <h3 class="font-semibold" :class="$store.ui.darkMode ? 'text-white' : 'text-[#0f2230]'">South
-                            Korea - MAP
+                        <h3 class="font-semibold" :class="$store.ui.darkMode ? 'text-white' : 'text-[#0f2230]'">{{ __('South Korea - MAP') }}
                         </h3>
-                        <p>152 Teheran-ro, Gangnam-gu</p>
-                        <p>Seoul 06236</p>
-                        <a href="#" class="font-semibold text-[#2d8a56] underline underline-offset-2">helpdesk.kr</a>
+                        <p>{{ __('152 Teheran-ro, Gangnam-gu') }}</p>
+                        <p>{{ __('Seoul 06236') }}</p>
+                        <a href="#" class="font-semibold text-[#2d8a56] underline underline-offset-2">{{ __('helpdesk.kr') }}</a>
                     </article>
 
                     <article class="space-y-1.5 text-sm">
-                        <h3 class="font-semibold" :class="$store.ui.darkMode ? 'text-white' : 'text-[#0f2230]'">Spain -
-                            MAP
+                        <h3 class="font-semibold" :class="$store.ui.darkMode ? 'text-white' : 'text-[#0f2230]'">{{ __('Spain - MAP') }}
                         </h3>
-                        <p>Paseo de la Castellana 95</p>
-                        <p>28046 Madrid</p>
-                        <a href="#" class="font-semibold text-[#2d8a56] underline underline-offset-2">helpdesk.es</a>
+                        <p>{{ __('Paseo de la Castellana 95') }}</p>
+                        <p>{{ __('28046 Madrid') }}</p>
+                        <a href="#" class="font-semibold text-[#2d8a56] underline underline-offset-2">{{ __('helpdesk.es') }}</a>
                     </article>
 
                     <article class="space-y-1.5 text-sm">
-                        <h3 class="font-semibold" :class="$store.ui.darkMode ? 'text-white' : 'text-[#0f2230]'">UAE -
-                            MAP
+                        <h3 class="font-semibold" :class="$store.ui.darkMode ? 'text-white' : 'text-[#0f2230]'">{{ __('UAE - MAP') }}
                         </h3>
-                        <p>Sheikh Zayed Road, Index Tower</p>
-                        <p>Dubai, UAE</p>
-                        <a href="#" class="font-semibold text-[#2d8a56] underline underline-offset-2">helpdesk.ae</a>
+                        <p>{{ __('Sheikh Zayed Road, Index Tower') }}</p>
+                        <p>{{ __('Dubai, UAE') }}</p>
+                        <a href="#" class="font-semibold text-[#2d8a56] underline underline-offset-2">{{ __('helpdesk.ae') }}</a>
                     </article>
 
                     <article class="space-y-1.5 text-sm">
-                        <h3 class="font-semibold" :class="$store.ui.darkMode ? 'text-white' : 'text-[#0f2230]'">United
-                            Kingdom - MAP
+                        <h3 class="font-semibold" :class="$store.ui.darkMode ? 'text-white' : 'text-[#0f2230]'">{{ __('United Kingdom - MAP') }}
                         </h3>
-                        <p>1 Canada Square, Canary Wharf</p>
-                        <p>London E14 5AB</p>
-                        <a href="#" class="font-semibold text-[#2d8a56] underline underline-offset-2">helpdesk.co.uk</a>
+                        <p>{{ __('1 Canada Square, Canary Wharf') }}</p>
+                        <p>{{ __('London E14 5AB') }}</p>
+                        <a href="#" class="font-semibold text-[#2d8a56] underline underline-offset-2">{{ __('helpdesk.co.uk') }}</a>
                     </article>
                 </div>
             </div>
@@ -501,16 +474,16 @@
 
                     <div class="scroll-stagger grid grid-cols-2 gap-4">
                         <img src="https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&w=900&q=80"
-                            alt="Customer success onboarding session" class="h-44 w-full rounded-2xl object-cover"
+                            alt="{{ __('Customer success onboarding session') }}" class="h-44 w-full rounded-2xl object-cover"
                             loading="lazy" />
                         <img src="https://images.unsplash.com/photo-1553484771-371a605b060b?auto=format&fit=crop&w=900&q=80"
-                            alt="Team support strategy workshop" class="h-44 w-full rounded-2xl object-cover"
+                            alt="{{ __('Team support strategy workshop') }}" class="h-44 w-full rounded-2xl object-cover"
                             loading="lazy" />
                         <img src="https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?auto=format&fit=crop&w=900&q=80"
-                            alt="Customer operations meeting table" class="h-44 w-full rounded-2xl object-cover"
+                            alt="{{ __('Customer operations meeting table') }}" class="h-44 w-full rounded-2xl object-cover"
                             loading="lazy" />
                         <img src="https://images.unsplash.com/photo-1526628953301-3e589a6a8b74?auto=format&fit=crop&w=900&q=80"
-                            alt="Live support dashboard review" class="h-44 w-full rounded-2xl object-cover"
+                            alt="{{ __('Live support dashboard review') }}" class="h-44 w-full rounded-2xl object-cover"
                             loading="lazy" />
                     </div>
                 </div>

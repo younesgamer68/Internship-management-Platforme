@@ -135,9 +135,9 @@
 
     <!-- Header -->
     <div class="border-b border-zinc-200 pb-8 text-center max-w-3xl mx-auto space-y-4">
-        <h1 class="text-3xl font-bold tracking-tight text-[#444444] sm:truncate sm:text-4xl">Career Roadmaps</h1>
+        <h1 class="text-3xl font-bold tracking-tight text-[#444444] sm:truncate sm:text-4xl">{{ __('Career Roadmaps') }}</h1>
         <p class="text-sm text-[#7B7B7B] font-medium leading-relaxed">
-            Step-by-step technical blueprints outlining core stacks, recommended projects, and certifications. Check off your skills to calculate your matching status.
+            {{ __('Step-by-step technical blueprints outlining core stacks, recommended projects, and certifications. Check off your skills to calculate your matching status.') }}
         </p>
     </div>
 
@@ -162,15 +162,15 @@
             <section class="bg-white border border-zinc-200 rounded-xl p-6 sm:p-8 shadow-soft space-y-6">
                 <div>
                     <h2 class="text-xl font-extrabold text-[#444444]" x-text="roadmaps[activeRoadmap].title"></h2>
-                    <p class="text-xs text-zinc-400 mt-1 font-semibold uppercase">Technical Blueprint</p>
+                    <p class="text-xs text-zinc-400 mt-1 font-semibold uppercase">{{ __('Technical Blueprint') }}</p>
                 </div>
 
                 <!-- Required Skills Checklist Widget -->
                 <div class="space-y-3 bg-[#F8FAFA] border border-[#E5E7EB] rounded p-5">
                     <div class="flex justify-between items-center border-b border-zinc-200 pb-2">
-                        <span class="text-xs font-bold text-[#444444] uppercase tracking-wider">Required Skills Audit</span>
+                        <span class="text-xs font-bold text-[#444444] uppercase tracking-wider">{{ __('Required Skills Audit') }}</span>
                         <div class="flex items-center gap-2">
-                            <span class="text-[10px] text-[#7B7B7B]">Match Probability:</span>
+                            <span class="text-[10px] text-[#7B7B7B]">{{ __('Match Probability:') }}</span>
                             <span class="font-bold text-[#00B1AA]" x-text="`${matchProbability}%`"></span>
                         </div>
                     </div>
@@ -183,14 +183,14 @@
                         </template>
                     </div>
                     <div class="border-t border-zinc-200 pt-2 flex justify-between items-center text-[10px]">
-                        <span class="text-zinc-500">Matching Probability Status:</span>
+                        <span class="text-zinc-500">{{ __('Matching Probability Status:') }}</span>
                         <span class="inline-flex items-center rounded-full px-2.5 py-0.5 font-bold ring-1 ring-inset" :class="matchStatus.color" x-text="matchStatus.text"></span>
                     </div>
                 </div>
 
                 <!-- Learning Steps -->
                 <div class="space-y-3">
-                    <h3 class="text-xs font-bold uppercase tracking-wider text-[#00B1AA]">Learning Path Steps</h3>
+                    <h3 class="text-xs font-bold uppercase tracking-wider text-[#00B1AA]">{{ __('Learning Path Steps') }}</h3>
                     <ol class="space-y-3.5 text-xs text-[#7B7B7B] leading-relaxed list-decimal pl-4">
                         <template x-for="step in roadmaps[activeRoadmap].steps" :key="step">
                             <li x-text="step"></li>
@@ -200,7 +200,7 @@
 
                 <!-- Recommended Projects -->
                 <div class="space-y-3">
-                    <h3 class="text-xs font-bold uppercase tracking-wider text-[#00B1AA]">Recommended Portfolio Projects</h3>
+                    <h3 class="text-xs font-bold uppercase tracking-wider text-[#00B1AA]">{{ __('Recommended Portfolio Projects') }}</h3>
                     <ul class="list-disc pl-4 space-y-2.5 text-xs text-[#7B7B7B]">
                         <template x-for="proj in roadmaps[activeRoadmap].projects" :key="proj">
                             <li class="leading-relaxed" x-text="proj"></li>
@@ -210,7 +210,7 @@
 
                 <!-- Certifications -->
                 <div class="space-y-2 border-t border-zinc-100 pt-5">
-                    <h3 class="text-xs font-bold uppercase tracking-wider text-zinc-400">Recommended Industry Certifications</h3>
+                    <h3 class="text-xs font-bold uppercase tracking-wider text-zinc-400">{{ __('Recommended Industry Certifications') }}</h3>
                     <div class="flex flex-wrap gap-2 mt-2">
                         <template x-for="cert in roadmaps[activeRoadmap].certs" :key="cert">
                             <span class="bg-zinc-50 border border-zinc-200 text-zinc-700 text-[9px] font-bold px-2 py-0.5 rounded animate-pulse" x-text="cert"></span>
@@ -221,15 +221,15 @@
 
             <!-- Roadmap FAQs -->
             <div class="bg-white border border-[#E5E7EB] rounded-xl p-8 shadow-soft space-y-6">
-                <h3 class="font-bold text-sm text-[#444444] text-center uppercase tracking-wider">Roadmaps FAQs</h3>
+                <h3 class="font-bold text-sm text-[#444444] text-center uppercase tracking-wider">{{ __('Roadmaps FAQs') }}</h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-xs text-[#7B7B7B] leading-relaxed">
                     <div class="space-y-2">
-                        <h4 class="font-bold text-zinc-800 text-sm">How often are these career roadmaps updated?</h4>
-                        <p>Our academic advisors and corporate partners review course syllabuses and technology stack trends semi-annually. This guarantees that matching parameters align with production engineering standards.</p>
+                        <h4 class="font-bold text-zinc-800 text-sm">{{ __('How often are these career roadmaps updated?') }}</h4>
+                        <p>{{ __('Our academic advisors and corporate partners review course syllabuses and technology stack trends semi-annually. This guarantees that matching parameters align with production engineering standards.') }}</p>
                     </div>
                     <div class="space-y-2">
-                        <h4 class="font-bold text-zinc-800 text-sm">Do companies strictly require these certifications?</h4>
-                        <p>No. While certifications (like CKA or AWS Associate) add verified score weights to matching algorithms, building the listed portfolio projects and keeping high commit rates on GitHub remains the primary evaluation criteria.</p>
+                        <h4 class="font-bold text-zinc-800 text-sm">{{ __('Do companies strictly require these certifications?') }}</h4>
+                        <p>{{ __('No. While certifications (like CKA or AWS Associate) add verified score weights to matching algorithms, building the listed portfolio projects and keeping high commit rates on GitHub remains the primary evaluation criteria.') }}</p>
                     </div>
                 </div>
             </div>
