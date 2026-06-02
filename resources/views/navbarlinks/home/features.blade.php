@@ -56,45 +56,325 @@
 
 <div class="features-page font-poppins bg-white text-[#444444] overflow-x-hidden transition-colors duration-300">
 
-    <style>
-        .page-dark .features-page {
-            background-color: #07111f !important;
-            color: #ffffff !important;
-        }
+ {{-- ============================================================
+     DARK MODE — Complete Fix
+     Hierarchy palette:
+       Page bg          #07111f  (deepest)
+       Section bg       #0b182c  (sections)
+       Card bg          #10223b  (cards / panels)
+       Sub-card bg      #152844  (nested inner cards / table rows)
+       Borders          #213a59  (all borders)
+       Text primary     #ffffff
+       Text secondary   #b0c4d8  (replaces #666666 grays)
+       Accent           #00B1AA  (unchanged — brand teal)
+     ============================================================ --}}
 
-        .page-dark .features-page section:not(:first-of-type) {
-            background-color: #0b182c !important;
-            color: #ffffff !important;
-        }
+<style>
 
-        .page-dark .features-page section:not(:first-of-type) h1,
-        .page-dark .features-page section:not(:first-of-type) h2,
-        .page-dark .features-page section:not(:first-of-type) h3,
-        .page-dark .features-page section:not(:first-of-type) h4,
-        .page-dark .features-page section:not(:first-of-type) p,
-        .page-dark .features-page section:not(:first-of-type) span,
-        .page-dark .features-page section:not(:first-of-type) li,
-        .page-dark .features-page section:not(:first-of-type) label {
-            color: #ffffff !important;
-        }
+/* ─── PAGE BASE ──────────────────────────────────────────────────────── */
+.page-dark .features-page {
+    background-color: #07111f !important;
+    color: #ffffff !important;
+}
 
-        .page-dark .features-page section:not(:first-of-type) .bg-white,
-        .page-dark .features-page section:not(:first-of-type) [class*="bg-white"],
-        .page-dark .features-page section:not(:first-of-type) .bg-[#F7F9FA],
-        .page-dark .features-page section:not(:first-of-type) [class*="bg-[#F7F9FA]"],
-        .page-dark .features-page section:not(:first-of-type) .bg-white\/10,
-        .page-dark .features-page section:not(:first-of-type) .bg-white\/20,
-        .page-dark .features-page section:not(:first-of-type) .bg-white\/80 {
-            background-color: #10223b !important;
-            border-color: #213a59 !important;
-            color: #ffffff !important;
-        }
+/* ─── SECTION BACKGROUNDS ────────────────────────────────────────────── */
+/* Sections that use bg-white */
+.page-dark .features-page section#students,
+.page-dark .features-page section#admin,
+.page-dark .features-page section.bg-white {
+    background-color: #0b182c !important;
+}
 
-        .page-dark .features-page section:not(:first-of-type) .text-[#444444],
-        .page-dark .features-page section:not(:first-of-type) .text-[#666666] {
-            color: #ffffff !important;
-        }
-    </style>
+/* Sections that use bg-[#F7F9FA] */
+.page-dark .features-page section#companies,
+.page-dark .features-page section#how-it-works,
+.page-dark .features-page section.bg-\[\#F7F9FA\] {
+    background-color: #07111f !important;
+}
+
+/* All non-hero sections — catch-all */
+.page-dark .features-page section:not(:first-of-type) {
+    background-color: #0b182c !important;
+}
+
+/* Odd sections slightly darker for rhythm */
+.page-dark .features-page section:nth-of-type(odd):not(:first-of-type) {
+    background-color: #07111f !important;
+}
+
+/* ─── ALL TEXT ───────────────────────────────────────────────────────── */
+.page-dark .features-page section:not(:first-of-type) h1,
+.page-dark .features-page section:not(:first-of-type) h2,
+.page-dark .features-page section:not(:first-of-type) h3,
+.page-dark .features-page section:not(:first-of-type) h4,
+.page-dark .features-page section:not(:first-of-type) p,
+.page-dark .features-page section:not(:first-of-type) span:not(.badge-exempt),
+.page-dark .features-page section:not(:first-of-type) li,
+.page-dark .features-page section:not(:first-of-type) label,
+.page-dark .features-page section:not(:first-of-type) th,
+.page-dark .features-page section:not(:first-of-type) td {
+    color: #ffffff !important;
+}
+
+/* Secondary / muted text (was #666666) */
+.page-dark .features-page section:not(:first-of-type) .text-\[\#666666\],
+.page-dark .features-page section:not(:first-of-type) p.text-\[\#666666\],
+.page-dark .features-page section:not(:first-of-type) span.text-\[\#666666\] {
+    color: #b0c4d8 !important;
+}
+
+/* Dark title text (was #444444) */
+.page-dark .features-page section:not(:first-of-type) .text-\[\#444444\] {
+    color: #ffffff !important;
+}
+
+/* ─── CARDS — bg-white ───────────────────────────────────────────────── */
+.page-dark .features-page section:not(:first-of-type) .bg-white,
+.page-dark .features-page section:not(:first-of-type) [class*="bg-white"] {
+    background-color: #10223b !important;
+    border-color: #213a59 !important;
+}
+
+/* ─── CARDS — bg-[#F7F9FA] (light gray panels) ───────────────────────── */
+.page-dark .features-page section:not(:first-of-type) .bg-\[\#F7F9FA\],
+.page-dark .features-page section:not(:first-of-type) [class*="bg-[#F7F9FA]"] {
+    background-color: #152844 !important;
+    border-color: #213a59 !important;
+}
+
+/* ─── BORDERS ────────────────────────────────────────────────────────── */
+.page-dark .features-page section:not(:first-of-type) .border-\[\#E5E7EB\],
+.page-dark .features-page section:not(:first-of-type) [class*="border-[#E5E7EB]"],
+.page-dark .features-page section:not(:first-of-type) .border-b,
+.page-dark .features-page section:not(:first-of-type) .divide-y > * {
+    border-color: #213a59 !important;
+}
+
+/* ─── ACCORDION ITEMS ────────────────────────────────────────────────── */
+/* Student features accordion */
+.page-dark .features-page section:not(:first-of-type) .rounded-2xl.border,
+.page-dark .features-page section:not(:first-of-type) .rounded-2xl.border.border-\[\#E5E7EB\] {
+    background-color: #10223b !important;
+    border-color: #213a59 !important;
+}
+
+/* Active accordion item (border-[#444444]) */
+.page-dark .features-page section:not(:first-of-type) .border-\[\#444444\] {
+    background-color: #152844 !important;
+    border-color: #00B1AA !important;
+}
+
+/* Accordion header hover */
+.page-dark .features-page section:not(:first-of-type) .hover\:border-\[\#00B1AA\]\/30:hover {
+    border-color: rgba(0, 177, 170, 0.5) !important;
+}
+
+/* ─── STUDENT FEATURES — RIGHT SIDE DARK CARD (#444444) ─────────────── */
+/* The dark preview card already uses #444444 — upgrade it for dark mode */
+.page-dark .features-page section:not(:first-of-type) [style*="background-color:#444444"],
+.page-dark .features-page section:not(:first-of-type) [style*="background-color: #444444"] {
+    background-color: #0b182c !important;
+    border: 1px solid #213a59;
+}
+
+/* Inner white card inside the dark preview card */
+.page-dark .features-page section:not(:first-of-type) [style*="background-color:#444444"] .bg-white,
+.page-dark .features-page section:not(:first-of-type) [style*="background-color: #444444"] .bg-white {
+    background-color: #10223b !important;
+}
+
+/* ─── FAKE BROWSER BAR (App preview) ────────────────────────────────── */
+.page-dark .features-page section:not(:first-of-type) .bg-white\/20 {
+    background-color: rgba(255, 255, 255, 0.07) !important;
+}
+.page-dark .features-page section:not(:first-of-type) .bg-white\/10 {
+    background-color: rgba(255, 255, 255, 0.05) !important;
+}
+.page-dark .features-page section:not(:first-of-type) .bg-white\/80 {
+    background-color: rgba(16, 34, 59, 0.92) !important;
+}
+
+/* ─── COMPANY FEATURES — CANDIDATE ROWS ─────────────────────────────── */
+.page-dark .features-page section:not(:first-of-type) .space-y-2 .bg-white.rounded-xl,
+.page-dark .features-page section:not(:first-of-type) .bg-white.rounded-xl.p-3 {
+    background-color: #152844 !important;
+    border: 1px solid #213a59;
+}
+
+/* ─── COMPANY FEATURES — TOP TWO LARGE CARDS ────────────────────────── */
+.page-dark .features-page section:not(:first-of-type) .rounded-3xl.p-6,
+.page-dark .features-page section:not(:first-of-type) .rounded-3xl.p-8,
+.page-dark .features-page section:not(:first-of-type) .rounded-3xl.p-6.sm\:p-8 {
+    background-color: #10223b !important;
+    border-color: #213a59 !important;
+}
+
+/* Inner #F7F9FA panels inside large cards */
+.page-dark .features-page section:not(:first-of-type) .rounded-3xl .rounded-2xl.overflow-hidden.shadow-md,
+.page-dark .features-page section:not(:first-of-type) .rounded-3xl .bg-\[\#F7F9FA\] {
+    background-color: #152844 !important;
+}
+
+/* ─── ADMIN SECTION — ACTIVITY TABLE ────────────────────────────────── */
+.page-dark .features-page section:not(:first-of-type) table {
+    background-color: #10223b !important;
+}
+.page-dark .features-page section:not(:first-of-type) thead tr,
+.page-dark .features-page section:not(:first-of-type) .bg-\[\#F7F9FA\].px-5.py-4,
+.page-dark .features-page section:not(:first-of-type) .bg-\[\#F7F9FA\].px-6.py-4 {
+    background-color: #152844 !important;
+}
+.page-dark .features-page section:not(:first-of-type) tbody tr:hover {
+    background-color: #1a2f4a !important;
+}
+/* Table header text (was #666666 uppercase) */
+.page-dark .features-page section:not(:first-of-type) th {
+    color: #b0c4d8 !important;
+}
+
+/* ─── ADMIN — STAT CARDS ─────────────────────────────────────────────── */
+.page-dark .features-page section:not(:first-of-type) .rounded-2xl.p-5.border.border-\[\#E5E7EB\].bg-\[\#F7F9FA\],
+.page-dark .features-page section:not(:first-of-type) .rounded-2xl.p-5.border {
+    background-color: #152844 !important;
+    border-color: #213a59 !important;
+}
+
+/* Stat value number (was #444444 black) */
+.page-dark .features-page section:not(:first-of-type) .text-2xl.font-black,
+.page-dark .features-page section:not(:first-of-type) .text-3xl.font-black {
+    color: #ffffff !important;
+}
+
+/* ─── ADMIN — FEATURE LIST ROWS ─────────────────────────────────────── */
+.page-dark .features-page section:not(:first-of-type) .flex.items-center.gap-3.px-4.py-3.rounded-xl {
+    background-color: #152844 !important;
+    border-color: #213a59 !important;
+}
+.page-dark .features-page section:not(:first-of-type) .hover\:border-\[\#00B1AA\]\/50:hover {
+    border-color: rgba(0, 177, 170, 0.6) !important;
+}
+
+/* ─── PLATFORM SECTION — FLOATING CARDS ─────────────────────────────── */
+.page-dark .features-page section:not(:first-of-type) .absolute.bg-white.rounded-2xl {
+    background-color: #10223b !important;
+    border-color: #213a59 !important;
+}
+
+/* ─── SHOWCASE — BROWSER FRAME ───────────────────────────────────────── */
+.page-dark .features-page section:not(:first-of-type) .bg-\[\#F7F9FA\].px-5.py-3 {
+    background-color: #152844 !important;
+    border-color: #213a59 !important;
+}
+/* URL bar inside browser frame */
+.page-dark .features-page section:not(:first-of-type) .bg-white.rounded-lg.px-3.py-1 {
+    background-color: #0b182c !important;
+    border-color: #213a59 !important;
+    color: #b0c4d8 !important;
+}
+
+/* ─── SHOWCASE — TABLET / MOBILE FRAMES ─────────────────────────────── */
+/* The rounded-3xl dark device frame (#444444) — upgrade */
+.page-dark .features-page section:not(:first-of-type) .rounded-3xl.p-3[style*="background-color:#444444"],
+.page-dark .features-page section:not(:first-of-type) .rounded-\[2rem\].p-2[style*="background-color:#444444"] {
+    background-color: #07111f !important;
+    border: 1px solid #213a59;
+}
+
+/* ─── FAQ ACCORDION ──────────────────────────────────────────────────── */
+.page-dark .features-page section:not(:first-of-type) #faq .bg-white,
+.page-dark .features-page section:not(:first-of-type) .space-y-3 .rounded-2xl.border {
+    background-color: #10223b !important;
+    border-color: #213a59 !important;
+}
+
+/* FAQ button hover */
+.page-dark .features-page section:not(:first-of-type) button.hover\:bg-\[\#F7F9FA\]:hover {
+    background-color: #152844 !important;
+}
+
+/* ─── TESTIMONIAL FEATURED DARK CARD ─────────────────────────────────── */
+/* Already #444444 — make it deeper */
+.page-dark .features-page .rounded-2xl[style*="background-color:#444444"] {
+    background-color: #0b182c !important;
+    border: 1px solid #213a59;
+}
+
+/* ─── TESTIMONIAL GRID CARDS ─────────────────────────────────────────── */
+.page-dark .features-page section:not(:first-of-type) .grid .bg-white.rounded-2xl {
+    background-color: #10223b !important;
+    border-color: #213a59 !important;
+}
+
+/* ─── BADGE PILLS (teal outlined badges) ─────────────────────────────── */
+.page-dark .features-page section:not(:first-of-type) span[style*="background-color:#DDF7F6"] {
+    background-color: rgba(0, 177, 170, 0.15) !important;
+    border-color: rgba(0, 177, 170, 0.4) !important;
+}
+
+/* Trust badge pills (border-[#E5E7EB] bg-white) */
+.page-dark .features-page section:not(:first-of-type) span.border.border-\[\#E5E7EB\].bg-white {
+    background-color: #152844 !important;
+    border-color: #213a59 !important;
+    color: #b0c4d8 !important;
+}
+
+/* ─── HOW IT WORKS — STEP DIVIDERS ──────────────────────────────────── */
+.page-dark .features-page section:not(:first-of-type) .border-b.border-\[\#E5E7EB\] {
+    border-color: #213a59 !important;
+}
+
+/* Step connector lines */
+.page-dark .features-page section:not(:first-of-type) .w-px[style*="background-color:rgba(0,177,170"] {
+    background-color: rgba(0, 177, 170, 0.4) !important;
+}
+
+/* ─── SECURITY SECTION ───────────────────────────────────────────────── */
+.page-dark .features-page section:not(:first-of-type) .rounded-2xl.p-5.border.bg-\[\#F7F9FA\] {
+    background-color: #152844 !important;
+    border-color: #213a59 !important;
+}
+/* Small teal square icon inside security cards */
+.page-dark .features-page section:not(:first-of-type) .w-8.h-8.rounded-lg[style*="background-color:#DDF7F6"],
+.page-dark .features-page section:not(:first-of-type) .w-8.h-8.rounded-lg.mb-3 {
+    background-color: rgba(0, 177, 170, 0.2) !important;
+}
+
+/* Trust box overlay on image */
+.page-dark .features-page section:not(:first-of-type) .bg-white\/80.backdrop-blur {
+    background-color: rgba(16, 34, 59, 0.92) !important;
+    border-color: #213a59 !important;
+}
+
+/* ─── GREEN / YELLOW STATUS BADGES ──────────────────────────────────── */
+/* Keep these readable but soften their backgrounds */
+.page-dark .features-page section:not(:first-of-type) .bg-green-50 {
+    background-color: rgba(22, 101, 52, 0.3) !important;
+}
+.page-dark .features-page section:not(:first-of-type) .bg-yellow-50 {
+    background-color: rgba(113, 87, 0, 0.3) !important;
+}
+.page-dark .features-page section:not(:first-of-type) .bg-\[\#DDF7F6\] {
+    background-color: rgba(0, 177, 170, 0.15) !important;
+}
+
+/* ─── PLATFORM 6-CARD GRID ───────────────────────────────────────────── */
+.page-dark .features-page section:not(:first-of-type) .grid.sm\:grid-cols-2.lg\:grid-cols-3 .bg-white.rounded-2xl {
+    background-color: #10223b !important;
+    border-color: #213a59 !important;
+}
+
+/* ─── DECORATIVE DASHED BORDERS ─────────────────────────────────────── */
+.page-dark .features-page section:not(:first-of-type) .border-dashed.border-\[\#E5E7EB\] {
+    border-color: #213a59 !important;
+    opacity: 0.5;
+}
+
+/* ─── SCROLLBAR (optional quality-of-life) ───────────────────────────── */
+.page-dark ::-webkit-scrollbar-track { background: #07111f; }
+.page-dark ::-webkit-scrollbar-thumb { background: #213a59; border-radius: 4px; }
+.page-dark ::-webkit-scrollbar-thumb:hover { background: #2e4e78; }
+
+</style>
 
     {{-- ============================================================
          1. HERO SECTION
@@ -193,34 +473,34 @@
 {{-- Left: Feature accordion --}}
 <div class="space-y-2">
     @foreach([
-        ['title' => $t['students']['items'][0]['title'], 'desc' => $t['students']['items'][0]['desc'], 'imgSrc' => 'https://www.shutterstock.com/image-vector/internship-banner-web-icon-vector-260nw-2142982795.jpg'],
-        ['title' => $t['students']['items'][1]['title'], 'desc' => $t['students']['items'][1]['desc'], 'imgSrc' => 'https://media.licdn.com/dms/image/v2/C4D12AQF3VZ8X4jkt8w/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1588045033207?e=2147483647&v=beta&t=q8QVtAWm0NWXXrZImEJbqKdrskcRmk2k25SOVkqzJY8'],
-        ['title' => $t['students']['items'][2]['title'], 'desc' => $t['students']['items'][2]['desc'], 'imgSrc' => 'https://www.notion.com/_next/image?url=https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fpublic.notion-static.com%2Ftemplate%2F3272d5e7-0c5f-4099-a345-957e19c40218%2F1756330456712%2Fdesktop.jpg&w=3840&q=75'],
-        ['title' => $t['students']['items'][3]['title'], 'desc' => $t['students']['items'][3]['desc'], 'imgSrc' => 'https://s3.resume.io/uploads/examples/resume/og_image/26007/persistent-resource/manager-cv-examples.png'],
-        ['title' => $t['students']['items'][4]['title'], 'desc' => $t['students']['items'][4]['desc'], 'imgSrc' => 'https://blog.interviewpal.com/content/images/2026/04/internships.jpg'],
-        ['title' => $t['students']['items'][5]['title'], 'desc' => $t['students']['items'][5]['desc'], 'imgSrc' => 'https://arts.uj.ac.za/wp-content/uploads/2023/09/WEB-BANNER.png'],
-    ] as $i => $item)
-    <div class="rounded-2xl border transition-all duration-300 overflow-hidden cursor-pointer"
-         :class="active === {{ $i }} ? 'border-[#444444] bg-white shadow-md' : 'border-[#E5E7EB] bg-[#F7F9FA] hover:border-[#00B1AA]/30'"
-         x-on:click="active = {{ $i }}">
-        <div class="flex items-center justify-between px-5 sm:px-6 py-4 sm:py-5">
-            <h3 class="font-bold text-sm sm:text-base"
-                :class="active === {{ $i }} ? 'text-[#444444]' : 'text-[#666666]'">
-                {{ $item['title'] }}
-            </h3>
-            <div class="w-6 h-6 rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0 ml-3 transition-all"
-                 :class="active === {{ $i }} ? 'text-white' : 'text-[#666666] bg-[#E5E7EB]'"
-                 :style="active === {{ $i }} ? 'background-color:#00B1AA' : ''">
-                <span x-text="active === {{ $i }} ? '−' : '+'"></span>
+            ['title' => $t['students']['items'][0]['title'], 'desc' => $t['students']['items'][0]['desc'], 'imgSrc' => 'https://www.shutterstock.com/image-vector/internship-banner-web-icon-vector-260nw-2142982795.jpg'],
+            ['title' => $t['students']['items'][1]['title'], 'desc' => $t['students']['items'][1]['desc'], 'imgSrc' => 'https://media.licdn.com/dms/image/v2/C4D12AQF3VZ8X4jkt8w/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1588045033207?e=2147483647&v=beta&t=q8QVtAWm0NWXXrZImEJbqKdrskcRmk2k25SOVkqzJY8'],
+            ['title' => $t['students']['items'][2]['title'], 'desc' => $t['students']['items'][2]['desc'], 'imgSrc' => 'https://www.notion.com/_next/image?url=https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fpublic.notion-static.com%2Ftemplate%2F3272d5e7-0c5f-4099-a345-957e19c40218%2F1756330456712%2Fdesktop.jpg&w=3840&q=75'],
+            ['title' => $t['students']['items'][3]['title'], 'desc' => $t['students']['items'][3]['desc'], 'imgSrc' => 'https://s3.resume.io/uploads/examples/resume/og_image/26007/persistent-resource/manager-cv-examples.png'],
+            ['title' => $t['students']['items'][4]['title'], 'desc' => $t['students']['items'][4]['desc'], 'imgSrc' => 'https://blog.interviewpal.com/content/images/2026/04/internships.jpg'],
+            ['title' => $t['students']['items'][5]['title'], 'desc' => $t['students']['items'][5]['desc'], 'imgSrc' => 'https://arts.uj.ac.za/wp-content/uploads/2023/09/WEB-BANNER.png'],
+        ] as $i => $item)
+            <div class="rounded-2xl border transition-all duration-300 overflow-hidden cursor-pointer"
+                 :class="active === {{ $i }} ? 'border-[#444444] bg-white shadow-md' : 'border-[#E5E7EB] bg-[#F7F9FA] hover:border-[#00B1AA]/30'"
+                 x-on:click="active = {{ $i }}">
+                <div class="flex items-center justify-between px-5 sm:px-6 py-4 sm:py-5">
+                    <h3 class="font-bold text-sm sm:text-base"
+                        :class="active === {{ $i }} ? 'text-[#444444]' : 'text-[#666666]'">
+                        {{ $item['title'] }}
+                    </h3>
+                    <div class="w-6 h-6 rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0 ml-3 transition-all"
+                         :class="active === {{ $i }} ? 'text-white' : 'text-[#666666] bg-[#E5E7EB]'"
+                         :style="active === {{ $i }} ? 'background-color:#00B1AA' : ''">
+                        <span x-text="active === {{ $i }} ? '−' : '+'"></span>
+                    </div>
+                </div>
+                <div x-show="active === {{ $i }}" x-collapse class="px-5 sm:px-6 pb-5">
+                    <p class="text-sm text-[#666666] leading-relaxed mb-4">{{ $item['desc'] }}</p>
+                    <img src="{{ $item['imgSrc'] }}"
+                         alt="{{ $item['title'] }}"
+                         class="w-full h-40 object-cover rounded-xl"/>
+                </div>
             </div>
-        </div>
-        <div x-show="active === {{ $i }}" x-collapse class="px-5 sm:px-6 pb-5">
-            <p class="text-sm text-[#666666] leading-relaxed mb-4">{{ $item['desc'] }}</p>
-            <img src="{{ $item['imgSrc'] }}"
-                 alt="{{ $item['title'] }}"
-                 class="w-full h-40 object-cover rounded-xl"/>
-        </div>
-    </div>
     @endforeach
 </div>
 
@@ -258,14 +538,14 @@
                                 <p class="text-xs font-semibold text-white mb-2">{{ $t['students']['suggested'] }}</p>
                                 <div class="space-y-2">
                                     @foreach([
-                                        ['https://i.pravatar.cc/40?img=10', 'Data Analyst · Microsoft'],
-                                        ['https://i.pravatar.cc/40?img=11', 'UX Designer · Airbnb'],
-                                        ['https://i.pravatar.cc/40?img=12', 'Backend Dev · Stripe'],
-                                    ] as [$avatar, $suggestion])
-                                    <div class="flex items-center gap-3">
-                                        <img src="{{ $avatar }}" alt="co" class="w-7 h-7 rounded-lg object-cover flex-shrink-0"/>
-                                        <p class="text-xs text-white/80">{{ $suggestion }}</p>
-                                    </div>
+                                            ['https://i.pravatar.cc/40?img=10', 'Data Analyst · Microsoft'],
+                                            ['https://i.pravatar.cc/40?img=11', 'UX Designer · Airbnb'],
+                                            ['https://i.pravatar.cc/40?img=12', 'Backend Dev · Stripe'],
+                                        ] as [$avatar, $suggestion])
+                                            <div class="flex items-center gap-3">
+                                                <img src="{{ $avatar }}" alt="co" class="w-7 h-7 rounded-lg object-cover flex-shrink-0"/>
+                                                <p class="text-xs text-white/80">{{ $suggestion }}</p>
+                                            </div>
                                     @endforeach
                                 </div>
                             </div>
@@ -341,18 +621,18 @@
                     <div class="rounded-2xl overflow-hidden shadow-md bg-[#F7F9FA] p-4 mb-6">
                         <div class="space-y-2 mb-3">
                             @foreach([
-                                ['Sara K.',  'UX Design',    '95%', 5],
-                                ['Ahmed R.', 'Backend Dev',  '88%', 6],
-                                ['Nadia B.', 'Data Science', '82%', 7],
-                            ] as [$cname, $crole, $score, $img])
-                            <div class="bg-white rounded-xl p-3 flex items-center gap-3 shadow-sm">
-                                <img src="https://i.pravatar.cc/60?img={{ $img }}" alt="candidate" class="w-8 h-8 rounded-full object-cover flex-shrink-0"/>
-                                <div class="flex-1 min-w-0">
-                                    <p class="text-xs font-bold text-[#444444]">{{ $cname }}</p>
-                                    <p class="text-xs text-[#666666]">{{ $crole }}</p>
-                                </div>
-                                <span class="text-xs font-bold flex-shrink-0" style="color:#00B1AA">{{ $score }}</span>
-                            </div>
+                                    ['Sara K.', 'UX Design', '95%', 5],
+                                    ['Ahmed R.', 'Backend Dev', '88%', 6],
+                                    ['Nadia B.', 'Data Science', '82%', 7],
+                                ] as [$cname, $crole, $score, $img])
+                                    <div class="bg-white rounded-xl p-3 flex items-center gap-3 shadow-sm">
+                                        <img src="https://i.pravatar.cc/60?img={{ $img }}" alt="candidate" class="w-8 h-8 rounded-full object-cover flex-shrink-0"/>
+                                        <div class="flex-1 min-w-0">
+                                            <p class="text-xs font-bold text-[#444444]">{{ $cname }}</p>
+                                            <p class="text-xs text-[#666666]">{{ $crole }}</p>
+                                        </div>
+                                        <span class="text-xs font-bold flex-shrink-0" style="color:#00B1AA">{{ $score }}</span>
+                                    </div>
                             @endforeach
                         </div>
                         <img src="https://picsum.photos/seed/interview/800/300" alt="Interview UI" class="rounded-xl h-24 w-full object-cover"/>
@@ -367,18 +647,18 @@
             {{-- Three-column secondary features --}}
             <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
                 @foreach([
-                    ['title' => $t['companies']['secondary'][0]['title'], 'label' => $t['companies']['secondary'][0]['label'], 'desc' => $t['companies']['secondary'][0]['desc'], 'seed' => 'https://www.barraiser.com/wp-content/uploads/2023/04/untitled-design-1536x864-1.jpg'],
-                    ['title' => $t['companies']['secondary'][1]['title'], 'label' => $t['companies']['secondary'][1]['label'], 'desc' => $t['companies']['secondary'][1]['desc'], 'seed' => 'https://assets.qlik.com/image/upload/w_1720/q_auto/qlik/glossary/dashboard-examples/seo-analytics-dashboards-tactical-dashboards_lbbcaf.png'],
-                    ['title' => $t['companies']['secondary'][2]['title'], 'label' => $t['companies']['secondary'][2]['label'], 'desc' => $t['companies']['secondary'][2]['desc'], 'seed' => 'https://powerslides.com/wp-content/uploads/2019/10/Management-Team-Profile-3.jpg'],
-                ] as $item)
-                <div class="bg-white rounded-2xl p-6 border border-[#E5E7EB] hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group">
-                    <img src="{{ $item['seed'] }}"
-                         alt="{{ $item['title'] }}"
-                         class="w-full h-36 object-cover rounded-xl mb-5 group-hover:scale-105 transition-transform duration-300"/>
-                    <p class="text-xs font-bold uppercase tracking-widest mb-2" style="color:#00B1AA">{{ $item['label'] }}</p>
-                    <h4 class="font-black text-[#444444] mb-2">{{ $item['title'] }}</h4>
-                    <p class="text-sm text-[#666666] leading-relaxed">{{ $item['desc'] }}</p>
-                </div>
+                        ['title' => $t['companies']['secondary'][0]['title'], 'label' => $t['companies']['secondary'][0]['label'], 'desc' => $t['companies']['secondary'][0]['desc'], 'seed' => 'https://www.barraiser.com/wp-content/uploads/2023/04/untitled-design-1536x864-1.jpg'],
+                        ['title' => $t['companies']['secondary'][1]['title'], 'label' => $t['companies']['secondary'][1]['label'], 'desc' => $t['companies']['secondary'][1]['desc'], 'seed' => 'https://assets.qlik.com/image/upload/w_1720/q_auto/qlik/glossary/dashboard-examples/seo-analytics-dashboards-tactical-dashboards_lbbcaf.png'],
+                        ['title' => $t['companies']['secondary'][2]['title'], 'label' => $t['companies']['secondary'][2]['label'], 'desc' => $t['companies']['secondary'][2]['desc'], 'seed' => 'https://powerslides.com/wp-content/uploads/2019/10/Management-Team-Profile-3.jpg'],
+                    ] as $item)
+                        <div class="bg-white rounded-2xl p-6 border border-[#E5E7EB] hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group">
+                            <img src="{{ $item['seed'] }}"
+                                 alt="{{ $item['title'] }}"
+                                 class="w-full h-36 object-cover rounded-xl mb-5 group-hover:scale-105 transition-transform duration-300"/>
+                            <p class="text-xs font-bold uppercase tracking-widest mb-2" style="color:#00B1AA">{{ $item['label'] }}</p>
+                            <h4 class="font-black text-[#444444] mb-2">{{ $item['title'] }}</h4>
+                            <p class="text-sm text-[#666666] leading-relaxed">{{ $item['desc'] }}</p>
+                        </div>
                 @endforeach
             </div>
         </div>
@@ -409,21 +689,21 @@
                     {{-- Stat cards --}}
                     <div class="grid grid-cols-2 gap-4 mb-8">
                         @foreach($t['admin']['stats'] as $stat)
-                        <div class="rounded-2xl p-5 border border-[#E5E7EB] bg-[#F7F9FA] hover:shadow-md transition-shadow">
-                            <p class="text-2xl sm:text-3xl font-black text-[#444444]">{{ $stat['value'] }}</p>
-                            <p class="text-sm text-[#666666] font-medium mt-1">{{ $stat['label'] }}</p>
-                            <div class="h-1 rounded-full mt-3 w-12" style="background-color:#00B1AA"></div>
-                        </div>
+                            <div class="rounded-2xl p-5 border border-[#E5E7EB] bg-[#F7F9FA] hover:shadow-md transition-shadow">
+                                <p class="text-2xl sm:text-3xl font-black text-[#444444]">{{ $stat['value'] }}</p>
+                                <p class="text-sm text-[#666666] font-medium mt-1">{{ $stat['label'] }}</p>
+                                <div class="h-1 rounded-full mt-3 w-12" style="background-color:#00B1AA"></div>
+                            </div>
                         @endforeach
                     </div>
 
                     {{-- Feature list --}}
                     <div class="space-y-2 sm:space-y-3">
                         @foreach($t['admin']['features'] as $feat)
-                        <div class="flex items-center gap-3 px-4 py-3 rounded-xl border border-[#E5E7EB] bg-[#F7F9FA] hover:border-[#00B1AA]/50 transition-colors">
-                            <div class="w-2 h-2 rounded-full flex-shrink-0" style="background-color:#00B1AA"></div>
-                            <span class="text-sm font-semibold text-[#444444]">{{ $feat }}</span>
-                        </div>
+                            <div class="flex items-center gap-3 px-4 py-3 rounded-xl border border-[#E5E7EB] bg-[#F7F9FA] hover:border-[#00B1AA]/50 transition-colors">
+                                <div class="w-2 h-2 rounded-full flex-shrink-0" style="background-color:#00B1AA"></div>
+                                <span class="text-sm font-semibold text-[#444444]">{{ $feat }}</span>
+                            </div>
                         @endforeach
                     </div>
                 </div>
@@ -447,28 +727,28 @@
                                 </thead>
                                 <tbody class="divide-y divide-[#F7F9FA]">
                                     @foreach($t['admin']['activity']['rows'] as $row)
-                                    <tr class="hover:bg-[#F7F9FA] transition-colors">
-                                        <td class="px-4 sm:px-5 py-3">
-                                            <div class="flex items-center gap-2">
-                                                <img src="https://i.pravatar.cc/60?img={{ $loop->index + 8 }}"
-                                                     alt="avatar"
-                                                     class="w-7 h-7 rounded-full object-cover flex-shrink-0"/>
-                                                <span class="text-sm font-medium text-[#444444]">{{ $row['name'] }}</span>
-                                            </div>
-                                        </td>
-                                        <td class="px-4 sm:px-5 py-3 text-xs text-[#666666]">{{ $row['action'] }}</td>
-                                        <td class="px-4 sm:px-5 py-3">
-                                            @if($row['status'] === 'Active')
-                                                <span class="text-xs font-semibold px-2 py-1 rounded-full bg-green-50 text-green-600">{{ $row['status'] }}</span>
-                                            @elseif($row['status'] === 'Pending')
-                                                <span class="text-xs font-semibold px-2 py-1 rounded-full bg-yellow-50 text-yellow-600">{{ $row['status'] }}</span>
-                                            @elseif($row['status'] === 'Verified')
-                                                <span class="text-xs font-semibold px-2 py-1 rounded-full text-white" style="background-color:#00B1AA">{{ $row['status'] }}</span>
-                                            @else
-                                                <span class="text-xs font-semibold px-2 py-1 rounded-full bg-[#DDF7F6] text-[#008A84]">{{ $row['status'] }}</span>
-                                            @endif
-                                        </td>
-                                    </tr>
+                                        <tr class="hover:bg-[#F7F9FA] transition-colors">
+                                            <td class="px-4 sm:px-5 py-3">
+                                                <div class="flex items-center gap-2">
+                                                    <img src="https://i.pravatar.cc/60?img={{ $loop->index + 8 }}"
+                                                         alt="avatar"
+                                                         class="w-7 h-7 rounded-full object-cover flex-shrink-0"/>
+                                                    <span class="text-sm font-medium text-[#444444]">{{ $row['name'] }}</span>
+                                                </div>
+                                            </td>
+                                            <td class="px-4 sm:px-5 py-3 text-xs text-[#666666]">{{ $row['action'] }}</td>
+                                            <td class="px-4 sm:px-5 py-3">
+                                                @if($row['status'] === 'Active')
+                                                    <span class="text-xs font-semibold px-2 py-1 rounded-full bg-green-50 text-green-600">{{ $row['status'] }}</span>
+                                                @elseif($row['status'] === 'Pending')
+                                                    <span class="text-xs font-semibold px-2 py-1 rounded-full bg-yellow-50 text-yellow-600">{{ $row['status'] }}</span>
+                                                @elseif($row['status'] === 'Verified')
+                                                    <span class="text-xs font-semibold px-2 py-1 rounded-full text-white" style="background-color:#00B1AA">{{ $row['status'] }}</span>
+                                                @else
+                                                    <span class="text-xs font-semibold px-2 py-1 rounded-full bg-[#DDF7F6] text-[#008A84]">{{ $row['status'] }}</span>
+                                                @endif
+                                            </td>
+                                        </tr>
                                     @endforeach
                                 </tbody>
                             </table>
@@ -563,20 +843,20 @@
             {{-- 6-feature grid --}}
             <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
                 @foreach([
-                    ['title' => $t['platform']['cards'][0]['title'], 'seed' => 'https://timesinternet.in/blog/wp-content/uploads/2020/07/real-time-personalized-push-notifications.jpg', 'desc' => $t['platform']['cards'][0]['desc']],
-                    ['title' => $t['platform']['cards'][1]['title'], 'seed' => 'https://5.imimg.com/data5/JE/CT/QJ/GLADMIN-63163868/infobizzs-product-classpie-2-500x500.jpg', 'desc' => $t['platform']['cards'][1]['desc']],
-                    ['title' => $t['platform']['cards'][2]['title'], 'seed' => 'https://lh7-us.googleusercontent.com/c0Y_9vCPlaHCm8Nwrf8IwpQHYzeZyJKk5oH-H13VJMC7tRWouHvKKBeBhejFX2f-CkRW4_ZQBL8oynUHVp41XYq-p0Ez0ltEs8homDanov5uIR-VR-qZoBpKBfCZqRbjKct7enrwJbLpt7klARaD08E', 'desc' => $t['platform']['cards'][2]['desc']],
-                    ['title' => $t['platform']['cards'][3]['title'], 'seed' => 'https://informationage-production.s3.amazonaws.com/uploads/2022/10/what-to-know-about-user-authentication-cyber-security.jpeg', 'desc' => $t['platform']['cards'][3]['desc']],
-                    ['title' => $t['platform']['cards'][4]['title'], 'seed' => 'https://studio.uxpincdn.com/studio/wp-content/uploads/2022/01/Responsive-design-best-practices-1024x512.png.webp', 'desc' => $t['platform']['cards'][4]['desc']],
-                    ['title' => $t['platform']['cards'][5]['title'], 'seed' => 'https://t3.ftcdn.net/jpg/20/16/93/26/360_F_2016932689_A6OMjCe2WRWlJHJWTpUmE7VaBTfRBR7Q.jpg', 'desc' => $t['platform']['cards'][5]['desc']],
-                ] as $item)
-                <div class="bg-white rounded-2xl p-6 border border-[#E5E7EB] hover:shadow-md hover:-translate-y-1 transition-all duration-300 group">
-                    <img src="{{ $item['seed'] }}"
-                         alt="{{ $item['title'] }}"
-                         class="w-full h-32 object-cover rounded-xl mb-5 group-hover:scale-105 transition-transform duration-300"/>
-                    <h4 class="font-black text-[#444444] mb-2">{{ $item['title'] }}</h4>
-                    <p class="text-sm text-[#666666] leading-relaxed">{{ $item['desc'] }}</p>
-                </div>
+                        ['title' => $t['platform']['cards'][0]['title'], 'seed' => 'https://timesinternet.in/blog/wp-content/uploads/2020/07/real-time-personalized-push-notifications.jpg', 'desc' => $t['platform']['cards'][0]['desc']],
+                        ['title' => $t['platform']['cards'][1]['title'], 'seed' => 'https://5.imimg.com/data5/JE/CT/QJ/GLADMIN-63163868/infobizzs-product-classpie-2-500x500.jpg', 'desc' => $t['platform']['cards'][1]['desc']],
+                        ['title' => $t['platform']['cards'][2]['title'], 'seed' => 'https://lh7-us.googleusercontent.com/c0Y_9vCPlaHCm8Nwrf8IwpQHYzeZyJKk5oH-H13VJMC7tRWouHvKKBeBhejFX2f-CkRW4_ZQBL8oynUHVp41XYq-p0Ez0ltEs8homDanov5uIR-VR-qZoBpKBfCZqRbjKct7enrwJbLpt7klARaD08E', 'desc' => $t['platform']['cards'][2]['desc']],
+                        ['title' => $t['platform']['cards'][3]['title'], 'seed' => 'https://informationage-production.s3.amazonaws.com/uploads/2022/10/what-to-know-about-user-authentication-cyber-security.jpeg', 'desc' => $t['platform']['cards'][3]['desc']],
+                        ['title' => $t['platform']['cards'][4]['title'], 'seed' => 'https://studio.uxpincdn.com/studio/wp-content/uploads/2022/01/Responsive-design-best-practices-1024x512.png.webp', 'desc' => $t['platform']['cards'][4]['desc']],
+                        ['title' => $t['platform']['cards'][5]['title'], 'seed' => 'https://t3.ftcdn.net/jpg/20/16/93/26/360_F_2016932689_A6OMjCe2WRWlJHJWTpUmE7VaBTfRBR7Q.jpg', 'desc' => $t['platform']['cards'][5]['desc']],
+                    ] as $item)
+                        <div class="bg-white rounded-2xl p-6 border border-[#E5E7EB] hover:shadow-md hover:-translate-y-1 transition-all duration-300 group">
+                            <img src="{{ $item['seed'] }}"
+                                 alt="{{ $item['title'] }}"
+                                 class="w-full h-32 object-cover rounded-xl mb-5 group-hover:scale-105 transition-transform duration-300"/>
+                            <h4 class="font-black text-[#444444] mb-2">{{ $item['title'] }}</h4>
+                            <p class="text-sm text-[#666666] leading-relaxed">{{ $item['desc'] }}</p>
+                        </div>
                 @endforeach
             </div>
         </div>
@@ -642,20 +922,20 @@
       {{-- Screenshot gallery --}}
 <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-5">
     @foreach([
-        ['label' => $t['showcase']['gallery'][0], 'imgPath' => 'images/site photos/student-dash.png'],
-        ['label' => $t['showcase']['gallery'][1], 'imgPath' => 'images/site photos/company-dash.png'],
-        ['label' => $t['showcase']['gallery'][2], 'imgPath' => 'images/site photos/admin-dash.png'],
-    ] as $item)
-    <div class="relative rounded-2xl overflow-hidden shadow-lg group">
-        <img src="{{ asset($item['imgPath']) }}"
-             alt="{{ $item['label'] }}"
-             class="w-full h-44 sm:h-52 object-cover group-hover:scale-105 transition-transform duration-500"/>
-        <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent flex items-end p-5">
-            <div class="backdrop-blur-sm bg-white/10 rounded-xl px-4 py-2 border border-white/20">
-                <p class="text-white font-bold text-sm">{{ $item['label'] }}</p>
+            ['label' => $t['showcase']['gallery'][0], 'imgPath' => 'images/site photos/student-dash.png'],
+            ['label' => $t['showcase']['gallery'][1], 'imgPath' => 'images/site photos/company-dash.png'],
+            ['label' => $t['showcase']['gallery'][2], 'imgPath' => 'images/site photos/admin-dash.png'],
+        ] as $item)
+            <div class="relative rounded-2xl overflow-hidden shadow-lg group">
+                <img src="{{ asset($item['imgPath']) }}"
+                     alt="{{ $item['label'] }}"
+                     class="w-full h-44 sm:h-52 object-cover group-hover:scale-105 transition-transform duration-500"/>
+                <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent flex items-end p-5">
+                    <div class="backdrop-blur-sm bg-white/10 rounded-xl px-4 py-2 border border-white/20">
+                        <p class="text-white font-bold text-sm">{{ $item['label'] }}</p>
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
     @endforeach
 </div>
         </div>
@@ -686,21 +966,21 @@
                         <h3 class="text-xl sm:text-2xl font-black text-[#444444]">{{ $t['how']['students'] }}</h3>
                     </div>
                     @foreach($t['how']['student_steps'] as $i => $step)
-                    <div class="flex gap-5 relative pt-10 ">
-                        <div class="flex flex-col items-center">
-                            <div class="w-10 sm:w-11 h-10 sm:h-11 rounded-full flex items-center justify-center font-black text-white text-sm flex-shrink-0 z-10"
-                                 style="background-color:#00B1AA">
-                                0{{ $i + 1 }}
+                        <div class="flex gap-5 relative pt-10 ">
+                            <div class="flex flex-col items-center">
+                                <div class="w-10 sm:w-11 h-10 sm:h-11 rounded-full flex items-center justify-center font-black text-white text-sm flex-shrink-0 z-10"
+                                     style="background-color:#00B1AA">
+                                    0{{ $i + 1 }}
+                                </div>
+                                @if($i < 2)
+                                    <div class="w-px flex-1 my-2" style="background-color:rgba(0,177,170,0.25)"></div>
+                                @endif
                             </div>
-                            @if($i < 2)
-                            <div class="w-px flex-1 my-2" style="background-color:rgba(0,177,170,0.25)"></div>
-                            @endif
+                            <div class="pb-8 flex-1">
+                                <h4 class="text-base sm:text-lg font-bold text-[#444444] mb-1">{{ $step['title'] }}</h4>
+                                <p class="text-sm text-[#666666] leading-relaxed mb-3">{{ $step['desc'] }}</p>
+                            </div>
                         </div>
-                        <div class="pb-8 flex-1">
-                            <h4 class="text-base sm:text-lg font-bold text-[#444444] mb-1">{{ $step['title'] }}</h4>
-                            <p class="text-sm text-[#666666] leading-relaxed mb-3">{{ $step['desc'] }}</p>
-                        </div>
-                    </div>
                     @endforeach
                 </div>
 
@@ -711,21 +991,21 @@
                         <h3 class="text-xl sm:text-2xl font-black text-[#444444]">{{ $t['how']['companies'] }}</h3>
                     </div>
                     @foreach($t['how']['company_steps'] as $i => $step)
-                    <div class="flex gap-5 relative pt-10 ">
-                        <div class="flex flex-col items-center">
-                            <div class="w-10 sm:w-11 h-10 sm:h-11 rounded-full flex items-center justify-center font-black text-white text-sm flex-shrink-0 z-10"
-                                 style="background-color:#00B1AA">
-                                0{{ $i + 1 }}
+                        <div class="flex gap-5 relative pt-10 ">
+                            <div class="flex flex-col items-center">
+                                <div class="w-10 sm:w-11 h-10 sm:h-11 rounded-full flex items-center justify-center font-black text-white text-sm flex-shrink-0 z-10"
+                                     style="background-color:#00B1AA">
+                                    0{{ $i + 1 }}
+                                </div>
+                                @if($i < 2)
+                                    <div class="w-px flex-1 my-2" style="background-color:rgba(0,177,170,0.25)"></div>
+                                @endif
                             </div>
-                            @if($i < 2)
-                            <div class="w-px flex-1 my-2" style="background-color:rgba(0,177,170,0.25)"></div>
-                            @endif
+                            <div class="pb-8 flex-1">
+                                <h4 class="text-base sm:text-lg font-bold text-[#444444] mb-1">{{ $step['title'] }}</h4>
+                                <p class="text-sm text-[#666666] leading-relaxed mb-3">{{ $step['desc'] }}</p>
+                            </div>
                         </div>
-                        <div class="pb-8 flex-1">
-                            <h4 class="text-base sm:text-lg font-bold text-[#444444] mb-1">{{ $step['title'] }}</h4>
-                            <p class="text-sm text-[#666666] leading-relaxed mb-3">{{ $step['desc'] }}</p>
-                        </div>
-                    </div>
                     @endforeach
                 </div>
 
@@ -756,20 +1036,20 @@
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         @foreach($t['security']['items'] as $item)
-                        <div class="rounded-2xl p-5 border border-[#E5E7EB] bg-[#F7F9FA] hover:shadow-md transition-shadow">
-                            <div class="w-8 h-8 rounded-lg mb-3" style="background-color:#DDF7F6"></div>
-                            <h4 class="font-bold text-[#444444] mb-1 text-sm">{{ $item['title'] }}</h4>
-                            <p class="text-xs text-[#666666] leading-relaxed">{{ $item['desc'] }}</p>
-                        </div>
+                            <div class="rounded-2xl p-5 border border-[#E5E7EB] bg-[#F7F9FA] hover:shadow-md transition-shadow">
+                                <div class="w-8 h-8 rounded-lg mb-3" style="background-color:#DDF7F6"></div>
+                                <h4 class="font-bold text-[#444444] mb-1 text-sm">{{ $item['title'] }}</h4>
+                                <p class="text-xs text-[#666666] leading-relaxed">{{ $item['desc'] }}</p>
+                            </div>
                         @endforeach
                     </div>
 
                     {{-- Trust badges --}}
                     <div class="flex flex-wrap gap-3 mt-8">
                         @foreach($t['security']['badges'] as $badge)
-                        <span class="text-xs font-bold px-4 py-2 rounded-full border border-[#E5E7EB] text-[#444444] bg-white shadow-sm">
-                            {{ $badge }}
-                        </span>
+                            <span class="text-xs font-bold px-4 py-2 rounded-full border border-[#E5E7EB] text-[#444444] bg-white shadow-sm">
+                                {{ $badge }}
+                            </span>
                         @endforeach
                     </div>
                 </div>
@@ -847,25 +1127,25 @@
             {{-- Testimonial card grid --}}
             <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
                 @foreach([
-                    ['Youssef El Khadiri', 'Marketing Student, Hassan II University', 'The application tracking feature kept me completely organised during recruitment season. I always knew exactly where I stood with each company.', 30],
-                    ['Thomas Bergmann',    'HR Lead, TechCorp GmbH',                  'We reduced time-to-hire by 60% after switching to InterLink. The candidate filtering is exceptional and the quality of applicants is noticeably higher.', 31],
-                    ['Nadia Boussaid',     'Data Science Student, ENSIAS',            'I uploaded my CV once and applied to 12 internships in a single afternoon. The UI is so clean and everything just works perfectly.', 32],
-                    ['Amina Tahir',        'Talent Acquisition, StartupX Morocco',    'Interview scheduling alone saved us hours every week. Our entire recruiting workflow is now centralised in InterLink and it has transformed how we hire.', 33],
-                    ['Prof. Rachid Belkacem', 'Career Services, ENSA Casablanca',     'We partnered with InterLink to help our students access better opportunities. The analytics give us clear visibility into graduate placement.', 34],
-                    ['Karim Mansouri',     'Full-Stack Developer Student, ENSA',       'From zero applications to three offers in 6 weeks. InterLink kept me focused and the alerts made sure I never missed a deadline.', 35],
-                ] as [$tname, $trole, $treview, $img])
-                <div class="bg-white rounded-2xl p-6 sm:p-7 border border-[#E5E7EB] hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
-                    <p class="text-[#666666] leading-relaxed mb-6 text-sm italic">"{{ $treview }}"</p>
-                    <div class="flex items-center gap-3 pt-5 border-t border-[#E5E7EB]">
-                        <img src="https://i.pravatar.cc/80?img={{ $img }}"
-                             alt="{{ $tname }}"
-                             class="w-10 h-10 rounded-full object-cover border-2 border-[#E5E7EB] flex-shrink-0"/>
-                        <div>
-                            <p class="font-bold text-[#444444] text-sm">{{ $tname }}</p>
-                            <p class="text-xs text-[#666666]">{{ $trole }}</p>
+                        ['Youssef El Khadiri', 'Marketing Student, Hassan II University', 'The application tracking feature kept me completely organised during recruitment season. I always knew exactly where I stood with each company.', 30],
+                        ['Thomas Bergmann', 'HR Lead, TechCorp GmbH', 'We reduced time-to-hire by 60% after switching to InterLink. The candidate filtering is exceptional and the quality of applicants is noticeably higher.', 31],
+                        ['Nadia Boussaid', 'Data Science Student, ENSIAS', 'I uploaded my CV once and applied to 12 internships in a single afternoon. The UI is so clean and everything just works perfectly.', 32],
+                        ['Amina Tahir', 'Talent Acquisition, StartupX Morocco', 'Interview scheduling alone saved us hours every week. Our entire recruiting workflow is now centralised in InterLink and it has transformed how we hire.', 33],
+                        ['Prof. Rachid Belkacem', 'Career Services, ENSA Casablanca', 'We partnered with InterLink to help our students access better opportunities. The analytics give us clear visibility into graduate placement.', 34],
+                        ['Karim Mansouri', 'Full-Stack Developer Student, ENSA', 'From zero applications to three offers in 6 weeks. InterLink kept me focused and the alerts made sure I never missed a deadline.', 35],
+                    ] as [$tname, $trole, $treview, $img])
+                        <div class="bg-white rounded-2xl p-6 sm:p-7 border border-[#E5E7EB] hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+                            <p class="text-[#666666] leading-relaxed mb-6 text-sm italic">"{{ $treview }}"</p>
+                            <div class="flex items-center gap-3 pt-5 border-t border-[#E5E7EB]">
+                                <img src="https://i.pravatar.cc/80?img={{ $img }}"
+                                     alt="{{ $tname }}"
+                                     class="w-10 h-10 rounded-full object-cover border-2 border-[#E5E7EB] flex-shrink-0"/>
+                                <div>
+                                    <p class="font-bold text-[#444444] text-sm">{{ $tname }}</p>
+                                    <p class="text-xs text-[#666666]">{{ $trole }}</p>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
                 @endforeach
             </div>
 
@@ -905,21 +1185,21 @@
                 {{-- Right: accordion --}}
                 <div class="lg:col-span-3 space-y-3" x-data="{ open: null }">
                     @foreach($t['faq']['items'] as $qi => $item)
-                    <div class="rounded-2xl border border-[#E5E7EB] overflow-hidden bg-white shadow-sm" x-data="{ isOpen: false }">
-                        <button class="w-full px-5 sm:px-6 py-4 sm:py-5 flex items-center justify-between text-left hover:bg-[#F7F9FA] transition-colors"
-                                x-on:click="isOpen = !isOpen">
-                            <span class="font-bold text-[#444444] pr-4 text-sm">{{ $item['q'] }}</span>
-                            <span class="flex-shrink-0 w-7 h-7 rounded-full border border-[#E5E7EB] flex items-center justify-center text-sm font-bold transition-all"
-                                  :style="isOpen ? 'background-color:#00B1AA; border-color:#00B1AA; color:white' : 'color:#666666'">
-                                <span x-text="isOpen ? '−' : '+'"></span>
-                            </span>
-                        </button>
-                        <div x-show="isOpen" x-collapse>
-                            <div class="px-5 sm:px-6 pb-5">
-                                <p class="text-sm text-[#666666] leading-relaxed">{{ $item['a'] }}</p>
+                        <div class="rounded-2xl border border-[#E5E7EB] overflow-hidden bg-white shadow-sm" x-data="{ isOpen: false }">
+                            <button class="w-full px-5 sm:px-6 py-4 sm:py-5 flex items-center justify-between text-left hover:bg-[#F7F9FA] transition-colors"
+                                    x-on:click="isOpen = !isOpen">
+                                <span class="font-bold text-[#444444] pr-4 text-sm">{{ $item['q'] }}</span>
+                                <span class="flex-shrink-0 w-7 h-7 rounded-full border border-[#E5E7EB] flex items-center justify-center text-sm font-bold transition-all"
+                                      :style="isOpen ? 'background-color:#00B1AA; border-color:#00B1AA; color:white' : 'color:#666666'">
+                                    <span x-text="isOpen ? '−' : '+'"></span>
+                                </span>
+                            </button>
+                            <div x-show="isOpen" x-collapse>
+                                <div class="px-5 sm:px-6 pb-5">
+                                    <p class="text-sm text-[#666666] leading-relaxed">{{ $item['a'] }}</p>
+                                </div>
                             </div>
                         </div>
-                    </div>
                     @endforeach
                 </div>
 
@@ -936,7 +1216,7 @@
         {{-- Background image mosaic --}}
         <div class="absolute inset-0 grid grid-cols-3 sm:grid-cols-6 opacity-[0.08] pointer-events-none">
             @for($i = 0; $i < 12; $i++)
-            <img src="https://picsum.photos/seed/cta{{ $i }}/300/300" alt="" class="h-full w-full object-cover"/>
+                <img src="https://picsum.photos/seed/cta{{ $i }}/300/300" alt="" class="h-full w-full object-cover"/>
             @endfor
         </div>
 
@@ -946,9 +1226,9 @@
             <div class="flex justify-center mb-8 sm:mb-10">
                 <div class="flex -space-x-3">
                     @for($i = 0; $i < 7; $i++)
-                    <img src="https://i.pravatar.cc/80?img={{ 40 + $i }}"
-                         alt="User"
-                         class="w-10 sm:w-11 h-10 sm:h-11 rounded-full object-cover border-2 border-white shadow-md"/>
+                        <img src="https://i.pravatar.cc/80?img={{ 40 + $i }}"
+                             alt="User"
+                             class="w-10 sm:w-11 h-10 sm:h-11 rounded-full object-cover border-2 border-white shadow-md"/>
                     @endfor
                 </div>
             </div>
