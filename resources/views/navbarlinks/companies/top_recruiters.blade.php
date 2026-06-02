@@ -31,26 +31,26 @@
 
     <!-- Header -->
     <div class="border-b border-zinc-200 pb-5">
-        <h1 class="text-3xl font-bold leading-7 text-[#444444] sm:truncate sm:text-4xl">University Program Leads</h1>
-        <p class="mt-2 text-sm text-[#7B7B7B] font-medium">Meet the verified recruiting teams managing university cohorts. Direct match reviews are routed straight to their dashboards.</p>
+        <h1 class="text-3xl font-bold leading-7 text-[#444444] sm:truncate sm:text-4xl">{{ __('University Program Leads') }}</h1>
+        <p class="mt-2 text-sm text-[#7B7B7B] font-medium">{{ __('Meet the verified recruiting teams managing university cohorts. Direct match reviews are routed straight to their dashboards.') }}</p>
     </div>
 
     <!-- Quick Stats -->
     <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
         <div class="bg-white border border-[#E5E7EB] rounded p-4 shadow-soft">
-            <p class="text-xs text-[#7B7B7B] font-medium">Total Verified Leads</p>
-            <p class="text-xl font-bold text-[#444444] mt-1">8 Active Leads</p>
+            <p class="text-xs text-[#7B7B7B] font-medium">{{ __('Total Verified Leads') }}</p>
+            <p class="text-xl font-bold text-[#444444] mt-1">{{ __('8 Active Leads') }}</p>
         </div>
         <div class="bg-white border border-[#E5E7EB] rounded p-4 shadow-soft">
-            <p class="text-xs text-[#7B7B7B] font-medium">Average Response</p>
-            <p class="text-xl font-bold text-[#00B1AA] mt-1">24-48 Hours</p>
+            <p class="text-xs text-[#7B7B7B] font-medium">{{ __('Average Response') }}</p>
+            <p class="text-xl font-bold text-[#00B1AA] mt-1">{{ __('24-48 Hours') }}</p>
         </div>
         <div class="bg-white border border-[#E5E7EB] rounded p-4 shadow-soft">
-            <p class="text-xs text-[#7B7B7B] font-medium">Summer Placements</p>
-            <p class="text-xl font-bold text-[#444444] mt-1">450+ Spots</p>
+            <p class="text-xs text-[#7B7B7B] font-medium">{{ __('Summer Placements') }}</p>
+            <p class="text-xl font-bold text-[#444444] mt-1">{{ __('450+ Spots') }}</p>
         </div>
         <div class="bg-white border border-[#E5E7EB] rounded p-4 shadow-soft">
-            <p class="text-xs text-[#7B7B7B] font-medium">AMA Match Rate</p>
+            <p class="text-xs text-[#7B7B7B] font-medium">{{ __('AMA Match Rate') }}</p>
             <p class="text-xl font-bold text-[#444444] mt-1">94.2%</p>
         </div>
     </div>
@@ -62,20 +62,20 @@
             <input 
                 x-model="searchQuery" 
                 type="text" 
-                placeholder="Search recruiters by name, company, or focus..." 
+                placeholder="{{ __('Search recruiters by name, company, or focus...') }}" 
                 class="w-full pl-9 pr-4 py-2 text-xs border border-[#E5E7EB] bg-[#F8FAFA] rounded placeholder-[#7B7B7B] focus:bg-white transition-colors"
             >
         </div>
         <select x-model="selectedFocus" class="text-xs bg-[#F8FAFA] border border-[#E5E7EB] rounded p-2.5 font-medium min-w-[180px]">
-            <option value="All">All Cohorts</option>
-            <option value="Summer Engineering">Summer Engineering</option>
-            <option value="Next.js Framework Core">Next.js Framework Core</option>
-            <option value="Product Design">Product Design</option>
-            <option value="Systems & Rust Dev">Systems & Rust Dev</option>
-            <option value="AI & Databases">AI & Databases</option>
-            <option value="Frontend & DevRel">Frontend & DevRel</option>
-            <option value="Solutions Engineering">Solutions Engineering</option>
-            <option value="Vector DB & AI Search">Vector DB & AI Search</option>
+            <option value="All">{{ __('All Cohorts') }}</option>
+            <option value="Summer Engineering">{{ __('Summer Engineering') }}</option>
+            <option value="Next.js Framework Core">{{ __('Next.js Framework Core') }}</option>
+            <option value="Product Design">{{ __('Product Design') }}</option>
+            <option value="Systems & Rust Dev">{{ __('Systems & Rust Dev') }}</option>
+            <option value="AI & Databases">{{ __('AI & Databases') }}</option>
+            <option value="Frontend & DevRel">{{ __('Frontend & DevRel') }}</option>
+            <option value="Solutions Engineering">{{ __('Solutions Engineering') }}</option>
+            <option value="Vector DB & AI Search">{{ __('Vector DB & AI Search') }}</option>
         </select>
     </div>
 
@@ -93,31 +93,31 @@
                             </div>
                         </div>
                         <template x-if="r.active">
-                            <span class="inline-flex items-center rounded-full bg-emerald-50 px-2 py-0.5 text-[10px] font-medium text-emerald-700 ring-1 ring-inset ring-emerald-600/20">Active</span>
+                            <span class="inline-flex items-center rounded-full bg-emerald-50 px-2 py-0.5 text-[10px] font-medium text-emerald-700 ring-1 ring-inset ring-emerald-600/20">{{ __('Active') }}</span>
                         </template>
                         <template x-if="!r.active">
-                            <span class="inline-flex items-center rounded-full bg-amber-50 px-2 py-0.5 text-[10px] font-medium text-amber-700 ring-1 ring-inset ring-amber-600/20">Away</span>
+                            <span class="inline-flex items-center rounded-full bg-amber-50 px-2 py-0.5 text-[10px] font-medium text-amber-700 ring-1 ring-inset ring-amber-600/20">{{ __('Away') }}</span>
                         </template>
                     </div>
                     
                     <div class="border-t border-[#E5E7EB] pt-4 mt-4 space-y-2 text-xs text-[#7B7B7B]">
                         <div class="flex justify-between">
-                            <span>Cohort Focus</span>
+                            <span>{{ __('Cohort Focus') }}</span>
                             <strong class="text-[#444444]" x-text="r.focus"></strong>
                         </div>
                         <div class="flex justify-between">
-                            <span>Response Time</span>
+                            <span>{{ __('Response Time') }}</span>
                             <strong class="text-[#444444]" x-text="r.speed"></strong>
                         </div>
                         <div class="flex justify-between">
-                            <span>Direct Email</span>
+                            <span>{{ __('Direct Email') }}</span>
                             <code class="text-[10px] bg-zinc-50 px-1.5 py-0.5 rounded text-[#444444] font-mono" x-text="r.email"></code>
                         </div>
                     </div>
                 </div>
                 
                 <a href="/internships/tracker" class="block w-full text-center text-xs font-semibold text-white bg-[#00B1AA] hover:bg-[#009c95] rounded py-2 mt-5 transition-colors shadow-soft">
-                    <i class="fa-regular fa-comment mr-1.5"></i> Chat via Tracker
+                    <i class="fa-regular fa-comment mr-1.5"></i> {{ __('Chat via Tracker') }}
                 </a>
             </div>
         </template>
@@ -126,20 +126,20 @@
     <!-- Upcoming Ask-Me-Anything Calendar -->
     <div class="bg-white border border-[#E5E7EB] rounded p-6 shadow-soft space-y-6">
         <div>
-            <h2 class="text-lg font-bold text-[#444444]">Upcoming Ask-Me-Anything (AMA) Virtual Chats</h2>
-            <p class="text-xs text-[#7B7B7B] mt-1">Direct video sessions with program leads to learn about engineering standards, resume screening, and portfolio reviews.</p>
+            <h2 class="text-lg font-bold text-[#444444]">{{ __('Upcoming Ask-Me-Anything (AMA) Virtual Chats') }}</h2>
+            <p class="text-xs text-[#7B7B7B] mt-1">{{ __('Direct video sessions with program leads to learn about engineering standards, resume screening, and portfolio reviews.') }}</p>
         </div>
         <div class="divide-y divide-[#E5E7EB]">
             <!-- Event 1 -->
             <div class="py-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                 <div class="flex gap-4 items-center">
                     <div class="h-12 w-12 rounded bg-[#00B1AA]/10 flex flex-col justify-center items-center text-[#00B1AA]">
-                        <span class="text-xs font-bold leading-none">JUN</span>
+                        <span class="text-xs font-bold leading-none">{{ __('JUN') }}</span>
                         <span class="text-lg font-black leading-tight">04</span>
                     </div>
                     <div>
-                        <h4 class="font-bold text-sm text-[#444444]">Cracking the Stripe Technical Screen</h4>
-                        <p class="text-xs text-[#7B7B7B]">Hosted by Sarah Keates (Stripe) &bull; 2:00 PM EST (Virtual Zoom)</p>
+                        <h4 class="font-bold text-sm text-[#444444]">{{ __('Cracking the Stripe Technical Screen') }}</h4>
+                        <p class="text-xs text-[#7B7B7B]">{{ __('Hosted by Sarah Keates (Stripe) &bull; 2:00 PM EST (Virtual Zoom)') }}</p>
                     </div>
                 </div>
                 <button 
@@ -153,12 +153,12 @@
             <div class="py-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                 <div class="flex gap-4 items-center">
                     <div class="h-12 w-12 rounded bg-[#00B1AA]/10 flex flex-col justify-center items-center text-[#00B1AA]">
-                        <span class="text-xs font-bold leading-none">JUN</span>
+                        <span class="text-xs font-bold leading-none">{{ __('JUN') }}</span>
                         <span class="text-lg font-black leading-tight">10</span>
                     </div>
                     <div>
-                        <h4 class="font-bold text-sm text-[#444444]">Figma Product Design Portfolio Walkthrough</h4>
-                        <p class="text-xs text-[#7B7B7B]">Hosted by Elena Rostova (Figma) &bull; 1:00 PM PST (Virtual Zoom)</p>
+                        <h4 class="font-bold text-sm text-[#444444]">{{ __('Figma Product Design Portfolio Walkthrough') }}</h4>
+                        <p class="text-xs text-[#7B7B7B]">{{ __('Hosted by Elena Rostova (Figma) &bull; 1:00 PM PST (Virtual Zoom)') }}</p>
                     </div>
                 </div>
                 <button 
@@ -172,12 +172,12 @@
             <div class="py-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                 <div class="flex gap-4 items-center">
                     <div class="h-12 w-12 rounded bg-[#00B1AA]/10 flex flex-col justify-center items-center text-[#00B1AA]">
-                        <span class="text-xs font-bold leading-none">JUN</span>
+                        <span class="text-xs font-bold leading-none">{{ __('JUN') }}</span>
                         <span class="text-lg font-black leading-tight">18</span>
                     </div>
                     <div>
-                        <h4 class="font-bold text-sm text-[#444444]">Supabase: Open Source Contributions as an Intern</h4>
-                        <p class="text-xs text-[#7B7B7B]">Hosted by Chloe Vance (Supabase) &bull; 11:00 AM EST (Virtual Zoom)</p>
+                        <h4 class="font-bold text-sm text-[#444444]">{{ __('Supabase: Open Source Contributions as an Intern') }}</h4>
+                        <p class="text-xs text-[#7B7B7B]">{{ __('Hosted by Chloe Vance (Supabase) &bull; 11:00 AM EST (Virtual Zoom)') }}</p>
                     </div>
                 </div>
                 <button 
@@ -192,23 +192,23 @@
 
     <!-- Recruiter FAQ and Advice -->
     <div class="bg-white border border-[#E5E7EB] rounded p-6 shadow-soft space-y-6">
-        <h2 class="text-lg font-bold text-[#444444]">Recruiter FAQs & Guidance</h2>
+        <h2 class="text-lg font-bold text-[#444444]">{{ __('Recruiter FAQs & Guidance') }}</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-xs text-[#7B7B7B] leading-relaxed">
             <div class="space-y-2">
-                <h3 class="font-bold text-zinc-800 text-sm">How are matches evaluated by leads?</h3>
-                <p>Leads screen profiles according to target skillset alignments, verified project links, and direct faculty reference check scores. We strongly discourage blind generic resumes; highlight project commits and specific stack competence instead.</p>
+                <h3 class="font-bold text-zinc-800 text-sm">{{ __('How are matches evaluated by leads?') }}</h3>
+                <p>{{ __('Leads screen profiles according to target skillset alignments, verified project links, and direct faculty reference check scores. We strongly discourage blind generic resumes; highlight project commits and specific stack competence instead.') }}</p>
             </div>
             <div class="space-y-2">
-                <h3 class="font-bold text-zinc-800 text-sm">Should I email recruiters directly?</h3>
-                <p>While email addresses are listed for verified verification requests, recruiters prefer applications and messages routed directly via the Interlink Tracker. This aggregates code portfolios, academic transcripts, and interview notes in one workspace.</p>
+                <h3 class="font-bold text-zinc-800 text-sm">{{ __('Should I email recruiters directly?') }}</h3>
+                <p>{{ __('While email addresses are listed for verified verification requests, recruiters prefer applications and messages routed directly via the Interlink Tracker. This aggregates code portfolios, academic transcripts, and interview notes in one workspace.') }}</p>
             </div>
             <div class="space-y-2">
-                <h3 class="font-bold text-zinc-800 text-sm">What is the significance of the Response Time?</h3>
-                <p>Response times show historical metrics for average recruiter message read-and-reply states. Our platform mandates responsive cycles under 72 hours for active cohorts. If an lead fails to respond, system alerts ping alternative coordinators automatically.</p>
+                <h3 class="font-bold text-zinc-800 text-sm">{{ __('What is the significance of the Response Time?') }}</h3>
+                <p>{{ __('Response times show historical metrics for average recruiter message read-and-reply states. Our platform mandates responsive cycles under 72 hours for active cohorts. If an lead fails to respond, system alerts ping alternative coordinators automatically.') }}</p>
             </div>
             <div class="space-y-2">
-                <h3 class="font-bold text-zinc-800 text-sm">Are non-local students eligible for remote cohorts?</h3>
-                <p>Absolutely. Most partners (Vercel, Supabase, Linear, Resend) operate globally and handle CPT/OPT academic visa authorizations for eligible university students. Coordinate direct requirements with the corresponding university program lead.</p>
+                <h3 class="font-bold text-zinc-800 text-sm">{{ __('Are non-local students eligible for remote cohorts?') }}</h3>
+                <p>{{ __('Absolutely. Most partners (Vercel, Supabase, Linear, Resend) operate globally and handle CPT/OPT academic visa authorizations for eligible university students. Coordinate direct requirements with the corresponding university program lead.') }}</p>
             </div>
         </div>
     </div>

@@ -32,8 +32,8 @@
 
     <!-- Header -->
     <div class="border-b border-[#E5E7EB] pb-5 mb-8">
-        <h1 class="text-2xl font-bold tracking-tight text-[#444444] sm:text-3xl">Corporate Directory</h1>
-        <p class="mt-1.5 text-xs text-[#7B7B7B] font-medium font-sans">Verify active startup hiring cycles, average response durations, and verified stipend transparency metrics.</p>
+        <h1 class="text-2xl font-bold tracking-tight text-[#444444] sm:text-3xl">{{ __('Corporate Directory') }}</h1>
+        <p class="mt-1.5 text-xs text-[#7B7B7B] font-medium font-sans">{{ __('Verify active startup hiring cycles, average response durations, and verified stipend transparency metrics.') }}</p>
     </div>
 
     <!-- Filters -->
@@ -43,18 +43,18 @@
             <input 
                 x-model="searchQuery" 
                 type="text" 
-                placeholder="Search company profiles..." 
+                placeholder="{{ __('Search company profiles...') }}" 
                 class="w-full pl-9 pr-4 py-2 text-xs border border-[#E5E7EB] bg-[#F8FAFA] rounded placeholder-[#7B7B7B] focus:bg-white transition-colors"
             >
         </div>
         <select x-model="selectedSector" class="text-xs bg-[#F8FAFA] border border-[#E5E7EB] rounded p-2.5 font-medium min-w-[150px]">
-            <option value="All">All Sectors</option>
-            <option value="Fintech">Fintech</option>
-            <option value="DevTools">Developer Tools</option>
-            <option value="Design">Product Design</option>
-            <option value="Productivity">Productivity / SaaS</option>
-            <option value="AI & Database">AI & Databases</option>
-            <option value="Developer Communications">Developer Communications</option>
+            <option value="All">{{ __('All Sectors') }}</option>
+            <option value="Fintech">{{ __('Fintech') }}</option>
+            <option value="DevTools">{{ __('Developer Tools') }}</option>
+            <option value="Design">{{ __('Product Design') }}</option>
+            <option value="Productivity">{{ __('Productivity / SaaS') }}</option>
+            <option value="AI & Database">{{ __('AI & Databases') }}</option>
+            <option value="Developer Communications">{{ __('Developer Communications') }}</option>
         </select>
     </div>
 
@@ -78,11 +78,11 @@
                     
                     <div class="border-y border-zinc-100 py-3 space-y-2 text-xs text-[#444444]">
                         <div class="flex justify-between">
-                            <span class="text-[#7B7B7B]">Headquarters:</span>
+                            <span class="text-[#7B7B7B]">{{ __('Headquarters:') }}</span>
                             <span class="font-semibold" x-text="p.headquarters"></span>
                         </div>
                         <div class="flex justify-between">
-                            <span class="text-[#7B7B7B]">Company Size:</span>
+                            <span class="text-[#7B7B7B]">{{ __('Company Size:') }}</span>
                             <span class="font-semibold" x-text="p.size"></span>
                         </div>
                     </div>
@@ -93,7 +93,7 @@
                         <span class="flex items-center gap-1.5"><i class="fa-solid fa-reply text-xs text-[#00B1AA]"></i> <span x-text="p.speed"></span></span>
                         <span class="font-bold text-[#00B1AA] bg-[#00B1AA]/5 px-2.5 py-0.5 rounded-full" x-text="`${p.roles} open internships`"></span>
                     </div>
-                    <a href="/internships/browse" class="block w-full text-center font-bold text-white bg-[#00B1AA] hover:bg-[#009c95] rounded py-2 transition-colors text-xs shadow-soft">View active postings</a>
+                    <a href="/internships/browse" class="block w-full text-center font-bold text-white bg-[#00B1AA] hover:bg-[#009c95] rounded py-2 transition-colors text-xs shadow-soft">{{ __('View active postings') }}</a>
                 </div>
             </div>
         </template>
@@ -101,23 +101,23 @@
 
     <!-- Partner Program Info (New Section) -->
     <div class="space-y-6 mt-12 border-t border-zinc-200 pt-10">
-        <h2 class="text-lg font-bold text-zinc-900">Partner Program Benefits</h2>
-        <p class="text-xs text-zinc-500 max-w-xl leading-relaxed">Join Interlink's elite corporate matching network. Expand your university presence and automatically audit candidates.</p>
+        <h2 class="text-lg font-bold text-zinc-900">{{ __('Partner Program Benefits') }}</h2>
+        <p class="text-xs text-zinc-500 max-w-xl leading-relaxed">{{ __('Join Interlink\'s elite corporate matching network. Expand your university presence and automatically audit candidates.') }}</p>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-xs">
             <div class="bg-white border border-zinc-200 rounded-xl p-5 shadow-soft space-y-2">
                 <span class="text-[#00B1AA] font-bold text-lg"><i class="fa-solid fa-graduation-cap"></i></span>
-                <h3 class="font-bold text-zinc-900">Target Campus Access</h3>
-                <p class="text-zinc-500 leading-relaxed">Direct placements at elite CS departments (Stanford, MIT, CMU, Berkeley). Postings feed straight to academic registrar databases.</p>
+                <h3 class="font-bold text-zinc-900">{{ __('Target Campus Access') }}</h3>
+                <p class="text-zinc-500 leading-relaxed">{{ __('Direct placements at elite CS departments (Stanford, MIT, CMU, Berkeley). Postings feed straight to academic registrar databases.') }}</p>
             </div>
             <div class="bg-white border border-zinc-200 rounded-xl p-5 shadow-soft space-y-2">
                 <span class="text-[#00B1AA] font-bold text-lg"><i class="fa-solid fa-handshake-angle"></i></span>
-                <h3 class="font-bold text-zinc-900">Automated Legal CPT</h3>
-                <p class="text-zinc-500 leading-relaxed">Generate pre-vetted visa work agreements and course mappings automatically, avoiding corporate immigration bottleneck loops.</p>
+                <h3 class="font-bold text-zinc-900">{{ __('Automated Legal CPT') }}</h3>
+                <p class="text-zinc-500 leading-relaxed">{{ __('Generate pre-vetted visa work agreements and course mappings automatically, avoiding corporate immigration bottleneck loops.') }}</p>
             </div>
             <div class="bg-white border border-zinc-200 rounded-xl p-5 shadow-soft space-y-2">
                 <span class="text-[#00B1AA] font-bold text-lg"><i class="fa-solid fa-bolt"></i></span>
-                <h3 class="font-bold text-zinc-900">Vetted Match Pipelines</h3>
-                <p class="text-zinc-500 leading-relaxed">Filters candidates automatically based on GitHub repo commits, verified GPA status, and Prof recommendations.</p>
+                <h3 class="font-bold text-zinc-900">{{ __('Vetted Match Pipelines') }}</h3>
+                <p class="text-zinc-500 leading-relaxed">{{ __('Filters candidates automatically based on GitHub repo commits, verified GPA status, and Prof recommendations.') }}</p>
             </div>
         </div>
     </div>

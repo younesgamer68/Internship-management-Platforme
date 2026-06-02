@@ -28,7 +28,7 @@ Route::get('/', function (Request $request) {
 
 Route::view('/contact', 'contact')->name('contact');
 Route::redirect('/help-center', '/')->name('help-center');
-Route::redirect('/about', '/about-us/our-mission')->name('about');
+Route::view('/about', 'aboutus')->name('about');
 Route::get('/home', function () {
     if (auth()->check()) {
         $user = auth()->user();

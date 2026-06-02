@@ -13,14 +13,12 @@
         { id: 5, title: 'ML Research Intern', company: 'Pinecone', location: 'Remote', stipend: '$65/hr', deadline: 'July 1, 2026', daysLeft: 5, logo: 'P', logoBg: 'bg-[#2b1b54]' }
     ],
     removeSaved(id) {
-        this.savedItems = this.savedItems.filter(item => item.id !== id);
-    }
-}" class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+        this.savedItems = this.savedItems.filter(item => {{ __('item.id !== id); } }" class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">') }}
 
     <!-- Header -->
     <div class="border-b border-zinc-200 pb-5 mb-8">
-        <h1 class="text-3xl font-bold leading-7 text-zinc-900 sm:truncate sm:text-4xl">Saved Opportunities</h1>
-        <p class="mt-2 text-sm text-zinc-500 font-medium">Keep track of upcoming deadlines and requirements for roles you are preparing to apply for.</p>
+        <h1 class="text-3xl font-bold leading-7 text-zinc-900 sm:truncate sm:text-4xl">{{ __('Saved Opportunities') }}</h1>
+        <p class="mt-2 text-sm text-zinc-500 font-medium">{{ __('Keep track of upcoming deadlines and requirements for roles you are preparing to apply for.') }}</p>
     </div>
 
     <!-- Saved List Workspace -->
@@ -31,10 +29,10 @@
             <template x-if="savedItems.length === 0">
                 <div class="bg-white border border-zinc-200 rounded-xl p-12 text-center text-zinc-500 space-y-2">
                     <i class="fa-regular fa-bookmark text-3xl text-zinc-300"></i>
-                    <p class="font-semibold text-sm">No saved opportunities yet.</p>
-                    <p class="text-xs">Browse the internship feed and click bookmark tags to save roles here.</p>
+                    <p class="font-semibold text-sm">{{ __('No saved opportunities yet.') }}</p>
+                    <p class="text-xs">{{ __('Browse the internship feed and click bookmark tags to save roles here.') }}</p>
                     <div class="pt-4">
-                        <a href="/internships/browse" class="rounded-lg bg-zinc-900 px-4 py-2 text-xs font-semibold text-white hover:bg-zinc-800">Browse Jobs</a>
+                        <a href="/internships/browse" class="rounded-lg bg-zinc-900 px-4 py-2 text-xs font-semibold text-white hover:bg-zinc-800">{{ __('Browse Jobs') }}</a>
                     </div>
                 </div>
             </template>
@@ -57,7 +55,7 @@
                     <!-- Deadline / Actions -->
                     <div class="flex items-center gap-4 w-full sm:w-auto justify-between sm:justify-end border-t border-zinc-100 sm:border-t-0 pt-3 sm:pt-0">
                         <div class="text-left sm:text-right text-xs">
-                            <span class="text-zinc-400 block font-medium">Apply deadline</span>
+                            <span class="text-zinc-400 block font-medium">{{ __('Apply deadline') }}</span>
                             <strong class="text-zinc-800" x-text="item.deadline"></strong>
                             <span :class="item.daysLeft <= 7 ? 'text-red-600' : 'text-zinc-500'" class="block font-semibold mt-0.5 text-[10px]" x-text="`(${item.daysLeft} days remaining)`"></span>
                         </div>
@@ -67,7 +65,7 @@
                                 <i class="fa-solid fa-trash-can"></i>
                             </button>
                             <a href="/internships/browse" class="rounded-lg bg-zinc-900 px-3.5 py-1.5 text-xs font-semibold text-white hover:bg-zinc-800 shadow-soft">
-                                Begin Application
+                                {{ __('Begin Application') }}
                             </a>
                         </div>
                     </div>
@@ -79,57 +77,57 @@
         <aside class="lg:col-span-4 space-y-6">
             <!-- Saved List Stats -->
             <div class="bg-white border border-zinc-200 rounded-xl p-5 shadow-soft space-y-4">
-                <h3 class="font-bold text-zinc-900 text-xs uppercase tracking-wider border-b border-zinc-100 pb-1.5">Saved List Stats</h3>
+                <h3 class="font-bold text-zinc-900 text-xs uppercase tracking-wider border-b border-zinc-100 pb-1.5">{{ __('Saved List Stats') }}</h3>
                 <div class="grid grid-cols-2 gap-4 text-xs font-medium text-zinc-600">
                     <div>
-                        <span class="text-[10px] text-zinc-400 block uppercase">Saved Roles</span>
+                        <span class="text-[10px] text-zinc-400 block uppercase">{{ __('Saved Roles') }}</span>
                         <span class="text-base font-bold text-zinc-900" x-text="savedItems.length"></span>
                     </div>
                     <div>
-                        <span class="text-[10px] text-zinc-400 block uppercase">Avg. Stipend</span>
-                        <span class="text-base font-bold text-emerald-600">$56.10/hr</span>
+                        <span class="text-[10px] text-zinc-400 block uppercase">{{ __('Avg. Stipend') }}</span>
+                        <span class="text-base font-bold text-emerald-600">{{ __('$56.10/hr') }}</span>
                     </div>
                 </div>
             </div>
 
             <!-- Profile Checklist -->
             <div class="bg-white border border-zinc-200 rounded-xl p-5 shadow-soft space-y-4">
-                <h3 class="font-bold text-zinc-900 text-xs uppercase tracking-wider border-b border-zinc-100 pb-1.5">Vetted Profile Completion</h3>
-                <p class="text-[11px] text-zinc-500 leading-relaxed">Ensure your credentials are fully synced prior to submission to secure high-priority matching scores.</p>
+                <h3 class="font-bold text-zinc-900 text-xs uppercase tracking-wider border-b border-zinc-100 pb-1.5">{{ __('Vetted Profile Completion') }}</h3>
+                <p class="text-[11px] text-zinc-500 leading-relaxed">{{ __('Ensure your credentials are fully synced prior to submission to secure high-priority matching scores.') }}</p>
                 
                 <div class="space-y-3.5 text-xs font-medium text-zinc-600">
                     <div class="flex items-center gap-2">
                         <i class="fa-solid fa-circle-check text-emerald-600"></i>
-                        <span>University GPA Transcript (Verified)</span>
+                        <span>{{ __('University GPA Transcript (Verified)') }}</span>
                     </div>
                     <div class="flex items-center gap-2">
                         <i class="fa-solid fa-circle-check text-emerald-600"></i>
-                        <span>GitHub Commit Sync completed</span>
+                        <span>{{ __('GitHub Commit Sync completed') }}</span>
                     </div>
                     <div class="flex items-center gap-2">
                         <i class="fa-regular fa-circle text-zinc-300"></i>
-                        <span>Resume Build validation check</span>
+                        <span>{{ __('Resume Build validation check') }}</span>
                     </div>
                 </div>
             </div>
 
             <!-- Recommended based on saved (New Sidebar Card) -->
             <div class="bg-white border border-zinc-200 rounded-xl p-5 shadow-soft space-y-4">
-                <h3 class="font-bold text-zinc-900 text-xs uppercase tracking-wider border-b border-zinc-100 pb-1.5">Similar Opportunities</h3>
+                <h3 class="font-bold text-zinc-900 text-xs uppercase tracking-wider border-b border-zinc-100 pb-1.5">{{ __('Similar Opportunities') }}</h3>
                 <div class="space-y-3">
                     <div class="flex justify-between items-center text-xs">
                         <div>
-                            <span class="font-bold text-zinc-900 block">Full-Stack Dev Intern</span>
-                            <span class="text-zinc-500">Retool &bull; San Francisco</span>
+                            <span class="font-bold text-zinc-900 block">{{ __('Full-Stack Dev Intern') }}</span>
+                            <span class="text-zinc-500">{{ __('Retool &bull; San Francisco') }}</span>
                         </div>
-                        <span class="text-emerald-600 font-bold">$58/hr</span>
+                        <span class="text-emerald-600 font-bold">{{ __('$58/hr') }}</span>
                     </div>
                     <div class="flex justify-between items-center text-xs border-t border-zinc-100 pt-3">
                         <div>
-                            <span class="font-bold text-zinc-900 block">DevRel Advocate Intern</span>
-                            <span class="text-zinc-500">Resend &bull; Remote</span>
+                            <span class="font-bold text-zinc-900 block">{{ __('DevRel Advocate Intern') }}</span>
+                            <span class="text-zinc-500">{{ __('Resend &bull; Remote') }}</span>
                         </div>
-                        <span class="text-emerald-600 font-bold">$45/hr</span>
+                        <span class="text-emerald-600 font-bold">{{ __('$45/hr') }}</span>
                     </div>
                 </div>
             </div>

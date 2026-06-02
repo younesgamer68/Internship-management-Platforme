@@ -40,15 +40,15 @@
 
     <!-- Header & Search -->
     <div class="text-center max-w-xl mx-auto mb-12 space-y-4">
-        <h1 class="text-3xl font-extrabold text-[#444444]">Platform FAQ & Docs</h1>
-        <p class="text-sm text-[#7B7B7B] font-medium">Find answers regarding compliance rules, stipend mandates, and registrar integrations.</p>
+        <h1 class="text-3xl font-extrabold text-[#444444]">{{ __('Platform FAQ & Docs') }}</h1>
+        <p class="text-sm text-[#7B7B7B] font-medium">{{ __('Find answers regarding compliance rules, stipend mandates, and registrar integrations.') }}</p>
         
         <div class="mt-6 relative">
             <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3.5 text-[#7B7B7B] text-xs"></i>
             <input 
                 x-model="searchQuery" 
                 type="text" 
-                placeholder="Search FAQ articles by question or answer..." 
+                placeholder="{{ __('Search FAQ articles by question or answer...') }}" 
                 class="w-full pl-9 pr-4 py-2.5 rounded border border-[#E5E7EB] bg-white text-xs placeholder-[#7B7B7B] focus:bg-white shadow-soft transition-colors focus:outline-none focus:ring-1 focus:ring-[#00B1AA]"
             >
         </div>
@@ -60,20 +60,20 @@
         <!-- Category Sidebar (3 cols) -->
         <aside class="lg:col-span-3 space-y-2">
             <button @click="selectedCategory = 'all'" :class="selectedCategory === 'all' ? 'bg-[#00B1AA] text-white font-bold' : 'text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100 bg-white border border-[#E5E7EB]'" class="w-full text-left px-3 py-2.5 rounded text-xs transition-colors flex justify-between items-center shadow-soft">
-                <span>All FAQ</span>
+                <span>{{ __('All FAQ') }}</span>
                 <span class="bg-zinc-100 text-zinc-600 px-2 py-0.5 rounded font-mono text-[10px]" x-text="faqs.length"></span>
             </button>
             <button @click="selectedCategory = 'students'" :class="selectedCategory === 'students' ? 'bg-[#00B1AA] text-white font-bold' : 'text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100 bg-white border border-[#E5E7EB]'" class="w-full text-left px-3 py-2.5 rounded text-xs transition-colors flex justify-between items-center shadow-soft">
-                <span>Students</span>
-                <span class="bg-zinc-100 text-zinc-600 px-2 py-0.5 rounded font-mono text-[10px]" x-text="faqs.filter(f => f.category === 'students').length"></span>
+                <span>{{ __('Students') }}</span>
+                <span class="bg-zinc-100 text-zinc-600 px-2 py-0.5 rounded font-mono text-[10px]" x-text="faqs.filter(f => {{ __('f.category === \'students\').length">') }}</span>
             </button>
             <button @click="selectedCategory = 'employers'" :class="selectedCategory === 'employers' ? 'bg-[#00B1AA] text-white font-bold' : 'text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100 bg-white border border-[#E5E7EB]'" class="w-full text-left px-3 py-2.5 rounded text-xs transition-colors flex justify-between items-center shadow-soft">
-                <span>Employers</span>
-                <span class="bg-zinc-100 text-zinc-600 px-2 py-0.5 rounded font-mono text-[10px]" x-text="faqs.filter(f => f.category === 'employers').length"></span>
+                <span>{{ __('Employers') }}</span>
+                <span class="bg-zinc-100 text-zinc-600 px-2 py-0.5 rounded font-mono text-[10px]" x-text="faqs.filter(f => {{ __('f.category === \'employers\').length">') }}</span>
             </button>
             <button @click="selectedCategory = 'compliance'" :class="selectedCategory === 'compliance' ? 'bg-[#00B1AA] text-white font-bold' : 'text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100 bg-white border border-[#E5E7EB]'" class="w-full text-left px-3 py-2.5 rounded text-xs transition-colors flex justify-between items-center shadow-soft">
-                <span>Compliance</span>
-                <span class="bg-zinc-100 text-zinc-600 px-2 py-0.5 rounded font-mono text-[10px]" x-text="faqs.filter(f => f.category === 'compliance').length"></span>
+                <span>{{ __('Compliance') }}</span>
+                <span class="bg-zinc-100 text-zinc-600 px-2 py-0.5 rounded font-mono text-[10px]" x-text="faqs.filter(f => {{ __('f.category === \'compliance\').length">') }}</span>
             </button>
         </aside>
 

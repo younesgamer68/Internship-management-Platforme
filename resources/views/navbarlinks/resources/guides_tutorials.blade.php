@@ -29,15 +29,15 @@
 
     <!-- Header -->
     <div class="border-b border-zinc-200 pb-8 text-center max-w-3xl mx-auto space-y-4">
-        <h1 class="text-3xl font-bold tracking-tight text-[#444444] sm:truncate sm:text-4xl">Platform Guides & Checklists</h1>
-        <p class="text-sm text-[#7B7B7B] font-medium leading-relaxed">Standard checklists and onboarding templates ready for download.</p>
+        <h1 class="text-3xl font-bold tracking-tight text-[#444444] sm:truncate sm:text-4xl">{{ __('Platform Guides & Checklists') }}</h1>
+        <p class="text-sm text-[#7B7B7B] font-medium leading-relaxed">{{ __('Standard checklists and onboarding templates ready for download.') }}</p>
         
         <div class="mt-6 relative max-w-lg mx-auto">
             <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3.5 text-[#7B7B7B] text-xs"></i>
             <input 
                 x-model="searchQuery" 
                 type="text" 
-                placeholder="Search download files..." 
+                placeholder="{{ __('Search download files...') }}" 
                 class="w-full pl-9 pr-4 py-2 text-xs border border-[#E5E7EB] bg-white rounded placeholder-[#7B7B7B] focus:bg-white shadow-soft transition-colors focus:outline-none focus:ring-1 focus:ring-[#00B1AA]"
             >
         </div>
@@ -45,11 +45,11 @@
 
     <!-- Category selector -->
     <div class="flex flex-wrap justify-center gap-2 text-xs font-semibold">
-        <button @click="selectedCategory = 'all'" :class="selectedCategory === 'all' ? 'bg-[#00B1AA] text-white font-bold' : 'text-zinc-600 hover:text-zinc-900 bg-white border border-[#E5E7EB]'" class="px-3.5 py-2 rounded transition-colors shadow-soft">All Resources</button>
-        <button @click="selectedCategory = 'legal'" :class="selectedCategory === 'legal' ? 'bg-[#00B1AA] text-white font-bold' : 'text-zinc-600 hover:text-zinc-900 bg-white border border-[#E5E7EB]'" class="px-3.5 py-2 rounded transition-colors shadow-soft">Legal & Visas</button>
-        <button @click="selectedCategory = 'credits'" :class="selectedCategory === 'credits' ? 'bg-[#00B1AA] text-white font-bold' : 'text-zinc-600 hover:text-zinc-900 bg-white border border-[#E5E7EB]'" class="px-3.5 py-2 rounded transition-colors shadow-soft">University Credits</button>
-        <button @click="selectedCategory = 'recruiting'" :class="selectedCategory === 'recruiting' ? 'bg-[#00B1AA] text-white font-bold' : 'text-zinc-600 hover:text-zinc-900 bg-white border border-[#E5E7EB]'" class="px-3.5 py-2 rounded transition-colors shadow-soft">Recruiter Toolkits</button>
-        <button @click="selectedCategory = 'resumes'" :class="selectedCategory === 'resumes' ? 'bg-[#00B1AA] text-white font-bold' : 'text-zinc-600 hover:text-zinc-900 bg-white border border-[#E5E7EB]'" class="px-3.5 py-2 rounded transition-colors shadow-soft">Resume Blueprints</button>
+        <button @click="selectedCategory = 'all'" :class="selectedCategory === 'all' ? 'bg-[#00B1AA] text-white font-bold' : 'text-zinc-600 hover:text-zinc-900 bg-white border border-[#E5E7EB]'" class="px-3.5 py-2 rounded transition-colors shadow-soft">{{ __('All Resources') }}</button>
+        <button @click="selectedCategory = 'legal'" :class="selectedCategory === 'legal' ? 'bg-[#00B1AA] text-white font-bold' : 'text-zinc-600 hover:text-zinc-900 bg-white border border-[#E5E7EB]'" class="px-3.5 py-2 rounded transition-colors shadow-soft">{{ __('Legal & Visas') }}</button>
+        <button @click="selectedCategory = 'credits'" :class="selectedCategory === 'credits' ? 'bg-[#00B1AA] text-white font-bold' : 'text-zinc-600 hover:text-zinc-900 bg-white border border-[#E5E7EB]'" class="px-3.5 py-2 rounded transition-colors shadow-soft">{{ __('University Credits') }}</button>
+        <button @click="selectedCategory = 'recruiting'" :class="selectedCategory === 'recruiting' ? 'bg-[#00B1AA] text-white font-bold' : 'text-zinc-600 hover:text-zinc-900 bg-white border border-[#E5E7EB]'" class="px-3.5 py-2 rounded transition-colors shadow-soft">{{ __('Recruiter Toolkits') }}</button>
+        <button @click="selectedCategory = 'resumes'" :class="selectedCategory === 'resumes' ? 'bg-[#00B1AA] text-white font-bold' : 'text-zinc-600 hover:text-zinc-900 bg-white border border-[#E5E7EB]'" class="px-3.5 py-2 rounded transition-colors shadow-soft">{{ __('Resume Blueprints') }}</button>
     </div>
 
     <!-- Guides list -->
@@ -63,7 +63,7 @@
                 </div>
                 <div class="border-t border-zinc-100 pt-4 mt-5 flex justify-between items-center text-xs">
                     <span class="text-zinc-400 font-semibold" x-text="`${g.fileType} • ${g.fileSize}`"></span>
-                    <a href="#" @click.prevent="alert(`Downloading ${g.title}...`)" class="text-[#00B1AA] font-bold hover:text-[#009c95] transition-colors"><i class="fa-solid fa-download mr-1"></i> Download</a>
+                    <a href="#" @click.prevent="alert(`Downloading ${g.title}...`)" class="text-[#00B1AA] font-bold hover:text-[#009c95] transition-colors"><i class="fa-solid fa-download mr-1"></i> {{ __('Download') }}</a>
                 </div>
             </div>
         </template>
@@ -72,12 +72,12 @@
     <!-- Request Custom Templates Help desk -->
     <div class="bg-white border border-[#E5E7EB] rounded-xl p-8 shadow-soft text-center max-w-xl mx-auto space-y-4">
         <span class="text-[#00B1AA] text-2xl"><i class="fa-solid fa-circle-question"></i></span>
-        <h4 class="font-bold text-sm text-[#444444]">Need institutional customizations?</h4>
+        <h4 class="font-bold text-sm text-[#444444]">{{ __('Need institutional customizations?') }}</h4>
         <p class="text-xs text-[#7B7B7B] leading-relaxed">
-            If your university registrar requires specific evaluation variables, NDA templates, or hourly logs configurations, contact our academic operations desk to build custom compliance blueprints.
+            {{ __('If your university registrar requires specific evaluation variables, NDA templates, or hourly logs configurations, contact our academic operations desk to build custom compliance blueprints.') }}
         </p>
         <a href="mailto:registrar@interlink.edu" class="inline-block bg-[#444444] hover:bg-zinc-800 text-white font-bold text-xs px-5 py-2.5 rounded transition-colors shadow-soft">
-            Contact Registrar Support
+            {{ __('Contact Registrar Support') }}
         </a>
     </div>
 

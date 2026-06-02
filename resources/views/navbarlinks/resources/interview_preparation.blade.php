@@ -43,9 +43,9 @@
 
     <!-- Header -->
     <div class="border-b border-zinc-200 pb-8 text-center max-w-3xl mx-auto space-y-4">
-        <h1 class="text-3xl font-bold tracking-tight text-[#444444] sm:truncate sm:text-4xl">Technical Interview Preparation</h1>
+        <h1 class="text-3xl font-bold tracking-tight text-[#444444] sm:truncate sm:text-4xl">{{ __('Technical Interview Preparation') }}</h1>
         <p class="text-sm text-[#7B7B7B] font-medium leading-relaxed">
-            Curated study strategies, interactive coding blueprints, and checklist templates compiled by partner engineering managers.
+            {{ __('Curated study strategies, interactive coding blueprints, and checklist templates compiled by partner engineering managers.') }}
         </p>
     </div>
 
@@ -56,21 +56,21 @@
         <div class="bg-white border border-[#E5E7EB] rounded-xl p-6 shadow-soft space-y-4">
             <div class="flex items-center gap-2 border-b border-zinc-100 pb-2">
                 <span class="text-[#00B1AA] font-bold text-lg"><i class="fa-solid fa-laptop-code"></i></span>
-                <h3 class="font-bold text-[#444444] text-base">Coding & Algorithmic Prep</h3>
+                <h3 class="font-bold text-[#444444] text-base">{{ __('Coding & Algorithmic Prep') }}</h3>
             </div>
             
             <div class="space-y-3.5 text-xs text-[#7B7B7B] leading-relaxed">
                 <div>
-                    <strong class="text-zinc-800 block">1. Focus on Core Data Structures</strong>
-                    <span>Ensure absolute fluency in hash maps, trees, graph traversals (BFS/DFS), and sorting boundary rates.</span>
+                    <strong class="text-zinc-800 block">{{ __('1. Focus on Core Data Structures') }}</strong>
+                    <span>{{ __('Ensure absolute fluency in hash maps, trees, graph traversals (BFS/DFS), and sorting boundary rates.') }}</span>
                 </div>
                 <div>
-                    <strong class="text-zinc-800 block">2. Analyze Time & Space Complexities</strong>
-                    <span>Be prepared to calculate Big O scales for both memory allocations and CPU loops instantly.</span>
+                    <strong class="text-zinc-800 block">{{ __('2. Analyze Time & Space Complexities') }}</strong>
+                    <span>{{ __('Be prepared to calculate Big O scales for both memory allocations and CPU loops instantly.') }}</span>
                 </div>
                 <div>
-                    <strong class="text-zinc-800 block">3. Practice Clean Code Communication</strong>
-                    <span>During code panels, explain technical design structures before writing lines in the sandbox.</span>
+                    <strong class="text-zinc-800 block">{{ __('3. Practice Clean Code Communication') }}</strong>
+                    <span>{{ __('During code panels, explain technical design structures before writing lines in the sandbox.') }}</span>
                 </div>
             </div>
         </div>
@@ -79,21 +79,21 @@
         <div class="bg-white border border-[#E5E7EB] rounded-xl p-6 shadow-soft space-y-4">
             <div class="flex items-center gap-2 border-b border-zinc-100 pb-2">
                 <span class="text-[#00B1AA] font-bold text-lg"><i class="fa-solid fa-server"></i></span>
-                <h3 class="font-bold text-[#444444] text-base">System Design & Databases</h3>
+                <h3 class="font-bold text-[#444444] text-base">{{ __('System Design & Databases') }}</h3>
             </div>
             
             <div class="space-y-3.5 text-xs text-[#7B7B7B] leading-relaxed">
                 <div>
-                    <strong class="text-zinc-800 block">1. DB Scaling & Indexing</strong>
-                    <span>Understand transactional limits (ACID rules), read vs write replica layouts, and indexes.</span>
+                    <strong class="text-zinc-800 block">{{ __('1. DB Scaling & Indexing') }}</strong>
+                    <span>{{ __('Understand transactional limits (ACID rules), read vs write replica layouts, and indexes.') }}</span>
                 </div>
                 <div>
-                    <strong class="text-zinc-800 block">2. Caching & Message Queuing</strong>
-                    <span>Study cache eviction methods (LRU) and asynchronous task processing using queues (Redis, RabbitMQ).</span>
+                    <strong class="text-zinc-800 block">{{ __('2. Caching & Message Queuing') }}</strong>
+                    <span>{{ __('Study cache eviction methods (LRU) and asynchronous task processing using queues (Redis, RabbitMQ).') }}</span>
                 </div>
                 <div>
-                    <strong class="text-zinc-800 block">3. Load Balancing & CDN Routing</strong>
-                    <span>Explain reverse-proxy layouts and regional caching mechanisms used by modern app engines.</span>
+                    <strong class="text-zinc-800 block">{{ __('3. Load Balancing & CDN Routing') }}</strong>
+                    <span>{{ __('Explain reverse-proxy layouts and regional caching mechanisms used by modern app engines.') }}</span>
                 </div>
             </div>
         </div>
@@ -105,7 +105,7 @@
         
         <!-- Left Sidebar: Question Selector (5 cols) -->
         <div class="lg:col-span-5 bg-white border border-[#E5E7EB] rounded-xl p-6 shadow-soft space-y-4">
-            <h3 class="font-bold text-sm text-[#444444] uppercase tracking-wider border-b border-zinc-100 pb-2">Common Board Questions</h3>
+            <h3 class="font-bold text-sm text-[#444444] uppercase tracking-wider border-b border-zinc-100 pb-2">{{ __('Common Board Questions') }}</h3>
             <div class="space-y-2">
                 <template x-for="q in codingQuestions" :key="q.id">
                     <button 
@@ -126,21 +126,21 @@
         <!-- Right Side: Details View (7 cols) -->
         <div class="lg:col-span-7 bg-white border border-[#E5E7EB] rounded-xl p-6 shadow-soft space-y-5">
             <div class="border-b border-zinc-100 pb-3">
-                <span class="text-[9px] font-bold text-[#00B1AA] uppercase tracking-wider block">Question Specs & Hints</span>
+                <span class="text-[9px] font-bold text-[#00B1AA] uppercase tracking-wider block">{{ __('Question Specs & Hints') }}</span>
                 <h4 class="text-base font-bold text-[#444444] mt-1" x-text="codingQuestions[activeQuestion - 1].title"></h4>
             </div>
 
             <div class="space-y-3.5 text-xs text-[#7B7B7B] leading-relaxed">
                 <div>
-                    <span class="font-bold text-zinc-800 block">Problem Statement</span>
+                    <span class="font-bold text-zinc-800 block">{{ __('Problem Statement') }}</span>
                     <p class="mt-1" x-text="codingQuestions[activeQuestion - 1].prompt"></p>
                 </div>
                 <div class="bg-[#F8FAFA] border border-[#E5E7EB] rounded p-4">
-                    <span class="font-bold text-zinc-800 block">Algorithmic Strategy Hint</span>
+                    <span class="font-bold text-zinc-800 block">{{ __('Algorithmic Strategy Hint') }}</span>
                     <p class="mt-1 text-[11px] leading-relaxed" x-text="codingQuestions[activeQuestion - 1].hint"></p>
                 </div>
                 <div class="bg-[#00B1AA]/5 border border-[#00B1AA]/10 rounded p-4 text-[#00B1AA]">
-                    <span class="font-bold block text-zinc-800 text-[11px]"><i class="fa-solid fa-lightbulb"></i> Lead Recruiter Note:</span>
+                    <span class="font-bold block text-zinc-800 text-[11px]"><i class="fa-solid fa-lightbulb"></i> {{ __('Lead Recruiter Note:') }}</span>
                     <p class="mt-1 text-[11px] leading-relaxed text-[#7B7B7B]" x-text="codingQuestions[activeQuestion - 1].recruiterNote"></p>
                 </div>
             </div>
@@ -154,8 +154,8 @@
         <!-- Live Checklist -->
         <div class="bg-white border border-[#E5E7EB] rounded-xl p-6 shadow-soft space-y-4">
             <div>
-                <h3 class="font-bold text-sm text-[#444444]">Interview Day Readiness Checklist</h3>
-                <p class="text-xs text-[#7B7B7B] mt-0.5">Toggle these items to audit your interview environment preparation.</p>
+                <h3 class="font-bold text-sm text-[#444444]">{{ __('Interview Day Readiness Checklist') }}</h3>
+                <p class="text-xs text-[#7B7B7B] mt-0.5">{{ __('Toggle these items to audit your interview environment preparation.') }}</p>
             </div>
             <div class="space-y-3 text-xs">
                 <template x-for="item in readyChecklist" :key="item.id">
@@ -169,18 +169,18 @@
 
         <!-- Behavioral Guide (STAR) -->
         <div class="bg-white border border-[#E5E7EB] rounded-xl p-6 shadow-soft space-y-4">
-            <h3 class="font-bold text-sm text-[#444444] border-b border-zinc-100 pb-2">Behavioral Interview Structure</h3>
+            <h3 class="font-bold text-sm text-[#444444] border-b border-zinc-100 pb-2">{{ __('Behavioral Interview Structure') }}</h3>
             <p class="text-xs text-[#7B7B7B] leading-relaxed">
-                Startups assess culture match through behavioral questions. Prepare three robust STAR structures for common prompts:
+                {{ __('Startups assess culture match through behavioral questions. Prepare three robust STAR structures for common prompts:') }}
             </p>
             <ul class="text-xs text-[#7B7B7B] space-y-2.5">
                 <li class="flex items-start gap-2">
                     <i class="fa-solid fa-circle-check text-[#00B1AA] mt-0.5 shrink-0"></i>
-                    <span><strong>Handling Team Conflicts:</strong> Detail how you resolved architectural disagreements via code benchmarking instead of arguments.</span>
+                    <span><strong>{{ __('Handling Team Conflicts:') }}</strong> {{ __('Detail how you resolved architectural disagreements via code benchmarking instead of arguments.') }}</span>
                 </li>
                 <li class="flex items-start gap-2">
                     <i class="fa-solid fa-circle-check text-[#00B1AA] mt-0.5 shrink-0"></i>
-                    <span><strong>Technical Ownership:</strong> Describe a complex parser, system, or library you owned from design specs to production launch.</span>
+                    <span><strong>{{ __('Technical Ownership:') }}</strong> {{ __('Describe a complex parser, system, or library you owned from design specs to production launch.') }}</span>
                 </li>
             </ul>
         </div>
@@ -189,23 +189,23 @@
 
     <!-- Prep FAQs -->
     <div class="bg-white border border-[#E5E7EB] rounded-xl p-8 shadow-soft space-y-6">
-        <h3 class="font-bold text-sm text-[#444444] text-center uppercase tracking-wider">Interview FAQs</h3>
+        <h3 class="font-bold text-sm text-[#444444] text-center uppercase tracking-wider">{{ __('Interview FAQs') }}</h3>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-xs text-[#7B7B7B] leading-relaxed">
             <div class="space-y-2">
-                <h4 class="font-bold text-zinc-800 text-sm">Should I write pseudo-code or complete executable code?</h4>
-                <p>Always write complete, syntactically clean code in the collaborative sandbox. If you get stuck, communicate your approach, write helper functions, and clarify variables rather than stopping.</p>
+                <h4 class="font-bold text-zinc-800 text-sm">{{ __('Should I write pseudo-code or complete executable code?') }}</h4>
+                <p>{{ __('Always write complete, syntactically clean code in the collaborative sandbox. If you get stuck, communicate your approach, write helper functions, and clarify variables rather than stopping.') }}</p>
             </div>
             <div class="space-y-2">
-                <h4 class="font-bold text-zinc-800 text-sm">What kind of questions should I ask at the end?</h4>
-                <p>Avoid generic queries. Ask about their deployment workflows, compile times, how branch conflicts are resolved, or how host managers evaluate junior contributions for university credit.</p>
+                <h4 class="font-bold text-zinc-800 text-sm">{{ __('What kind of questions should I ask at the end?') }}</h4>
+                <p>{{ __('Avoid generic queries. Ask about their deployment workflows, compile times, how branch conflicts are resolved, or how host managers evaluate junior contributions for university credit.') }}</p>
             </div>
             <div class="space-y-2">
-                <h4 class="font-bold text-zinc-800 text-sm">Is syntax correctness heavily penalized?</h4>
-                <p>Minor syntax lapses are tolerated, but logical bugs or incorrect Big O time-complexity assumptions are major warning indicators. Focus on modular structure and dry-run tests.</p>
+                <h4 class="font-bold text-zinc-800 text-sm">{{ __('Is syntax correctness heavily penalized?') }}</h4>
+                <p>{{ __('Minor syntax lapses are tolerated, but logical bugs or incorrect Big O time-complexity assumptions are major warning indicators. Focus on modular structure and dry-run tests.') }}</p>
             </div>
             <div class="space-y-2">
-                <h4 class="font-bold text-zinc-800 text-sm">How should I handle getting completely stuck?</h4>
-                <p>Be transparent. Talk aloud, explain what is blocking you, benchmark simple test inputs, and ask for clarifying parameters. Managers evaluate your logical troubleshooting path under stress.</p>
+                <h4 class="font-bold text-zinc-800 text-sm">{{ __('How should I handle getting completely stuck?') }}</h4>
+                <p>{{ __('Be transparent. Talk aloud, explain what is blocking you, benchmark simple test inputs, and ask for clarifying parameters. Managers evaluate your logical troubleshooting path under stress.') }}</p>
             </div>
         </div>
     </div>
