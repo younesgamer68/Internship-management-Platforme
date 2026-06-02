@@ -26,9 +26,24 @@ Route::get('/', function (Request $request) {
 Route::view('/contact', 'contact')->name('contact');
 Route::view('/help-center', 'help-center')->name('help-center');
 Route::view('/about', 'about')->name('about');
-Route::view('/home', 'app.dashboard')
-    ->middleware('auth')
-    ->name('app.home');
+Route::domain(config('app.domain'))->group(function () {
+    Route::get('/home', function () {
+        $user = Auth::user();
+        if (!$user) return redirect('/login');
+        
+        $companySlug = $user->company ? $user->company->slug : 'internlink-demo';
+        
+        if ($user->isAdmin()) {
+            return redirect()->route('admin.dashboard', ['company' => $companySlug]);
+        } elseif ($user->isCompanyManager()) {
+            return redirect()->route('agent.dashboard', ['company' => $companySlug]);
+        } elseif ($user->isIntern()) {
+            return redirect()->route('student.dashboard', ['company' => $companySlug]);
+        }
+        
+        return view('app.dashboard');
+    })->middleware('auth')->name('app.home');
+});
 Route::view('/choose-path', 'signe-up.choose_path')->name('choose_path');
 Route::view('/choose-intership', 'signe-up.choose_intership')->name('choose_intership');
 Route::view('/get-started', 'signe-up.get-started')->name('get_started');

@@ -535,12 +535,10 @@
 .dept-view-icon-wrap { width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0; }
 
 /* shared modal styles (copied) */
-.modal-overlay { display:none;position:fixed;inset:0;background:rgba(15,23,42,.55);backdrop-filter:blur(4px);z-index:1000;align-items:center;justify-content:flex-end; }
+.modal-overlay { display:none;position:fixed;inset:0;background:rgba(15,23,42,.55);backdrop-filter:blur(4px);z-index:1000;align-items:center;justify-content:center; }
 .modal-overlay.open { display:flex;animation:fadeIn .2s ease; }
-#deptViewModal,#deptDeleteModal { align-items:center;justify-content:center; }
 @keyframes fadeIn { from{opacity:0} to{opacity:1} }
-.slide-panel { position:fixed;right:0;top:0;bottom:0;width:520px;max-width:96vw;background:#fff;box-shadow:-8px 0 40px rgba(0,0,0,.12);display:flex;flex-direction:column;animation:slideInRight .3s cubic-bezier(.16,1,.3,1);border-radius:16px 0 0 16px;overflow:hidden; }
-@keyframes slideInRight { from{transform:translateX(100%)} to{transform:translateX(0)} }
+.slide-panel { background:#fff;border-radius:16px;box-shadow:0 20px 60px rgba(0,0,0,.18);width:520px;max-width:94vw;max-height:90vh;display:flex;flex-direction:column;animation:popIn .25s cubic-bezier(.16,1,.3,1);overflow:hidden; }
 .slide-panel-header { display:flex;align-items:center;justify-content:space-between;padding:22px 24px;border-bottom:1px solid var(--gray-100);background:var(--gray-50);flex-shrink:0; }
 .slide-panel-title { display:flex;align-items:center;gap:14px; }
 .slide-panel-icon { width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0; }

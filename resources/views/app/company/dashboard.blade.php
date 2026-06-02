@@ -335,10 +335,10 @@
             <line x1="50" y1="140" x2="620" y2="140" stroke="#cbd5e1" stroke-width="1.5"></line>
             
             <!-- Trend Line Area -->
-            <path d="M 50 140 Q 145 100 240 120 T 430 40 T 620 60 L 620 140 L 50 140 Z" fill="url(#chartGrad)" opacity="0.15"></path>
+            <path d="M 50 140 C 69.0 132.0, 107.0 104.0, 145 100 C 183.0 96.0, 202.0 124.0, 240 120 C 278.0 116.0, 297.0 96.0, 335 80 C 373.0 64.0, 392.0 42.0, 430 40 C 468.0 38.0, 487.0 66.0, 525 70 C 563.0 74.0, 601.0 62.0, 620 60 L 620 140 L 50 140 Z" fill="url(#chartGrad)" opacity="0.15"></path>
             
             <!-- Trend Line Path -->
-            <path d="M 50 140 Q 145 100 240 120 T 430 40 T 620 60" fill="none" stroke="var(--primary)" stroke-width="3" stroke-linecap="round"></path>
+            <path d="M 50 140 C 69.0 132.0, 107.0 104.0, 145 100 C 183.0 96.0, 202.0 124.0, 240 120 C 278.0 116.0, 297.0 96.0, 335 80 C 373.0 64.0, 392.0 42.0, 430 40 C 468.0 38.0, 487.0 66.0, 525 70 C 563.0 74.0, 601.0 62.0, 620 60" fill="none" stroke="var(--primary)" stroke-width="3" stroke-linecap="round"></path>
             
             <!-- Interactive Dots -->
             <circle class="chart-dot" cx="50" cy="140" r="4.5" fill="#fff" stroke="var(--primary)" stroke-width="2.5" onmouseover="showTooltip(event, 'May 23', '2 applicants')" onmouseout="hideTooltip()"></circle>
@@ -373,7 +373,7 @@
     <!-- Recent Applicants -->
     <div class="card">
       <div class="card-header">
-        <h2 class="card-title"><i class="fas fa-user-clock"></i> Recent Applicants</h2>
+        <h2 class="card-title"><i class="fas fa-user-clock"></i> Intern Applicants</h2>
         <a href="{{ route('company.applicants', ['company' => auth()->user()->company?->slug ?? 'internlink-demo']) }}" class="btn-link">View All <i class="fas fa-arrow-right" style="font-size:.72rem;"></i></a>
       </div>
 
@@ -493,6 +493,24 @@
           <div class="interview-time"><i class="fas fa-clock"></i> 11:00 AM <i class="fas fa-building"></i> In-Person</div>
         </div>
       </div>
+
+      <div class="interview-slot" onclick="showToast('Opening video call for Emma Norton...','info')">
+        <div class="interview-date-box" style="background:var(--warning-bg);color:var(--warning);"><div class="day">28</div><div class="mon">May</div></div>
+        <div class="interview-info">
+          <div class="interview-name">Emma Norton</div>
+          <div class="interview-role">Data Analyst Intern</div>
+          <div class="interview-time"><i class="fas fa-clock"></i> 9:15 AM <i class="fas fa-video"></i> Video Call</div>
+        </div>
+      </div>
+
+      <div class="interview-slot" onclick="showToast('Opening video call for David Brown...','info')">
+        <div class="interview-date-box" style="background:var(--gray-100);color:var(--gray-600);"><div class="day">30</div><div class="mon">May</div></div>
+        <div class="interview-info">
+          <div class="interview-name">David Brown</div>
+          <div class="interview-role">Systems Administrator Intern</div>
+          <div class="interview-time"><i class="fas fa-clock"></i> 1:00 PM <i class="fas fa-video"></i> Video Call</div>
+        </div>
+      </div>
     </div>
 
     <!-- Recent Activity Feed (Premium Detail) -->
@@ -570,6 +588,9 @@ const applicantsData = [
   { initials:'MG', name:'Maria Garcia',   meta:'Business Administration — Albanian Univ.',    role:'Marketing Coordinator',        university:'Albanian University', gpa:'3.6', applied:'May 19, 2026', status:'Reviewing', color:'#F59E0B', tags: ['GPA 3.6', 'Albanian Univ'] },
   { initials:'JW', name:'James Wilson',   meta:'Computer Science — University of Tirana',    role:'Backend Developer Intern',      university:'Univ. of Tirana',    gpa:'3.9', applied:'May 18, 2026', status:'Interview', color:'#10B981', tags: ['GPA 3.9', 'Tirana CS', 'Strong Candidate'] },
   { initials:'SL', name:'Sofia Lee',      meta:'Design — Polytechnic University',             role:'UI/UX Design Intern',           university:'Polytechnic Univ.',  gpa:'3.7', applied:'May 17, 2026', status:'New',       color:'#8B5CF6', tags: ['GPA 3.7', 'Portfolio Linked'] },
+  { initials:'DB', name:'David Brown',    meta:'Information Technology — EPOKA',             role:'Systems Administrator Intern',   university:'Epoka University',    gpa:'3.5', applied:'May 16, 2026', status:'Reviewing', color:'#3B82F6', tags: ['GPA 3.5'] },
+  { initials:'EN', name:'Emma Norton',    meta:'Data Science — UET',                         role:'Data Analyst Intern',            university:'UET Tirana',          gpa:'3.9', applied:'May 15, 2026', status:'Interview', color:'#10B981', tags: ['GPA 3.9', 'Strong Match'] },
+  { initials:'RK', name:'Ryan King',      meta:'Marketing — University of Tirana',           role:'Marketing Coordinator',          university:'Univ. of Tirana',     gpa:'3.4', applied:'May 14, 2026', status:'New',       color:'#EF4444', tags: ['Creative Portfolio'] },
 ];
 
 let currentApplicant = null;

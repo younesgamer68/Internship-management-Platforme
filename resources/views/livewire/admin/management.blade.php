@@ -1,34 +1,4 @@
 <div>
-    <!-- Welcome Banner -->
-    <div class="welcome-banner">
-      <h2>Welcome back, {{ auth()->user()->name }}</h2>
-      <p>Here's what's happening on your platform today. You are logged into the administration control panel.</p>
-    </div>
-
-    <!-- Stat Cards -->
-    <div class="stats-grid">
-      <div class="stat-card">
-        <div class="stat-icon blue"><i class="fas fa-university"></i></div>
-        <div class="stat-info">
-          <div class="stat-value" data-target="{{ $this->companyCount }}">{{ $this->companyCount }}</div>
-          <div class="stat-label">Companies Managed</div>
-        </div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-icon green"><i class="fas fa-user-graduate"></i></div>
-        <div class="stat-info">
-          <div class="stat-value" data-target="{{ $this->internCount }}">{{ $this->internCount }}</div>
-          <div class="stat-label">Registered Interns</div>
-        </div>
-      </div>
-      <div class="stat-card" style="grid-column: span 2;">
-        <div class="stat-icon warning"><i class="fas fa-shield-halved"></i></div>
-        <div class="stat-info">
-          <div class="stat-value" style="font-size: 18px; margin-top: 4px;">admin@internlink.test</div>
-          <div class="stat-label">Platform Administrator Login</div>
-        </div>
-      </div>
-    </div>
 
     <!-- Flash Notifications -->
     @if (session('company-created'))

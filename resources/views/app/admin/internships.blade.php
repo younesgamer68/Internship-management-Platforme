@@ -762,18 +762,16 @@
 
 /* SLIDE PANEL */
 .slide-panel {
-  position: fixed;
-  right: 0; top: 0; bottom: 0;
-  width: 540px;
-  max-width: 96vw;
   background: #fff;
-  box-shadow: -8px 0 40px rgba(0,0,0,0.12);
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.18);
+  width: 540px;
+  max-width: 94vw;
+  max-height: 90vh;
   display: flex; flex-direction: column;
-  animation: slideInRight 0.3s cubic-bezier(0.16,1,0.3,1);
-  border-radius: 16px 0 0 16px;
+  animation: popIn 0.25s cubic-bezier(0.16,1,0.3,1);
   overflow: hidden;
 }
-@keyframes slideInRight { from { transform: translateX(100%) } to { transform: translateX(0) } }
 
 .slide-panel-header {
   display: flex; align-items: center; justify-content: space-between;
@@ -1016,6 +1014,7 @@ function submitAddForm(e) {
   e.target.reset();
   closeModal('addModal');
   showToast('Internship added successfully!');
+  applyFilters();
 }
 
 // ── VIEW ──
@@ -1149,7 +1148,11 @@ function confirmDelete() {
   rowToDelete.style.opacity  = '0';
   rowToDelete.style.transform= 'translateY(-8px)';
   rowToDelete.style.transition = 'all 0.35s ease';
-  setTimeout(() => { rowToDelete.remove(); rowToDelete = null; }, 360);
+  setTimeout(() => { 
+    rowToDelete.remove(); 
+    rowToDelete = null; 
+    applyFilters(); 
+  }, 360);
   closeModal('deleteModal');
   showToast('Internship deleted.');
 }
@@ -1161,5 +1164,100 @@ function showToast(msg) {
   t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), 3000);
 }
+// ── FILTER & PAGINATION ──
+let currentPage = 1;
+const rowsPerPage = 5;
+
+function applyFilters() {
+  const searchInput = document.querySelector('.search-input').value.toLowerCase();
+  const selects = document.querySelectorAll('.filter-select');
+  const univFilter = selects[0].value.toLowerCase();
+  const deptFilter = selects[1].value.toLowerCase();
+  const statusFilter = selects[2].value.toLowerCase();
+
+  const tbody = document.querySelector('.data-table tbody');
+  const rows = Array.from(tbody.querySelectorAll('tr'));
+  
+  let visibleRows = [];
+
+  const deptMap = {
+    'software engineering': 'software eng.',
+    'computer networks': 'comp. networks',
+    'finance & accounting': 'finance & acct.',
+    'marketing & commerce': 'marketing',
+    'civil engineering': 'civil eng.',
+    'electrical engineering': 'electrical eng.',
+    'physics & mathematics': 'physics & math.',
+    'public health': 'public health'
+  };
+
+  rows.forEach(row => {
+    const titleCompany = row.cells[0].textContent.toLowerCase();
+    const company = row.cells[1].textContent.toLowerCase();
+    const univ = row.cells[2].textContent.toLowerCase();
+    const dept = row.querySelector('.dept-tag')?.textContent.toLowerCase() || '';
+    const status = row.querySelector('.badge-status')?.textContent.toLowerCase() || '';
+
+    const matchesSearch = titleCompany.includes(searchInput) || company.includes(searchInput);
+    const matchesUniv = !univFilter || univFilter.includes('all') || univ.includes(univFilter);
+    const expectedDept = deptMap[deptFilter] || deptFilter;
+    const matchesDept = !deptFilter || deptFilter.includes('all') || dept.includes(expectedDept);
+    const matchesStatus = !statusFilter || statusFilter.includes('all') || status === statusFilter;
+
+    if (matchesSearch && matchesUniv && matchesDept && matchesStatus) {
+      visibleRows.push(row);
+      row.style.display = '';
+    } else {
+      row.style.display = 'none';
+    }
+  });
+
+  updatePagination(visibleRows);
+}
+
+function updatePagination(visibleRows) {
+  const totalPages = Math.ceil(visibleRows.length / rowsPerPage) || 1;
+  if (currentPage > totalPages) currentPage = totalPages;
+  if (currentPage < 1) currentPage = 1;
+
+  visibleRows.forEach((row, index) => {
+    if (index >= (currentPage - 1) * rowsPerPage && index < currentPage * rowsPerPage) {
+      row.style.display = '';
+    } else {
+      row.style.display = 'none';
+    }
+  });
+
+  const start = visibleRows.length === 0 ? 0 : (currentPage - 1) * rowsPerPage + 1;
+  const end = Math.min(currentPage * rowsPerPage, visibleRows.length);
+  const infoEl = document.getElementById('paginationInfo');
+  if(infoEl) infoEl.textContent = `Showing ${start}–${end} of ${visibleRows.length} internships`;
+
+  const controls = document.getElementById('paginationControls');
+  if(controls) {
+    let html = `<button class="page-btn" ${currentPage === 1 ? 'disabled' : ''} onclick="goToPage(${currentPage - 1})"><i class="fas fa-chevron-left"></i></button>`;
+    for (let i = 1; i <= totalPages; i++) {
+      html += `<button class="page-btn ${currentPage === i ? 'active' : ''}" onclick="goToPage(${i})">${i}</button>`;
+    }
+    html += `<button class="page-btn" ${currentPage === totalPages ? 'disabled' : ''} onclick="goToPage(${currentPage + 1})"><i class="fas fa-chevron-right"></i></button>`;
+    controls.innerHTML = html;
+  }
+}
+
+function goToPage(page) {
+  currentPage = page;
+  applyFilters();
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const searchInput = document.querySelector('.search-input');
+  if(searchInput) searchInput.addEventListener('input', () => { currentPage = 1; applyFilters(); });
+  
+  document.querySelectorAll('.filter-select').forEach(select => {
+    select.addEventListener('change', () => { currentPage = 1; applyFilters(); });
+  });
+
+  applyFilters();
+});
 </script>
 </x-layouts::app>

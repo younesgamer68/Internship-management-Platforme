@@ -7,7 +7,7 @@
     <div style="position:relative;z-index:1;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;">
       <div>
         <h2 style="font-size:22px;font-weight:800;color:white;margin-bottom:4px;">
-          Good {{ now()->hour < 12 ? 'Morning' : (now()->hour < 17 ? 'Afternoon' : 'Evening') }}, {{ Auth::user()->name }}
+           {{ now()->hour < 12 ? 'Morning' : (now()->hour < 17 ? 'Afternoon' : 'Evening') }}, {{ Auth::user()->name }}
         </h2>
         <p style="font-size:13px;opacity:0.85;color:rgba(255,255,255,0.9);">
           Here's what's happening on your platform today — {{ now()->format('l, F j, Y') }}
@@ -33,7 +33,7 @@
         <i class="fas fa-graduation-cap"></i>
       </div>
       <div class="stat-info">
-        <div class="stat-value">12</div>
+        <div class="stat-value">26</div>
         <div class="stat-label">Universities</div>
         <div style="font-size:11px;color:var(--green);margin-top:4px;font-weight:600;">
           <i class="fas fa-arrow-up" style="font-size:9px;"></i> +2 this month
@@ -206,6 +206,96 @@
                 <td><span style="font-weight:600;">9</span> <span style="color:var(--gray-400);font-size:11px;">applied</span></td>
                 <td><span class="status-badge completed">Completed</span></td>
               </tr>
+              <tr style="cursor:pointer;" onclick="window.location='{{ route('admin.internships', ['company'=>$slug]) }}'">
+                <td>
+                  <div style="font-weight:600;font-size:13px;">Cloud Engineering</div>
+                  <div style="font-size:11px;color:var(--gray-500);">University of Tirana</div>
+                </td>
+                <td>University of Tirana</td>
+                <td>
+                  <div style="display:flex;align-items:center;gap:8px;">
+                    <div style="width:26px;height:26px;background:#10B981;color:white;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;">IN</div>
+                    Infosoft Network
+                  </div>
+                </td>
+                <td><span style="font-weight:600;">42</span> <span style="color:var(--gray-400);font-size:11px;">applied</span></td>
+                <td><span class="status-badge active">Active</span></td>
+              </tr>
+              <tr style="cursor:pointer;" onclick="window.location='{{ route('admin.internships', ['company'=>$slug]) }}'">
+                <td>
+                  <div style="font-weight:600;font-size:13px;">HR Assistant</div>
+                  <div style="font-size:11px;color:var(--gray-500);">Luigj Gurakuqi</div>
+                </td>
+                <td>Luigj Gurakuqi Shkoder</td>
+                <td>
+                  <div style="display:flex;align-items:center;gap:8px;">
+                    <div style="width:26px;height:26px;background:#EF4444;color:white;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;">BC</div>
+                    Balfin Group
+                  </div>
+                </td>
+                <td><span style="font-weight:600;">28</span> <span style="color:var(--gray-400);font-size:11px;">applied</span></td>
+                <td><span class="status-badge pending">Pending</span></td>
+              </tr>
+              <tr style="cursor:pointer;" onclick="window.location='{{ route('admin.internships', ['company'=>$slug]) }}'">
+                <td>
+                  <div style="font-weight:600;font-size:13px;">Frontend Web Developer</div>
+                  <div style="font-size:11px;color:var(--gray-500);">CIT Tirana</div>
+                </td>
+                <td>CIT Tirana</td>
+                <td>
+                  <div style="display:flex;align-items:center;gap:8px;">
+                    <div style="width:26px;height:26px;background:#14B8A6;color:white;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;">DM</div>
+                    DigitalMind
+                  </div>
+                </td>
+                <td><span style="font-weight:600;">19</span> <span style="color:var(--gray-400);font-size:11px;">applied</span></td>
+                <td><span class="status-badge active">Active</span></td>
+              </tr>
+              <tr style="cursor:pointer;" onclick="window.location='{{ route('admin.internships', ['company'=>$slug]) }}'">
+                <td>
+                  <div style="font-weight:600;font-size:13px;">Cybersecurity Intern</div>
+                  <div style="font-size:11px;color:var(--gray-500);">Metropolitan University</div>
+                </td>
+                <td>Metropolitan University</td>
+                <td>
+                  <div style="display:flex;align-items:center;gap:8px;">
+                    <div style="width:26px;height:26px;background:#6366F1;color:white;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;">CD</div>
+                    CyberDef
+                  </div>
+                </td>
+                <td><span style="font-weight:600;">11</span> <span style="color:var(--gray-400);font-size:11px;">applied</span></td>
+                <td><span class="status-badge pending">Pending</span></td>
+              </tr>
+              <tr style="cursor:pointer;" onclick="window.location='{{ route('admin.internships', ['company'=>$slug]) }}'">
+                <td>
+                  <div style="font-weight:600;font-size:13px;">Mobile App Developer</div>
+                  <div style="font-size:11px;color:var(--gray-500);">New York Univ Tirana</div>
+                </td>
+                <td>New York Univ Tirana</td>
+                <td>
+                  <div style="display:flex;align-items:center;gap:8px;">
+                    <div style="width:26px;height:26px;background:#EC4899;color:white;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;">AV</div>
+                    AppVibe
+                  </div>
+                </td>
+                <td><span style="font-weight:600;">15</span> <span style="color:var(--gray-400);font-size:11px;">applied</span></td>
+                <td><span class="status-badge completed">Completed</span></td>
+              </tr>
+              <tr style="cursor:pointer;" onclick="window.location='{{ route('admin.internships', ['company'=>$slug]) }}'">
+                <td>
+                  <div style="font-weight:600;font-size:13px;">Product Management</div>
+                  <div style="font-size:11px;color:var(--gray-500);">Canadian Institute</div>
+                </td>
+                <td>Canadian Institute</td>
+                <td>
+                  <div style="display:flex;align-items:center;gap:8px;">
+                    <div style="width:26px;height:26px;background:#f59e0b;color:white;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;">NG</div>
+                    NextGen
+                  </div>
+                </td>
+                <td><span style="font-weight:600;">8</span> <span style="color:var(--gray-400);font-size:11px;">applied</span></td>
+                <td><span class="status-badge active">Active</span></td>
+              </tr>
             </tbody>
           </table>
         </div>
@@ -225,6 +315,11 @@
             ['University of Tirana', 720, '#8B5CF6', 'fa-landmark', 95],
             ['Albanian University', 450, '#F59E0B', 'fa-university', 61],
             ['Polytechnic University', 670, '#10B981', 'fa-building-columns', 90],
+            ['UET Tirana', 390, '#EF4444', 'fa-graduation-cap', 55],
+            ['Luigj Gurakuqi Shkoder', 210, '#0ea5e9', 'fa-book-open', 42],
+            ['New York University Tirana', 150, '#EC4899', 'fa-school', 31],
+            ['Canadian Institute of Tech', 180, '#14B8A6', 'fa-laptop-code', 38],
+            ['Metropolitan Univ. Tirana', 220, '#6366F1', 'fa-gears', 46],
           ] as [$name, $students, $color, $icon, $pct])
           <div style="padding:10px 8px;border-radius:8px;cursor:pointer;transition:background 0.15s;" onmouseover="this.style.background='var(--gray-50)'" onmouseout="this.style.background='transparent'" onclick="window.location='{{ route('admin.universities', ['company'=>$slug]) }}'">
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
@@ -261,10 +356,14 @@
       <div class="card-body" style="padding-top:12px;">
         <div style="display:flex;flex-direction:column;gap:12px;">
           @foreach([
-            ['JS','John Smith','Student','Epoka University','#00b1aa','Jan 12'],
-            ['SJ','Sarah Johnson','Company','MediaCorp','#8B5CF6','Feb 03'],
-            ['ED','Emily Davis','Student','UET Tirana','#F59E0B','Mar 07'],
-            ['DB','David Brown','Company','TechSolutions','#3B82F6','Nov 29'],
+            ['JS','John Smith','Student','Epoka University','#00b1aa','May 30'],
+            ['SJ','Sarah Johnson','Company','MediaCorp','#8B5CF6','May 29'],
+            ['ED','Emily Davis','Student','UET Tirana','#F59E0B','May 28'],
+            ['DB','David Brown','Company','TechSolutions','#3B82F6','May 28'],
+            ['MC','Michael Chang','Student','Polytechnic Univ.','#10B981','May 27'],
+            ['EH','Elena Hoxha','Student','Univ. of Tirana','#a855f7','May 27'],
+            ['MV','Marcus Vance','Company','CloudStack Ltd','#0ea5e9','May 26'],
+            ['FG','Fiona Gallagher','Student','Luigj Gurakuqi','#ec4899','May 25'],
           ] as [$init, $name, $role, $org, $color, $date])
           <div style="display:flex;align-items:center;gap:10px;padding:8px;border-radius:8px;cursor:pointer;transition:background 0.15s;" onmouseover="this.style.background='var(--gray-50)'" onmouseout="this.style.background='transparent'" onclick="window.location='{{ route('admin.users', ['company'=>$slug]) }}'">
             <div style="width:34px;height:34px;border-radius:50%;background:{{ $color }};color:white;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;">{{ $init }}</div>
@@ -296,6 +395,11 @@
             ['fa-check-circle','#10B981','Report approved','Emily Davis – UI/UX Internship','1 hr ago'],
             ['fa-exclamation-triangle','#F59E0B','Approval pending','Marketing role at MediaCorp','2 hr ago'],
             ['fa-trash-alt','#EF4444','User removed','Inactive account cleaned up','3 hr ago'],
+            ['fa-handshake','#6366F1','New Partnership','Signed with Epoka University','4 hr ago'],
+            ['fa-circle-check','#14B8A6','Company Approved','CloudStack Ltd verification passed','5 hr ago'],
+            ['fa-file-signature','#ec4899','Application Sent','Elena Hoxha applied to DataSpark','6 hr ago'],
+            ['fa-user-tie','#8B5CF6','Coordinator Assigned','Dr. Arben Kola at Univ. of Tirana','7 hr ago'],
+            ['fa-star','#F59E0B','Feedback Submitted','MediaCorp rated program 5 stars','8 hr ago'],
           ] as [$icon, $color, $title, $desc, $time])
           <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);">
             <div style="width:32px;height:32px;border-radius:8px;background:{{ $color }}1a;color:{{ $color }};display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;">
@@ -490,6 +594,9 @@
                 ['Univ. of Tirana',   74,  98,  9, 88],
                 ['Albanian Univ.',    55,  62, 12, 82],
                 ['Polytechnic Univ.', 58,  48, 10, 85],
+                ['UET Tirana',        42,  36,  8, 80],
+                ['Luigj Gurakuqi',    30,  24,  5, 76],
+                ['CIT Tirana',        25,  20,  4, 78],
               ] as [$uni, $done, $act, $pend, $rate])
               <tr style="border-top:1px solid var(--border);">
                 <td style="padding:10px 0;font-size:12px;font-weight:500;color:var(--gray-700);">{{ $uni }}</td>
@@ -535,16 +642,20 @@
     </div>
   </div>
 
+  @push('modals')
   <!-- Register Modal -->
-  <div id="register-modal" class="modal-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.4);backdrop-filter:blur(4px);z-index:9999;align-items:center;justify-content:center;padding:24px;" onclick="if(event.target===this)this.style.display='none'">
-    <div class="card" style="width:100%;max-width:900px;max-height:90vh;overflow-y:auto;position:relative;">
-      <button class="btn btn-ghost" style="position:absolute;right:16px;top:16px;font-size:18px;width:36px;height:36px;padding:0;display:flex;align-items:center;justify-content:center;" onclick="document.getElementById('register-modal').style.display='none'">
-        <i class="fas fa-xmark"></i>
-      </button>
-      <div style="padding:24px;">
-        @livewire('admin.management')
+  <div id="register-modal" class="modal-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.4);backdrop-filter:blur(4px);z-index:9999;overflow-y:auto;padding:5vh 20px;" onclick="if(event.target===this)this.style.display='none'">
+    <div style="min-height: calc(100% - 10vh); display: flex; align-items: center; justify-content: center;">
+      <div class="card" style="width:100%;max-width:900px;position:relative;margin:auto;box-shadow: 0 20px 60px rgba(0,0,0,0.18);" onclick="event.stopPropagation()">
+        <button class="btn btn-ghost" style="position:absolute;right:16px;top:16px;font-size:18px;width:36px;height:36px;padding:0;display:flex;align-items:center;justify-content:center;z-index:10;" onclick="document.getElementById('register-modal').style.display='none'">
+          <i class="fas fa-xmark"></i>
+        </button>
+        <div style="padding:28px 24px;">
+          @livewire('admin.management')
+        </div>
       </div>
     </div>
   </div>
+  @endpush
 
 </x-layouts::admin>

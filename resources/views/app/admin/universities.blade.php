@@ -16,7 +16,7 @@
         <div class="stat-card">
           <div class="stat-icon blue"><i class="fas fa-university"></i></div>
           <div class="stat-info">
-            <div class="stat-value">12</div>
+            <div class="stat-value">26</div>
             <div class="stat-label">Universities</div>
             <div class="stat-change up"><i class="fas fa-arrow-up"></i> 2 this month</div>
           </div>
@@ -252,6 +252,586 @@
             <div class="univ-stat"><div class="univ-stat-value" style="color:var(--green)">31</div><div class="univ-stat-label">Internships</div></div>
             <div class="univ-stat-sep"></div>
             <div class="univ-stat"><div class="univ-stat-value">8</div><div class="univ-stat-label">Departments</div></div>
+          </div>
+          <div class="univ-card-actions">
+            <button class="btn btn-sm btn-icon-outline" onclick="viewUniv(this)" title="View Details"><i class="fas fa-eye"></i></button>
+            <button class="btn btn-sm btn-outline flex-1" onclick="editUniv(this)"><i class="fas fa-pen"></i> Edit</button>
+            <button class="btn btn-sm btn-icon-danger" onclick="deleteUniv(this)" title="Delete"><i class="fas fa-trash"></i></button>
+          </div>
+        </div>
+
+        <!-- New York University Tirana -->
+        <div class="univ-card" data-status="Active" data-city="Tirana" data-name="new york university tirana unyt">
+          <div class="univ-card-header">
+            <div class="univ-card-icon" style="background:linear-gradient(135deg,rgba(236,72,153,0.15) 0%,rgba(236,72,153,0.05) 100%);color:#EC4899">
+              <i class="fas fa-university"></i>
+            </div>
+            <div class="univ-card-info">
+              <h4>New York University Tirana</h4>
+              <div class="univ-card-location"><i class="fas fa-location-dot"></i> Tirana, Albania</div>
+              <div class="univ-card-website"><i class="fas fa-globe"></i> unyt.edu.al</div>
+            </div>
+            <span class="status-badge active" style="align-self:flex-start">Active</span>
+          </div>
+          <div class="univ-card-stats">
+            <div class="univ-stat"><div class="univ-stat-value">150</div><div class="univ-stat-label">Students</div></div>
+            <div class="univ-stat-sep"></div>
+            <div class="univ-stat"><div class="univ-stat-value">4</div><div class="univ-stat-label">Faculties</div></div>
+            <div class="univ-stat-sep"></div>
+            <div class="univ-stat"><div class="univ-stat-value" style="color:var(--green)">31</div><div class="univ-stat-label">Internships</div></div>
+            <div class="univ-stat-sep"></div>
+            <div class="univ-stat"><div class="univ-stat-value">8</div><div class="univ-stat-label">Departments</div></div>
+          </div>
+          <div class="univ-card-actions">
+            <button class="btn btn-sm btn-icon-outline" onclick="viewUniv(this)" title="View Details"><i class="fas fa-eye"></i></button>
+            <button class="btn btn-sm btn-outline flex-1" onclick="editUniv(this)"><i class="fas fa-pen"></i> Edit</button>
+            <button class="btn btn-sm btn-icon-danger" onclick="deleteUniv(this)" title="Delete"><i class="fas fa-trash"></i></button>
+          </div>
+        </div>
+
+        <!-- Canadian Institute of Technology -->
+        <div class="univ-card" data-status="Active" data-city="Tirana" data-name="canadian institute of technology cit">
+          <div class="univ-card-header">
+            <div class="univ-card-icon" style="background:linear-gradient(135deg,rgba(20,184,166,0.15) 0%,rgba(20,184,166,0.05) 100%);color:#14B8A6">
+              <i class="fas fa-university"></i>
+            </div>
+            <div class="univ-card-info">
+              <h4>Canadian Institute of Technology</h4>
+              <div class="univ-card-location"><i class="fas fa-location-dot"></i> Tirana, Albania</div>
+              <div class="univ-card-website"><i class="fas fa-globe"></i> cit.edu.al</div>
+            </div>
+            <span class="status-badge active" style="align-self:flex-start">Active</span>
+          </div>
+          <div class="univ-card-stats">
+            <div class="univ-stat"><div class="univ-stat-value">180</div><div class="univ-stat-label">Students</div></div>
+            <div class="univ-stat-sep"></div>
+            <div class="univ-stat"><div class="univ-stat-value">3</div><div class="univ-stat-label">Faculties</div></div>
+            <div class="univ-stat-sep"></div>
+            <div class="univ-stat"><div class="univ-stat-value" style="color:var(--green)">22</div><div class="univ-stat-label">Internships</div></div>
+            <div class="univ-stat-sep"></div>
+            <div class="univ-stat"><div class="univ-stat-value">6</div><div class="univ-stat-label">Departments</div></div>
+          </div>
+          <div class="univ-card-actions">
+            <button class="btn btn-sm btn-icon-outline" onclick="viewUniv(this)" title="View Details"><i class="fas fa-eye"></i></button>
+            <button class="btn btn-sm btn-outline flex-1" onclick="editUniv(this)"><i class="fas fa-pen"></i> Edit</button>
+            <button class="btn btn-sm btn-icon-danger" onclick="deleteUniv(this)" title="Delete"><i class="fas fa-trash"></i></button>
+          </div>
+        </div>
+
+        <!-- Metropolitan University Tirana -->
+        <div class="univ-card" data-status="Active" data-city="Tirana" data-name="metropolitan university tirana umt">
+          <div class="univ-card-header">
+            <div class="univ-card-icon" style="background:linear-gradient(135deg,rgba(99,102,241,0.15) 0%,rgba(99,102,241,0.05) 100%);color:#6366F1">
+              <i class="fas fa-university"></i>
+            </div>
+            <div class="univ-card-info">
+              <h4>Metropolitan University Tirana</h4>
+              <div class="univ-card-location"><i class="fas fa-location-dot"></i> Tirana, Albania</div>
+              <div class="univ-card-website"><i class="fas fa-globe"></i> umt.edu.al</div>
+            </div>
+            <span class="status-badge active" style="align-self:flex-start">Active</span>
+          </div>
+          <div class="univ-card-stats">
+            <div class="univ-stat"><div class="univ-stat-value">220</div><div class="univ-stat-label">Students</div></div>
+            <div class="univ-stat-sep"></div>
+            <div class="univ-stat"><div class="univ-stat-value">5</div><div class="univ-stat-label">Faculties</div></div>
+            <div class="univ-stat-sep"></div>
+            <div class="univ-stat"><div class="univ-stat-value" style="color:var(--green)">35</div><div class="univ-stat-label">Internships</div></div>
+            <div class="univ-stat-sep"></div>
+            <div class="univ-stat"><div class="univ-stat-value">10</div><div class="univ-stat-label">Departments</div></div>
+          </div>
+          <div class="univ-card-actions">
+            <button class="btn btn-sm btn-icon-outline" onclick="viewUniv(this)" title="View Details"><i class="fas fa-eye"></i></button>
+            <button class="btn btn-sm btn-outline flex-1" onclick="editUniv(this)"><i class="fas fa-pen"></i> Edit</button>
+            <button class="btn btn-sm btn-icon-danger" onclick="deleteUniv(this)" title="Delete"><i class="fas fa-trash"></i></button>
+          </div>
+        </div>
+
+        <!-- Aleksander Moisiu University -->
+        <div class="univ-card" data-status="Active" data-city="Durres" data-name="aleksander moisiu university uamd">
+          <div class="univ-card-header">
+            <div class="univ-card-icon" style="background:linear-gradient(135deg,rgba(59,130,246,0.15) 0%,rgba(59,130,246,0.05) 100%);color:var(--primary)">
+              <i class="fas fa-university"></i>
+            </div>
+            <div class="univ-card-info">
+              <h4>Aleksander Moisiu University</h4>
+              <div class="univ-card-location"><i class="fas fa-location-dot"></i> Durres, Albania</div>
+              <div class="univ-card-website"><i class="fas fa-globe"></i> uamd.edu.al</div>
+            </div>
+            <span class="status-badge active" style="align-self:flex-start">Active</span>
+          </div>
+          <div class="univ-card-stats">
+            <div class="univ-stat"><div class="univ-stat-value">490</div><div class="univ-stat-label">Students</div></div>
+            <div class="univ-stat-sep"></div>
+            <div class="univ-stat"><div class="univ-stat-value">6</div><div class="univ-stat-label">Faculties</div></div>
+            <div class="univ-stat-sep"></div>
+            <div class="univ-stat"><div class="univ-stat-value" style="color:var(--green)">25</div><div class="univ-stat-label">Internships</div></div>
+            <div class="univ-stat-sep"></div>
+            <div class="univ-stat"><div class="univ-stat-value">15</div><div class="univ-stat-label">Departments</div></div>
+          </div>
+          <div class="univ-card-actions">
+            <button class="btn btn-sm btn-icon-outline" onclick="viewUniv(this)" title="View Details"><i class="fas fa-eye"></i></button>
+            <button class="btn btn-sm btn-outline flex-1" onclick="editUniv(this)"><i class="fas fa-pen"></i> Edit</button>
+            <button class="btn btn-sm btn-icon-danger" onclick="deleteUniv(this)" title="Delete"><i class="fas fa-trash"></i></button>
+          </div>
+        </div>
+
+        <!-- Luigj Gurakuqi University -->
+        <div class="univ-card" data-status="Active" data-city="Shkoder" data-name="luigj gurakuqi university">
+          <div class="univ-card-header">
+            <div class="univ-card-icon" style="background:linear-gradient(135deg,rgba(14,165,233,0.15) 0%,rgba(14,165,233,0.05) 100%);color:#0ea5e9">
+              <i class="fas fa-university"></i>
+            </div>
+            <div class="univ-card-info">
+              <h4>Luigj Gurakuqi University</h4>
+              <div class="univ-card-location"><i class="fas fa-location-dot"></i> Shkoder, Albania</div>
+              <div class="univ-card-website"><i class="fas fa-globe"></i> unishk.edu.al</div>
+            </div>
+            <span class="status-badge active" style="align-self:flex-start">Active</span>
+          </div>
+          <div class="univ-card-stats">
+            <div class="univ-stat"><div class="univ-stat-value">410</div><div class="univ-stat-label">Students</div></div>
+            <div class="univ-stat-sep"></div>
+            <div class="univ-stat"><div class="univ-stat-value">6</div><div class="univ-stat-label">Faculties</div></div>
+            <div class="univ-stat-sep"></div>
+            <div class="univ-stat"><div class="univ-stat-value" style="color:var(--green)">30</div><div class="univ-stat-label">Internships</div></div>
+            <div class="univ-stat-sep"></div>
+            <div class="univ-stat"><div class="univ-stat-value">14</div><div class="univ-stat-label">Departments</div></div>
+          </div>
+          <div class="univ-card-actions">
+            <button class="btn btn-sm btn-icon-outline" onclick="viewUniv(this)" title="View Details"><i class="fas fa-eye"></i></button>
+            <button class="btn btn-sm btn-outline flex-1" onclick="editUniv(this)"><i class="fas fa-pen"></i> Edit</button>
+            <button class="btn btn-sm btn-icon-danger" onclick="deleteUniv(this)" title="Delete"><i class="fas fa-trash"></i></button>
+          </div>
+        </div>
+
+        <!-- Ismail Qemali University -->
+        <div class="univ-card" data-status="Active" data-city="Vlore" data-name="ismail qemali university univlora">
+          <div class="univ-card-header">
+            <div class="univ-card-icon" style="background:linear-gradient(135deg,rgba(16,185,129,0.15) 0%,rgba(16,185,129,0.05) 100%);color:var(--green)">
+              <i class="fas fa-university"></i>
+            </div>
+            <div class="univ-card-info">
+              <h4>Ismail Qemali University</h4>
+              <div class="univ-card-location"><i class="fas fa-location-dot"></i> Vlore, Albania</div>
+              <div class="univ-card-website"><i class="fas fa-globe"></i> univlora.edu.al</div>
+            </div>
+            <span class="status-badge active" style="align-self:flex-start">Active</span>
+          </div>
+          <div class="univ-card-stats">
+            <div class="univ-stat"><div class="univ-stat-value">380</div><div class="univ-stat-label">Students</div></div>
+            <div class="univ-stat-sep"></div>
+            <div class="univ-stat"><div class="univ-stat-value">5</div><div class="univ-stat-label">Faculties</div></div>
+            <div class="univ-stat-sep"></div>
+            <div class="univ-stat"><div class="univ-stat-value" style="color:var(--green)">20</div><div class="univ-stat-label">Internships</div></div>
+            <div class="univ-stat-sep"></div>
+            <div class="univ-stat"><div class="univ-stat-value">12</div><div class="univ-stat-label">Departments</div></div>
+          </div>
+          <div class="univ-card-actions">
+            <button class="btn btn-sm btn-icon-outline" onclick="viewUniv(this)" title="View Details"><i class="fas fa-eye"></i></button>
+            <button class="btn btn-sm btn-outline flex-1" onclick="editUniv(this)"><i class="fas fa-pen"></i> Edit</button>
+            <button class="btn btn-sm btn-icon-danger" onclick="deleteUniv(this)" title="Delete"><i class="fas fa-trash"></i></button>
+          </div>
+        </div>
+
+        <!-- Aleksander Xhuvani University -->
+        <div class="univ-card" data-status="Active" data-city="Elbasan" data-name="aleksander xhuvani university">
+          <div class="univ-card-header">
+            <div class="univ-card-icon" style="background:linear-gradient(135deg,rgba(245,158,11,0.15) 0%,rgba(245,158,11,0.05) 100%);color:var(--warning)">
+              <i class="fas fa-university"></i>
+            </div>
+            <div class="univ-card-info">
+              <h4>Aleksander Xhuvani University</h4>
+              <div class="univ-card-location"><i class="fas fa-location-dot"></i> Elbasan, Albania</div>
+              <div class="univ-card-website"><i class="fas fa-globe"></i> uniel.edu.al</div>
+            </div>
+            <span class="status-badge active" style="align-self:flex-start">Active</span>
+          </div>
+          <div class="univ-card-stats">
+            <div class="univ-stat"><div class="univ-stat-value">350</div><div class="univ-stat-label">Students</div></div>
+            <div class="univ-stat-sep"></div>
+            <div class="univ-stat"><div class="univ-stat-value">5</div><div class="univ-stat-label">Faculties</div></div>
+            <div class="univ-stat-sep"></div>
+            <div class="univ-stat"><div class="univ-stat-value" style="color:var(--green)">18</div><div class="univ-stat-label">Internships</div></div>
+            <div class="univ-stat-sep"></div>
+            <div class="univ-stat"><div class="univ-stat-value">11</div><div class="univ-stat-label">Departments</div></div>
+          </div>
+          <div class="univ-card-actions">
+            <button class="btn btn-sm btn-icon-outline" onclick="viewUniv(this)" title="View Details"><i class="fas fa-eye"></i></button>
+            <button class="btn btn-sm btn-outline flex-1" onclick="editUniv(this)"><i class="fas fa-pen"></i> Edit</button>
+            <button class="btn btn-sm btn-icon-danger" onclick="deleteUniv(this)" title="Delete"><i class="fas fa-trash"></i></button>
+          </div>
+        </div>
+
+        <!-- Fan Noli University -->
+        <div class="univ-card" data-status="Active" data-city="Korce" data-name="fan noli university uniko">
+          <div class="univ-card-header">
+            <div class="univ-card-icon" style="background:linear-gradient(135deg,rgba(239,68,68,0.15) 0%,rgba(239,68,68,0.05) 100%);color:var(--danger)">
+              <i class="fas fa-university"></i>
+            </div>
+            <div class="univ-card-info">
+              <h4>Fan Noli University</h4>
+              <div class="univ-card-location"><i class="fas fa-location-dot"></i> Korce, Albania</div>
+              <div class="univ-card-website"><i class="fas fa-globe"></i> uniko.edu.al</div>
+            </div>
+            <span class="status-badge active" style="align-self:flex-start">Active</span>
+          </div>
+          <div class="univ-card-stats">
+            <div class="univ-stat"><div class="univ-stat-value">290</div><div class="univ-stat-label">Students</div></div>
+            <div class="univ-stat-sep"></div>
+            <div class="univ-stat"><div class="univ-stat-value">4</div><div class="univ-stat-label">Faculties</div></div>
+            <div class="univ-stat-sep"></div>
+            <div class="univ-stat"><div class="univ-stat-value" style="color:var(--green)">15</div><div class="univ-stat-label">Internships</div></div>
+            <div class="univ-stat-sep"></div>
+            <div class="univ-stat"><div class="univ-stat-value">9</div><div class="univ-stat-label">Departments</div></div>
+          </div>
+          <div class="univ-card-actions">
+            <button class="btn btn-sm btn-icon-outline" onclick="viewUniv(this)" title="View Details"><i class="fas fa-eye"></i></button>
+            <button class="btn btn-sm btn-outline flex-1" onclick="editUniv(this)"><i class="fas fa-pen"></i> Edit</button>
+            <button class="btn btn-sm btn-icon-danger" onclick="deleteUniv(this)" title="Delete"><i class="fas fa-trash"></i></button>
+          </div>
+        </div>
+
+        <!-- Eqrem Cabej University -->
+        <div class="univ-card" data-status="Pending" data-city="Gjirokaster" data-name="eqrem cabej university ueqc">
+          <div class="univ-card-header">
+            <div class="univ-card-icon" style="background:linear-gradient(135deg,rgba(139,92,246,0.15) 0%,rgba(139,92,246,0.05) 100%);color:#8B5CF6">
+              <i class="fas fa-university"></i>
+            </div>
+            <div class="univ-card-info">
+              <h4>Eqrem Cabej University</h4>
+              <div class="univ-card-location"><i class="fas fa-location-dot"></i> Gjirokaster, Albania</div>
+              <div class="univ-card-website"><i class="fas fa-globe"></i> ueqc.edu.al</div>
+            </div>
+            <span class="status-badge pending" style="align-self:flex-start">Pending</span>
+          </div>
+          <div class="univ-card-stats">
+            <div class="univ-stat"><div class="univ-stat-value">120</div><div class="univ-stat-label">Students</div></div>
+            <div class="univ-stat-sep"></div>
+            <div class="univ-stat"><div class="univ-stat-value">3</div><div class="univ-stat-label">Faculties</div></div>
+            <div class="univ-stat-sep"></div>
+            <div class="univ-stat"><div class="univ-stat-value" style="color:var(--green)">5</div><div class="univ-stat-label">Internships</div></div>
+            <div class="univ-stat-sep"></div>
+            <div class="univ-stat"><div class="univ-stat-value">6</div><div class="univ-stat-label">Departments</div></div>
+          </div>
+          <div class="univ-card-actions">
+            <button class="btn btn-sm btn-icon-outline" onclick="viewUniv(this)" title="View Details"><i class="fas fa-eye"></i></button>
+            <button class="btn btn-sm btn-outline flex-1" onclick="editUniv(this)"><i class="fas fa-pen"></i> Edit</button>
+            <button class="btn btn-sm btn-icon-danger" onclick="deleteUniv(this)" title="Delete"><i class="fas fa-trash"></i></button>
+          </div>
+        </div>
+
+        <!-- Our Lady of Good Counsel -->
+        <div class="univ-card" data-status="Active" data-city="Tirana" data-name="our lady of good counsel unizkm">
+          <div class="univ-card-header">
+            <div class="univ-card-icon" style="background:linear-gradient(135deg,rgba(16,185,129,0.15) 0%,rgba(16,185,129,0.05) 100%);color:#10B981">
+              <i class="fas fa-university"></i>
+            </div>
+            <div class="univ-card-info">
+              <h4>Our Lady of Good Counsel</h4>
+              <div class="univ-card-location"><i class="fas fa-location-dot"></i> Tirana, Albania</div>
+              <div class="univ-card-website"><i class="fas fa-globe"></i> unizkm.al</div>
+            </div>
+            <span class="status-badge active" style="align-self:flex-start">Active</span>
+          </div>
+          <div class="univ-card-stats">
+            <div class="univ-stat"><div class="univ-stat-value">310</div><div class="univ-stat-label">Students</div></div>
+            <div class="univ-stat-sep"></div>
+            <div class="univ-stat"><div class="univ-stat-value">4</div><div class="univ-stat-label">Faculties</div></div>
+            <div class="univ-stat-sep"></div>
+            <div class="univ-stat"><div class="univ-stat-value" style="color:var(--green)">20</div><div class="univ-stat-label">Internships</div></div>
+            <div class="univ-stat-sep"></div>
+            <div class="univ-stat"><div class="univ-stat-value">10</div><div class="univ-stat-label">Departments</div></div>
+          </div>
+          <div class="univ-card-actions">
+            <button class="btn btn-sm btn-icon-outline" onclick="viewUniv(this)" title="View Details"><i class="fas fa-eye"></i></button>
+            <button class="btn btn-sm btn-outline flex-1" onclick="editUniv(this)"><i class="fas fa-pen"></i> Edit</button>
+            <button class="btn btn-sm btn-icon-danger" onclick="deleteUniv(this)" title="Delete"><i class="fas fa-trash"></i></button>
+          </div>
+        </div>
+
+        <!-- Luarasi University -->
+        <div class="univ-card" data-status="Active" data-city="Tirana" data-name="luarasi university">
+          <div class="univ-card-header">
+            <div class="univ-card-icon" style="background:linear-gradient(135deg,rgba(249,115,22,0.15) 0%,rgba(249,115,22,0.05) 100%);color:#F97316">
+              <i class="fas fa-university"></i>
+            </div>
+            <div class="univ-card-info">
+              <h4>Luarasi University</h4>
+              <div class="univ-card-location"><i class="fas fa-location-dot"></i> Tirana, Albania</div>
+              <div class="univ-card-website"><i class="fas fa-globe"></i> luarasi-univ.edu.al</div>
+            </div>
+            <span class="status-badge active" style="align-self:flex-start">Active</span>
+          </div>
+          <div class="univ-card-stats">
+            <div class="univ-stat"><div class="univ-stat-value">260</div><div class="univ-stat-label">Students</div></div>
+            <div class="univ-stat-sep"></div>
+            <div class="univ-stat"><div class="univ-stat-value">3</div><div class="univ-stat-label">Faculties</div></div>
+            <div class="univ-stat-sep"></div>
+            <div class="univ-stat"><div class="univ-stat-value" style="color:var(--green)">15</div><div class="univ-stat-label">Internships</div></div>
+            <div class="univ-stat-sep"></div>
+            <div class="univ-stat"><div class="univ-stat-value">7</div><div class="univ-stat-label">Departments</div></div>
+          </div>
+          <div class="univ-card-actions">
+            <button class="btn btn-sm btn-icon-outline" onclick="viewUniv(this)" title="View Details"><i class="fas fa-eye"></i></button>
+            <button class="btn btn-sm btn-outline flex-1" onclick="editUniv(this)"><i class="fas fa-pen"></i> Edit</button>
+            <button class="btn btn-sm btn-icon-danger" onclick="deleteUniv(this)" title="Delete"><i class="fas fa-trash"></i></button>
+          </div>
+        </div>
+
+        <!-- Barleti University -->
+        <div class="univ-card" data-status="Active" data-city="Tirana" data-name="barleti university umb">
+          <div class="univ-card-header">
+            <div class="univ-card-icon" style="background:linear-gradient(135deg,rgba(244,63,94,0.15) 0%,rgba(244,63,94,0.05) 100%);color:#F43F5E">
+              <i class="fas fa-university"></i>
+            </div>
+            <div class="univ-card-info">
+              <h4>Barleti University</h4>
+              <div class="univ-card-location"><i class="fas fa-location-dot"></i> Tirana, Albania</div>
+              <div class="univ-card-website"><i class="fas fa-globe"></i> umb.edu.al</div>
+            </div>
+            <span class="status-badge active" style="align-self:flex-start">Active</span>
+          </div>
+          <div class="univ-card-stats">
+            <div class="univ-stat"><div class="univ-stat-value">210</div><div class="univ-stat-label">Students</div></div>
+            <div class="univ-stat-sep"></div>
+            <div class="univ-stat"><div class="univ-stat-value">3</div><div class="univ-stat-label">Faculties</div></div>
+            <div class="univ-stat-sep"></div>
+            <div class="univ-stat"><div class="univ-stat-value" style="color:var(--green)">12</div><div class="univ-stat-label">Internships</div></div>
+            <div class="univ-stat-sep"></div>
+            <div class="univ-stat"><div class="univ-stat-value">6</div><div class="univ-stat-label">Departments</div></div>
+          </div>
+          <div class="univ-card-actions">
+            <button class="btn btn-sm btn-icon-outline" onclick="viewUniv(this)" title="View Details"><i class="fas fa-eye"></i></button>
+            <button class="btn btn-sm btn-outline flex-1" onclick="editUniv(this)"><i class="fas fa-pen"></i> Edit</button>
+            <button class="btn btn-sm btn-icon-danger" onclick="deleteUniv(this)" title="Delete"><i class="fas fa-trash"></i></button>
+          </div>
+        </div>
+
+        <!-- Wisdom University College -->
+        <div class="univ-card" data-status="Inactive" data-city="Tirana" data-name="wisdom university college">
+          <div class="univ-card-header">
+            <div class="univ-card-icon" style="background:linear-gradient(135deg,rgba(100,116,139,0.15) 0%,rgba(100,116,139,0.05) 100%);color:#64748B">
+              <i class="fas fa-university"></i>
+            </div>
+            <div class="univ-card-info">
+              <h4>Wisdom University College</h4>
+              <div class="univ-card-location"><i class="fas fa-location-dot"></i> Tirana, Albania</div>
+              <div class="univ-card-website"><i class="fas fa-globe"></i> wisdom.edu.al</div>
+            </div>
+            <span class="status-badge inactive" style="align-self:flex-start">Inactive</span>
+          </div>
+          <div class="univ-card-stats">
+            <div class="univ-stat"><div class="univ-stat-value">90</div><div class="univ-stat-label">Students</div></div>
+            <div class="univ-stat-sep"></div>
+            <div class="univ-stat"><div class="univ-stat-value">2</div><div class="univ-stat-label">Faculties</div></div>
+            <div class="univ-stat-sep"></div>
+            <div class="univ-stat"><div class="univ-stat-value" style="color:var(--gray-400)">0</div><div class="univ-stat-label">Internships</div></div>
+            <div class="univ-stat-sep"></div>
+            <div class="univ-stat"><div class="univ-stat-value">4</div><div class="univ-stat-label">Departments</div></div>
+          </div>
+          <div class="univ-card-actions">
+            <button class="btn btn-sm btn-icon-outline" onclick="viewUniv(this)" title="View Details"><i class="fas fa-eye"></i></button>
+            <button class="btn btn-sm btn-outline flex-1" onclick="editUniv(this)"><i class="fas fa-pen"></i> Edit</button>
+            <button class="btn btn-sm btn-icon-danger" onclick="deleteUniv(this)" title="Delete"><i class="fas fa-trash"></i></button>
+          </div>
+        </div>
+
+        <!-- Tirana Business University -->
+        <div class="univ-card" data-status="Active" data-city="Tirana" data-name="tirana business university tbu">
+          <div class="univ-card-header">
+            <div class="univ-card-icon" style="background:linear-gradient(135deg,rgba(6,182,212,0.15) 0%,rgba(6,182,212,0.05) 100%);color:#06B6D4">
+              <i class="fas fa-university"></i>
+            </div>
+            <div class="univ-card-info">
+              <h4>Tirana Business University</h4>
+              <div class="univ-card-location"><i class="fas fa-location-dot"></i> Tirana, Albania</div>
+              <div class="univ-card-website"><i class="fas fa-globe"></i> tbu.edu.al</div>
+            </div>
+            <span class="status-badge active" style="align-self:flex-start">Active</span>
+          </div>
+          <div class="univ-card-stats">
+            <div class="univ-stat"><div class="univ-stat-value">160</div><div class="univ-stat-label">Students</div></div>
+            <div class="univ-stat-sep"></div>
+            <div class="univ-stat"><div class="univ-stat-value">3</div><div class="univ-stat-label">Faculties</div></div>
+            <div class="univ-stat-sep"></div>
+            <div class="univ-stat"><div class="univ-stat-value" style="color:var(--green)">18</div><div class="univ-stat-label">Internships</div></div>
+            <div class="univ-stat-sep"></div>
+            <div class="univ-stat"><div class="univ-stat-value">5</div><div class="univ-stat-label">Departments</div></div>
+          </div>
+          <div class="univ-card-actions">
+            <button class="btn btn-sm btn-icon-outline" onclick="viewUniv(this)" title="View Details"><i class="fas fa-eye"></i></button>
+            <button class="btn btn-sm btn-outline flex-1" onclick="editUniv(this)"><i class="fas fa-pen"></i> Edit</button>
+            <button class="btn btn-sm btn-icon-danger" onclick="deleteUniv(this)" title="Delete"><i class="fas fa-trash"></i></button>
+          </div>
+        </div>
+
+        <!-- Agricultural University of Tirana -->
+        <div class="univ-card" data-status="Active" data-city="Tirana" data-name="agricultural university of tirana ubt">
+          <div class="univ-card-header">
+            <div class="univ-card-icon" style="background:linear-gradient(135deg,rgba(132,204,22,0.15) 0%,rgba(132,204,22,0.05) 100%);color:#84CC16">
+              <i class="fas fa-university"></i>
+            </div>
+            <div class="univ-card-info">
+              <h4>Agricultural University of Tirana</h4>
+              <div class="univ-card-location"><i class="fas fa-location-dot"></i> Tirana, Albania</div>
+              <div class="univ-card-website"><i class="fas fa-globe"></i> ubt.edu.al</div>
+            </div>
+            <span class="status-badge active" style="align-self:flex-start">Active</span>
+          </div>
+          <div class="univ-card-stats">
+            <div class="univ-stat"><div class="univ-stat-value">620</div><div class="univ-stat-label">Students</div></div>
+            <div class="univ-stat-sep"></div>
+            <div class="univ-stat"><div class="univ-stat-value">5</div><div class="univ-stat-label">Faculties</div></div>
+            <div class="univ-stat-sep"></div>
+            <div class="univ-stat"><div class="univ-stat-value" style="color:var(--green)">40</div><div class="univ-stat-label">Internships</div></div>
+            <div class="univ-stat-sep"></div>
+            <div class="univ-stat"><div class="univ-stat-value">15</div><div class="univ-stat-label">Departments</div></div>
+          </div>
+          <div class="univ-card-actions">
+            <button class="btn btn-sm btn-icon-outline" onclick="viewUniv(this)" title="View Details"><i class="fas fa-eye"></i></button>
+            <button class="btn btn-sm btn-outline flex-1" onclick="editUniv(this)"><i class="fas fa-pen"></i> Edit</button>
+            <button class="btn btn-sm btn-icon-danger" onclick="deleteUniv(this)" title="Delete"><i class="fas fa-trash"></i></button>
+          </div>
+        </div>
+
+        <!-- University of Medicine, Tirana -->
+        <div class="univ-card" data-status="Active" data-city="Tirana" data-name="university of medicine tirana umt">
+          <div class="univ-card-header">
+            <div class="univ-card-icon" style="background:linear-gradient(135deg,rgba(139,92,246,0.15) 0%,rgba(139,92,246,0.05) 100%);color:#8B5CF6">
+              <i class="fas fa-university"></i>
+            </div>
+            <div class="univ-card-info">
+              <h4>University of Medicine, Tirana</h4>
+              <div class="univ-card-location"><i class="fas fa-location-dot"></i> Tirana, Albania</div>
+              <div class="univ-card-website"><i class="fas fa-globe"></i> umt.edu.al</div>
+            </div>
+            <span class="status-badge active" style="align-self:flex-start">Active</span>
+          </div>
+          <div class="univ-card-stats">
+            <div class="univ-stat"><div class="univ-stat-value">780</div><div class="univ-stat-label">Students</div></div>
+            <div class="univ-stat-sep"></div>
+            <div class="univ-stat"><div class="univ-stat-value">3</div><div class="univ-stat-label">Faculties</div></div>
+            <div class="univ-stat-sep"></div>
+            <div class="univ-stat"><div class="univ-stat-value" style="color:var(--green)">10</div><div class="univ-stat-label">Internships</div></div>
+            <div class="univ-stat-sep"></div>
+            <div class="univ-stat"><div class="univ-stat-value">8</div><div class="univ-stat-label">Departments</div></div>
+          </div>
+          <div class="univ-card-actions">
+            <button class="btn btn-sm btn-icon-outline" onclick="viewUniv(this)" title="View Details"><i class="fas fa-eye"></i></button>
+            <button class="btn btn-sm btn-outline flex-1" onclick="editUniv(this)"><i class="fas fa-pen"></i> Edit</button>
+            <button class="btn btn-sm btn-icon-danger" onclick="deleteUniv(this)" title="Delete"><i class="fas fa-trash"></i></button>
+          </div>
+        </div>
+
+        <!-- University of Arts, Tirana -->
+        <div class="univ-card" data-status="Active" data-city="Tirana" data-name="university of arts tirana uart">
+          <div class="univ-card-header">
+            <div class="univ-card-icon" style="background:linear-gradient(135deg,rgba(245,158,11,0.15) 0%,rgba(245,158,11,0.05) 100%);color:#F59E0B">
+              <i class="fas fa-university"></i>
+            </div>
+            <div class="univ-card-info">
+              <h4>University of Arts, Tirana</h4>
+              <div class="univ-card-location"><i class="fas fa-location-dot"></i> Tirana, Albania</div>
+              <div class="univ-card-website"><i class="fas fa-globe"></i> uart.edu.al</div>
+            </div>
+            <span class="status-badge active" style="align-self:flex-start">Active</span>
+          </div>
+          <div class="univ-card-stats">
+            <div class="univ-stat"><div class="univ-stat-value">340</div><div class="univ-stat-label">Students</div></div>
+            <div class="univ-stat-sep"></div>
+            <div class="univ-stat"><div class="univ-stat-value">3</div><div class="univ-stat-label">Faculties</div></div>
+            <div class="univ-stat-sep"></div>
+            <div class="univ-stat"><div class="univ-stat-value" style="color:var(--green)">12</div><div class="univ-stat-label">Internships</div></div>
+            <div class="univ-stat-sep"></div>
+            <div class="univ-stat"><div class="univ-stat-value">7</div><div class="univ-stat-label">Departments</div></div>
+          </div>
+          <div class="univ-card-actions">
+            <button class="btn btn-sm btn-icon-outline" onclick="viewUniv(this)" title="View Details"><i class="fas fa-eye"></i></button>
+            <button class="btn btn-sm btn-outline flex-1" onclick="editUniv(this)"><i class="fas fa-pen"></i> Edit</button>
+            <button class="btn btn-sm btn-icon-danger" onclick="deleteUniv(this)" title="Delete"><i class="fas fa-trash"></i></button>
+          </div>
+        </div>
+
+        <!-- Sports University of Tirana -->
+        <div class="univ-card" data-status="Active" data-city="Tirana" data-name="sports university of tirana ust">
+          <div class="univ-card-header">
+            <div class="univ-card-icon" style="background:linear-gradient(135deg,rgba(16,185,129,0.15) 0%,rgba(16,185,129,0.05) 100%);color:#10B981">
+              <i class="fas fa-university"></i>
+            </div>
+            <div class="univ-card-info">
+              <h4>Sports University of Tirana</h4>
+              <div class="univ-card-location"><i class="fas fa-location-dot"></i> Tirana, Albania</div>
+              <div class="univ-card-website"><i class="fas fa-globe"></i> ust.edu.al</div>
+            </div>
+            <span class="status-badge active" style="align-self:flex-start">Active</span>
+          </div>
+          <div class="univ-card-stats">
+            <div class="univ-stat"><div class="univ-stat-value">250</div><div class="univ-stat-label">Students</div></div>
+            <div class="univ-stat-sep"></div>
+            <div class="univ-stat"><div class="univ-stat-value">3</div><div class="univ-stat-label">Faculties</div></div>
+            <div class="univ-stat-sep"></div>
+            <div class="univ-stat"><div class="univ-stat-value" style="color:var(--green)">8</div><div class="univ-stat-label">Internships</div></div>
+            <div class="univ-stat-sep"></div>
+            <div class="univ-stat"><div class="univ-stat-value">5</div><div class="univ-stat-label">Departments</div></div>
+          </div>
+          <div class="univ-card-actions">
+            <button class="btn btn-sm btn-icon-outline" onclick="viewUniv(this)" title="View Details"><i class="fas fa-eye"></i></button>
+            <button class="btn btn-sm btn-outline flex-1" onclick="editUniv(this)"><i class="fas fa-pen"></i> Edit</button>
+            <button class="btn btn-sm btn-icon-danger" onclick="deleteUniv(this)" title="Delete"><i class="fas fa-trash"></i></button>
+          </div>
+        </div>
+
+        <!-- European University of Tirana -->
+        <div class="univ-card" data-status="Active" data-city="Tirana" data-name="european university of tirana uet">
+          <div class="univ-card-header">
+            <div class="univ-card-icon" style="background:linear-gradient(135deg,rgba(168,85,247,0.15) 0%,rgba(168,85,247,0.05) 100%);color:#a855f7">
+              <i class="fas fa-university"></i>
+            </div>
+            <div class="univ-card-info">
+              <h4>European University of Tirana</h4>
+              <div class="univ-card-location"><i class="fas fa-location-dot"></i> Tirana, Albania</div>
+              <div class="univ-card-website"><i class="fas fa-globe"></i> uet.edu.al</div>
+            </div>
+            <span class="status-badge active" style="align-self:flex-start">Active</span>
+          </div>
+          <div class="univ-card-stats">
+            <div class="univ-stat"><div class="univ-stat-value">480</div><div class="univ-stat-label">Students</div></div>
+            <div class="univ-stat-sep"></div>
+            <div class="univ-stat"><div class="univ-stat-value">6</div><div class="univ-stat-label">Faculties</div></div>
+            <div class="univ-stat-sep"></div>
+            <div class="univ-stat"><div class="univ-stat-value" style="color:var(--green)">45</div><div class="univ-stat-label">Internships</div></div>
+            <div class="univ-stat-sep"></div>
+            <div class="univ-stat"><div class="univ-stat-value">18</div><div class="univ-stat-label">Departments</div></div>
+          </div>
+          <div class="univ-card-actions">
+            <button class="btn btn-sm btn-icon-outline" onclick="viewUniv(this)" title="View Details"><i class="fas fa-eye"></i></button>
+            <button class="btn btn-sm btn-outline flex-1" onclick="editUniv(this)"><i class="fas fa-pen"></i> Edit</button>
+            <button class="btn btn-sm btn-icon-danger" onclick="deleteUniv(this)" title="Delete"><i class="fas fa-trash"></i></button>
+          </div>
+        </div>
+
+        <!-- Professional College of Tirana -->
+        <div class="univ-card" data-status="Pending" data-city="Tirana" data-name="professional college of tirana kpt">
+          <div class="univ-card-header">
+            <div class="univ-card-icon" style="background:linear-gradient(135deg,rgba(249,115,22,0.15) 0%,rgba(249,115,22,0.05) 100%);color:#f97316">
+              <i class="fas fa-university"></i>
+            </div>
+            <div class="univ-card-info">
+              <h4>Professional College of Tirana</h4>
+              <div class="univ-card-location"><i class="fas fa-location-dot"></i> Tirana, Albania</div>
+              <div class="univ-card-website"><i class="fas fa-globe"></i> kpt.edu.al</div>
+            </div>
+            <span class="status-badge pending" style="align-self:flex-start">Pending</span>
+          </div>
+          <div class="univ-card-stats">
+            <div class="univ-stat"><div class="univ-stat-value">110</div><div class="univ-stat-label">Students</div></div>
+            <div class="univ-stat-sep"></div>
+            <div class="univ-stat"><div class="univ-stat-value">2</div><div class="univ-stat-label">Faculties</div></div>
+            <div class="univ-stat-sep"></div>
+            <div class="univ-stat"><div class="univ-stat-value" style="color:var(--green)">6</div><div class="univ-stat-label">Internships</div></div>
+            <div class="univ-stat-sep"></div>
+            <div class="univ-stat"><div class="univ-stat-value">5</div><div class="univ-stat-label">Departments</div></div>
           </div>
           <div class="univ-card-actions">
             <button class="btn btn-sm btn-icon-outline" onclick="viewUniv(this)" title="View Details"><i class="fas fa-eye"></i></button>
@@ -625,12 +1205,10 @@
 .btn-danger-sm { background: rgba(239,68,68,0.1); color: var(--danger); border: 1.5px solid rgba(239,68,68,0.2); padding: 8px 16px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: var(--transition); }
 .btn-danger-sm:hover { background: rgba(239,68,68,0.15); }
 
-.modal-overlay { display:none;position:fixed;inset:0;background:rgba(15,23,42,.55);backdrop-filter:blur(4px);z-index:1000;align-items:center;justify-content:flex-end; }
+.modal-overlay { display:none;position:fixed;inset:0;background:rgba(15,23,42,.55);backdrop-filter:blur(4px);z-index:1000;align-items:center;justify-content:center; }
 .modal-overlay.open { display:flex;animation:fadeIn .2s ease; }
-#univViewModal,#univDeleteModal { justify-content:center; }
 @keyframes fadeIn { from{opacity:0} to{opacity:1} }
-.slide-panel { position:fixed;right:0;top:0;bottom:0;width:540px;max-width:96vw;background:var(--white);box-shadow:-8px 0 40px rgba(0,0,0,.12);display:flex;flex-direction:column;animation:slideInRight .3s cubic-bezier(.16,1,.3,1);border-radius:16px 0 0 16px;overflow:hidden; }
-@keyframes slideInRight { from{transform:translateX(100%)} to{transform:translateX(0)} }
+.slide-panel { background:var(--white);border-radius:16px;box-shadow:0 20px 60px rgba(0,0,0,.18);width:600px;max-width:94vw;max-height:90vh;display:flex;flex-direction:column;animation:popIn .25s cubic-bezier(.16,1,.3,1);overflow:hidden; }
 .slide-panel-header { display:flex;align-items:center;justify-content:space-between;padding:22px 24px;border-bottom:1px solid var(--border);background:var(--gray-50);flex-shrink:0; }
 .slide-panel-title { display:flex;align-items:center;gap:14px; }
 .slide-panel-icon { width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0; }

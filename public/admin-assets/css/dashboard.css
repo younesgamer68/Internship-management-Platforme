@@ -371,7 +371,7 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: var(--white);
+  background: linear-gradient(135deg, rgba(255,255,255,0.5) 0%, transparent 100%);
   pointer-events: none;
 }
 
@@ -484,7 +484,7 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: var(--white);
+  background: linear-gradient(135deg, rgba(255,255,255,0.5) 0%, rgba(255,255,255,0) 100%);
   pointer-events: none;
   border-radius: var(--radius-lg);
 }
@@ -1465,14 +1465,6 @@
   overflow: hidden;
 }
 
-.modal::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: var(--white);
-  pointer-events: none;
-  z-index: 1;
-}
 
 @keyframes modalIn {
   from { opacity: 0; transform: scale(0.92) translateY(-20px); }

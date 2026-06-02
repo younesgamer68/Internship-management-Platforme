@@ -393,9 +393,6 @@
                 <i class="fas fa-globe sf-icon"></i>
                 <select class="sf-input sf-select" id="a-lang" onchange="saveAppearance()">
                   <option value="en">English</option>
-                  <option value="sq">Albanian (Shqip)</option>
-                  <option value="it">Italian</option>
-                  <option value="de">German</option>
                   <option value="fr">French</option>
                 </select>
                 <i class="fas fa-chevron-down sf-sel-arrow"></i>
@@ -955,11 +952,15 @@ function loadAppearance() {
 }
 
 function saveAppearance() {
+  const langVal = document.getElementById('a-lang')?.value;
   const data = {
-    lang:     document.getElementById('a-lang')?.value,
+    lang:     langVal,
     timezone: document.getElementById('a-timezone')?.value,
   };
   localStorage.setItem('adminAppearance', JSON.stringify(data));
+  if (window.Alpine && Alpine.store('ui')) {
+    Alpine.store('ui').lang = (langVal === 'fr' ? 'French' : 'English');
+  }
   triggerAutosaveBadge();
 }
 
@@ -968,11 +969,16 @@ function resetAppearance() {
   localStorage.removeItem('adminDarkMode');
   localStorage.removeItem('adminDensity');
   localStorage.removeItem('adminAppearance');
+  localStorage.removeItem('adminLanguage');
 
   // Re-apply teal defaults
   applyTheme('teal', document.querySelector('[data-theme="teal"]'), 'Teal');
   applyDarkMode(false);
   applyDensity('comfortable');
+
+  if (window.Alpine && Alpine.store('ui')) {
+    Alpine.store('ui').lang = 'English';
+  }
 
   showSettingsToast('Appearance reset to defaults.', 'info');
 }
@@ -1028,7 +1034,7 @@ function clearCache() {
 }
 
 function resetAllSettings() {
-  const keys = ['adminTheme','adminDarkMode','adminDensity','adminGeneral','adminNotifications','adminSecurity','adminAppearance'];
+  const keys = ['adminTheme','adminDarkMode','adminDensity','adminGeneral','adminNotifications','adminSecurity','adminAppearance','adminLanguage'];
   keys.forEach(k => localStorage.removeItem(k));
   showSettingsToast('All settings reset. Reloading...', 'info');
   setTimeout(() => location.reload(), 1800);

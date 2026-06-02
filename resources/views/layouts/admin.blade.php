@@ -88,22 +88,15 @@
 
   <!-- Sidebar -->
   <aside class="sidebar" id="sidebar">
-    <a href="{{ route('app.home') }}" class="sidebar-logo">
+    <a href="{{ route('app.home') }}" class="sidebar-logo" style="display: flex; justify-content: center;">
       <!-- Light Theme Full Logo (includes symbol + text) -->
       <img src="{{ asset('images/Logos/TLM.png') }}" alt="InternLink" class="logo-full" style="height: 44px; max-width: 100%; object-fit: contain;">
       <!-- Small Logo Symbol (shown only when collapsed) -->
       <img src="{{ asset('images/Logos/Small Logo.png') }}" alt="InternLink" class="logo-small" style="height: 44px; width: 44px; object-fit: contain;">
     </a>
 
-    <div class="sidebar-role">
-      <div class="role-badge">
-        <i class="fas fa-shield-halved"></i>
-        <span>Administrator</span>
-      </div>
-    </div>
-
     <nav class="sidebar-nav">
-      <a href="{{ route('app.home') }}" class="nav-item {{ request()->routeIs('app.home', 'dashboard', 'admin.dashboard') ? 'active' : '' }}">
+      <a href="{{ route('admin.dashboard', ['company' => $companySlug]) }}" class="nav-item {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
         <i class="fas fa-home"></i><span>Dashboard</span>
       </a>
       <a href="{{ route('admin.users', ['company' => $companySlug]) }}" class="nav-item {{ request()->routeIs('admin.users') ? 'active' : '' }}">
@@ -256,5 +249,6 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
+@stack('modals')
 </body>
 </html>

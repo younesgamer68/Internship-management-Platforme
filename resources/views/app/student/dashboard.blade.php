@@ -201,6 +201,7 @@
 </style>
 
 <!-- Welcome Banner -->
+{{--
 <div class="welcome-banner anim-up" data-delay="0">
   <div class="welcome-banner-content">
     <h2>
@@ -222,6 +223,7 @@
   </div>
   <div class="welcome-banner-illustration"><i class="fas fa-graduation-cap"></i></div>
 </div>
+--}}
 
 <!-- Stats -->
 <div class="stats-row">
@@ -262,6 +264,8 @@
           ['CT','ConnorTech','Software Development Internship','San Francisco, CA','Pending',  'pending',  40, 'warning','Application under review'],
           ['SD','SierraDynamics','Product Management Internship','New York, NY', 'Interview','interview',75, 'green',  'Interview: Jun 28, 2025'],
           ['BG','Bayview Group','Marketing & Communications Internship','Boston, MA','Pending','pending',  30, 'warning','Awaiting document review'],
+          ['NV','NovaSystems','Backend Engineer Intern','Austin, TX','Accepted','accepted',  100, 'green','Offer Accepted'],
+          ['LF','Luminate Financial','Data Science Intern','Chicago, IL','Rejected','rejected',  10, 'gray','Did not pass screening'],
         ] as [$init,$company,$title,$location,$status,$statusClass,$pct,$fillClass,$note])
         <div class="application-item">
           <div class="application-header">
@@ -365,6 +369,8 @@
           ['TS','TechSolutions','#00b1aa','Full-Stack Developer Intern','Remote · 3 months','Engineering','Jun 30, 2025',42],
           ['MC','MediaCorp',   '#8B5CF6','Digital Marketing Intern',   'New York · 2 months','Marketing','Jul 15, 2025',27],
           ['AI','AInova',      '#3B82F6','Machine Learning Intern',    'Boston · 4 months','Data Science','Jul 1, 2025',18],
+          ['QC','QuantumCore', '#F59E0B','Cybersecurity Analyst Intern','Washington DC · 6 months','Security','Aug 10, 2025',14],
+          ['VL','Vanguard Labs','#10B981','UX Researcher Intern',       'San Francisco · 3 months','Design','Jul 22, 2025',31],
         ] as [$init,$company,$color,$title,$meta,$dept,$deadline,$count])
         <div class="recommended-row" onclick="applyToListing('{{ $title }}','{{ $company }}')" title="Click to apply">
           <div style="width:40px;height:40px;border-radius:10px;background:{{ $color }};color:white;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;">{{ $init }}</div>

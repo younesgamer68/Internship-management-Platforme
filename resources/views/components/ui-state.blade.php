@@ -14,7 +14,16 @@ Wrap your page content with <x-ui-state> ... </x-ui-state>
     document.addEventListener('alpine:init', () => {
         Alpine.store('ui', {
             darkMode: localStorage.getItem('adminDarkMode') === 'true' || localStorage.getItem('theme') === 'dark',
-            lang: 'English',
+            lang: (function() {
+                const storedLang = localStorage.getItem('adminLanguage');
+                if (storedLang === 'English' || storedLang === 'French') return storedLang;
+                try {
+                    const appearance = JSON.parse(localStorage.getItem('adminAppearance') || '{}');
+                    if (appearance.lang === 'en') return 'English';
+                    if (appearance.lang === 'fr') return 'French';
+                } catch(e) {}
+                return 'English';
+            })(),
             loading: false,
 
             showLoading(ms = 800) {
@@ -982,6 +991,8 @@ Wrap your page content with <x-ui-state> ... </x-ui-state>
             init() {
                 /* Sync dark class on <html> whenever darkMode changes */
                 this._watchDark();
+                /* Sync lang changes to localStorage reactively */
+                this._watchLang();
             },
 
             _watchDark() {
@@ -991,6 +1002,23 @@ Wrap your page content with <x-ui-state> ... </x-ui-state>
                     document.documentElement.classList.toggle('admin-dark', this.darkMode);
                     localStorage.setItem('adminDarkMode', this.darkMode ? 'true' : 'false');
                     localStorage.setItem('theme', this.darkMode ? 'dark' : 'light');
+                });
+            },
+
+            _watchLang() {
+                /* Alpine.effect runs reactively whenever lang changes */
+                Alpine.effect(() => {
+                    localStorage.setItem('adminLanguage', this.lang);
+                    try {
+                        const appearance = JSON.parse(localStorage.getItem('adminAppearance') || '{}');
+                        appearance.lang = (this.lang === 'French' ? 'fr' : 'en');
+                        localStorage.setItem('adminAppearance', JSON.stringify(appearance));
+                        
+                        const selectEl = document.getElementById('a-lang');
+                        if (selectEl && selectEl.value !== appearance.lang) {
+                            selectEl.value = appearance.lang;
+                        }
+                    } catch(e) {}
                 });
             },
         });

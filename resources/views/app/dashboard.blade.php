@@ -6,7 +6,13 @@
     @if(str_starts_with(request()->route()?->getName() ?? '', 'admin.') || str_starts_with(request()->route()?->uri() ?? '', 'admin/'))
         @include('app.admin.dashboard')
     @else
-        @livewire('app.admin-dashboard')
+        <x-layouts::app.sidebar title="Admin Dashboard">
+            <flux:main>
+                <div class="animate-enter">
+                    @livewire('app.admin-dashboard')
+                </div>
+            </flux:main>
+        </x-layouts::app.sidebar>
     @endif
 @elseif($user->isIntern())
     @include('app.student.dashboard')
@@ -14,5 +20,11 @@
     @include('app.company.dashboard')
 @else
     {{-- Helpdesk Agent --}}
-    @livewire('app.agent-dashboard')
+    <x-layouts::app.sidebar title="Agent Dashboard">
+        <flux:main>
+            <div class="animate-enter">
+                @livewire('app.agent-dashboard')
+            </div>
+        </flux:main>
+    </x-layouts::app.sidebar>
 @endif
