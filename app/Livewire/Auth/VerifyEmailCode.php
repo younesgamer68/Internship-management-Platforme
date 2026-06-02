@@ -105,7 +105,7 @@ class VerifyEmailCode extends Component
         $user = Auth::user();
 
         if ($user->role === 'intern') {
-            $detail = \App\Models\InternInfoDetail::where('user_id', $user->id)->first();
+            $detail = \App\Models\UserInfo::where('user_id', $user->id)->first();
             if ($detail) {
                 $this->redirect(route('intern.dashboard'));
                 return;
@@ -117,6 +117,12 @@ class VerifyEmailCode extends Component
                 $this->redirect(route('career_fields'));
             }
         } else {
+            if ($user->role === 'admin' || $user->role === 'company_manager') {
+                if (!$user->company_id) {
+                    $this->redirect(route('company.setup'));
+                    return;
+                }
+            }
             $this->redirect('/home');
         }
     }

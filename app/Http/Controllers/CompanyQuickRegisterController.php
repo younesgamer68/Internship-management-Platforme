@@ -2,33 +2,28 @@
 
 namespace App\Http\Controllers;
 
-use App\Mail\WelcomeMail;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\DB;
 
-class QuickRegisterController extends Controller
+class CompanyQuickRegisterController extends Controller
 {
     public function store(Request $request)
     {
         $request->validate([
             'email' => ['required', 'string', 'email', 'max:255'],
         ], [
-            'email.required' => 'Please enter your email address.',
+            'email.required' => 'Please enter your work email address.',
             'email.email' => 'Please enter a valid email address.',
         ]);
 
         $existingUser = User::query()->where('email', $request->email)->first();
 
-        if ($existingUser && $existingUser->role !== 'intern') {
+        if ($existingUser && $existingUser->role === 'intern') {
             return redirect()->route('role.conflict');
         }
-
-        // Removed auto-login for existing users so that a verification code is always sent
 
         $rawName = explode('@', $request->email)[0];
         $name = Str::title(str_replace(['.', '_', '-'], ' ', $rawName));
@@ -37,7 +32,7 @@ class QuickRegisterController extends Controller
             'name' => $name,
             'email' => $request->email,
             'password' => null,
-            'role' => 'intern',
+            'role' => 'admin',
             'email_verified_at' => null,
         ]);
 

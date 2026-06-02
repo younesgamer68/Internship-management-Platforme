@@ -484,19 +484,25 @@
                 <p class="left__sub">Use your <strong>work email address</strong> to continue. Need an account?<br>We'll
                     help you create one.</p>
 
-                <div class="field">
-                    <span class="field__label">Work email address <span>*</span></span>
-                    <div class="field__wrap">
-                        <span class="field__icon"><svg viewBox="0 0 24 24">
-                                <rect x="2" y="4" width="20" height="16" rx="2" />
-                                <polyline points="2,4 12,13 22,4" />
-                            </svg></span>
-                        <input class="field__input" type="email" placeholder="example@yourcompany.com"
-                            autocomplete="email" />
+                <form method="POST" action="{{ route('register.company.quick') }}">
+                    @csrf
+                    <div class="field">
+                        <span class="field__label">Work email address <span>*</span></span>
+                        <div class="field__wrap">
+                            <span class="field__icon"><svg viewBox="0 0 24 24">
+                                    <rect x="2" y="4" width="20" height="16" rx="2" />
+                                    <polyline points="2,4 12,13 22,4" />
+                                </svg></span>
+                            <input class="field__input" name="email" type="email" placeholder="example@yourcompany.com"
+                                autocomplete="email" required />
+                        </div>
+                        @error('email')
+                            <p style="color: #e53935; font-size: 0.75rem; margin-top: 4px;">{{ $message }}</p>
+                        @enderror
                     </div>
-                </div>
 
-                <button class="btn-primary">Continue with email</button>
+                    <button type="submit" class="btn-primary">Continue with email</button>
+                </form>
 
                 <div class="divider">
                     <div class="divider__line"></div><span class="divider__text">Or</span>

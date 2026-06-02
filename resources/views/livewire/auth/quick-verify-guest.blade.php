@@ -1,10 +1,6 @@
 <div class="min-h-screen relative overflow-hidden bg-white">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+ 
 
         body {
             font-family: 'Segoe UI', Roboto, -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
@@ -632,8 +628,8 @@
                 <!-- Close -->
                 <a href="{{ route('get_started') }}"
                     class="absolute top-5 right-5 text-gray-400 hover:text-gray-700 transition-colors">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2"
-                        stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" viewBox="0 0 24 24">
                         <line x1="18" y1="6" x2="6" y2="18"></line>
                         <line x1="6" y1="6" x2="18" y2="18"></line>
                     </svg>
@@ -649,8 +645,7 @@
                     <span class="text-gray-800 font-semibold break-all">{{ session('pending_user_email') }}</span>
                 </p>
 
-                <form @submit.prevent="$wire.code = otp.join(''); $wire.verify()"
-                    x-data="{
+                <form @submit.prevent="$wire.code = otp.join(''); $wire.verify()" x-data="{
                         otp: ['','','','','',''],
                         focus(i) { $refs['otp'+i]?.focus() },
                         handleInput(i, e) {
@@ -678,16 +673,9 @@
                     <!-- OTP Inputs -->
                     <div class="flex gap-3 justify-between mb-7">
                         <template x-for="i in [0,1,2,3,4,5]" :key="i">
-                            <input
-                                :x-ref="'otp'+i"
-                                type="text"
-                                inputmode="numeric"
-                                maxlength="1"
-                                :value="otp[i]"
-                                @input="handleInput(i, $event)"
-                                @keydown="handleKey(i, $event)"
-                                @paste="i === 0 && handlePaste($event)"
-                                class="w-12 h-14 text-center text-xl font-bold text-gray-900
+                            <input :x-ref="'otp'+i" type="text" inputmode="numeric" maxlength="1" :value="otp[i]"
+                                @input="handleInput(i, $event)" @keydown="handleKey(i, $event)"
+                                @paste="i === 0 && handlePaste($event)" class="w-12 h-14 text-center text-xl font-bold text-gray-900
                                        border border-gray-300 rounded-xl
                                        focus:border-2 focus:border-gray-900 focus:outline-none
                                        transition-all duration-150 bg-white" />
@@ -705,8 +693,7 @@
                     @endif
 
                     <!-- Confirm Button -->
-                    <button type="submit"
-                        class="w-full bg-gray-900 hover:bg-black text-white py-3.5 rounded-xl
+                    <button type="submit" class="w-full bg-gray-900 hover:bg-black text-white py-3.5 rounded-xl
                                font-semibold text-base transition-colors duration-200 mb-3">
                         Confirm
                     </button>
@@ -715,8 +702,7 @@
                     <div x-data="{ timer: 57, interval: null }"
                         x-init="interval = setInterval(() => { if (timer > 0) timer--; else clearInterval(interval) }, 1000)">
 
-                        <button type="button"
-                            :disabled="timer > 0"
+                        <button type="button" :disabled="timer > 0"
                             @click="if(timer === 0){ $wire.resendCode(); timer = 57; clearInterval(interval); interval = setInterval(() => { if(timer > 0) timer--; else clearInterval(interval) }, 1000) }"
                             class="w-full border border-gray-200 rounded-xl py-3.5 text-sm font-medium
                                    text-gray-700 hover:bg-gray-50 disabled:opacity-60 disabled:cursor-not-allowed
@@ -814,3 +800,12 @@
         loop();
     </script>
 </div>
+
+
+
+
+
+
+
+
+

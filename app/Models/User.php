@@ -147,9 +147,9 @@ class User extends Authenticatable
         return $this->belongsToMany(Team::class, 'team_user')->withPivot('role')->withTimestamps();
     }
 
-    public function internInfoDetail()
+    public function userInfo()
     {
-        return $this->hasOne(InternInfoDetail::class);
+        return $this->hasOne(UserInfo::class);
     }
 
     /**

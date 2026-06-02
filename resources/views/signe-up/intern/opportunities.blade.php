@@ -102,9 +102,7 @@
 
 <body class="bg-gray-50 min-h-screen text-gray-900 antialiased">
 
-    <div class="logo-wrapper">
-        <img src="{{ asset('images/Logos/TLM.png') }}" alt="Logo" />
-    </div>
+  
 
     <section class="flex min-h-screen bg-gray-50 font-sans">
 

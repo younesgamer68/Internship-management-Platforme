@@ -638,8 +638,7 @@
                 <button class="continue-btn" disabled>Continue</button>
 
                 <div class="help-text">
-                    Need help? Email us at <a
-                        href="mailto:support@virtualinternships.com">support@virtualinternships.com</a>
+                    Need help ? <a href="{{ route('contact') }}">contact us</a>
                 </div>
 
             </div>

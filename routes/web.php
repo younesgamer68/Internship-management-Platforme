@@ -3,6 +3,8 @@
 use App\Http\Controllers\CareerFieldController;
 use App\Http\Controllers\Auth\GoogleAuthController;
 use App\Http\Controllers\QuickRegisterController;
+use App\Http\Controllers\CompanyQuickRegisterController;
+use App\Http\Controllers\CompanyFormController;
 use App\Models\Application;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
@@ -31,7 +33,7 @@ Route::get('/home', function () {
     if (auth()->check()) {
         $user = auth()->user();
         if ($user->role === 'intern') {
-            $detail = \App\Models\InternInfoDetail::where('user_id', $user->id)->first();
+            $detail = \App\Models\UserInfo::where('user_id', $user->id)->first();
             if ($detail) {
                 return redirect()->route('intern.dashboard');
             }
@@ -47,7 +49,7 @@ Route::get('/choose-path', function () {
     if (auth()->check()) {
         $user = auth()->user();
         if ($user->role === 'intern') {
-            $detail = \App\Models\InternInfoDetail::where('user_id', $user->id)->first();
+            $detail = \App\Models\UserInfo::where('user_id', $user->id)->first();
             if ($detail) {
                 return redirect()->route('intern.dashboard');
             }
@@ -60,6 +62,8 @@ Route::get('/choose-path', function () {
     return view('signe-up.choose_path');
 })->name('choose_path');
 
+Route::view('/role-conflict', 'auth.role-conflict')->name('role.conflict');
+
 Route::get('/career-fields', [CareerFieldController::class, 'index'])
     ->middleware('auth')
     ->name('career_fields');
@@ -71,7 +75,7 @@ Route::get('/choose-intership', function () {
     if (auth()->check()) {
         $user = auth()->user();
         if ($user->role === 'intern') {
-            $detail = \App\Models\InternInfoDetail::where('user_id', $user->id)->first();
+            $detail = \App\Models\UserInfo::where('user_id', $user->id)->first();
             if ($detail) {
                 return redirect()->route('intern.dashboard');
             }
@@ -271,14 +275,14 @@ Route::post('/intern/application', function (\Illuminate\Http\Request $request) 
     $user = auth()->user();
 
     // Store resume file if provided, otherwise preserve existing
-    $detail = \App\Models\InternInfoDetail::where('user_id', $user->id)->first();
+    $detail = \App\Models\UserInfo::where('user_id', $user->id)->first();
     $resumePath = $detail ? $detail->resume_path : null;
     if ($request->hasFile('resume')) {
         $resumePath = $request->file('resume')->store('resumes', 'public');
     }
 
     // Create or update intern info details
-    \App\Models\InternInfoDetail::updateOrCreate(
+    \App\Models\UserInfo::updateOrCreate(
         ['user_id' => $user->id],
         [
             'first_name' => $request->first_name,
@@ -322,7 +326,7 @@ Route::get('/intern/dashboard', function () {
     if (auth()->check()) {
         $user = auth()->user();
         if ($user->role === 'intern') {
-            $detail = \App\Models\InternInfoDetail::where('user_id', $user->id)->first();
+            $detail = \App\Models\UserInfo::where('user_id', $user->id)->first();
             if (!$detail) {
                 // Not registered yet - send to registration flow
                 return $user->career_field
@@ -339,7 +343,7 @@ Route::get('/get-started', function () {
     if (auth()->check()) {
         $user = auth()->user();
         if ($user->role === 'intern') {
-            $detail = \App\Models\InternInfoDetail::where('user_id', $user->id)->first();
+            $detail = \App\Models\UserInfo::where('user_id', $user->id)->first();
             if ($detail) {
                 return redirect()->route('intern.dashboard');
             }
@@ -609,6 +613,11 @@ Route::middleware('guest')->group(function () {
     Route::post('/register/quick', [QuickRegisterController::class, 'store'])
         ->name('register.quick');
 
+    Route::post('/register/company/quick', [CompanyQuickRegisterController::class, 'store'])
+        ->name('register.company.quick');
+
+
+
     Route::livewire('/verify-email-code-guest', App\Livewire\Auth\QuickVerifyGuest::class)
         ->name('verification.guest.notice');
 
@@ -637,16 +646,26 @@ Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $requ
     return redirect()->route('career_fields');
 })->middleware(['auth', 'signed'])->name('verification.verify');
 
+Route::get('/company/setup', [CompanyFormController::class, 'show'])->name('company.setup')->middleware('auth');
+Route::post('/company/setup', [CompanyFormController::class, 'store'])->name('company.setup.store')->middleware('auth');
+
 // Protected Dashboard Route
 Route::get('/dashboard', function () {
     if (auth()->check()) {
         $user = auth()->user();
         if ($user->role === 'intern') {
-            $detail = \App\Models\InternInfoDetail::where('user_id', $user->id)->first();
+            $detail = \App\Models\UserInfo::where('user_id', $user->id)->first();
             if ($detail) {
                 return redirect()->route('intern.dashboard');
             }
             return redirect()->route('app.home');
+        }
+        
+        if ($user->role === 'admin' || $user->role === 'company_manager') {
+            if (!$user->company_id) {
+                return redirect()->route('company.setup');
+            }
+            return view('signe-up.company.dashboard-company');
         }
     }
     return view('signe-up.admin.dashboard');

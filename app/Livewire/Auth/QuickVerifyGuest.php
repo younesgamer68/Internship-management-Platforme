@@ -60,17 +60,30 @@ class QuickVerifyGuest extends Component
         session()->forget('pending_user_email');
 
         if ($user->role === 'intern') {
-            $detail = \App\Models\InternInfoDetail::where('user_id', $user->id)->first();
+            $detail = \App\Models\UserInfo::where('user_id', $user->id)->first();
             if ($detail) {
-                return redirect()->route('intern.dashboard');
+                $this->redirectRoute('intern.dashboard');
+                return;
+            }
+        }
+
+        if ($user->role === 'admin' || $user->role === 'company_manager') {
+            if ($user->company_id) {
+                $this->redirectRoute('home');
+                return;
+            } else {
+                $this->redirectRoute('company.setup');
+                return;
             }
         }
 
         if ($user->career_field) {
-            return redirect()->route('intern.opportunities');
+            $this->redirectRoute('intern.opportunities');
+            return;
         }
 
-        return redirect()->route('career_fields');
+        $this->redirectRoute('career_fields');
+        return;
     }
 
     public function resendCode(): void

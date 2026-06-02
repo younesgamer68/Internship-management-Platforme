@@ -20,6 +20,14 @@ class CreateNewUser implements CreatesNewUsers
      */
     public function create(array $input): User
     {
+        $existingUser = User::query()->where('email', $input['email'] ?? '')->first();
+
+        if ($existingUser) {
+            if ($existingUser->role === 'intern') {
+                throw new \Illuminate\Http\Exceptions\HttpResponseException(redirect()->route('role.conflict'));
+            }
+        }
+
         Validator::make($input, [
             ...$this->profileRules(),
             'password' => $this->passwordRules(),

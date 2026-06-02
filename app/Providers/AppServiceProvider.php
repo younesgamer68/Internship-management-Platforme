@@ -35,13 +35,7 @@ class AppServiceProvider extends ServiceProvider
         Model::preventLazyLoading();
         $this->configureDefaults();
 
-        \Illuminate\Support\Facades\Event::listen(\Illuminate\Auth\Events\Logout::class, function (\Illuminate\Auth\Events\Logout $event) {
-            $user = $event->user;
-            if ($user && $user->role === 'intern') {
-                $user->update(['career_field' => null]);
-                \App\Models\InternInfoDetail::where('user_id', $user->id)->delete();
-            }
-        });
+
 
         if (app()->isProduction() && config('app.debug')) {
             throw new \RuntimeException(

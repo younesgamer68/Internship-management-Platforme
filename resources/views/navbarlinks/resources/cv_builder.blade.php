@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description"
         content="InterLinkCv — Professional resume builder for developers, designers, and professionals." />
-    <title>InterLinkCv — Resume Builder</title>
+    <title>{{ __('cv_builder.page_title') }}</title>
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -1018,7 +1018,7 @@
                             <div class="w-8 h-8 rounded-lg bg-z-100 dark:bg-z-900 flex items-center justify-center">
                                 <i class="ph ph-file-text text-z-600 dark:text-z-400"></i>
                             </div>
-                            <h2 class="text-base font-semibold">Welcome to InterLinkCv</h2>
+                            <h2 class="text-base font-semibold">{{ __('cv_builder.welcome_title') }}</h2>
                         </div>
                         <p class="text-sm text-z-500 dark:text-z-400 leading-relaxed">A clean, professional resume
                             builder. No fluff — just your career, presented well.</p>
@@ -1027,31 +1027,31 @@
                         <div
                             class="p-3 rounded-lg bg-z-50 dark:bg-z-900 border border-z-200 dark:border-z-800 text-center">
                             <i class="ph ph-target text-blue-500 text-lg mb-1"></i>
-                            <p class="text-xs font-medium text-z-600 dark:text-z-400">ATS Optimized</p>
+                            <p class="text-xs font-medium text-z-600 dark:text-z-400">{{ __('cv_builder.ats_optimized') }}</p>
                         </div>
                         <div
                             class="p-3 rounded-lg bg-z-50 dark:bg-z-900 border border-z-200 dark:border-z-800 text-center">
                             <i class="ph ph-eye text-z-500 text-lg mb-1"></i>
-                            <p class="text-xs font-medium text-z-600 dark:text-z-400">Live Preview</p>
+                            <p class="text-xs font-medium text-z-600 dark:text-z-400">{{ __('cv_builder.live_preview') }}</p>
                         </div>
                         <div
                             class="p-3 rounded-lg bg-z-50 dark:bg-z-900 border border-z-200 dark:border-z-800 text-center">
                             <i class="ph ph-floppy-disk text-z-500 text-lg mb-1"></i>
-                            <p class="text-xs font-medium text-z-600 dark:text-z-400">Auto-saved</p>
+                            <p class="text-xs font-medium text-z-600 dark:text-z-400">{{ __('cv_builder.auto_saved') }}</p>
                         </div>
                     </div>
                     <div class="flex gap-2 pt-1">
-                        <button @click="showOnboarding=false" class="btn btn-ghost flex-1">Skip</button>
-                        <button @click="onboardStep=2" class="btn btn-primary flex-1">Get started <i
+                        <button @click="showOnboarding=false" class="btn btn-ghost flex-1">{{ __('cv_builder.skip') }}</button>
+                        <button @click="onboardStep=2" class="btn btn-primary flex-1">{{ __('cv_builder.get_started') }} <i
                                 class="ph ph-arrow-right"></i></button>
                     </div>
                 </div>
                 <!-- Step 2 -->
                 <div x-show="onboardStep===2" class="fade-up space-y-4">
                     <div>
-                        <p class="t-label mb-1">Step 2 of 3</p>
-                        <h2 class="text-base font-semibold">Choose a template</h2>
-                        <p class="text-sm text-z-500 dark:text-z-400 mt-1">You can change this any time.</p>
+                        <p class="t-label mb-1">{{ __('cv_builder.step_2') }}</p>
+                        <h2 class="text-base font-semibold">{{ __('cv_builder.choose_template') }}</h2>
+                        <p class="text-sm text-z-500 dark:text-z-400 mt-1">{{ __('cv_builder.change_any_time') }}</p>
                     </div>
                     <div class="grid grid-cols-3 gap-2">
                         <template x-for="tpl in templates" :key="tpl.id">
@@ -1073,37 +1073,37 @@
                     </div>
                     <div class="flex gap-2 pt-1">
                         <button @click="onboardStep=1" class="btn btn-secondary flex-1"><i class="ph ph-arrow-left"></i>
-                            Back</button>
-                        <button @click="onboardStep=3" class="btn btn-primary flex-1">Continue <i
+                            {{ __('cv_builder.back') }}</button>
+                        <button @click="onboardStep=3" class="btn btn-primary flex-1">{{ __('cv_builder.continue') }} <i
                                 class="ph ph-arrow-right"></i></button>
                     </div>
                 </div>
                 <!-- Step 3 -->
                 <div x-show="onboardStep===3" class="fade-up space-y-4">
                     <div>
-                        <p class="t-label mb-1">Step 3 of 3</p>
-                        <h2 class="text-base font-semibold">Basic information</h2>
-                        <p class="text-sm text-z-500 dark:text-z-400 mt-1">Fill in the rest later.</p>
+                        <p class="t-label mb-1">{{ __('cv_builder.step_3') }}</p>
+                        <h2 class="text-base font-semibold">{{ __('cv_builder.basic_info') }}</h2>
+                        <p class="text-sm text-z-500 dark:text-z-400 mt-1">{{ __('cv_builder.fill_rest_later') }}</p>
                     </div>
                     <div class="space-y-3">
                         <div>
-                            <label class="field-label">Full name</label>
+                            <label class="field-label">{{ __('cv_builder.full_name') }}</label>
                             <input type="text" x-model="cv.name" placeholder="Alexandra Chen" class="field-input">
                         </div>
                         <div>
-                            <label class="field-label">Title</label>
+                            <label class="field-label">{{ __('cv_builder.job_title') }}</label>
                             <input type="text" x-model="cv.title" placeholder="Senior Full-Stack Engineer"
                                 class="field-input">
                         </div>
                         <div>
-                            <label class="field-label">Email</label>
+                            <label class="field-label">{{ __('cv_builder.email') }}</label>
                             <input type="email" x-model="cv.email" placeholder="you@example.com" class="field-input">
                         </div>
                     </div>
                     <div class="flex gap-2 pt-1">
                         <button @click="onboardStep=2" class="btn btn-secondary flex-1"><i class="ph ph-arrow-left"></i>
-                            Back</button>
-                        <button @click="finishOnboarding()" class="btn btn-primary flex-1">Open editor <i
+                            {{ __('cv_builder.back') }}</button>
+                        <button @click="finishOnboarding()" class="btn btn-primary flex-1">{{ __('cv_builder.open_editor') }} <i
                                 class="ph ph-arrow-right"></i></button>
                     </div>
                 </div>
@@ -1120,14 +1120,14 @@
             @keydown.enter.prevent="runCmd(filteredCmds[cmdIdx])">
             <div class="flex items-center gap-2.5 px-4 py-3 border-b border-z-100 dark:border-z-800">
                 <i class="ph ph-magnifying-glass text-z-400 flex-shrink-0"></i>
-                <input type="text" x-model="cmdQuery" x-ref="cmdInput" placeholder="Search commands…"
+                <input type="text" x-model="cmdQuery" x-ref="cmdInput" placeholder="{{ __('cv_builder.search_commands') }}"
                     class="flex-1 bg-transparent outline-none text-sm text-z-900 dark:text-z-100 placeholder-z-400 dark:placeholder-z-600">
                 <kbd
                     class="px-1.5 py-0.5 text-xs bg-z-100 dark:bg-z-800 border border-z-200 dark:border-z-700 rounded text-z-500">Esc</kbd>
             </div>
             <div class="max-h-72 overflow-y-auto py-1.5">
                 <template x-if="filteredCmds.length===0">
-                    <div class="px-4 py-6 text-center text-sm text-z-400">No results for "<span
+                    <div class="px-4 py-6 text-center text-sm text-z-400">{{ __('cv_builder.no_results_for') }} "<span
                             x-text="cmdQuery"></span>"</div>
                 </template>
                 <template x-for="(cmd,i) in filteredCmds" :key="cmd.id">
@@ -1148,10 +1148,10 @@
             <div class="px-4 py-2 border-t border-z-100 dark:border-z-800 flex items-center gap-4 text-xs text-z-400">
                 <span class="flex items-center gap-1"><kbd
                         class="px-1 py-0.5 bg-z-100 dark:bg-z-800 rounded border border-z-200 dark:border-z-700">↑↓</kbd>
-                    Navigate</span>
+                    {{ __('cv_builder.navigate') }}</span>
                 <span class="flex items-center gap-1"><kbd
                         class="px-1 py-0.5 bg-z-100 dark:bg-z-800 rounded border border-z-200 dark:border-z-700">↵</kbd>
-                    Select</span>
+                    {{ __('cv_builder.select') }}</span>
             </div>
         </div>
     </div>
@@ -1160,7 +1160,7 @@
     <div x-show="showExport" x-cloak class="modal-overlay" @keydown.escape.window="showExport=false">
         <div class="modal-box max-w-sm scale-in">
             <div class="flex items-center justify-between px-5 py-4 border-b border-z-100 dark:border-z-800">
-                <h3 class="text-sm font-semibold">Export resume</h3>
+                <h3 class="text-sm font-semibold">{{ __('cv_builder.export_resume') }}</h3>
                 <button @click="showExport=false" class="btn-icon"><i class="ph ph-x text-sm"></i></button>
             </div>
             <div class="p-4 space-y-2">
@@ -1171,8 +1171,8 @@
                         <i class="ph ph-printer text-z-600 dark:text-z-400"></i>
                     </div>
                     <div>
-                        <p class="text-sm font-medium">Print / Save PDF</p>
-                        <p class="text-xs text-z-400">Best output quality</p>
+                        <p class="text-sm font-medium">{{ __('cv_builder.print_pdf') }}</p>
+                        <p class="text-xs text-z-400">{{ __('cv_builder.best_quality') }}</p>
                     </div>
                     <i class="ph ph-arrow-right text-z-300 ml-auto"></i>
                 </button>
@@ -1183,8 +1183,8 @@
                         <i class="ph ph-brackets-curly text-z-600 dark:text-z-400"></i>
                     </div>
                     <div>
-                        <p class="text-sm font-medium">Export JSON</p>
-                        <p class="text-xs text-z-400">Portable, re-importable</p>
+                        <p class="text-sm font-medium">{{ __('cv_builder.export_json') }}</p>
+                        <p class="text-xs text-z-400">{{ __('cv_builder.portable_json') }}</p>
                     </div>
                     <i class="ph ph-arrow-right text-z-300 ml-auto"></i>
                 </button>
@@ -1195,8 +1195,8 @@
                         <i class="ph ph-link text-z-600 dark:text-z-400"></i>
                     </div>
                     <div>
-                        <p class="text-sm font-medium">Copy share link</p>
-                        <p class="text-xs text-z-400">Link to this resume</p>
+                        <p class="text-sm font-medium">{{ __('cv_builder.copy_share_link') }}</p>
+                        <p class="text-xs text-z-400">{{ __('cv_builder.link_to_resume') }}</p>
                     </div>
                     <i class="ph ph-arrow-right text-z-300 ml-auto"></i>
                 </button>
@@ -1208,15 +1208,15 @@
     <div x-show="showImport" x-cloak class="modal-overlay" @keydown.escape.window="showImport=false">
         <div class="modal-box max-w-md scale-in">
             <div class="flex items-center justify-between px-5 py-4 border-b border-z-100 dark:border-z-800">
-                <h3 class="text-sm font-semibold">Import resume</h3>
+                <h3 class="text-sm font-semibold">{{ __('cv_builder.import_resume') }}</h3>
                 <button @click="showImport=false" class="btn-icon"><i class="ph ph-x text-sm"></i></button>
             </div>
             <div class="p-5 space-y-4">
-                <p class="text-sm text-z-500 dark:text-z-400">Paste exported JSON or upload a file.</p>
+                <p class="text-sm text-z-500 dark:text-z-400">{{ __('cv_builder.paste_json') }}</p>
                 <textarea x-model="importJSON" rows="6" placeholder='{"cv":{"name":"..."}}'
                     class="field-input font-mono text-xs resize-none"></textarea>
                 <div class="flex gap-2">
-                    <button @click="importData()" class="btn btn-primary flex-1">Import</button>
+                    <button @click="importData()" class="btn btn-primary flex-1">{{ __('cv_builder.import_btn') }}</button>
                     <label class="btn btn-secondary flex-1 cursor-pointer">
                         <i class="ph ph-file-arrow-up"></i> Upload file
                         <input type="file" accept=".json" class="hidden" @change="handleFileImport($event)">
@@ -1230,7 +1230,7 @@
     <div x-show="showShortcuts" x-cloak class="modal-overlay" @keydown.escape.window="showShortcuts=false">
         <div class="modal-box max-w-sm scale-in">
             <div class="flex items-center justify-between px-5 py-4 border-b border-z-100 dark:border-z-800">
-                <h3 class="text-sm font-semibold">Keyboard shortcuts</h3>
+                <h3 class="text-sm font-semibold">{{ __('cv_builder.keyboard_shortcuts') }}</h3>
                 <button @click="showShortcuts=false" class="btn-icon"><i class="ph ph-x text-sm"></i></button>
             </div>
             <div class="p-2">
@@ -1261,7 +1261,7 @@
                 <p class="text-sm text-z-500 dark:text-z-400" x-text="confirmDialog.message"></p>
             </div>
             <div class="flex gap-2">
-                <button @click="confirmDialog.show=false" class="btn btn-secondary flex-1">Cancel</button>
+                <button @click="confirmDialog.show=false" class="btn btn-secondary flex-1">{{ __('cv_builder.cancel') }}</button>
                 <button @click="confirmDialog.onConfirm();confirmDialog.show=false"
                     class="btn flex-1 bg-red-500 text-white border-red-500 hover:bg-red-600">
                     <span x-text="confirmDialog.confirmText||'Confirm'"></span>
@@ -1286,7 +1286,7 @@
                 InterLinkCv
             </span>
             <span class="text-z-300 dark:text-z-700 flex-shrink-0">/</span>
-            <span class="text-sm text-z-500 dark:text-z-500 truncate max-w-xs" x-text="cv.name||'Untitled'"></span>
+            <span class="text-sm text-z-500 dark:text-z-500 truncate max-w-xs" x-text="cv.name||"{{ __('cv_builder.untitled') }}""></span>
 
             <div class="flex-1"></div>
 
@@ -1370,8 +1370,8 @@
                             </label>
                             <div class="min-w-0 flex-1">
                                 <p class="text-sm font-medium truncate text-z-900 dark:text-z-100"
-                                    x-text="cv.name||'Your name'"></p>
-                                <p class="text-xs text-z-400 truncate mt-0.5" x-text="cv.title||'Your title'"></p>
+                                    x-text="cv.name||"{{ __('cv_builder.your_name') }}""></p>
+                                <p class="text-xs text-z-400 truncate mt-0.5" x-text="cv.title||"{{ __('cv_builder.your_title') }}""></p>
                                 <div class="flex items-center gap-1.5 mt-1.5">
                                     <div class="flex-1 h-1 bg-z-200 dark:bg-z-800 rounded-full overflow-hidden">
                                         <div class="h-full bg-accent rounded-full transition-all duration-500"
@@ -1388,10 +1388,10 @@
 
                         <!-- Templates -->
                         <div>
-                            <p class="t-label mb-2">Template</p>
+                            <p class="t-label mb-2">{{ __('cv_builder.template_label') }}</p>
                             <div class="grid grid-cols-3 gap-1.5">
                                 <template x-for="tpl in templates" :key="tpl.id">
-                                    <button @click="activeTemplate=tpl.id;notify('Template: '+tpl.name,'success')"
+                                    <button @click="activeTemplate=tpl.id;notify("{{ __('cv_builder.template_label') }}: "+tpl.name,'success')"
                                         class="tpl-card" :class="activeTemplate===tpl.id?'active':''">
                                         <div class="h-12 flex items-center justify-center"
                                             :style="'background:'+tpl.preview">
@@ -1413,7 +1413,7 @@
 
                         <!-- Accent color -->
                         <div>
-                            <p class="t-label mb-2">Accent</p>
+                            <p class="t-label mb-2">{{ __('cv_builder.accent_label') }}</p>
                             <div class="flex flex-wrap gap-2">
                                 <template x-for="(c,i) in colorPalette" :key="i">
                                     <button class="swatch" :class="{active:accentColor===c}"
@@ -1430,7 +1430,7 @@
 
                         <!-- Font -->
                         <div>
-                            <p class="t-label mb-2">Font</p>
+                            <p class="t-label mb-2">{{ __('cv_builder.font_label') }}</p>
                             <div class="space-y-0.5">
                                 <template x-for="f in fonts" :key="f.id">
                                     <button @click="activeFont=f.id"
@@ -1448,7 +1448,7 @@
 
                         <!-- Sections -->
                         <div>
-                            <p class="t-label mb-2">Sections</p>
+                            <p class="t-label mb-2">{{ __('cv_builder.sections_label') }}</p>
                             <div class="space-y-0.5">
                                 <template x-for="(vis,sec) in sectionVisibility" :key="sec">
                                     <div class="flex items-center justify-between py-1.5 px-1">
@@ -1466,7 +1466,7 @@
 
                         <!-- Export -->
                         <div>
-                            <p class="t-label mb-2">Export</p>
+                            <p class="t-label mb-2">{{ __('cv_builder.export_label') }}</p>
                             <div class="space-y-1.5">
                                 <button @click="showExport=true" class="btn btn-primary w-full text-xs py-2">Export
                                     resume</button>
@@ -1477,7 +1477,7 @@
 
                         <!-- History -->
                         <div>
-                            <p class="t-label mb-2">History</p>
+                            <p class="t-label mb-2">{{ __('cv_builder.history_label') }}</p>
                             <div class="flex gap-1.5">
                                 <button @click="undo()" :disabled="histIdx<=0"
                                     class="btn btn-secondary flex-1 text-xs py-1.5 disabled:opacity-40">
@@ -1533,7 +1533,7 @@
                             <div class="section-icon bg-z-100 dark:bg-z-800">
                                 <i class="ph ph-user text-z-500 dark:text-z-400 text-sm"></i>
                             </div>
-                            <span class="t-section-title flex-1">Personal information</span>
+                            <span class="t-section-title flex-1">{{ __('cv_builder.personal_info') }}</span>
                             <i class="ph text-z-400 text-xs transition-transform duration-200"
                                 :class="open?'ph-caret-up':'ph-caret-down'"></i>
                         </div>
@@ -1563,12 +1563,12 @@
                                     <div class="flex flex-wrap items-center justify-center sm:justify-start gap-2">
                                         <label
                                             class="relative cursor-pointer text-xs font-medium px-2.5 py-1.5 rounded-md bg-white dark:bg-z-900 border border-z-200 dark:border-z-800 hover:bg-z-50 dark:hover:bg-z-850 focus-within:ring-1 focus-within:ring-accent transition-colors shadow-sm select-none">
-                                            <span>Upload photo</span>
+                                            <span>{{ __('cv_builder.upload_photo') }}</span>
                                             <input type="file" accept="image/*" class="sr-only"
                                                 @change="handlePhotoUpload($event)">
                                         </label>
                                         <button x-show="cv.photo"
-                                            @click="cv.photo = ''; debouncedSave(); notify('Photo removed', 'info');"
+                                            @click="cv.photo = ''; debouncedSave(); notify("{{ __('cv_builder.photo_removed') }}", 'info');"
                                             type="button"
                                             class="text-xs font-medium px-2.5 py-1.5 rounded-md text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/20 border border-transparent hover:border-red-100 dark:hover:border-red-900/30 transition-colors">
                                             Remove
@@ -1585,7 +1585,7 @@
 
                             <div class="pt-4 grid grid-cols-1 sm:grid-cols-2 gap-3">
                                 <div class="sm:col-span-2">
-                                    <label class="field-label">Full name *</label>
+                                    <label class="field-label">{{ __('cv_builder.full_name') }} *</label>
                                     <input type="text" x-model="cv.name" @input="debouncedSave()"
                                         placeholder="Alexandra Chen" class="field-input">
                                 </div>
@@ -1595,35 +1595,35 @@
                                         placeholder="Senior Full-Stack Engineer" class="field-input">
                                 </div>
                                 <div>
-                                    <label class="field-label">Email</label>
+                                    <label class="field-label">{{ __('cv_builder.email') }}</label>
                                     <input type="email" x-model="cv.email" @input="debouncedSave()"
                                         placeholder="you@example.com" class="field-input">
                                 </div>
                                 <div>
-                                    <label class="field-label">Phone</label>
+                                    <label class="field-label">{{ __('cv_builder.phone') }}</label>
                                     <input type="tel" x-model="cv.phone" @input="debouncedSave()"
                                         placeholder="+1 (555) 000-0000" class="field-input">
                                 </div>
                                 <div>
-                                    <label class="field-label">Location</label>
+                                    <label class="field-label">{{ __('cv_builder.location') }}</label>
                                     <input type="text" x-model="cv.location" @input="debouncedSave()"
                                         placeholder="San Francisco, CA" class="field-input">
                                 </div>
                                 <div>
-                                    <label class="field-label">Website</label>
+                                    <label class="field-label">{{ __('cv_builder.website') }}</label>
                                     <input type="url" x-model="cv.website" @input="debouncedSave()"
                                         placeholder="https://yoursite.com" class="field-input">
                                 </div>
                                 <!-- Social links -->
                                 <div class="sm:col-span-2">
-                                    <label class="field-label">Social links</label>
+                                    <label class="field-label">{{ __('cv_builder.social_links') }}</label>
                                     <div class="space-y-2">
                                         <template x-for="(link,i) in cv.socials" :key="i">
                                             <div class="flex gap-2">
                                                 <select x-model="link.platform"
                                                     class="field-input w-28 flex-shrink-0 py-1.5">
                                                     <option value="linkedin">LinkedIn</option>
-                                                    <option value="github">GitHub</option>
+                                                    <option value="github">{{ __('cv_builder.github') }}</option>
                                                     <option value="twitter">Twitter/X</option>
                                                     <option value="dribbble">Dribbble</option>
                                                     <option value="other">Other</option>
@@ -1651,17 +1651,17 @@
                             <div class="section-icon bg-z-100 dark:bg-z-800">
                                 <i class="ph ph-text-align-left text-z-500 dark:text-z-400 text-sm"></i>
                             </div>
-                            <span class="t-section-title flex-1">Summary</span>
+                            <span class="t-section-title flex-1">{{ __('cv_builder.summary') }}</span>
                             <i class="ph text-z-400 text-xs transition-transform duration-200"
                                 :class="open?'ph-caret-up':'ph-caret-down'"></i>
                         </div>
                         <div x-show="open" x-collapse class="px-4 pb-4 border-t border-z-100 dark:border-z-800">
                             <div class="pt-4 space-y-2">
                                 <div class="flex flex-wrap gap-1.5 mb-2">
-                                    <span class="t-caption">Suggestions:</span>
-                                    <button class="ai-chip"><i class="ph ph-sparkle text-xs"></i> Add metrics</button>
-                                    <button class="ai-chip">Use action verbs</button>
-                                    <button class="ai-chip">Be concise</button>
+                                    <span class="t-caption">{{ __('cv_builder.suggestions') }}</span>
+                                    <button class="ai-chip"><i class="ph ph-sparkle text-xs"></i> {{ __('cv_builder.add_metrics') }}</button>
+                                    <button class="ai-chip">{{ __('cv_builder.action_verbs') }}</button>
+                                    <button class="ai-chip">{{ __('cv_builder.be_concise') }}</button>
                                 </div>
                                 <div class="relative">
                                     <textarea x-model="cv.summary" @input="autoResize($event);debouncedSave()"
@@ -1681,7 +1681,7 @@
                             <div class="section-icon bg-z-100 dark:bg-z-800">
                                 <i class="ph ph-briefcase text-z-500 dark:text-z-400 text-sm"></i>
                             </div>
-                            <span class="t-section-title flex-1">Work experience</span>
+                            <span class="t-section-title flex-1">{{ __('cv_builder.work_experience') }}</span>
                             <span class="text-xs text-z-400 mr-2" x-text="cv.experiences.length"></span>
                             <i class="ph text-z-400 text-xs transition-transform duration-200"
                                 :class="open?'ph-caret-up':'ph-caret-down'"></i>
@@ -1702,28 +1702,28 @@
                                                 class="ph ph-dots-six-vertical text-base"></i></div>
                                         <div class="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                                             <div>
-                                                <label class="field-label">Job title</label>
+                                                <label class="field-label">{{ __('cv_builder.job_title_field') }}</label>
                                                 <input type="text" x-model="exp.title" @input="debouncedSave()"
                                                     placeholder="Senior Engineer" class="field-input">
                                             </div>
                                             <div>
-                                                <label class="field-label">Company</label>
+                                                <label class="field-label">{{ __('cv_builder.company') }}</label>
                                                 <input type="text" x-model="exp.company" @input="debouncedSave()"
                                                     placeholder="Acme Corp" class="field-input">
                                             </div>
                                             <div>
-                                                <label class="field-label">Location</label>
+                                                <label class="field-label">{{ __('cv_builder.location') }}</label>
                                                 <input type="text" x-model="exp.location" @input="debouncedSave()"
                                                     placeholder="Remote / New York" class="field-input">
                                             </div>
                                             <div class="grid grid-cols-2 gap-2">
                                                 <div>
-                                                    <label class="field-label">Start</label>
+                                                    <label class="field-label">{{ __('cv_builder.start_date') }}</label>
                                                     <input type="month" x-model="exp.startDate" @input="debouncedSave()"
                                                         class="field-input">
                                                 </div>
                                                 <div>
-                                                    <label class="field-label">End</label>
+                                                    <label class="field-label">{{ __('cv_builder.end_date') }}</label>
                                                     <input type="month" x-model="exp.endDate" @input="debouncedSave()"
                                                         :disabled="exp.current" class="field-input disabled:opacity-40">
                                                 </div>
@@ -1733,10 +1733,10 @@
                                     <label class="flex items-center gap-2 cursor-pointer mb-3 ml-6">
                                         <input type="checkbox" x-model="exp.current" @change="debouncedSave()"
                                             class="w-3.5 h-3.5 rounded border-z-300 accent-accent">
-                                        <span class="text-xs text-z-500">Currently working here</span>
+                                        <span class="text-xs text-z-500">{{ __('cv_builder.current_job') }}</span>
                                     </label>
                                     <div class="ml-6">
-                                        <label class="field-label">Description & achievements</label>
+                                        <label class="field-label">{{ __('cv_builder.description_achievements') }}</label>
                                         <textarea x-model="exp.description" @input="autoResize($event);debouncedSave()"
                                             placeholder="• Led migration to microservices, reducing API latency by 65%&#10;• Mentored 4 engineers, improving team velocity by 30%"
                                             rows="3" class="field-input resize-none leading-relaxed"
@@ -1746,7 +1746,7 @@
                             </template>
                             <div x-show="cv.experiences.length===0" class="empty-state">
                                 <i class="ph ph-briefcase text-2xl mb-2 opacity-30"></i>
-                                <p class="text-sm">No experience added yet</p>
+                                <p class="text-sm">{{ __('cv_builder.no_experience') }}</p>
                             </div>
                             <button
                                 @click="addEntry('experiences',{id:uid(),title:'',company:'',location:'',startDate:'',endDate:'',current:false,description:''})"
@@ -1762,7 +1762,7 @@
                             <div class="section-icon bg-z-100 dark:bg-z-800">
                                 <i class="ph ph-graduation-cap text-z-500 dark:text-z-400 text-sm"></i>
                             </div>
-                            <span class="t-section-title flex-1">Education</span>
+                            <span class="t-section-title flex-1">{{ __('cv_builder.education') }}</span>
                             <span class="text-xs text-z-400 mr-2" x-text="cv.education.length"></span>
                             <i class="ph text-z-400 text-xs transition-transform duration-200"
                                 :class="open?'ph-caret-up':'ph-caret-down'"></i>
@@ -1780,39 +1780,39 @@
                                     </div>
                                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 mb-3">
                                         <div>
-                                            <label class="field-label">Degree</label>
+                                            <label class="field-label">{{ __('cv_builder.degree') }}</label>
                                             <input type="text" x-model="edu.degree" @input="debouncedSave()"
                                                 placeholder="B.Sc. Computer Science" class="field-input">
                                         </div>
                                         <div>
-                                            <label class="field-label">Institution</label>
+                                            <label class="field-label">{{ __('cv_builder.institution') }}</label>
                                             <input type="text" x-model="edu.school" @input="debouncedSave()"
                                                 placeholder="MIT" class="field-input">
                                         </div>
                                         <div>
-                                            <label class="field-label">Field of study</label>
+                                            <label class="field-label">{{ __('cv_builder.field_of_study') }}</label>
                                             <input type="text" x-model="edu.field" @input="debouncedSave()"
                                                 placeholder="Computer Science" class="field-input">
                                         </div>
                                         <div class="grid grid-cols-2 gap-2">
                                             <div>
-                                                <label class="field-label">Start year</label>
+                                                <label class="field-label">{{ __('cv_builder.start_year') }}</label>
                                                 <input type="number" x-model="edu.startYear" @input="debouncedSave()"
                                                     placeholder="2018" min="1950" max="2030" class="field-input">
                                             </div>
                                             <div>
-                                                <label class="field-label">End year</label>
+                                                <label class="field-label">{{ __('cv_builder.end_year') }}</label>
                                                 <input type="number" x-model="edu.endYear" @input="debouncedSave()"
                                                     placeholder="2022" min="1950" max="2030" class="field-input">
                                             </div>
                                         </div>
                                         <div>
-                                            <label class="field-label">GPA (optional)</label>
+                                            <label class="field-label">{{ __('cv_builder.gpa') }}</label>
                                             <input type="text" x-model="edu.gpa" @input="debouncedSave()"
                                                 placeholder="3.9 / 4.0" class="field-input">
                                         </div>
                                         <div>
-                                            <label class="field-label">Notes</label>
+                                            <label class="field-label">{{ __('cv_builder.notes') }}</label>
                                             <input type="text" x-model="edu.notes" @input="debouncedSave()"
                                                 placeholder="Dean's list, honors…" class="field-input">
                                         </div>
@@ -1821,7 +1821,7 @@
                             </template>
                             <div x-show="cv.education.length===0" class="empty-state">
                                 <i class="ph ph-graduation-cap text-2xl mb-2 opacity-30"></i>
-                                <p class="text-sm">No education added yet</p>
+                                <p class="text-sm">{{ __('cv_builder.no_education') }}</p>
                             </div>
                             <button
                                 @click="addEntry('education',{id:uid(),degree:'',school:'',field:'',startYear:'',endYear:'',gpa:'',notes:''})"
@@ -1837,7 +1837,7 @@
                             <div class="section-icon bg-z-100 dark:bg-z-800">
                                 <i class="ph ph-lightning text-z-500 dark:text-z-400 text-sm"></i>
                             </div>
-                            <span class="t-section-title flex-1">Skills</span>
+                            <span class="t-section-title flex-1">{{ __('cv_builder.skills') }}</span>
                             <span class="text-xs text-z-400 mr-2" x-text="cv.skills.filter(s=>s.name).length"></span>
                             <i class="ph text-z-400 text-xs transition-transform duration-200"
                                 :class="open?'ph-caret-up':'ph-caret-down'"></i>
@@ -1846,7 +1846,7 @@
                             class="px-4 pb-4 border-t border-z-100 dark:border-z-800 pt-4 space-y-2.5">
                             <!-- Suggestions -->
                             <div>
-                                <p class="field-label mb-1.5">Quick add</p>
+                                <p class="field-label mb-1.5">{{ __('cv_builder.quick_add') }}</p>
                                 <div class="flex flex-wrap gap-1.5">
                                     <template x-for="sk in suggestedSkills.slice(0,10)" :key="sk">
                                         <button @click="addSkillFromSuggestion(sk)" class="skill-chip"
@@ -1884,7 +1884,7 @@
                             <div class="section-icon bg-z-100 dark:bg-z-800">
                                 <i class="ph ph-code text-z-500 dark:text-z-400 text-sm"></i>
                             </div>
-                            <span class="t-section-title flex-1">Projects</span>
+                            <span class="t-section-title flex-1">{{ __('cv_builder.projects') }}</span>
                             <span class="text-xs text-z-400 mr-2" x-text="cv.projects.length"></span>
                             <i class="ph text-z-400 text-xs transition-transform duration-200"
                                 :class="open?'ph-caret-up':'ph-caret-down'"></i>
@@ -1902,28 +1902,28 @@
                                     </div>
                                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 mb-2.5">
                                         <div>
-                                            <label class="field-label">Project name</label>
+                                            <label class="field-label">{{ __('cv_builder.project_name') }}</label>
                                             <input type="text" x-model="proj.name" @input="debouncedSave()"
                                                 placeholder="OpenStream" class="field-input">
                                         </div>
                                         <div>
-                                            <label class="field-label">Technologies</label>
+                                            <label class="field-label">{{ __('cv_builder.technologies') }}</label>
                                             <input type="text" x-model="proj.tech" @input="debouncedSave()"
                                                 placeholder="Next.js, Go, Redis" class="field-input">
                                         </div>
                                         <div>
-                                            <label class="field-label">Live URL</label>
+                                            <label class="field-label">{{ __('cv_builder.live_url') }}</label>
                                             <input type="url" x-model="proj.url" @input="debouncedSave()"
                                                 placeholder="https://…" class="field-input">
                                         </div>
                                         <div>
-                                            <label class="field-label">GitHub</label>
+                                            <label class="field-label">{{ __('cv_builder.github') }}</label>
                                             <input type="url" x-model="proj.github" @input="debouncedSave()"
                                                 placeholder="https://github.com/…" class="field-input">
                                         </div>
                                     </div>
                                     <div>
-                                        <label class="field-label">Description</label>
+                                        <label class="field-label">{{ __('cv_builder.description') }}</label>
                                         <textarea x-model="proj.description" @input="autoResize($event);debouncedSave()"
                                             rows="2" placeholder="Open-source platform handling 10K concurrent users…"
                                             class="field-input resize-none leading-relaxed"
@@ -1933,7 +1933,7 @@
                             </template>
                             <div x-show="cv.projects.length===0" class="empty-state">
                                 <i class="ph ph-code text-2xl mb-2 opacity-30"></i>
-                                <p class="text-sm">No projects added yet</p>
+                                <p class="text-sm">{{ __('cv_builder.no_projects') }}</p>
                             </div>
                             <button
                                 @click="addEntry('projects',{id:uid(),name:'',tech:'',url:'',github:'',description:''})"
@@ -1949,7 +1949,7 @@
                             <div class="section-icon bg-z-100 dark:bg-z-800">
                                 <i class="ph ph-certificate text-z-500 dark:text-z-400 text-sm"></i>
                             </div>
-                            <span class="t-section-title flex-1">Certifications</span>
+                            <span class="t-section-title flex-1">{{ __('cv_builder.certifications') }}</span>
                             <i class="ph text-z-400 text-xs transition-transform duration-200"
                                 :class="open?'ph-caret-up':'ph-caret-down'"></i>
                         </div>
@@ -1984,7 +1984,7 @@
                             <div class="section-icon bg-z-100 dark:bg-z-800">
                                 <i class="ph ph-translate text-z-500 dark:text-z-400 text-sm"></i>
                             </div>
-                            <span class="t-section-title flex-1">Languages</span>
+                            <span class="t-section-title flex-1">{{ __('cv_builder.languages') }}</span>
                             <i class="ph text-z-400 text-xs transition-transform duration-200"
                                 :class="open?'ph-caret-up':'ph-caret-down'"></i>
                         </div>
@@ -2020,7 +2020,7 @@
                             <div class="section-icon bg-z-100 dark:bg-z-800">
                                 <i class="ph ph-plus-circle text-z-500 dark:text-z-400 text-sm"></i>
                             </div>
-                            <span class="t-section-title flex-1">Custom sections</span>
+                            <span class="t-section-title flex-1">{{ __('cv_builder.custom_sections') }}</span>
                             <span class="text-xs text-z-400 mr-2" x-text="cv.customSections.length"></span>
                             <i class="ph text-z-400 text-xs transition-transform duration-200"
                                 :class="open?'ph-caret-up':'ph-caret-down'"></i>
@@ -2117,7 +2117,7 @@
                                     <template x-if="sectionVisibility.summary && cv.summary">
                                         <div>
                                             <h2 class="text-xs font-bold uppercase tracking-widest mb-2"
-                                                :style="'color:'+accentColor">Summary</h2>
+                                                :style="'color:'+accentColor">{{ __('cv_builder.summary') }}</h2>
                                             <p class="text-xs text-gray-700 leading-relaxed" x-text="cv.summary"></p>
                                         </div>
                                     </template>
@@ -2150,7 +2150,7 @@
                                     <template x-if="sectionVisibility.education && cv.education.length">
                                         <div>
                                             <h2 class="text-xs font-bold uppercase tracking-widest mb-3"
-                                                :style="'color:'+accentColor">Education</h2>
+                                                :style="'color:'+accentColor">{{ __('cv_builder.education') }}</h2>
                                             <div class="space-y-3">
                                                 <template x-for="edu in cv.education" :key="edu.id">
                                                     <div class="flex items-start justify-between gap-4">
@@ -2173,7 +2173,7 @@
                                     <template x-if="sectionVisibility.skills && cv.skills.filter(s=>s.name).length">
                                         <div>
                                             <h2 class="text-xs font-bold uppercase tracking-widest mb-2.5"
-                                                :style="'color:'+accentColor">Skills</h2>
+                                                :style="'color:'+accentColor">{{ __('cv_builder.skills') }}</h2>
                                             <div class="space-y-1.5">
                                                 <template x-for="s in cv.skills.filter(s=>s.name)" :key="s.id">
                                                     <div class="flex items-center gap-3">
@@ -2195,7 +2195,7 @@
                                     <template x-if="sectionVisibility.projects && cv.projects.filter(p=>p.name).length">
                                         <div>
                                             <h2 class="text-xs font-bold uppercase tracking-widest mb-3"
-                                                :style="'color:'+accentColor">Projects</h2>
+                                                :style="'color:'+accentColor">{{ __('cv_builder.projects') }}</h2>
                                             <div class="space-y-2.5">
                                                 <template x-for="p in cv.projects.filter(p=>p.name)" :key="p.id">
                                                     <div>
@@ -2217,7 +2217,7 @@
                                         x-if="sectionVisibility.certifications && cv.certifications.filter(c=>c.name).length">
                                         <div>
                                             <h2 class="text-xs font-bold uppercase tracking-widest mb-2"
-                                                :style="'color:'+accentColor">Certifications</h2>
+                                                :style="'color:'+accentColor">{{ __('cv_builder.certifications') }}</h2>
                                             <div class="space-y-1">
                                                 <template x-for="c in cv.certifications.filter(c=>c.name)" :key="c.id">
                                                     <div class="flex items-center justify-between">
@@ -2236,7 +2236,7 @@
                                         x-if="sectionVisibility.languages && cv.languages.filter(l=>l.name).length">
                                         <div>
                                             <h2 class="text-xs font-bold uppercase tracking-widest mb-2"
-                                                :style="'color:'+accentColor">Languages</h2>
+                                                :style="'color:'+accentColor">{{ __('cv_builder.languages') }}</h2>
                                             <div class="flex flex-wrap gap-x-5 gap-y-1">
                                                 <template x-for="l in cv.languages.filter(l=>l.name)" :key="l.id">
                                                     <span class="text-xs text-gray-700"><span class="font-medium"
@@ -2282,7 +2282,7 @@
                                     </div>
                                     <div x-show="sectionVisibility.skills && cv.skills.filter(s=>s.name).length">
                                         <h3 class="text-2xs font-bold uppercase tracking-widest text-white/50 mb-2">
-                                            Skills</h3>
+                                            {{ __('cv_builder.skills') }}</h3>
                                         <div class="space-y-2">
                                             <template x-for="s in cv.skills.filter(s=>s.name)" :key="s.id">
                                                 <div>
@@ -2297,7 +2297,7 @@
                                     </div>
                                     <div x-show="sectionVisibility.languages && cv.languages.filter(l=>l.name).length">
                                         <h3 class="text-2xs font-bold uppercase tracking-widest text-white/50 mb-2">
-                                            Languages</h3>
+                                            {{ __('cv_builder.languages') }}</h3>
                                         <div class="space-y-0.5">
                                             <template x-for="l in cv.languages.filter(l=>l.name)" :key="l.id">
                                                 <div class="flex justify-between text-xs text-white/80">
@@ -2333,7 +2333,7 @@
                                     </div>
                                     <div x-show="sectionVisibility.education && cv.education.length">
                                         <h2 class="text-xs font-bold uppercase tracking-widest mb-2.5"
-                                            :style="'color:'+accentColor">Education</h2>
+                                            :style="'color:'+accentColor">{{ __('cv_builder.education') }}</h2>
                                         <div class="space-y-2"><template x-for="edu in cv.education" :key="edu.id">
                                                 <div class="flex justify-between gap-2">
                                                     <div>
@@ -2349,7 +2349,7 @@
                                     </div>
                                     <div x-show="sectionVisibility.projects && cv.projects.filter(p=>p.name).length">
                                         <h2 class="text-xs font-bold uppercase tracking-widest mb-2.5"
-                                            :style="'color:'+accentColor">Projects</h2>
+                                            :style="'color:'+accentColor">{{ __('cv_builder.projects') }}</h2>
                                         <div class="space-y-2"><template x-for="p in cv.projects.filter(p=>p.name)"
                                                 :key="p.id">
                                                 <div>
@@ -2396,7 +2396,7 @@
                                 </div>
                                 <div x-show="sectionVisibility.education && cv.education.length">
                                     <h2 class="text-xs font-medium uppercase tracking-widest text-gray-400 mb-4">
-                                        Education</h2>
+                                        {{ __('cv_builder.education') }}</h2>
                                     <div class="space-y-3"><template x-for="edu in cv.education" :key="edu.id">
                                             <div class="grid grid-cols-4 gap-4">
                                                 <div class="text-xs text-gray-400"
@@ -2463,7 +2463,7 @@
                                     <div x-show="sectionVisibility.education && cv.education.length">
                                         <h2
                                             class="text-xs font-bold uppercase tracking-[0.2em] text-center text-gray-400 mb-3">
-                                            Education</h2>
+                                            {{ __('cv_builder.education') }}</h2>
                                         <div class="space-y-2"><template x-for="edu in cv.education" :key="edu.id">
                                                 <div class="flex justify-between gap-4">
                                                     <div>
@@ -2610,7 +2610,7 @@
                                     </div>
                                     <div x-show="sectionVisibility.skills && cv.skills.filter(s=>s.name).length">
                                         <h2 class="text-xs font-bold uppercase tracking-widest text-gray-400 mb-2.5">
-                                            Skills</h2>
+                                            {{ __('cv_builder.skills') }}</h2>
                                         <div class="space-y-1.5"><template x-for="s in cv.skills.filter(s=>s.name)"
                                                 :key="s.id">
                                                 <div class="flex items-center gap-3"><span
@@ -2625,7 +2625,7 @@
                                     </div>
                                     <div x-show="sectionVisibility.education && cv.education.length">
                                         <h2 class="text-xs font-bold uppercase tracking-widest text-gray-400 mb-2.5">
-                                            Education</h2>
+                                            {{ __('cv_builder.education') }}</h2>
                                         <div class="space-y-2"><template x-for="edu in cv.education" :key="edu.id">
                                                 <div class="flex justify-between gap-4">
                                                     <div>
@@ -2731,7 +2731,7 @@
                             <p class="t-label">Writing tips</p>
                             <div class="flex items-start gap-2">
                                 <i class="ph ph-arrow-right text-z-400 text-xs mt-0.5 flex-shrink-0"></i>
-                                <p class="text-xs text-z-500 leading-relaxed">Start with strong action verbs: <em
+                                <p class="text-xs text-z-500 leading-relaxed">{{ __('cv_builder.start_date') }} with strong action verbs: <em
                                         class="text-z-700 dark:text-z-300">Led, Built, Improved, Reduced, Shipped</em>
                                 </p>
                             </div>
@@ -2769,7 +2769,7 @@
                 <button @click="showExport=true"
                     class="flex flex-col items-center gap-0.5 px-4 py-1.5 rounded-lg text-z-400 transition-colors hover:text-z-700">
                     <i class="ph ph-export text-lg"></i>
-                    <span class="text-xs font-medium">Export</span>
+                    <span class="text-xs font-medium">{{ __('cv_builder.export_label') }}</span>
                 </button>
                 <button @click="sidebarOpen=!sidebarOpen;viewMode='edit'"
                     class="flex flex-col items-center gap-0.5 px-4 py-1.5 rounded-lg transition-colors"
