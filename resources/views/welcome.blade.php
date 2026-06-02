@@ -1372,12 +1372,12 @@
     {{-- ═══════════════════════════════════════════════════════════════════
     Our Philosophy Section
     ═══════════════════════════════════════════════════════════════════ --}}
-    <section class="bg-white dark:bg-gray-900 py-20 px-6" style="font-family: 'Plus Jakarta Sans', sans-serif;">
+    <section class="bg-white py-20 px-6" style="font-family: 'Plus Jakarta Sans', sans-serif;">
 
         <div class="max-w-5xl mx-auto">
             {{-- Centered heading above both columns --}}
             <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-4xl font-extrabold text-gray-900 dark:text-white leading-tight mb-4">
+                <h2 class="text-3xl md:text-4xl font-extrabold text-gray-900  leading-tight mb-4">
                     {!! __('welcome.philosophy.main_heading') !!}
                 </h2>
                 <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed max-w-2xl mx-auto">
@@ -1398,7 +1398,7 @@
 
                         {{-- 1 --}}
                         <div>
-                            <h4 class="text-sm font-bold text-gray-900 dark:text-white mb-2">
+                            <h4 class="text-sm font-bold text-gray-900  mb-2">
                                 {!! __('welcome.philosophy.point1_title') !!}
                             </h4>
                             <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
@@ -1411,7 +1411,7 @@
 
                         {{-- 2 --}}
                         <div>
-                            <h4 class="text-sm font-bold text-gray-900 dark:text-white mb-2">
+                            <h4 class="text-sm font-bold text-gray-900  mb-2">
                                 {!! __('welcome.philosophy.point2_title') !!}
                             </h4>
                             <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
@@ -1423,7 +1423,7 @@
 
                         {{-- 3 --}}
                         <div>
-                            <h4 class="text-sm font-bold text-gray-900 dark:text-white mb-2">
+                            <h4 class="text-sm font-bold text-gray-900 mb-2">
                                 {!! __('welcome.philosophy.point3_title') !!}
                             </h4>
                             <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
@@ -1435,7 +1435,7 @@
 
                         {{-- 4 --}}
                         <div>
-                            <h4 class="text-sm font-bold text-gray-900 dark:text-white mb-2">
+                            <h4 class="text-sm font-bold text-gray-900  mb-2">
                                 {!! __('welcome.philosophy.point4_title') !!}
                             </h4>
                             <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
@@ -1448,7 +1448,7 @@
 
                         {{-- 5 --}}
                         <div>
-                            <h4 class="text-sm font-bold text-gray-900 dark:text-white mb-2">
+                            <h4 class="text-sm font-bold text-gray-900  mb-2">
                                 {!! __('welcome.philosophy.point5_title') !!}
                             </h4>
                             <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">

@@ -680,7 +680,7 @@ Route::middleware(['auth'])->prefix('{company}')->group(function () {
     })->name('dashboard');
 
     Route::view('/home', 'app.dashboard')->name('agent.dashboard');
-    Route::view('/admin/dashboard', 'app.admin.dashboard')->name('admin.dashboard');
+    Route::get('/admin/dashboard', [\App\Http\Controllers\AdminDashboardController::class, 'index'])->name('admin.dashboard');
 
     // Company Portal Sub-pages
     Route::get('/internships/offers', function () {
@@ -737,9 +737,10 @@ Route::middleware(['auth'])->prefix('{company}')->group(function () {
         return view('app.admin.users');
     })->name('admin.users');
 
-    Route::get('/admin/universities', function () {
-        return view('app.admin.universities');
-    })->name('admin.universities');
+    Route::get('/admin/universities', [\App\Http\Controllers\AdminUniversitiesController::class, 'index'])->name('admin.universities');
+    Route::post('/admin/universities', [\App\Http\Controllers\AdminUniversitiesController::class, 'store'])->name('admin.universities.store');
+    Route::put('/admin/universities/{id}', [\App\Http\Controllers\AdminUniversitiesController::class, 'update'])->name('admin.universities.update');
+    Route::delete('/admin/universities/{id}', [\App\Http\Controllers\AdminUniversitiesController::class, 'destroy'])->name('admin.universities.destroy');
 
     Route::get('/admin/departments', function () {
         return view('app.admin.departments');

@@ -5,6 +5,7 @@ namespace App\Livewire\Admin;
 use App\Models\Company;
 use App\Models\InternProfile;
 use App\Models\User;
+use App\Models\University;
 use App\Scopes\CompanyScope;
 use Illuminate\Support\Facades\Hash;
 use Livewire\Attributes\Computed;
@@ -35,6 +36,7 @@ class UsersTable extends Component
     public $email = '';
     public $role = 'intern'; // 'admin', 'company_manager', 'intern', 'operator'
     public $companyId = '';
+    public $universityId = '';
     public $password = '';
     public $bio = '';
     public $status = 'Active';
@@ -88,6 +90,12 @@ class UsersTable extends Component
         return $this->search !== '' || $this->roleFilter !== '' || $this->statusFilter !== '';
     }
 
+    #[Computed]
+    public function universities()
+    {
+        return University::query()->orderBy('name')->get();
+    }
+
     // Computed property for companies list
     #[Computed]
     public function companies()
@@ -98,7 +106,7 @@ class UsersTable extends Component
     // Fetch and filter users
     public function getUsers()
     {
-        $query = User::withoutGlobalScope(CompanyScope::class)->withTrashed()->with('company');
+        $query = User::withoutGlobalScope(CompanyScope::class)->withTrashed()->with(['company', 'university', 'department']);
 
         // Search filter (name, email, or company name)
         if ($this->search) {
@@ -170,7 +178,8 @@ class UsersTable extends Component
             'name' => 'required|string|min:2|max:100',
             'email' => 'required|email|max:255|unique:users,email',
             'role' => 'required|in:admin,company_manager,intern,operator',
-            'companyId' => 'required|exists:companies,id',
+            'companyId' => 'nullable|exists:companies,id',
+            'universityId' => 'nullable|exists:universities,id',
             'password' => 'required|string|min:8',
             'bio' => 'nullable|string|max:1000',
         ]);
@@ -179,7 +188,8 @@ class UsersTable extends Component
             'name' => $this->name,
             'email' => $this->email,
             'role' => $this->role,
-            'company_id' => $this->companyId,
+            'company_id' => $this->role === 'intern' ? null : $this->companyId,
+            'university_id' => $this->role === 'intern' ? $this->universityId : null,
             'password' => Hash::make($this->password),
             'email_verified_at' => now(),
         ]);
@@ -209,6 +219,7 @@ class UsersTable extends Component
         $this->email = $user->email;
         $this->role = $user->role;
         $this->companyId = $user->company_id;
+        $this->universityId = $user->university_id;
         $this->password = ''; // Keep blank unless updating
         $this->status = $user->trashed() ? 'Inactive' : ($user->isPendingInvite() ? 'Pending' : 'Active');
 
@@ -225,7 +236,8 @@ class UsersTable extends Component
             'name' => 'required|string|min:2|max:100',
             'email' => 'required|email|max:255|unique:users,email,' . $this->userId,
             'role' => 'required|in:admin,company_manager,intern,operator',
-            'companyId' => 'required|exists:companies,id',
+            'companyId' => 'nullable|exists:companies,id',
+            'universityId' => 'nullable|exists:universities,id',
             'password' => 'nullable|string|min:8',
             'bio' => 'nullable|string|max:1000',
             'status' => 'required|in:Active,Pending,Inactive',
@@ -237,7 +249,8 @@ class UsersTable extends Component
             'name' => $this->name,
             'email' => $this->email,
             'role' => $this->role,
-            'company_id' => $this->companyId,
+            'company_id' => $this->role === 'intern' ? null : $this->companyId,
+            'university_id' => $this->role === 'intern' ? $this->universityId : null,
         ];
 
         if ($this->password) {
@@ -328,7 +341,7 @@ class UsersTable extends Component
             'name' => $user->name,
             'email' => $user->email,
             'role' => $user->role,
-            'company_name' => $user->company?->name ?? 'N/A',
+            'company_name' => $user->company?->name ?? $user->university?->name ?? 'N/A',
             'joined_date' => $user->created_at->format('M d, Y'),
             'status' => $user->trashed() ? 'Inactive' : ($user->isPendingInvite() ? 'Pending' : 'Active'),
             'bio' => $profile ? $profile->bio : 'No bio/notes provided.',
@@ -353,7 +366,7 @@ class UsersTable extends Component
     // CSV Export
     public function export()
     {
-        $users = User::withoutGlobalScope(CompanyScope::class)->withTrashed()->with('company')->get();
+        $users = User::withoutGlobalScope(CompanyScope::class)->withTrashed()->with(['company', 'university'])->get();
 
         $headers = [
             "Content-type"        => "text/csv",
@@ -373,7 +386,7 @@ class UsersTable extends Component
                     $user->name,
                     $user->email,
                     ucfirst($user->role),
-                    $user->company?->name ?? 'N/A',
+                    $user->company?->name ?? $user->university?->name ?? 'N/A',
                     $status,
                     $user->created_at->toDateTimeString()
                 ]);
@@ -382,7 +395,7 @@ class UsersTable extends Component
             fclose($file);
         };
 
-        return response()->stream($callback, 200, $headers);
+        return response()->streamDownload($callback, 'users_export.csv', $headers);
     }
 
     private function resetForm()
@@ -392,6 +405,7 @@ class UsersTable extends Component
         $this->email = '';
         $this->role = 'intern';
         $this->companyId = '';
+        $this->universityId = '';
         $this->password = '';
         $this->bio = '';
         $this->status = 'Active';

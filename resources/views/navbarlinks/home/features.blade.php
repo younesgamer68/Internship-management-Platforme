@@ -20,6 +20,10 @@
 
     @vite(['resources/css/welcome.css'])
 
+    @php
+        $t = __('features');
+    @endphp
+
     <!-- Alpine.js: plugin first, then core -->
     <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/collapse@3.14.8/dist/cdn.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.8/dist/cdn.min.js"></script>
@@ -50,7 +54,47 @@
        Borders          #E5E7EB  (soft gray)
      ============================================================ --}}
 
-<div class="font-poppins bg-white text-[#444444] overflow-x-hidden">
+<div class="features-page font-poppins bg-white text-[#444444] overflow-x-hidden transition-colors duration-300">
+
+    <style>
+        .page-dark .features-page {
+            background-color: #07111f !important;
+            color: #ffffff !important;
+        }
+
+        .page-dark .features-page section:not(:first-of-type) {
+            background-color: #0b182c !important;
+            color: #ffffff !important;
+        }
+
+        .page-dark .features-page section:not(:first-of-type) h1,
+        .page-dark .features-page section:not(:first-of-type) h2,
+        .page-dark .features-page section:not(:first-of-type) h3,
+        .page-dark .features-page section:not(:first-of-type) h4,
+        .page-dark .features-page section:not(:first-of-type) p,
+        .page-dark .features-page section:not(:first-of-type) span,
+        .page-dark .features-page section:not(:first-of-type) li,
+        .page-dark .features-page section:not(:first-of-type) label {
+            color: #ffffff !important;
+        }
+
+        .page-dark .features-page section:not(:first-of-type) .bg-white,
+        .page-dark .features-page section:not(:first-of-type) [class*="bg-white"],
+        .page-dark .features-page section:not(:first-of-type) .bg-[#F7F9FA],
+        .page-dark .features-page section:not(:first-of-type) [class*="bg-[#F7F9FA]"],
+        .page-dark .features-page section:not(:first-of-type) .bg-white\/10,
+        .page-dark .features-page section:not(:first-of-type) .bg-white\/20,
+        .page-dark .features-page section:not(:first-of-type) .bg-white\/80 {
+            background-color: #10223b !important;
+            border-color: #213a59 !important;
+            color: #ffffff !important;
+        }
+
+        .page-dark .features-page section:not(:first-of-type) .text-[#444444],
+        .page-dark .features-page section:not(:first-of-type) .text-[#666666] {
+            color: #ffffff !important;
+        }
+    </style>
 
     {{-- ============================================================
          1. HERO SECTION
@@ -72,15 +116,15 @@
             {{-- Left: Text --}}
             <div class="flex-1 max-w-xl text-center lg:text-left">
                 <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white leading-tight mb-5">
-                    Big ideas. Amazing talent. The recruiting software that brings them together.
+                    {{ $t['hero']['title'] }}
                 </h1>
                 <p class="text-white/80 text-base leading-relaxed mb-8">
-                    Find, hire, onboard, and manage the right person for every job.
+                    {{ $t['hero']['subtitle'] }}
                 </p>
                 <div class="flex flex-wrap items-center justify-center lg:justify-start gap-4">
                     <a href="#"
                        class="border border-white text-white text-sm font-semibold px-6 py-2.5 rounded hover:bg-white hover:text-[#00B1AA] transition-all duration-200 flex items-center gap-1">
-                        GET STARTED
+                        {{ $t['hero']['cta'] }}
                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
                         </svg>
@@ -137,10 +181,10 @@
 
             <div class="mb-12 sm:mb-14">
                 <span class="inline-block text-xs font-bold uppercase tracking-widest px-4 py-1.5 rounded-full mb-3" style="color:#00B1AA">
-                    For Students
+                    {{ $t['students']['badge'] }}
                 </span>
                 <h2 class="text-3xl sm:text-4xl lg:text-5xl font-black text-[#444444] max-w-2xl leading-tight">
-                    Everything You Need to Land Your Dream Internship
+                    {{ $t['students']['heading'] }}
                 </h2>
             </div>
 
@@ -149,20 +193,20 @@
 {{-- Left: Feature accordion --}}
 <div class="space-y-2">
     @foreach([
-        ['Search Internships',        'Discover thousands of internship listings filtered by field, location, duration, and company size. Our smart search returns the most relevant results first.', 'https://www.shutterstock.com/image-vector/internship-banner-web-icon-vector-260nw-2142982795.jpg'],
-        ['Save Offers',               'Bookmark your favourite listings and revisit them at any time. Build your personal shortlist with a single click and never lose track of a great opportunity.', 'https://media.licdn.com/dms/image/v2/C4D12AQF3VZ8X4jkt8w/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1588045033207?e=2147483647&v=beta&t=q8QVtAWm0NWXXrZImEJbqKdrskcRmk2k25SOVkqzJY8'],
-        ['Track Applications',        'Stay on top of every application with a real-time status board. Know exactly where you stand at every stage — from submitted to offer received.', 'https://www.notion.com/_next/image?url=https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fpublic.notion-static.com%2Ftemplate%2F3272d5e7-0c5f-4099-a345-957e19c40218%2F1756330456712%2Fdesktop.jpg&w=3840&q=75'],
-        ['Upload CV',                 'Upload your CV once and apply to hundreds of internships instantly. Maintain multiple CV versions and choose the right one per application.', 'https://s3.resume.io/uploads/examples/resume/og_image/26007/persistent-resource/manager-cv-examples.png'],
-        ['Personalized Recommendations','Our AI engine analyses your profile, skills, and preferences to surface the internships most likely to match your career goals — automatically.', 'https://blog.interviewpal.com/content/images/2026/04/internships.jpg'],
-        ['Internship Alerts',         'Set up smart keyword alerts and get notified the moment a new internship matching your criteria is posted. Never miss the right opportunity.', 'https://arts.uj.ac.za/wp-content/uploads/2023/09/WEB-BANNER.png'],
-    ] as $i => [$title, $desc, $imgSrc])
+        ['title' => $t['students']['items'][0]['title'], 'desc' => $t['students']['items'][0]['desc'], 'imgSrc' => 'https://www.shutterstock.com/image-vector/internship-banner-web-icon-vector-260nw-2142982795.jpg'],
+        ['title' => $t['students']['items'][1]['title'], 'desc' => $t['students']['items'][1]['desc'], 'imgSrc' => 'https://media.licdn.com/dms/image/v2/C4D12AQF3VZ8X4jkt8w/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1588045033207?e=2147483647&v=beta&t=q8QVtAWm0NWXXrZImEJbqKdrskcRmk2k25SOVkqzJY8'],
+        ['title' => $t['students']['items'][2]['title'], 'desc' => $t['students']['items'][2]['desc'], 'imgSrc' => 'https://www.notion.com/_next/image?url=https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fpublic.notion-static.com%2Ftemplate%2F3272d5e7-0c5f-4099-a345-957e19c40218%2F1756330456712%2Fdesktop.jpg&w=3840&q=75'],
+        ['title' => $t['students']['items'][3]['title'], 'desc' => $t['students']['items'][3]['desc'], 'imgSrc' => 'https://s3.resume.io/uploads/examples/resume/og_image/26007/persistent-resource/manager-cv-examples.png'],
+        ['title' => $t['students']['items'][4]['title'], 'desc' => $t['students']['items'][4]['desc'], 'imgSrc' => 'https://blog.interviewpal.com/content/images/2026/04/internships.jpg'],
+        ['title' => $t['students']['items'][5]['title'], 'desc' => $t['students']['items'][5]['desc'], 'imgSrc' => 'https://arts.uj.ac.za/wp-content/uploads/2023/09/WEB-BANNER.png'],
+    ] as $i => $item)
     <div class="rounded-2xl border transition-all duration-300 overflow-hidden cursor-pointer"
          :class="active === {{ $i }} ? 'border-[#444444] bg-white shadow-md' : 'border-[#E5E7EB] bg-[#F7F9FA] hover:border-[#00B1AA]/30'"
          x-on:click="active = {{ $i }}">
         <div class="flex items-center justify-between px-5 sm:px-6 py-4 sm:py-5">
             <h3 class="font-bold text-sm sm:text-base"
                 :class="active === {{ $i }} ? 'text-[#444444]' : 'text-[#666666]'">
-                {{ $title }}
+                {{ $item['title'] }}
             </h3>
             <div class="w-6 h-6 rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0 ml-3 transition-all"
                  :class="active === {{ $i }} ? 'text-white' : 'text-[#666666] bg-[#E5E7EB]'"
@@ -171,9 +215,9 @@
             </div>
         </div>
         <div x-show="active === {{ $i }}" x-collapse class="px-5 sm:px-6 pb-5">
-            <p class="text-sm text-[#666666] leading-relaxed mb-4">{{ $desc }}</p>
-            <img src="{{ $imgSrc }}"
-                 alt="{{ $title }}"
+            <p class="text-sm text-[#666666] leading-relaxed mb-4">{{ $item['desc'] }}</p>
+            <img src="{{ $item['imgSrc'] }}"
+                 alt="{{ $item['title'] }}"
                  class="w-full h-40 object-cover rounded-xl"/>
         </div>
     </div>
@@ -205,15 +249,13 @@
                                      alt="Student"
                                      class="w-10 h-10 rounded-full object-cover flex-shrink-0"/>
                                 <div class="flex-1 min-w-0">
-                                    <p class="text-sm font-bold text-[#444444]">Application Sent</p>
-                                    <p class="text-xs text-[#666666] truncate">Google · Software Engineer Intern</p>
+                                    <p class="text-sm font-bold text-[#444444]">{{ $t['students']['preview_label'] }}</p>
+                                    <p class="text-xs text-[#666666] truncate">{{ $t['students']['preview_sub'] }}</p>
                                 </div>
-                                <span class="text-xs font-bold px-3 py-1 rounded-full text-white flex-shrink-0" style="background-color:#00B1AA">
-                                    Active
-                                </span>
+                                <span class="text-xs font-bold px-3 py-1 rounded-full text-white flex-shrink-0" style="background-color:#00B1AA">{{ $t['students']['preview_status'] }}</span>
                             </div>
                             <div class="bg-white/10 rounded-2xl p-4 mt-3">
-                                <p class="text-xs font-semibold text-white mb-2">Suggested for you</p>
+                                <p class="text-xs font-semibold text-white mb-2">{{ $t['students']['suggested'] }}</p>
                                 <div class="space-y-2">
                                     @foreach([
                                         ['https://i.pravatar.cc/40?img=10', 'Data Analyst · Microsoft'],
@@ -248,10 +290,10 @@
                 <div class="absolute top-4 right-1/4 w-3 h-3 rotate-45 border-2 border-orange-300 opacity-60"></div>
                 <span class="inline-block text-xs font-bold uppercase tracking-widest px-4 py-1.5 rounded-full border mb-4"
                       style="color:#00B1AA; border-color:rgba(0,177,170,0.3); background-color:#DDF7F6">
-                    For Companies
+                    {{ $t['companies']['badge'] }}
                 </span>
                 <h2 class="text-3xl sm:text-4xl lg:text-5xl font-black text-[#444444] max-w-3xl mx-auto leading-tight">
-                    Manage your entire hiring process,<br class="hidden sm:block"/>from sourcing to onboarding
+                    {{ $t['companies']['heading'] }}
                 </h2>
             </div>
 
@@ -288,15 +330,10 @@
                             <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT25Gs74GzFbHb6oMhObVZTWWRjZSNu77gxBA&s" alt="platform" class="rounded-xl h-20 w-full object-cover"/>
                         </div>
                     </div>
-                    <p class="text-xs font-bold uppercase tracking-widest mb-2" style="color:#00B1AA">Source &amp; Attract</p>
-                    <h3 class="text-xl sm:text-2xl font-black text-[#444444] mb-3">Post and attract top student talent</h3>
-                    <p class="text-[#666666] text-sm leading-relaxed mb-5">
-                        Create rich listings in minutes. Set requirements, duration, stipend, and deadlines.
-                        Instantly reach thousands of qualified students.
-                    </p>
-                    <a href="#" class="text-xs font-bold uppercase tracking-widest hover:text-[#008A84] transition-colors" style="color:#00B1AA">
-                        Learn More &rarr;
-                    </a>
+                    <p class="text-xs font-bold uppercase tracking-widest mb-2" style="color:#00B1AA">{{ $t['companies']['cards']['source_badge'] }}</p>
+                    <h3 class="text-xl sm:text-2xl font-black text-[#444444] mb-3">{{ $t['companies']['cards']['source_title'] }}</h3>
+                    <p class="text-[#666666] text-sm leading-relaxed mb-5">{{ $t['companies']['cards']['source_desc'] }}</p>
+                    <a href="#" class="text-xs font-bold uppercase tracking-widest hover:text-[#008A84] transition-colors" style="color:#00B1AA">{{ $t['companies']['cards']['source_cta'] }}</a>
                 </div>
 
                 {{-- Card 2: Evaluate & Collaborate --}}
@@ -320,32 +357,27 @@
                         </div>
                         <img src="https://picsum.photos/seed/interview/800/300" alt="Interview UI" class="rounded-xl h-24 w-full object-cover"/>
                     </div>
-                    <p class="text-xs font-bold uppercase tracking-widest mb-2" style="color:#00B1AA">Evaluate &amp; Collaborate</p>
-                    <h3 class="text-xl sm:text-2xl font-black text-[#444444] mb-3">Move the right applicants forward</h3>
-                    <p class="text-[#666666] text-sm leading-relaxed mb-5">
-                        Compare candidates side by side, use AI ranking, schedule interviews, and collaborate
-                        with your team — all in one dashboard.
-                    </p>
-                    <a href="#" class="text-xs font-bold uppercase tracking-widest hover:text-[#008A84] transition-colors" style="color:#00B1AA">
-                        Learn More &rarr;
-                    </a>
+                    <p class="text-xs font-bold uppercase tracking-widest mb-2" style="color:#00B1AA">{{ $t['companies']['cards']['evaluate_badge'] }}</p>
+                    <h3 class="text-xl sm:text-2xl font-black text-[#444444] mb-3">{{ $t['companies']['cards']['evaluate_title'] }}</h3>
+                    <p class="text-[#666666] text-sm leading-relaxed mb-5">{{ $t['companies']['cards']['evaluate_desc'] }}</p>
+                    <a href="#" class="text-xs font-bold uppercase tracking-widest hover:text-[#008A84] transition-colors" style="color:#00B1AA">{{ $t['companies']['cards']['evaluate_cta'] }}</a>
                 </div>
             </div>
 
             {{-- Three-column secondary features --}}
             <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
                 @foreach([
-                    ['Interview Scheduling',        'Source &amp; Schedule', 'Automated interview invitations with calendar sync. Coordinate availability between your team and candidates without email back-and-forth.', 'https://www.barraiser.com/wp-content/uploads/2023/04/untitled-design-1536x864-1.jpg'],
-                    ['Analytics Dashboard',         'Insights &amp; Data',   'Track listing performance, application rates, and conversion metrics. Make data-driven decisions to sharpen your hiring strategy.',         'https://assets.qlik.com/image/upload/w_1720/q_auto/qlik/glossary/dashboard-examples/seo-analytics-dashboards-tactical-dashboards_lbbcaf.png'],
-                    ['Company Profile Management',  'Build Your Brand',       'Showcase your culture, values, and benefits. A compelling employer page helps attract students who are the right cultural fit.',            'https://powerslides.com/wp-content/uploads/2019/10/Management-Team-Profile-3.jpg'],
-                ] as [$ftitle, $flabel, $fdesc, $seed])
+                    ['title' => $t['companies']['secondary'][0]['title'], 'label' => $t['companies']['secondary'][0]['label'], 'desc' => $t['companies']['secondary'][0]['desc'], 'seed' => 'https://www.barraiser.com/wp-content/uploads/2023/04/untitled-design-1536x864-1.jpg'],
+                    ['title' => $t['companies']['secondary'][1]['title'], 'label' => $t['companies']['secondary'][1]['label'], 'desc' => $t['companies']['secondary'][1]['desc'], 'seed' => 'https://assets.qlik.com/image/upload/w_1720/q_auto/qlik/glossary/dashboard-examples/seo-analytics-dashboards-tactical-dashboards_lbbcaf.png'],
+                    ['title' => $t['companies']['secondary'][2]['title'], 'label' => $t['companies']['secondary'][2]['label'], 'desc' => $t['companies']['secondary'][2]['desc'], 'seed' => 'https://powerslides.com/wp-content/uploads/2019/10/Management-Team-Profile-3.jpg'],
+                ] as $item)
                 <div class="bg-white rounded-2xl p-6 border border-[#E5E7EB] hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group">
-                    <img src="{{ $seed }}"
-                         alt="{{ $ftitle }}"
+                    <img src="{{ $item['seed'] }}"
+                         alt="{{ $item['title'] }}"
                          class="w-full h-36 object-cover rounded-xl mb-5 group-hover:scale-105 transition-transform duration-300"/>
-                    <p class="text-xs font-bold uppercase tracking-widest mb-2" style="color:#00B1AA">{!! $flabel !!}</p>
-                    <h4 class="font-black text-[#444444] mb-2">{{ $ftitle }}</h4>
-                    <p class="text-sm text-[#666666] leading-relaxed">{{ $fdesc }}</p>
+                    <p class="text-xs font-bold uppercase tracking-widest mb-2" style="color:#00B1AA">{{ $item['label'] }}</p>
+                    <h4 class="font-black text-[#444444] mb-2">{{ $item['title'] }}</h4>
+                    <p class="text-sm text-[#666666] leading-relaxed">{{ $item['desc'] }}</p>
                 </div>
                 @endforeach
             </div>
@@ -365,27 +397,21 @@
                 <div>
                     <span class="inline-block text-xs font-bold uppercase tracking-widest px-4 py-1.5 rounded-full border mb-6"
                           style="color:#00B1AA; border-color:rgba(0,177,170,0.3); background-color:#DDF7F6">
-                        Admin Panel
+                        {{ $t['admin']['badge'] }}
                     </span>
                     <h2 class="text-3xl sm:text-4xl lg:text-5xl font-black text-[#444444] mb-5 leading-tight">
-                        Full Platform Control at Your Fingertips
+                        {{ $t['admin']['heading'] }}
                     </h2>
                     <p class="text-[#666666] text-base sm:text-lg leading-relaxed mb-10">
-                        Administrators get a powerful command centre to oversee every aspect of the
-                        InterLink ecosystem — users, companies, content, and analytics.
+                        {{ $t['admin']['desc'] }}
                     </p>
 
                     {{-- Stat cards --}}
                     <div class="grid grid-cols-2 gap-4 mb-8">
-                        @foreach([
-                            ['12,450', 'Total Users'],
-                            ['584',    'Companies'],
-                            ['2,310',  'Internships Posted'],
-                            ['98',     'Open Tickets'],
-                        ] as [$val, $label])
+                        @foreach($t['admin']['stats'] as $stat)
                         <div class="rounded-2xl p-5 border border-[#E5E7EB] bg-[#F7F9FA] hover:shadow-md transition-shadow">
-                            <p class="text-2xl sm:text-3xl font-black text-[#444444]">{{ $val }}</p>
-                            <p class="text-sm text-[#666666] font-medium mt-1">{{ $label }}</p>
+                            <p class="text-2xl sm:text-3xl font-black text-[#444444]">{{ $stat['value'] }}</p>
+                            <p class="text-sm text-[#666666] font-medium mt-1">{{ $stat['label'] }}</p>
                             <div class="h-1 rounded-full mt-3 w-12" style="background-color:#00B1AA"></div>
                         </div>
                         @endforeach
@@ -393,7 +419,7 @@
 
                     {{-- Feature list --}}
                     <div class="space-y-2 sm:space-y-3">
-                        @foreach(['User Moderation','Reports Management','Ticket Management','Platform Analytics','Role Permissions','Security Monitoring'] as $feat)
+                        @foreach($t['admin']['features'] as $feat)
                         <div class="flex items-center gap-3 px-4 py-3 rounded-xl border border-[#E5E7EB] bg-[#F7F9FA] hover:border-[#00B1AA]/50 transition-colors">
                             <div class="w-2 h-2 rounded-full flex-shrink-0" style="background-color:#00B1AA"></div>
                             <span class="text-sm font-semibold text-[#444444]">{{ $feat }}</span>
@@ -407,45 +433,39 @@
                     {{-- Activity table --}}
                     <div class="rounded-2xl border border-[#E5E7EB] overflow-hidden shadow-sm bg-white">
                         <div class="px-5 sm:px-6 py-4 border-b border-[#E5E7EB] flex items-center justify-between bg-[#F7F9FA]">
-                            <p class="font-bold text-[#444444] text-sm">Recent Platform Activity</p>
-                            <span class="text-xs font-bold px-3 py-1 rounded-full text-white" style="background-color:#00B1AA">Live</span>
+                            <p class="font-bold text-[#444444] text-sm">{{ $t['admin']['activity']['title'] }}</p>
+                            <span class="text-xs font-bold px-3 py-1 rounded-full text-white" style="background-color:#00B1AA">{{ $t['admin']['activity']['live'] }}</span>
                         </div>
                         <div class="overflow-x-auto">
                             <table class="w-full min-w-[420px]">
                                 <thead>
                                     <tr class="border-b border-[#E5E7EB]">
-                                        <th class="px-4 sm:px-5 py-3 text-left text-xs font-semibold text-[#666666] uppercase tracking-wide">User</th>
-                                        <th class="px-4 sm:px-5 py-3 text-left text-xs font-semibold text-[#666666] uppercase tracking-wide">Action</th>
-                                        <th class="px-4 sm:px-5 py-3 text-left text-xs font-semibold text-[#666666] uppercase tracking-wide">Status</th>
+                                        <th class="px-4 sm:px-5 py-3 text-left text-xs font-semibold text-[#666666] uppercase tracking-wide">{{ $t['admin']['activity']['headers'][0] }}</th>
+                                        <th class="px-4 sm:px-5 py-3 text-left text-xs font-semibold text-[#666666] uppercase tracking-wide">{{ $t['admin']['activity']['headers'][1] }}</th>
+                                        <th class="px-4 sm:px-5 py-3 text-left text-xs font-semibold text-[#666666] uppercase tracking-wide">{{ $t['admin']['activity']['headers'][2] }}</th>
                                     </tr>
                                 </thead>
                                 <tbody class="divide-y divide-[#F7F9FA]">
-                                    @foreach([
-                                        ['Sara K.',    'Applied to Internship',   'Active',   8],
-                                        ['TechCorp',   'Posted New Listing',       'Verified', 9],
-                                        ['Ahmed R.',   'Updated CV',               'Active',   10],
-                                        ['StartupX',   'Scheduled Interview',      'Pending',  11],
-                                        ['Admin',      'Reviewed Report #44',      'Resolved', 12],
-                                    ] as [$uname, $uaction, $ustatus, $img])
+                                    @foreach($t['admin']['activity']['rows'] as $row)
                                     <tr class="hover:bg-[#F7F9FA] transition-colors">
                                         <td class="px-4 sm:px-5 py-3">
                                             <div class="flex items-center gap-2">
-                                                <img src="https://i.pravatar.cc/60?img={{ $img }}"
+                                                <img src="https://i.pravatar.cc/60?img={{ $loop->index + 8 }}"
                                                      alt="avatar"
                                                      class="w-7 h-7 rounded-full object-cover flex-shrink-0"/>
-                                                <span class="text-sm font-medium text-[#444444]">{{ $uname }}</span>
+                                                <span class="text-sm font-medium text-[#444444]">{{ $row['name'] }}</span>
                                             </div>
                                         </td>
-                                        <td class="px-4 sm:px-5 py-3 text-xs text-[#666666]">{{ $uaction }}</td>
+                                        <td class="px-4 sm:px-5 py-3 text-xs text-[#666666]">{{ $row['action'] }}</td>
                                         <td class="px-4 sm:px-5 py-3">
-                                            @if($ustatus === 'Active')
-                                                <span class="text-xs font-semibold px-2 py-1 rounded-full bg-green-50 text-green-600">{{ $ustatus }}</span>
-                                            @elseif($ustatus === 'Pending')
-                                                <span class="text-xs font-semibold px-2 py-1 rounded-full bg-yellow-50 text-yellow-600">{{ $ustatus }}</span>
-                                            @elseif($ustatus === 'Verified')
-                                                <span class="text-xs font-semibold px-2 py-1 rounded-full text-white" style="background-color:#00B1AA">{{ $ustatus }}</span>
+                                            @if($row['status'] === 'Active')
+                                                <span class="text-xs font-semibold px-2 py-1 rounded-full bg-green-50 text-green-600">{{ $row['status'] }}</span>
+                                            @elseif($row['status'] === 'Pending')
+                                                <span class="text-xs font-semibold px-2 py-1 rounded-full bg-yellow-50 text-yellow-600">{{ $row['status'] }}</span>
+                                            @elseif($row['status'] === 'Verified')
+                                                <span class="text-xs font-semibold px-2 py-1 rounded-full text-white" style="background-color:#00B1AA">{{ $row['status'] }}</span>
                                             @else
-                                                <span class="text-xs font-semibold px-2 py-1 rounded-full bg-[#DDF7F6] text-[#008A84]">{{ $ustatus }}</span>
+                                                <span class="text-xs font-semibold px-2 py-1 rounded-full bg-[#DDF7F6] text-[#008A84]">{{ $row['status'] }}</span>
                                             @endif
                                         </td>
                                     </tr>
@@ -490,23 +510,21 @@
                     </div>
                     <span class="inline-block text-xs font-bold uppercase tracking-widest px-4 py-1.5 rounded-full border mb-6"
                           style="color:#00B1AA; border-color:rgba(0,177,170,0.3); background-color:#DDF7F6">
-                        Platform-Wide Features
+                        {{ $t['platform']['badge'] }}
                     </span>
                     <h2 class="text-3xl sm:text-4xl lg:text-5xl font-black text-[#444444] mb-5 leading-tight">
-                        Built for the Modern World
+                        {{ $t['platform']['heading'] }}
                     </h2>
                     <p class="text-[#666666] text-base sm:text-lg leading-relaxed mb-4">
-                        Every feature on InterLink is designed with simplicity, speed, and security in
-                        mind — so everyone can focus on what matters most.
+                        {{ $t['platform']['desc1'] }}
                     </p>
                     <p class="text-[#666666] text-base leading-relaxed mb-10">
-                        From real-time notifications to AI-powered matching, our platform is continuously
-                        updated with the tools professionals expect.
+                        {{ $t['platform']['desc2'] }}
                     </p>
                     <a href="#"
                        class="inline-block text-sm font-bold text-white px-8 py-4 rounded-full hover:shadow-xl hover:-translate-y-0.5 transition-all"
                        style="background-color:#00B1AA">
-                        Explore the Platform
+                        {{ $t['platform']['cta'] }}
                     </a>
                 </div>
 
@@ -519,22 +537,22 @@
                     </div>
                     {{-- AI Match card --}}
                     <div class="absolute top-6 -left-4 sm:-left-6 bg-white rounded-2xl shadow-xl border border-[#E5E7EB] p-4 w-40 sm:w-44">
-                        <p class="text-xs text-[#666666] mb-1">AI Match Score</p>
-                        <p class="text-2xl font-black" style="color:#00B1AA">94%</p>
+                        <p class="text-xs text-[#666666] mb-1">{{ $t['platform']['score'] }}</p>
+                        <p class="text-2xl font-black" style="color:#00B1AA">{{ $t['platform']['score_value'] }}</p>
                         <img src="https://picsum.photos/seed/match/300/120"
                              alt="match"
                              class="w-full h-14 object-cover rounded-xl mt-2"/>
                     </div>
                     {{-- Message card --}}
                     <div class="absolute -bottom-5 -right-4 sm:-right-5 bg-white rounded-2xl shadow-xl border border-[#E5E7EB] p-4">
-                        <p class="text-xs text-[#666666] mb-1">New Message</p>
+                        <p class="text-xs text-[#666666] mb-1">{{ $t['platform']['message'] }}</p>
                         <div class="flex items-center gap-2">
                             <img src="https://i.pravatar.cc/60?img=15"
                                  alt="msg"
                                  class="w-8 h-8 rounded-full object-cover flex-shrink-0"/>
                             <div>
-                                <p class="text-xs font-bold text-[#444444]">TechCorp replied</p>
-                                <p class="text-xs text-[#666666]">Interview confirmed</p>
+                                <p class="text-xs font-bold text-[#444444]">{{ $t['platform']['reply'] }}</p>
+                                <p class="text-xs text-[#666666]">{{ $t['platform']['confirm'] }}</p>
                             </div>
                         </div>
                     </div>
@@ -545,19 +563,19 @@
             {{-- 6-feature grid --}}
             <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
                 @foreach([
-                    ['Real-time Notifications', 'https://timesinternet.in/blog/wp-content/uploads/2020/07/real-time-personalized-push-notifications.jpg',  'Instant alerts for new applications, messages, status updates, and deadlines — delivered across all devices the moment they happen.'],
-                    ['Messaging System',         'https://5.imimg.com/data5/JE/CT/QJ/GLADMIN-63163868/infobizzs-product-classpie-2-500x500.jpg',    'A built-in chat interface so students and recruiters can communicate without ever leaving the platform. Full message history included.'],
-                    ['AI Recommendations',       'https://lh7-us.googleusercontent.com/c0Y_9vCPlaHCm8Nwrf8IwpQHYzeZyJKk5oH-H13VJMC7tRWouHvKKBeBhejFX2f-CkRW4_ZQBL8oynUHVp41XYq-p0Ez0ltEs8homDanov5uIR-VR-qZoBpKBfCZqRbjKct7enrwJbLpt7klARaD08E',     'Machine learning models continuously improve suggestions for both students and companies based on behaviour and outcomes.'],
-                    ['Secure Authentication',    'https://informationage-production.s3.amazonaws.com/uploads/2022/10/what-to-know-about-user-authentication-cyber-security.jpeg', 'Two-factor authentication, OAuth login, and session management to protect every account on the platform.'],
-                    ['Responsive Interface',     'https://studio.uxpincdn.com/studio/wp-content/uploads/2022/01/Responsive-design-best-practices-1024x512.png.webp',   'Optimised for all screen sizes. Use InterLink seamlessly on mobile, tablet, or desktop with a consistent experience.'],
-                    ['Multi-role Access',        'https://t3.ftcdn.net/jpg/20/16/93/26/360_F_2016932689_A6OMjCe2WRWlJHJWTpUmE7VaBTfRBR7Q.jpg',  'One platform, three distinct experiences — Student, Company, and Admin — each tailored to the exact needs of that role.'],
-                ] as [$ftitle, $seed, $fdesc])
+                    ['title' => $t['platform']['cards'][0]['title'], 'seed' => 'https://timesinternet.in/blog/wp-content/uploads/2020/07/real-time-personalized-push-notifications.jpg', 'desc' => $t['platform']['cards'][0]['desc']],
+                    ['title' => $t['platform']['cards'][1]['title'], 'seed' => 'https://5.imimg.com/data5/JE/CT/QJ/GLADMIN-63163868/infobizzs-product-classpie-2-500x500.jpg', 'desc' => $t['platform']['cards'][1]['desc']],
+                    ['title' => $t['platform']['cards'][2]['title'], 'seed' => 'https://lh7-us.googleusercontent.com/c0Y_9vCPlaHCm8Nwrf8IwpQHYzeZyJKk5oH-H13VJMC7tRWouHvKKBeBhejFX2f-CkRW4_ZQBL8oynUHVp41XYq-p0Ez0ltEs8homDanov5uIR-VR-qZoBpKBfCZqRbjKct7enrwJbLpt7klARaD08E', 'desc' => $t['platform']['cards'][2]['desc']],
+                    ['title' => $t['platform']['cards'][3]['title'], 'seed' => 'https://informationage-production.s3.amazonaws.com/uploads/2022/10/what-to-know-about-user-authentication-cyber-security.jpeg', 'desc' => $t['platform']['cards'][3]['desc']],
+                    ['title' => $t['platform']['cards'][4]['title'], 'seed' => 'https://studio.uxpincdn.com/studio/wp-content/uploads/2022/01/Responsive-design-best-practices-1024x512.png.webp', 'desc' => $t['platform']['cards'][4]['desc']],
+                    ['title' => $t['platform']['cards'][5]['title'], 'seed' => 'https://t3.ftcdn.net/jpg/20/16/93/26/360_F_2016932689_A6OMjCe2WRWlJHJWTpUmE7VaBTfRBR7Q.jpg', 'desc' => $t['platform']['cards'][5]['desc']],
+                ] as $item)
                 <div class="bg-white rounded-2xl p-6 border border-[#E5E7EB] hover:shadow-md hover:-translate-y-1 transition-all duration-300 group">
-                    <img src="{{ $seed }}"
-                         alt="{{ $ftitle }}"
+                    <img src="{{ $item['seed'] }}"
+                         alt="{{ $item['title'] }}"
                          class="w-full h-32 object-cover rounded-xl mb-5 group-hover:scale-105 transition-transform duration-300"/>
-                    <h4 class="font-black text-[#444444] mb-2">{{ $ftitle }}</h4>
-                    <p class="text-sm text-[#666666] leading-relaxed">{{ $fdesc }}</p>
+                    <h4 class="font-black text-[#444444] mb-2">{{ $item['title'] }}</h4>
+                    <p class="text-sm text-[#666666] leading-relaxed">{{ $item['desc'] }}</p>
                 </div>
                 @endforeach
             </div>
@@ -574,12 +592,10 @@
             <div class="text-center mb-14 sm:mb-16">
                 <span class="inline-block text-xs font-bold uppercase tracking-widest px-4 py-1.5 rounded-full border mb-4"
                       style="color:#00B1AA; border-color:rgba(0,177,170,0.3); background-color:#DDF7F6">
-                    Beautiful by Design
+                    {{ $t['showcase']['badge'] }}
                 </span>
-                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-black text-[#444444] mb-4">See It in Action</h2>
-                <p class="text-[#666666] max-w-xl mx-auto">
-                    A platform that looks as good as it performs — across every device and screen size.
-                </p>
+                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-black text-[#444444] mb-4">{{ $t['showcase']['heading'] }}</h2>
+                <p class="text-[#666666] max-w-xl mx-auto">{{ $t['showcase']['desc'] }}</p>
             </div>
 
             {{-- Desktop browser frame --}}
@@ -608,7 +624,7 @@
                                  class="w-full h-48 sm:h-60 object-cover"/>
                         </div>
                     </div>
-                    <p class="text-center text-sm text-[#666666] font-medium mt-4">Tablet — Student Dashboard</p>
+                    <p class="text-center text-sm text-[#666666] font-medium mt-4">{{ $t['showcase']['tablet'] }}</p>
                 </div>
                 {{-- Mobile --}}
                 <div class="md:col-span-2 flex flex-col items-center">
@@ -619,24 +635,24 @@
                                  class="w-full h-60 sm:h-72 object-cover"/>
                         </div>
                     </div>
-                    <p class="text-center text-sm text-[#666666] font-medium mt-4">Mobile — Job Search</p>
+                    <p class="text-center text-sm text-[#666666] font-medium mt-4">{{ $t['showcase']['mobile'] }}</p>
                 </div>
             </div>
 
       {{-- Screenshot gallery --}}
 <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-5">
     @foreach([
-        ['Student Dashboard', 'images/site photos/student-dash.png'],
-        ['Company Hub', 'images/site photos/company-dash.png'],
-        ['Admin Panel', 'images/site photos/admin-dash.png']
-    ] as [$label, $imgPath])
+        ['label' => $t['showcase']['gallery'][0], 'imgPath' => 'images/site photos/student-dash.png'],
+        ['label' => $t['showcase']['gallery'][1], 'imgPath' => 'images/site photos/company-dash.png'],
+        ['label' => $t['showcase']['gallery'][2], 'imgPath' => 'images/site photos/admin-dash.png'],
+    ] as $item)
     <div class="relative rounded-2xl overflow-hidden shadow-lg group">
-        <img src="{{ asset($imgPath) }}"
-             alt="{{ $label }}"
+        <img src="{{ asset($item['imgPath']) }}"
+             alt="{{ $item['label'] }}"
              class="w-full h-44 sm:h-52 object-cover group-hover:scale-105 transition-transform duration-500"/>
         <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent flex items-end p-5">
             <div class="backdrop-blur-sm bg-white/10 rounded-xl px-4 py-2 border border-white/20">
-                <p class="text-white font-bold text-sm">{{ $label }}</p>
+                <p class="text-white font-bold text-sm">{{ $item['label'] }}</p>
             </div>
         </div>
     </div>
@@ -655,12 +671,10 @@
             <div class="text-center mb-14 sm:mb-16">
                 <span class="inline-block text-xs font-bold uppercase tracking-widest px-4 py-1.5 rounded-full border mb-4"
                       style="color:#00B1AA; border-color:rgba(0,177,170,0.3); background-color:#DDF7F6">
-                    Simple Process
+                    {{ $t['how']['badge'] }}
                 </span>
-                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-black text-[#444444] mb-4">How InterLink Works</h2>
-                <p class="text-[#666666] max-w-xl mx-auto">
-                    Three easy steps for students and companies to get started on InterLink.
-                </p>
+                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-black text-[#444444] mb-4">{{ $t['how']['heading'] }}</h2>
+                <p class="text-[#666666] max-w-xl mx-auto">{{ $t['how']['desc'] }}</p>
             </div>
 
             <div class="grid lg:grid-cols-2 gap-12 lg:gap-16">
@@ -669,13 +683,9 @@
                 <div>
                     <div class="flex items-center gap-3 mb-8 pb-5 border-b border-[#E5E7EB]">
                         <img src="https://img.magnific.com/free-photo/young-student-woman-wearing-denim-jacket-eyeglasses-holding-colorful-folders-showing-thumb-up-pink_176532-13861.jpg?semt=ais_hybrid&w=740&q=80" alt="Student" class="w-10 h-10 rounded-full object-cover"/>
-                        <h3 class="text-xl sm:text-2xl font-black text-[#444444]">For Students</h3>
+                        <h3 class="text-xl sm:text-2xl font-black text-[#444444]">{{ $t['how']['students'] }}</h3>
                     </div>
-                    @foreach([
-                        ['Create Your Profile',   'Sign up, fill in your skills, education, and career goals. Upload your CV and let your profile do the talking.',                           'step1'],
-                        ['Apply to Internships',  'Browse curated listings or follow AI recommendations. Apply in seconds using your saved profile — no forms to refill.',                    'step2'],
-                        ['Get Hired',             'Track your applications, attend interviews, and receive your offer — all managed within InterLink.',                                        'step3'],
-                    ] as $i => [$stitle, $sdesc, $seed])
+                    @foreach($t['how']['student_steps'] as $i => $step)
                     <div class="flex gap-5 relative pt-10 ">
                         <div class="flex flex-col items-center">
                             <div class="w-10 sm:w-11 h-10 sm:h-11 rounded-full flex items-center justify-center font-black text-white text-sm flex-shrink-0 z-10"
@@ -687,9 +697,8 @@
                             @endif
                         </div>
                         <div class="pb-8 flex-1">
-                            <h4 class="text-base sm:text-lg font-bold text-[#444444] mb-1">{{ $stitle }}</h4>
-                            <p class="text-sm text-[#666666] leading-relaxed mb-3">{{ $sdesc }}</p>
-                
+                            <h4 class="text-base sm:text-lg font-bold text-[#444444] mb-1">{{ $step['title'] }}</h4>
+                            <p class="text-sm text-[#666666] leading-relaxed mb-3">{{ $step['desc'] }}</p>
                         </div>
                     </div>
                     @endforeach
@@ -699,13 +708,9 @@
                 <div>
                     <div class="flex items-center gap-3 mb-8 pb-5 border-b border-[#E5E7EB]">
                         <img src="https://img.freepik.com/free-photo/low-angle-view-skyscrapers_1359-1105.jpg?semt=ais_hybrid&w=740&q=80" alt="Company" class="w-10 h-10 rounded-full object-cover"/>
-                        <h3 class="text-xl sm:text-2xl font-black text-[#444444]">For Companies</h3>
+                        <h3 class="text-xl sm:text-2xl font-black text-[#444444]">{{ $t['how']['companies'] }}</h3>
                     </div>
-                    @foreach([
-                        ['Post Opportunities', 'Create a company profile and publish internship listings in under five minutes. Reach thousands of qualified students instantly.',        'cstep1'],
-                        ['Review Applicants',  'Use smart filters and AI ranking to identify the best candidates. Access CVs and portfolios side by side with your team.',             'cstep2'],
-                        ['Hire Talent',        'Schedule interviews, send offer letters, and onboard your new interns — all from one central dashboard.',                              'cstep3'],
-                    ] as $i => [$stitle, $sdesc, $seed])
+                    @foreach($t['how']['company_steps'] as $i => $step)
                     <div class="flex gap-5 relative pt-10 ">
                         <div class="flex flex-col items-center">
                             <div class="w-10 sm:w-11 h-10 sm:h-11 rounded-full flex items-center justify-center font-black text-white text-sm flex-shrink-0 z-10"
@@ -717,9 +722,8 @@
                             @endif
                         </div>
                         <div class="pb-8 flex-1">
-                            <h4 class="text-base sm:text-lg font-bold text-[#444444] mb-1">{{ $stitle }}</h4>
-                            <p class="text-sm text-[#666666] leading-relaxed mb-3">{{ $sdesc }}</p>
-              
+                            <h4 class="text-base sm:text-lg font-bold text-[#444444] mb-1">{{ $step['title'] }}</h4>
+                            <p class="text-sm text-[#666666] leading-relaxed mb-3">{{ $step['desc'] }}</p>
                         </div>
                     </div>
                     @endforeach
@@ -741,34 +745,28 @@
                 <div>
                     <span class="inline-block text-xs font-bold uppercase tracking-widest px-4 py-1.5 rounded-full border mb-6"
                           style="color:#00B1AA; border-color:rgba(0,177,170,0.3); background-color:#DDF7F6">
-                        Security &amp; Trust
+                        {{ $t['security']['badge'] }}
                     </span>
                     <h2 class="text-3xl sm:text-4xl lg:text-5xl font-black text-[#444444] mb-5 leading-tight">
-                        Your Data is Safe With Us
+                        {{ $t['security']['heading'] }}
                     </h2>
                     <p class="text-[#666666] text-base sm:text-lg leading-relaxed mb-10">
-                        InterLink is built on enterprise-grade infrastructure with multiple layers of
-                        protection — so students and companies can focus on connecting, not security.
+                        {{ $t['security']['desc'] }}
                     </p>
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        @foreach([
-                            ['Secure Authentication',    'Multi-factor authentication and OAuth 2.0 login protect every account.'],
-                            ['Data Protection',          'All personal data encrypted at rest and in transit using AES-256.'],
-                            ['Encrypted Communication',  'End-to-end encrypted messaging keeps private conversations private.'],
-                            ['Verified Companies',       'Every company goes through manual verification before going live.'],
-                        ] as [$ftitle, $fdesc])
+                        @foreach($t['security']['items'] as $item)
                         <div class="rounded-2xl p-5 border border-[#E5E7EB] bg-[#F7F9FA] hover:shadow-md transition-shadow">
                             <div class="w-8 h-8 rounded-lg mb-3" style="background-color:#DDF7F6"></div>
-                            <h4 class="font-bold text-[#444444] mb-1 text-sm">{{ $ftitle }}</h4>
-                            <p class="text-xs text-[#666666] leading-relaxed">{{ $fdesc }}</p>
+                            <h4 class="font-bold text-[#444444] mb-1 text-sm">{{ $item['title'] }}</h4>
+                            <p class="text-xs text-[#666666] leading-relaxed">{{ $item['desc'] }}</p>
                         </div>
                         @endforeach
                     </div>
 
                     {{-- Trust badges --}}
                     <div class="flex flex-wrap gap-3 mt-8">
-                        @foreach(['GDPR Compliant','ISO 27001','SOC 2 Type II','256-bit SSL'] as $badge)
+                        @foreach($t['security']['badges'] as $badge)
                         <span class="text-xs font-bold px-4 py-2 rounded-full border border-[#E5E7EB] text-[#444444] bg-white shadow-sm">
                             {{ $badge }}
                         </span>
@@ -784,8 +782,8 @@
                              class="w-full h-64 sm:h-80 object-cover"/>
                     </div>
                     <div class="absolute bottom-6 left-4 sm:left-6 right-4 sm:right-6 bg-white/80 backdrop-blur rounded-2xl p-4 sm:p-5 border border-white shadow-lg">
-                        <p class="font-black text-[#444444] mb-1 text-sm sm:text-base">Bank-grade encryption on every request</p>
-                        <p class="text-xs sm:text-sm text-[#666666]">All data transmitted through InterLink is protected end-to-end.</p>
+                        <p class="font-black text-[#444444] mb-1 text-sm sm:text-base">{{ $t['security']['trust_box']['title'] }}</p>
+                        <p class="text-xs sm:text-sm text-[#666666]">{{ $t['security']['trust_box']['desc'] }}</p>
                     </div>
                     <div class="grid grid-cols-2 gap-3 mt-4">
                         <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxISEhUQEBAVFRUVDxUVDxAVDxUQEBUPFRUWFhUVFRUYHSggGBolHRUVITEhJSkrLi4uFx8zODMtNygtLisBCgoKDg0OFxAQGi0dHR0tLS0tLS0tLS0tLS0tLS0tLS0rLSstLS0tLS0rLS0tLS0tLS0tKy0tNys3LTctLSstN//AABEIAKgBLAMBIgACEQEDEQH/xAAcAAACAwEBAQEAAAAAAAAAAAACAwABBAUGBwj/xAA+EAACAQIDBAcGAwYGAwAAAAABAgADEQQSIQUxQVETYXGBkaGxBgciMkLBUnLRFGKCkqLhFSMzQ4PwRJOy/8QAGQEAAwEBAQAAAAAAAAAAAAAAAAECAwQF/8QAIREBAQEBAAMBAQADAQEAAAAAAAERAhIhMQNBIlGBYRP/2gAMAwEAAhEDEQA/APpTRZMotFs09KRw2oxinaExiXMqRNA7TPUaMdoh2mkiKRUaZqjR7mZahlxFIczM5j3md40kPENGuYpoiJeLaMaKMRgMWTDaLMRqMoy4JMQijKkMqI1GVLJlQCGVLlQCSpZlQCSSSiYjQmVJJEElSzKgFGVLkiCjKlyjA1SjLlGAfbyYsmWWi2MMaWqYxTmWzRLtLkTQsZnqGMdpncy4ml1DM1SOqGZnMaKS5mdzHsZnqRkS5iHMc8SwiIljFsY1hFMIqZbQDGEQGERhgGHCo4dnbKilmO4AXiEKmqngTa7nKDuH1Hu4ds61HY4pDNUqUg3ANUDEfwLreYcRi6K3vVdzxIpad1zD0fsAoKNy+PxGRjw+0yvtSlwLd6W+8KhtGkfq14X0hsLK1qttW7haZ6uU70Hd8PpI9a+t798zVHjuBHpD6T3H9YlhbfBd4sYjgdR590i1WGwTCFjqN3/d8oiAVJLIlRUKkklGIJJJKgEkvIYMDSVJJA32cvFsZCYtjLkNTGKYwmMW0qJoHMQ5jHMS5jTSmMzuY5zM7GUkp4h454l4Ahopo1otoiJYRbCOMBojJaARGlY2jTQK1Wr/AKabxuLudyD78hF8OBp4VQnS12yU76G13cjgg++6craftUwBpYZeiTjl+dut33tMm2NvVK7WqH4NyKNyKN2QcLfrOHWQg2PceBHMTn77/wBNueRVcSzbz46xOc85LSrTJri+lb8R8TCXFuPrPjAWkSbAXlPTI0Ii9l6+OvszbzLdanxKeYE3f4jTc/BcDheeWIjEcqZc/TpN/OfY9K7xDtMuExWYWM0mabqMxdGuVPVxE39Y3cJzDNWCqfSe0feVL/E9RpgmEZVpRBlGFKMkKMqWYJgapJUowC5Rkkgb7CxgFpRgNNBVMYtjDMQxlJCxiHMaxiWjKlPFPGPFNGkpop41opoAlopo5ophERbCXSoM5siknqE7ex9gtV/zKnwUxqSdCQJo2hi6YHRUFAUb24tJ33kVnra4P+HPe3w33WzDf3Tz/tTjhcUEPw09Opqn1t3nyE9Y1YU1aowNlQkAEA5jotidN5nzzF1KTMT8e/iVP6SP0vrFcfWBoS1WGgOnjG5KZ+th2oD6GV0K8Kg70YTnxvsLNY8lPagldJzRfAiNGG5VE/mI9RPTezvsbVxALZGK/SV3E9sclqb1I5Gxa9MMcwC33G5t2a7ojb9RGcZCDYakc7zr7e9jcVhyT0Lslrhgua3baeYqL1W59sd7/wAfFM4/y8gYewcX3X1m7H5Mup7LWJmAiCRIlyY0vO3TaJUG+Zh/CD951KTg7jcc7WnGtNuz6mto+eh1HQKwqehB5GWJMs1xk3mCZdLVRqN1tTbWaRgGIuCv8wloY5U0VMG4+m/ZrM5ispqMFoRgtEYJJcqBpKlmCTAn11jAJlkwGM1AWaKaEximMpNCxi2lsYtjAgMYpzDYxTGMgMYDQzKRLm17DiTuAG8mABSoM5yqLnf1AcyeAjBtLBYY3qN09QfQluiU9bHeZ5vb3tBcGjQOWmDqdzVDzbq5CeYqVCd5mHfbTnl9C2l7whUGXoAF5B2HoZzF9pUJ+TKO2/rPGXl3kT9LPi7xr2+29rU3w1kYXZwCv1WGt54pxLVp67B+y9N6IYsc7IGBFsoJFwLR3e0dd8/l9eNkm6vs6oDbITblr6TO2Gcb0b+Q/pM8rXyj2Xu39l1xDHEVhenTICodz1Nd/UNPGfSNr+0WHwKjpXAuPhpKAWIH7vAdc53u5o5cDS0sS7ltLa5yPtPlntni2q4ysXO6oVUHgqmwA8Jhnl17b7OeY+n4H3g4Os2Uu1Mk2BqKAmv7wJt3zL7aexdLFIa2HVVrBcwy2yVRYmxt9XIz49Pq/uq2w9Sk+HckmlZqZO8U2NiL8r+sOufH3BOvL1XyWtSKkqwsQSCDobjfFET2nvQ2cKWMLqLCqgqW4ZySG8xPHES5dms7PeFEQ6BsZREg0jDu020vFOxY2EyftYAtNNHaNNR8rX4nMLeFpr5RllbMPg7kX3Lv6zOoHP6TlUdspuI8JsTFI25u6ac2fxn1L/T3rEcfOZ6uIB+YX6+PjAqvMdV470JGojiDcc4szNSxGU9XETSeru7JO6rAyjLlGBKlXkMqBvrTNFsZbGATNkhcxbGExiiY02haKaMaJYxkBoDGExizAKJnO9ocUtOl0ZJVn3/D/tgdt9TPQYqu1JadNGKno+kqEGxzVDcAnfotvGeB9rcQWrG5JsoFybmZddf46rme8cdwpN8/ih+0Dox+Nf6h9ou8ozntb47KbLQpvOa3zX0v2cpx45cZUC5A2m7cL27YmPqy/C5lm6sGdbD7erInRq+lrA2uwHIHlORLEUtnwdczr6Njx856f2C2GcXWId2FOmoaplYgm50Xf59U8vPo3uef4sQP3KZ/qMnu2RXHM19GwWHWkgp0xlUfKtyRvvfWc3FezeFqEs9EEkksbm5J3zsIhOghVKRG+c86rp8Zfry1b2FwTf7ZHZl/Sa9gezNDBuz0b/GuUggDS9+E6FDadB3NNKyM43oHBbwmuO9df2lOOf5HjPeH7NvigtakgY06ZDIHKuVuSSvA9k+P4qiVNuB+U9XXyI5T9Jz4l7wKKUsdWS1kYq5AHysygkr33l/n1vqs/wBOc9x5JoBjqyFTY9x4EcxEtLqAmCYRgGJSs0ZSxBHGJJlExS4eO5hsdm0MYxnAp1LGdfD1biac9ay65wwzXgiWGUcNRrbSY43DH4hLn1N+NjqRvFosxq1CNx7uHhLFe3AdoFj4y0eyQpO4HwhdE3L7Sy9/rPff1EKng2YXFvEQGvp5MAmRjAYzYlOYpjG06bOQqgkncALmDXw7obOjA8AVMexOEMYpjNP7JUO5G7SMo8TFthCNWqU16i+Y+C3h5QYzMYeEodJUVPxMAfy728rwzSpDfVJ6lpH1YiFQxdOmSURiSjLdnAtmFiQFGh74rfXoRmxuI6So782NhyXco8AJ4b2mX/ObrsfKe7OKA+WlTHaC5/qNvKeV9saRYrV03ZTZQo03aASO98cVxfby027Iy9J8Vt3w33XmC8q85pcrazZjs7YWndbmzcbKDcdes5/Rpwq+KH7TNeVeO9bSnNkzWroRwqJ35l+0IYY8GQ9lRfvMeaTNFsVlbf2Sp+G/Yyn0M997o6TrWrhlIvRXhyf+8+aZp9C90Iy4ipc6thzlXjYMupHCT375p875R9coHLqfSJ2uDVpvTQ2ZkZVbdZiCBLznnJnM59dPi+D4PZuKTFLTWm4qrUBAsbjW2a/Lrn3cde/j28ZxxhW/xBqwBynBhSbaZg/A9k68rvrU8TNXPjPvVFsceujTPqPtPst58d97otjFPPDp6sIcfR+nx4wVyBbTqBAPrAatzVf5YotBZpraxkGzj8I8SIJZeR8YomVeLTwbEdflF6cz4SiYJMShd82bPbW1x3m0wGbNmWza84+fpdfHUjKHzCLbeR1zRhLj4hoeE3jC/DTKvDNXmo7R8J8pV16/KWgsyxVI0BI77Sy6/h8TeV0vUP5REb6sVTi5P5V+5MHNTH0Me17eQH3izBab4jTqGPam2amqqedi2nEEkzTj9vvUTJlCm4+JSb6a6TltFNF4c27g8r8DUYneSe03iTGnq17IX7HUOuRu8ZfMytiWUwGmpsLb5qlNf+TMfBbwWSkN9Un8tP7sRDRjJEYugtRCjbiPPgZuarRG6m7dbVLDwUQf20D5aVMdqlz/AFEyd0PnG0MK1JyjDduPMc5jvPoe2KAxKgVN4ByEKFy9wG6eG2ps6pROouvBxqD+k5v04vPt0cdy+mQtBLzK9aB00x8m05bM8meY+mjUrBdTqeA4DrMJ0Ly3IQgzMLneqH1b9J6T3fbep4bFNWxDkK1JlLAFviJUi4HZPFNXubk68TJ0sL1vopznt+hKXtzs9v8AyVH5lZftNtH2mwTfLi6P/tUes/NwrS+n65n4xr51+naW0aLfLWpnsqqfvNAcHcb9hBn5aGII3GOp7Sqr8tVx2VGHoYvEeT9QT5D75EH7VSNwL4Yc+DtPE0fabFp8uKrD/mc+pmfae2a2IIbEVWqFRZSxuQN9rxyZR1dmAI6x4wCD1eIiC8otL1EhpB5S1p3F5nzQ1rWi2DKjGVmlM/G8HpDA13jsK2u+Z8/UPCdHY2FNWoEUC5uSSbAKBckmHPul16jrUKZP3muwGgjxQQD/AFV/hBb7Sj0Y4se4L+s65McvlrPKMaai8EHexPpK6Y8AB2KIFpQUncD4SzSb8J8JGqE7yfGLJiN9aelzdRz1v/8AIMU3Rje7H8qfdjM5eRcO7bkbwNvGb/8AUGmrTG5GP5nt6CKbGW+VEH8JY/1EwThiPmZV7XBPgLwGpoN9XuVCfM2h6HtVTH1PxkdnwjytMlSpfeSe25j2NIfS57WCjyBimxKj5aSfxXc+ZtD/AIWEZp3dj7AeupYELY/UCLn9JxhtCpwbL+VQnoJpwu1HQ5hUa/PMZPXlnoev6HbOzXoNlcbxcEagjqM5LVJ0NqbTesb1HLEDS/AdU5rYZ2+VGPYpt4wluexjNicbacHaO02NwJ08bg3HzFV/NUUHwBJnHrYZONUfwozeZsJn3avnHmMYjE3tbsFpnekwOs9TSwlMkk5iFBZibKLcB3mw75hrKCScguTc3JOs5uvz/rq5/X+OFdhKzNOq9I8gOwARLUDM7xWk7n+mAVDL6YzScPANDqk5VeUJ6aTpppXAsRcDSKbCniLR+PULeQdLLFWUaHWIJpRezyG9JJ0kSaRglItp5GjPJmmexlaw8h4xpzys0z3Mu8PIeLQGl3mXNLzGPR4tBcCFRxBFyDbS2htvmSMUwlF5jdTxjj6jNKbTbnOYpjF+8ud1neI7FPaUeuOnENIiWlQy/Os7xHocNWDMATa/GbGw3Jh3zzSVI8V25nxmnPcZ3ivs7Yt+DW/KAvpaZ6jk7yT2m8a9Jhra45j4h4iIYzsyOfQNAYwmi2MeEBopoxjFExAtjymzGstJzTWmpK2DM12u9hm0vYa38JWylBqqT8q3dvyoM32A75gq1CxLHeSSe06mTfoPbH1PpIX8qKnmBMmJrM3zMx7WJnp8DU2dUpBaiim4WzEkhs34gw3zz+KrUlZhTphgGIV3ZjmW+hsLASZf/A4GLSYf2Zm+VSewE+k7mIxjfSqL+Wkt/EgmY8euIAzVBVAPFgwX9JPUXLYxYul0dMU9zOc9UcQBpTU8uLd4nONObHX/AL1xRWR005ZTSgNSmsrBKSMVrCaUA0ptZIDLJvKpWelUZNBu5HURFcFjc/2mspBZIU56YDSgGlN7JAZJF5VOmE05FUX1E1tTgGnFitJq0l4HuiSnVNJpwckLNErKVglJu6PnrGdAhG+3fJ8NPzxzMkrJNRSDki8V+RAWWFjxTlhIYXkUohgRopw1px+KfItSectRHLThdHKxOhQDs840DrEoLDyysS+xZyNxI6wbSNX/ABAHrtZvEf3kknpY4gMEO5ip/eGYeI/SKqUGAzAXH4lOYeW7vkkk6GVmimMkkA9LsnaWGan0T0LNkyuUolsw4/Evxa2nncZgiGbKMq5jk6R1RsvC4JveXJM8y+iZjRUfNVTsUM58gB5wG6LnUPYFpj1aSSUbPVxCD5aQ01BZ2c356WHDlOifa52QpVoo9wQTcgG/NTLkkU//AJ89fXkWWLYSSSWsDaCRJJJpiTCO2qox68pt4wWwhHzMg6i4J8rySR+MxM6u4WaSDe9/yoT5m0A5OTHtYKPIGVJM7fbWT0Fqg4Ivfc+p+0Bqp7OoAAekkkWiQBIO9R2jT+0E0hwPjpJJAwtQ5sPWB0a8yewASSSb6GupSxNErldOH4QfPgZyKyC5tuvpztJJH11sg/PnLSujkySSSGg0oE7gT3Q/2fmQO0ySSpzMRerolw54WPYZMsqSA0WWWFkkgFqvKM6BuR9PWSSVJpWv/9k="
@@ -811,12 +809,12 @@
             <div class="text-center mb-14 sm:mb-16">
                 <span class="inline-block text-xs font-bold uppercase tracking-widest px-4 py-1.5 rounded-full border mb-4"
                       style="color:#00B1AA; border-color:rgba(0,177,170,0.3); background-color:#DDF7F6">
-                    Testimonials
+                    {{ $t['testimonials']['badge'] }}
                 </span>
                 <h2 class="text-3xl sm:text-4xl lg:text-5xl font-black text-[#444444] mb-4">
-                    Loved by Students, Recruiters &amp; Universities
+                    {{ $t['testimonials']['heading'] }}
                 </h2>
-                <p class="text-[#666666] max-w-xl mx-auto">Real stories from people who found success through InterLink.</p>
+                    <p class="text-[#666666] max-w-xl mx-auto">{{ $t['testimonials']['desc'] }}</p>
             </div>
 
             {{-- Featured testimonial --}}
@@ -836,13 +834,11 @@
                     {{-- Dark card —using #444444 charcoal instead of navy --}}
                     <div class="rounded-2xl p-8 lg:pl-20 flex flex-col justify-center flex-1 shadow-xl" style="background-color:#444444">
                         <p class="text-white text-xl sm:text-2xl lg:text-3xl font-light leading-relaxed mb-8 italic">
-                            "InterLink transformed the way I approach internship hunting. The AI recommendations
-                            pointed me straight to companies that matched my skills. I landed my dream role within
-                            three weeks and received an offer that exceeded my expectations."
+                            {{ $t['testimonials']['quote'] }}
                         </p>
                         <div>
-                            <p class="text-white font-bold">Sara Amrani</p>
-                            <p class="text-white/60 text-sm mt-1">Computer Science Student, Mohammed V University</p>
+                            <p class="text-white font-bold">{{ $t['testimonials']['author'] }}</p>
+                            <p class="text-white/60 text-sm mt-1">{{ $t['testimonials']['role'] }}</p>
                         </div>
                     </div>
                 </div>
@@ -890,16 +886,14 @@
                 <div class="lg:col-span-2 lg:sticky lg:top-28">
                     <span class="inline-block text-xs font-bold uppercase tracking-widest px-4 py-1.5 rounded-full border mb-4"
                           style="color:#00B1AA; border-color:rgba(0,177,170,0.3); background-color:#DDF7F6">
-                        FAQ
+                        {{ $t['faq']['badge'] }}
                     </span>
-                    <h2 class="text-2xl sm:text-3xl font-black text-[#444444] mb-4">Frequently Asked Questions</h2>
-                    <p class="text-[#666666] text-sm leading-relaxed mb-6">
-                        Can't find what you're looking for? Reach out to our support team anytime.
-                    </p>
+                    <h2 class="text-2xl sm:text-3xl font-black text-[#444444] mb-4">{{ $t['faq']['heading'] }}</h2>
+                    <p class="text-[#666666] text-sm leading-relaxed mb-6">{{ $t['faq']['desc'] }}</p>
                     <a href="#"
                        class="inline-block text-sm font-bold text-white px-6 py-3 rounded-full hover:shadow-lg hover:opacity-90 transition-all"
                        style="background-color:#00B1AA">
-                        Contact Support
+                        {{ $t['faq']['cta'] }}
                     </a>
                     <div class="mt-6 rounded-2xl overflow-hidden shadow-sm">
                         <img src="{{ asset('images/site photos/student-dash.png') }}"
@@ -910,18 +904,11 @@
 
                 {{-- Right: accordion --}}
                 <div class="lg:col-span-3 space-y-3" x-data="{ open: null }">
-                    @foreach([
-                        ['How do students apply for internships?',    'Students create a free profile, upload their CV, and browse available listings. With one click they submit an application using their saved profile. Our AI also surfaces relevant listings automatically based on skills and interests.'],
-                        ['How do companies recruit through InterLink?','Companies register, verify their organisation, and post internship listings. They then review incoming applications through a candidate management dashboard, use filters to shortlist talent, and schedule interviews — all in one place.'],
-                        ['Is InterLink free to use for students?',     'Yes — InterLink is completely free for students. Create a profile, search listings, apply to internships, and communicate with recruiters at no cost. Companies subscribe to a plan based on the number of listings and features they need.'],
-                        ['How are interviews managed on the platform?','Once a recruiter shortlists a candidate, they send automated interview invitations through InterLink. The platform syncs with calendars, proposes available time slots, and sends reminders to both parties.'],
-                        ['Can universities partner with InterLink?',   'Absolutely. Universities can partner with InterLink to connect their students with vetted listings, track placement rates, and access aggregated analytics on student success across industries.'],
-                        ['How does InterLink verify companies?',       'All companies go through a manual verification process before their listings appear on the platform. We check business registration documents, website authenticity, and additional compliance checks.'],
-                    ] as $qi => [$question, $answer])
+                    @foreach($t['faq']['items'] as $qi => $item)
                     <div class="rounded-2xl border border-[#E5E7EB] overflow-hidden bg-white shadow-sm" x-data="{ isOpen: false }">
                         <button class="w-full px-5 sm:px-6 py-4 sm:py-5 flex items-center justify-between text-left hover:bg-[#F7F9FA] transition-colors"
                                 x-on:click="isOpen = !isOpen">
-                            <span class="font-bold text-[#444444] pr-4 text-sm">{{ $question }}</span>
+                            <span class="font-bold text-[#444444] pr-4 text-sm">{{ $item['q'] }}</span>
                             <span class="flex-shrink-0 w-7 h-7 rounded-full border border-[#E5E7EB] flex items-center justify-center text-sm font-bold transition-all"
                                   :style="isOpen ? 'background-color:#00B1AA; border-color:#00B1AA; color:white' : 'color:#666666'">
                                 <span x-text="isOpen ? '−' : '+'"></span>
@@ -929,7 +916,7 @@
                         </button>
                         <div x-show="isOpen" x-collapse>
                             <div class="px-5 sm:px-6 pb-5">
-                                <p class="text-sm text-[#666666] leading-relaxed">{{ $answer }}</p>
+                                <p class="text-sm text-[#666666] leading-relaxed">{{ $item['a'] }}</p>
                             </div>
                         </div>
                     </div>
@@ -967,22 +954,21 @@
             </div>
 
             <h2 class="text-3xl sm:text-4xl lg:text-6xl font-black text-white mb-5 sm:mb-6 leading-tight">
-                Start Your Internship Journey Today
+                {{ $t['final_cta']['title'] }}
             </h2>
             <p class="text-white/80 text-base sm:text-xl mb-10 sm:mb-12 max-w-2xl mx-auto leading-relaxed">
-                Join thousands of students and hundreds of companies already using InterLink to
-                connect, collaborate, and grow together.
+                {{ $t['final_cta']['desc'] }}
             </p>
 
             <div class="flex flex-wrap justify-center gap-4">
                 <a href="#"
                    class="inline-block bg-white font-bold text-sm px-8 sm:px-10 py-3.5 sm:py-4 rounded-full hover:shadow-2xl hover:-translate-y-0.5 transition-all"
                    style="color:#00B1AA">
-                    Join as Student
+                    {{ $t['final_cta']['student'] }}
                 </a>
                 <a href="#"
                    class="inline-block border-2 border-white text-white font-bold text-sm px-8 sm:px-10 py-3.5 sm:py-4 rounded-full hover:bg-white/10 hover:-translate-y-0.5 transition-all">
-                    Register Company
+                    {{ $t['final_cta']['company'] }}
                 </a>
             </div>
         </div>

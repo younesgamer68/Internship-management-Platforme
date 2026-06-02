@@ -56,6 +56,7 @@
               <th style="cursor:pointer;" wire:click="sortByColumn('email')">Email <i class="fas fa-sort{{ $sortBy === 'email' ? ($sortDirection === 'asc' ? '-up' : '-down') : '' }}"></i></th>
               <th style="cursor:pointer;" wire:click="sortByColumn('role')">Role <i class="fas fa-sort{{ $sortBy === 'role' ? ($sortDirection === 'asc' ? '-up' : '-down') : '' }}"></i></th>
               <th style="cursor:pointer;" wire:click="sortByColumn('company')">University / Company <i class="fas fa-sort{{ $sortBy === 'company' ? ($sortDirection === 'asc' ? '-up' : '-down') : '' }}"></i></th>
+              <th>Department</th>
               <th style="cursor:pointer;" wire:click="sortByColumn('created_at')">Joined Date <i class="fas fa-sort{{ $sortBy === 'created_at' ? ($sortDirection === 'asc' ? '-up' : '-down') : '' }}"></i></th>
               <th style="cursor:pointer;" wire:click="sortByColumn('status')">Status <i class="fas fa-sort{{ $sortBy === 'status' ? ($sortDirection === 'asc' ? '-up' : '-down') : '' }}"></i></th>
               <th style="text-align:center;">Actions</th>
@@ -86,7 +87,8 @@
                   <span class="role-badge-student" style="background:rgba(59,130,246,0.1);color:#1D4ED8;">Operator</span>
                 @endif
               </td>
-              <td style="color:var(--gray-700);">{{ $user->company?->name ?? 'N/A' }}</td>
+              <td style="color:var(--gray-700);">{{ $user->company?->name ?? $user->university?->name ?? 'N/A' }}</td>
+              <td style="color:var(--gray-700);">{{ $user->department?->name ?? '-' }}</td>
               <td style="color:var(--gray-500);font-size:12px;">{{ $user->created_at->format('M d, Y') }}</td>
               <td>
                 @if($user->trashed())
@@ -171,6 +173,7 @@
        VIEW MODAL
   ════════════════════════════════════════ -->
   @if($showViewModal && $viewUser)
+  @teleport('body')
   <div id="view-modal" style="display:flex;position:fixed;inset:0;background:rgba(0,0,0,0.45);backdrop-filter:blur(6px);z-index:9999;align-items:center;justify-content:center;padding:24px;">
     <div class="modal-content-box" style="max-width:520px;">
       <!-- Modal Header Banner -->
@@ -228,12 +231,14 @@
       </div>
     </div>
   </div>
+  @endteleport
   @endif
 
   <!-- ═══════════════════════════════════════
        ADD MODAL
   ════════════════════════════════════════ -->
   @if($showAddModal)
+  @teleport('body')
   <div id="add-modal" style="display:flex;position:fixed;inset:0;background:rgba(0,0,0,0.45);backdrop-filter:blur(6px);z-index:9999;align-items:center;justify-content:center;padding:24px;">
     <div class="modal-content-box" style="max-width:560px;">
       <div style="padding:20px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
@@ -268,16 +273,29 @@
               </select>
               @error('role') <span class="error text-danger" style="font-size:12.5px;margin-top:4px;display:block;">{{ $message }}</span> @enderror
             </div>
+            @if($role === 'intern')
+            <div>
+              <label class="form-label">University</label>
+              <select class="form-control" wire:model="universityId">
+                <option value="">Select University</option>
+                @foreach($this->universities as $university)
+                  <option value="{{ $university->id }}">{{ $university->name }}</option>
+                @endforeach
+              </select>
+              @error('universityId') <span class="error text-danger" style="font-size:12.5px;margin-top:4px;display:block;">{{ $message }}</span> @enderror
+            </div>
+            @else
             <div>
               <label class="form-label">Organization Placement</label>
               <select class="form-control" wire:model="companyId">
-                <option value="">Select University or Company</option>
+                <option value="">Select Company</option>
                 @foreach($this->companies as $company)
                   <option value="{{ $company->id }}">{{ $company->name }}</option>
                 @endforeach
               </select>
               @error('companyId') <span class="error text-danger" style="font-size:12.5px;margin-top:4px;display:block;">{{ $message }}</span> @enderror
             </div>
+            @endif
           </div>
           <div class="form-row" style="display:grid;grid-template-columns:1fr;gap:16px;margin-bottom:16px;">
             <div>
@@ -303,12 +321,14 @@
       </form>
     </div>
   </div>
+  @endteleport
   @endif
 
   <!-- ═══════════════════════════════════════
        EDIT MODAL
   ════════════════════════════════════════ -->
   @if($showEditModal)
+  @teleport('body')
   <div id="edit-modal" style="display:flex;position:fixed;inset:0;background:rgba(0,0,0,0.45);backdrop-filter:blur(6px);z-index:9999;align-items:center;justify-content:center;padding:24px;">
     <div class="modal-content-box" style="max-width:560px;">
       <!-- Edit Header -->
@@ -357,16 +377,29 @@
             </div>
           </div>
           <div class="form-row" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+            @if($role === 'intern')
             <div>
-              <label class="form-label">University / Company</label>
+              <label class="form-label">University</label>
+              <select class="form-control" wire:model="universityId">
+                <option value="">Select University</option>
+                @foreach($this->universities as $university)
+                  <option value="{{ $university->id }}">{{ $university->name }}</option>
+                @endforeach
+              </select>
+              @error('universityId') <span class="error text-danger" style="font-size:12.5px;margin-top:4px;display:block;">{{ $message }}</span> @enderror
+            </div>
+            @else
+            <div>
+              <label class="form-label">Organization Placement</label>
               <select class="form-control" wire:model="companyId">
-                <option value="">Select University or Company</option>
+                <option value="">Select Company</option>
                 @foreach($this->companies as $company)
                   <option value="{{ $company->id }}">{{ $company->name }}</option>
                 @endforeach
               </select>
               @error('companyId') <span class="error text-danger" style="font-size:12.5px;margin-top:4px;display:block;">{{ $message }}</span> @enderror
             </div>
+            @endif
             <div>
               <label class="form-label">Update Password <span style="font-size:10.5px;font-weight:400;color:var(--gray-400);">(leave blank to keep current)</span></label>
               <input type="password" class="form-control" placeholder="••••••••" wire:model="password">
@@ -394,12 +427,14 @@
       </form>
     </div>
   </div>
+  @endteleport
   @endif
 
   <!-- ═══════════════════════════════════════
        DELETE CONFIRMATION MODAL
   ════════════════════════════════════════ -->
   @if($showDeleteModal)
+  @teleport('body')
   <div id="delete-modal" style="display:flex;position:fixed;inset:0;background:rgba(0,0,0,0.45);backdrop-filter:blur(6px);z-index:9999;align-items:center;justify-content:center;padding:24px;">
     <div class="modal-content-box" style="max-width:440px;">
       <!-- Delete Header -->
@@ -442,6 +477,7 @@
       </div>
     </div>
   </div>
+  @endteleport
   @endif
 
   <!-- Loading Indicator -->

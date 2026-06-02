@@ -13,6 +13,7 @@ return new class extends Migration
      */
     public function up(): void
     {
+        Schema::dropIfExists('admin');
         Schema::create('admin', function (Blueprint $table) {
             $table->id();
             $table->string('email')->unique();

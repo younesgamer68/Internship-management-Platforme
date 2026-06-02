@@ -390,7 +390,7 @@ Navbar — local state only; $store.ui.darkMode / lang / t() from $store.ui
                     <button type="button"
                         @click="(window.pageDarkModeToggle ? (window.pageDarkModeToggle()) : ($store.ui.showLoading(400), setTimeout(() => { $store.ui.darkMode = !$store.ui.darkMode }, 150)))"
                         class="relative flex h-8 w-8 items-center justify-center rounded-full transition-colors duration-200"
-                        :class="$store.ui.darkMode ? 'text-gray-200 hover:bg-white/10' : 'text-[#1F1F1F] hover:bg-gray-100'"
+                        :class="@if($blueBg || $blackBg) 'text-white hover:bg-white/10' @else ($store.ui.darkMode ? 'text-gray-200 hover:bg-white/10' : 'text-[#1F1F1F] hover:bg-gray-100') @endif"
                         title="Toggle dark mode">
                         {{-- Moon icon (shown in light mode) --}}
                         <svg x-show="!$store.ui.darkMode" x-cloak x-transition:enter="transition ease-out duration-300"
@@ -441,9 +441,9 @@ Navbar — local state only; $store.ui.darkMode / lang / t() from $store.ui
                             <button
                                 @click="$store.ui.showLoading(400); setTimeout(() => { $store.ui.lang = 'English'; langOpen = false }, 150); window.location.href='{{ route('locale.switch', ['lang' => 'en']) }}'"
                                 :class="[
-                                $store.ui.lang === 'English' ? 'font-bold' : 'font-normal',
-                                @if($blueBg || $blackBg) 'text-white hover:bg-white/10' @else ($store.ui.darkMode ? 'text-gray-200 hover:bg-white/10' : 'text-gray-700 hover:bg-gray-50') @endif
-                            ]"
+                                    $store.ui.lang === 'English' ? 'font-bold' : 'font-normal',
+                                    ($blueBg || $blackBg) ? 'text-black hover:bg-black/10' : ($store.ui.darkMode ? 'text-white hover:bg-white/10' : 'text-gray-700 hover:bg-gray-50')
+                                ]"
                                 class="flex w-full items-center gap-2 rounded-lg px-4 py-2.5 text-left text-sm transition-colors duration-150">
                                 <span class="text-lg leading-none">&#127468;&#127463;</span>
                                 English
@@ -453,9 +453,9 @@ Navbar — local state only; $store.ui.darkMode / lang / t() from $store.ui
                             <button
                                 @click="$store.ui.showLoading(400); setTimeout(() => { $store.ui.lang = 'French'; langOpen = false }, 150); window.location.href='{{ route('locale.switch', ['lang' => 'fr']) }}'"
                                 :class="[
-                                $store.ui.lang === 'French' ? 'font-bold' : 'font-normal',
-                                @if($blueBg || $blackBg) 'text-white hover:bg-white/10' @else ($store.ui.darkMode ? 'text-gray-200 hover:bg-white/10' : 'text-gray-700 hover:bg-gray-50') @endif
-                            ]"
+                                    $store.ui.lang === 'French' ? 'font-bold' : 'font-normal',
+                                    ($blueBg || $blackBg) ? 'text-black hover:bg-black/10' : ($store.ui.darkMode ? 'text-white hover:bg-white/10' : 'text-gray-700 hover:bg-gray-50')
+                                ]"
                                 class="flex w-full items-center gap-2 rounded-lg px-4 py-2.5 text-left text-sm transition-colors duration-150">
                                 <span class="text-lg leading-none">&#127467;&#127479;</span>
                                 Fran&ccedil;ais
@@ -474,15 +474,15 @@ Navbar — local state only; $store.ui.darkMode / lang / t() from $store.ui
                                 <form method="POST" action="{{ route('logout') }}" class="inline">
                                     @csrf
                                     <button type="submit" :class="[
-                                                            'rounded-xl border px-5 py-2 text-sm font-semibold transition-all duration-200',
-                                                            @if($blueBg || $blackBg)
-                                                                'border-white text-white hover:bg-white hover:text-black'
-                                                            @else
-                                                                $store.ui.darkMode 
-                                                                    ? 'border-gray-500 text-gray-200 hover:bg-white hover:text-black'
-                                                                    : 'border-[#1F1F1F] text-[#1F1F1F] hover:bg-[#1F1F1F] hover:text-white'
-                                                            @endif
-                                                        ]">
+                                                                                    'rounded-xl border px-5 py-2 text-sm font-semibold transition-all duration-200',
+                                                                                    @if($blueBg || $blackBg)
+                                                                                        'border-white text-white hover:bg-white hover:text-black'
+                                                                                    @else
+                                                                                        $store.ui.darkMode 
+                                                                                            ? 'border-gray-500 text-gray-200 hover:bg-white hover:text-black'
+                                                                                            : 'border-[#1F1F1F] text-[#1F1F1F] hover:bg-[#1F1F1F] hover:text-white'
+                                                                                    @endif
+                                                                                ]">
                                         {{ __('nav.logout') }}
                                     </button>
                                 </form>

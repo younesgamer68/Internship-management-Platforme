@@ -11,9 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        if (Schema::hasTable('intern_info_details') && !Schema::hasTable('user_info')) {
-            Schema::rename('intern_info_details', 'user_info');
-        }
+        Schema::create('departments', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->foreignId('university_id')->constrained()->cascadeOnDelete();
+            $table->timestamps();
+        });
     }
 
     /**
@@ -21,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::rename('user_info', 'intern_info_details');
+        Schema::dropIfExists('departments');
     }
 };

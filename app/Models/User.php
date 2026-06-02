@@ -19,6 +19,8 @@ class User extends Authenticatable
         'email',
         'password',
         'company_id',
+        'university_id',
+        'department_id',
         'email_verified_at',
         'google_id',
         'avatar',
@@ -140,6 +142,16 @@ class User extends Authenticatable
     public function company()
     {
         return $this->belongsTo(Company::class);
+    }
+
+    public function university()
+    {
+        return $this->belongsTo(University::class);
+    }
+
+    public function department()
+    {
+        return $this->belongsTo(Department::class);
     }
 
     public function teams()

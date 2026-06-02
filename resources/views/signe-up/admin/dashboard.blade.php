@@ -7,7 +7,7 @@
     <div style="position:relative;z-index:1;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;">
       <div>
         <h2 style="font-size:22px;font-weight:800;color:white;margin-bottom:4px;">
-           {{ now()->hour < 12 ? 'Morning' : (now()->hour < 17 ? 'Afternoon' : 'Evening') }}, {{ Auth::user()->name }}
+           Good {{ now()->hour < 12 ? 'Morning' : (now()->hour < 17 ? 'Afternoon' : 'Evening') }}, {{ Auth::user()->name }}
         </h2>
         <p style="font-size:13px;opacity:0.85;color:rgba(255,255,255,0.9);">
           Here's what's happening on your platform today — {{ now()->format('l, F j, Y') }}

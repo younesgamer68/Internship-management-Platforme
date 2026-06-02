@@ -20,6 +20,10 @@
 
   @vite(['resources/css/welcome.css'])
 
+  @php
+    $t = __('statistics');
+  @endphp
+
   <!-- Alpine.js: plugin first, then core -->
   <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/collapse@3.14.8/dist/cdn.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.8/dist/cdn.min.js"></script>
@@ -195,22 +199,17 @@
 
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center mb-20">
           <div>
-            <span class="text-[#00B1AA] text-xs font-semibold uppercase tracking-widest">Success Metrics</span>
-            <h2 class="text-4xl lg:text-5xl font-black text-[#444444] mt-3 leading-tight">
-              Numbers That Speak<br>for Themselves
-            </h2>
-            <p class="text-[#666666] mt-5 leading-relaxed">
-              Our platform is engineered for results. From the first application to a signed offer letter, InterLink
-              supports students and companies every step of the way.
-            </p>
+            <span class="text-[#00B1AA] text-xs font-semibold uppercase tracking-widest">{{ $t['success_metrics']['badge'] }}</span>
+            <h2 class="text-4xl lg:text-5xl font-black text-[#444444] mt-3 leading-tight">{!! $t['success_metrics']['heading'] !!}</h2>
+            <p class="text-[#666666] mt-5 leading-relaxed">{{ $t['success_metrics']['desc'] }}</p>
             <div class="mt-8 grid grid-cols-2 gap-4">
               <div class="bg-white rounded-2xl p-5 shadow-md border border-[#E5E7EB]">
                 <p class="text-3xl font-black text-[#00B1AA]">4.9</p>
-                <p class="text-xs text-[#666666] mt-1 font-medium">Average App Rating</p>
+                <p class="text-xs text-[#666666] mt-1 font-medium">{{ $t['success_metrics']['rating_label'] }}</p>
               </div>
               <div class="rounded-2xl p-5 shadow-md text-white" style="background:#00B1AA">
                 <p class="text-3xl font-black">3x</p>
-                <p class="text-xs text-white/80 mt-1 font-medium">Faster Hiring Process</p>
+                <p class="text-xs text-white/80 mt-1 font-medium">{{ $t['success_metrics']['hiring_label'] }}</p>
               </div>
             </div>
           </div>
@@ -222,7 +221,7 @@
             </div>
             <div class="absolute -bottom-5 left-8 bg-white rounded-2xl shadow-xl px-6 py-4 border border-[#E5E7EB]">
               <p class="font-black text-2xl" style="color:#F89122">92%</p>
-              <p class="text-xs text-[#666666] font-medium">Overall Success Rate</p>
+              <p class="text-xs text-[#666666] font-medium">{{ $t['success_metrics']['success_rate_label'] }}</p>
             </div>
           </div>
         </div>
@@ -230,12 +229,15 @@
         {{-- Metric Cards --}}
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           @php
-            $metrics = [
-              ['pct' => 92, 'label' => 'Success Rate', 'desc' => 'Students who complete their internship and receive a positive evaluation.', 'bar' => '#00B1AA'],
-              ['pct' => 85, 'label' => 'Student Satisfaction', 'desc' => 'Students who rate their InterLink experience as excellent or very good.', 'bar' => '#008A84'],
-              ['pct' => 78, 'label' => 'Internship-to-Job', 'desc' => 'Interns who received a full-time job offer from their host company.', 'bar' => '#F89122'],
-              ['pct' => 95, 'label' => 'Company Retention', 'desc' => 'Partner companies who return to InterLink every season to hire new interns.', 'bar' => '#00B1AA'],
-            ];
+            $metrics = [];
+            foreach ($t['metrics'] as $m) {
+              $metrics[] = [
+                'pct' => $m['pct'],
+                'label' => $m['label'],
+                'desc' => $m['desc'],
+                'bar' => $m['pct'] >= 90 ? '#00B1AA' : ($m['pct'] >= 80 ? '#008A84' : '#F89122'),
+              ];
+            }
           @endphp
           @foreach ($metrics as $m)
             <div
@@ -274,10 +276,9 @@
       <div class="max-w-7xl mx-auto px-6 lg:px-8">
 
         <div class="text-center mb-16">
-          <span class="text-[#00B1AA] text-xs font-semibold uppercase tracking-widest">Analytics Dashboard</span>
-          <h2 class="text-4xl lg:text-5xl font-black text-[#444444] mt-3">Platform Performance Overview</h2>
-          <p class="text-[#666666] mt-4 max-w-xl mx-auto">Deep-dive analytics from every corner of the platform, updated
-            in real time.</p>
+          <span class="text-[#00B1AA] text-xs font-semibold uppercase tracking-widest">{{ $t['analytics']['badge'] }}</span>
+          <h2 class="text-4xl lg:text-5xl font-black text-[#444444] mt-3">{{ $t['analytics']['heading'] }}</h2>
+          <p class="text-[#666666] mt-4 max-w-xl mx-auto">{{ $t['analytics']['desc'] }}</p>
         </div>
 
         {{-- Top row: 2 large chart cards --}}
@@ -288,8 +289,8 @@
             class="bg-white rounded-3xl shadow-xl border border-[#E5E7EB] p-8 hover:shadow-2xl transition-shadow duration-300">
             <div class="flex items-center justify-between mb-6">
               <div>
-                <p class="text-xs text-[#666666] font-semibold uppercase tracking-wide">Monthly</p>
-                <p class="text-lg font-bold text-[#444444]">Applications Per Month</p>
+                <p class="text-xs text-[#666666] font-semibold uppercase tracking-wide">{{ $t['analytics']['monthly'] }}</p>
+                <p class="text-lg font-bold text-[#444444]">{{ $t['analytics']['applications'] }}</p>
               </div>
               <span class="text-xs font-bold px-3 py-1 rounded-full"
                 style="background:rgba(0,177,170,.1);color:#00B1AA">+18.3%</span>
@@ -309,11 +310,11 @@
             <div class="mt-4 flex gap-5">
               <div>
                 <p class="text-xl font-black text-[#444444]">41,200</p>
-                <p class="text-xs text-[#666666]">This Month</p>
+                <p class="text-xs text-[#666666]">{{ $t['analytics']['this_month'] }}</p>
               </div>
               <div>
                 <p class="text-xl font-black text-[#444444]">34,900</p>
-                <p class="text-xs text-[#666666]">Last Month</p>
+                <p class="text-xs text-[#666666]">{{ $t['analytics']['last_month'] }}</p>
               </div>
             </div>
           </div>
@@ -327,8 +328,8 @@
             <div class="relative z-10">
               <div class="flex items-center justify-between mb-6">
                 <div>
-                  <p class="text-xs text-white/70 font-semibold uppercase tracking-wide">Growth</p>
-                  <p class="text-lg font-bold">Student Growth</p>
+                  <p class="text-xs text-white/70 font-semibold uppercase tracking-wide">{{ $t['analytics']['growth'] }}</p>
+                  <p class="text-lg font-bold">{{ $t['analytics']['student_growth'] }}</p>
                 </div>
                 <span class="text-xs font-bold px-3 py-1 rounded-full" style="background:rgba(255,255,255,.2)">+24.1%
                   YoY</span>
@@ -351,11 +352,11 @@
               <div class="flex gap-6">
                 <div>
                   <p class="text-2xl font-black">15,240</p>
-                  <p class="text-xs text-white/70">Total Students</p>
+                  <p class="text-xs text-white/70">{{ $t['analytics']['total_students'] }}</p>
                 </div>
                 <div>
                   <p class="text-2xl font-black">+3,100</p>
-                  <p class="text-xs text-white/70">This Year</p>
+                  <p class="text-xs text-white/70">{{ $t['analytics']['this_year'] }}</p>
                 </div>
               </div>
             </div>
@@ -368,8 +369,8 @@
           {{-- Most Active Sectors --}}
           <div
             class="bg-white rounded-3xl shadow-xl border border-[#E5E7EB] p-7 hover:shadow-2xl transition-shadow duration-300">
-            <p class="text-xs text-[#666666] font-semibold uppercase tracking-wide mb-1">Breakdown</p>
-            <p class="text-base font-bold text-[#444444] mb-5">Most Active Sectors</p>
+            <p class="text-xs text-[#666666] font-semibold uppercase tracking-wide mb-1">{{ $t['analytics']['breakdown'] }}</p>
+            <p class="text-base font-bold text-[#444444] mb-5">{{ $t['analytics']['sectors'] }}</p>
             @php
               $sectors_chart = [
                 ['name' => 'Web Development', 'pct' => 82, 'c' => '#00B1AA'],
@@ -397,8 +398,8 @@
           {{-- Hiring Trends --}}
           <div
             class="bg-white rounded-3xl shadow-xl border border-[#E5E7EB] p-7 hover:shadow-2xl transition-shadow duration-300">
-            <p class="text-xs text-[#666666] font-semibold uppercase tracking-wide mb-1">Quarterly</p>
-            <p class="text-base font-bold text-[#444444] mb-5">Hiring Trends</p>
+            <p class="text-xs text-[#666666] font-semibold uppercase tracking-wide mb-1">{{ $t['analytics']['quarterly'] }}</p>
+            <p class="text-base font-bold text-[#444444] mb-5">{{ $t['analytics']['hiring_trends'] }}</p>
             <div class="flex items-end gap-3 h-28">
               @php $hbars = [55, 70, 60, 90];
               $hlabels = ['Q1', 'Q2', 'Q3', 'Q4']; @endphp
@@ -414,15 +415,15 @@
             </div>
             <div class="mt-4 rounded-xl p-3 text-center" style="background:rgba(0,177,170,.08)">
               <p class="font-black text-xl" style="color:#00B1AA">+22%</p>
-              <p class="text-xs text-[#666666]">Year-over-Year Growth</p>
+              <p class="text-xs text-[#666666]">{{ $t['analytics']['year_over_year'] }}</p>
             </div>
           </div>
 
           {{-- Company Engagement --}}
           <div
             class="bg-white rounded-3xl shadow-xl border border-[#E5E7EB] p-7 hover:shadow-2xl transition-shadow duration-300">
-            <p class="text-xs text-[#666666] font-semibold uppercase tracking-wide mb-1">Engagement</p>
-            <p class="text-base font-bold text-[#444444] mb-5">Company Engagement</p>
+            <p class="text-xs text-[#666666] font-semibold uppercase tracking-wide mb-1">{{ $t['analytics']['engagement'] }}</p>
+            <p class="text-base font-bold text-[#444444] mb-5">{{ $t['analytics']['company_engagement'] }}</p>
             <div class="flex justify-center mb-4">
               <div class="relative w-36 h-36">
                 <svg viewBox="0 0 120 120" class="w-full h-full -rotate-90">
@@ -434,24 +435,24 @@
                 </svg>
                 <div class="absolute inset-0 flex flex-col items-center justify-center">
                   <p class="text-2xl font-black text-[#444444]">84%</p>
-                  <p class="text-[10px] text-[#666666]">Engaged</p>
+                  <p class="text-[10px] text-[#666666]">{{ $t['analytics']['engaged'] }}</p>
                 </div>
               </div>
             </div>
             <div class="space-y-2">
               <div class="flex justify-between text-xs">
                 <span class="flex items-center gap-2"><span class="w-2 h-2 rounded-full inline-block"
-                    style="background:#00B1AA"></span>Active Hiring</span>
+                    style="background:#00B1AA"></span>{{ $t['analytics']['active_hiring'] }}</span>
                 <span class="font-bold">84%</span>
               </div>
               <div class="flex justify-between text-xs">
                 <span class="flex items-center gap-2"><span class="w-2 h-2 rounded-full inline-block"
-                    style="background:#F89122"></span>Profile Complete</span>
+                    style="background:#F89122"></span>{{ $t['analytics']['profile_complete'] }}</span>
                 <span class="font-bold">71%</span>
               </div>
               <div class="flex justify-between text-xs">
                 <span class="flex items-center gap-2"><span class="w-2 h-2 rounded-full inline-block"
-                    style="background:#E5E7EB"></span>Inactive</span>
+                    style="background:#E5E7EB"></span>{{ $t['analytics']['inactive'] }}</span>
                 <span class="font-bold">16%</span>
               </div>
             </div>
@@ -464,10 +465,10 @@
             style="background:linear-gradient(135deg,#F5FBFB 0%,#FFFFFF 100%)">
             <div class="flex items-center justify-between mb-6">
               <div>
-                <p class="text-xs text-[#666666] font-semibold uppercase tracking-wide mb-1">Performance</p>
-                <p class="text-lg font-bold text-[#444444]">Internship Categories Performance</p>
+                <p class="text-xs text-[#666666] font-semibold uppercase tracking-wide mb-1">{{ $t['analytics']['performance'] }}</p>
+                <p class="text-lg font-bold text-[#444444]">{{ $t['analytics']['categories'] }}</p>
               </div>
-              <span class="text-xs font-bold px-3 py-1 rounded-full bg-emerald-100 text-emerald-600">Live</span>
+              <span class="text-xs font-bold px-3 py-1 rounded-full bg-emerald-100 text-emerald-600">{{ $t['analytics']['live'] }}</span>
             </div>
             <div class="grid grid-cols-3 gap-4">
               @php
@@ -521,10 +522,9 @@
       <div class="max-w-6xl mx-auto px-6 lg:px-8">
 
         <div class="text-center mb-20">
-          <span class="text-[#00B1AA] text-xs font-semibold uppercase tracking-widest">Our Journey</span>
-          <h2 class="text-4xl lg:text-5xl font-black text-[#444444] mt-3">Platform Growth Timeline</h2>
-          <p class="text-[#666666] mt-4 max-w-xl mx-auto">From a bold idea to an international platform — here is how
-            InterLink grew.</p>
+          <span class="text-[#00B1AA] text-xs font-semibold uppercase tracking-widest">{{ $t['timeline']['badge'] }}</span>
+          <h2 class="text-4xl lg:text-5xl font-black text-[#444444] mt-3">{{ $t['timeline']['heading'] }}</h2>
+          <p class="text-[#666666] mt-4 max-w-xl mx-auto">{{ $t['timeline']['desc'] }}</p>
         </div>
 
         {{-- Desktop timeline --}}
@@ -534,12 +534,7 @@
 
           <div class="grid grid-cols-4 gap-8">
             @php
-              $milestones = [
-                ['year' => '2023', 'title' => 'Platform Launch', 'desc' => 'InterLink goes live with its first 200 students and 30 partner companies, laying the foundation for a new era.', 'tag' => 'Launch'],
-                ['year' => '2024', 'title' => '5,000 Students', 'desc' => 'Student registrations hit 5,000. Monthly applications surpass 10,000 for the first time. 150+ companies onboarded.', 'tag' => 'Growth'],
-                ['year' => '2025', 'title' => '500+ Partners', 'desc' => 'Over 500 partner companies joined. The placement success rate reaches 88% across all sectors.', 'tag' => 'Scale'],
-                ['year' => '2026', 'title' => 'International Expansion', 'desc' => 'InterLink expands internationally, serving students and companies across multiple continents with 15,000+ active users.', 'tag' => 'Global'],
-              ];
+              $milestones = $t['timeline']['milestones'];
             @endphp
             @foreach ($milestones as $idx => $m)
               <div class="relative flex flex-col items-center text-center">
@@ -595,11 +590,9 @@
 
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center mb-16">
           <div>
-            <span class="text-[#00B1AA] text-xs font-semibold uppercase tracking-widest">Sectors</span>
-            <h2 class="text-4xl lg:text-5xl font-black text-[#444444] mt-3 leading-tight">Most Active Internship Sectors
-            </h2>
-            <p class="text-[#666666] mt-5 leading-relaxed">The industries where InterLink is making the biggest impact —
-              connecting talent with opportunity at scale.</p>
+            <span class="text-[#00B1AA] text-xs font-semibold uppercase tracking-widest">{{ $t['sectors']['badge'] }}</span>
+            <h2 class="text-4xl lg:text-5xl font-black text-[#444444] mt-3 leading-tight">{{ $t['sectors']['heading'] }}</h2>
+            <p class="text-[#666666] mt-5 leading-relaxed">{{ $t['sectors']['desc'] }}</p>
           </div>
      
         </div>
@@ -623,7 +616,7 @@
                   <p class="font-black text-[#444444] text-base">{{ $s['name'] }}</p>
                   <p class="text-3xl font-black group-hover:opacity-80 transition-opacity duration-300 mt-1"
                     style="color:{{ $s['c1'] }}">{{ $s['count'] }}</p>
-                  <p class="text-xs text-[#666666] mt-0.5">Internships placed</p>
+                  <p class="text-xs text-[#666666] mt-0.5">{{ $t['sectors']['internships_placed'] }}</p>
                 </div>
                 <span
                   class="bg-emerald-50 text-emerald-600 text-xs font-black px-3 py-1 rounded-full">{{ $s['growth'] }}</span>
@@ -678,28 +671,25 @@
 
           {{-- Right text --}}
           <div>
-            <span class="text-[#00B1AA] text-xs font-semibold uppercase tracking-widest">Engagement</span>
-            <h2 class="text-4xl lg:text-5xl font-black text-[#444444] mt-3 leading-tight">
-              Live Platform Activity
-            </h2>
-            <p class="text-[#666666] mt-5 leading-relaxed">Our platform never sleeps. Thousands of students and
-              companies interact every single day, creating a thriving community built around real career growth.</p>
+            <span class="text-[#00B1AA] text-xs font-semibold uppercase tracking-widest">{{ $t['engagement']['badge'] }}</span>
+            <h2 class="text-4xl lg:text-5xl font-black text-[#444444] mt-3 leading-tight">{{ $t['engagement']['heading'] }}</h2>
+            <p class="text-[#666666] mt-5 leading-relaxed">{{ $t['engagement']['desc'] }}</p>
             <div class="mt-8 bg-white rounded-2xl p-6 shadow-lg border border-[#E5E7EB]">
               <div class="flex items-center justify-between">
-                <p class="font-bold text-[#444444]">Today's Activity</p>
+                <p class="font-bold text-[#444444]">{{ $t['engagement']['today'] }}</p>
                 <span class="flex items-center gap-1.5 text-emerald-500 text-xs font-bold">
                   <span class="w-2 h-2 rounded-full bg-emerald-500 pulse-dot inline-block"></span>
-                  Live
+                  {{ $t['engagement']['live'] }}
                 </span>
               </div>
               <div class="mt-4 grid grid-cols-2 gap-3">
                 <div class="rounded-xl p-3" style="background:rgba(0,177,170,.08)">
                   <p class="text-2xl font-black" style="color:#00B1AA">1,248</p>
-                  <p class="text-xs text-[#666666]">Active Users</p>
+                  <p class="text-xs text-[#666666]">{{ $t['engagement']['active_users'] }}</p>
                 </div>
                 <div class="rounded-xl p-3 bg-[#FFF7ED]">
                   <p class="text-2xl font-black" style="color:#F89122">342</p>
-                  <p class="text-xs text-[#666666]">Applications Today</p>
+                  <p class="text-xs text-[#666666]">{{ $t['engagement']['applications_today'] }}</p>
                 </div>
               </div>
             </div>
@@ -710,11 +700,11 @@
         <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-5">
           @php
             $eng = [
-              ['label' => 'Daily Active Users', 'value' => '1,248', 'sub' => '+8.2% vs yesterday', 'bg' => '#00B1AA', 'vcolor' => '#FFFFFF', 'lcolor' => '#FFFFFF', 'scolor' => 'rgba(255,255,255,.7)'],
-              ['label' => 'Applications Today', 'value' => '342', 'sub' => 'Submitted since 8am', 'bg' => '#FFFFFF', 'vcolor' => '#00B1AA', 'lcolor' => '#444444', 'scolor' => '#666666'],
-              ['label' => 'Companies Hiring', 'value' => '94', 'sub' => 'This month', 'bg' => '#FFFFFF', 'vcolor' => '#008A84', 'lcolor' => '#444444', 'scolor' => '#666666'],
-              ['label' => 'Interviews Scheduled', 'value' => '128', 'sub' => 'This week', 'bg' => '#FFFFFF', 'vcolor' => '#F89122', 'lcolor' => '#444444', 'scolor' => '#666666'],
-              ['label' => 'Profile Completion', 'value' => '87%', 'sub' => 'Avg. student profiles', 'bg' => '#F5FBFB', 'vcolor' => '#008A84', 'lcolor' => '#444444', 'scolor' => '#666666'],
+              ['label' => $t['engagement']['daily_active_users'], 'value' => '1,248', 'sub' => $t['engagement']['daily_change'], 'bg' => '#00B1AA', 'vcolor' => '#FFFFFF', 'lcolor' => '#FFFFFF', 'scolor' => 'rgba(255,255,255,.7)'],
+              ['label' => $t['engagement']['applications_today'], 'value' => '342', 'sub' => $t['engagement']['submitted_since'], 'bg' => '#FFFFFF', 'vcolor' => '#00B1AA', 'lcolor' => '#444444', 'scolor' => '#666666'],
+              ['label' => $t['engagement']['companies_hiring'], 'value' => '94', 'sub' => $t['engagement']['this_month'], 'bg' => '#FFFFFF', 'vcolor' => '#008A84', 'lcolor' => '#444444', 'scolor' => '#666666'],
+              ['label' => $t['engagement']['interviews_scheduled'], 'value' => '128', 'sub' => $t['engagement']['this_week'], 'bg' => '#FFFFFF', 'vcolor' => '#F89122', 'lcolor' => '#444444', 'scolor' => '#666666'],
+              ['label' => $t['engagement']['profile_completion'], 'value' => '87%', 'sub' => $t['engagement']['avg_profiles'], 'bg' => '#F5FBFB', 'vcolor' => '#008A84', 'lcolor' => '#444444', 'scolor' => '#666666'],
             ];
           @endphp
           @foreach ($eng as $e)
@@ -748,22 +738,17 @@
       <div class="max-w-7xl mx-auto px-6 lg:px-8">
 
         <div class="text-center mb-16">
-          <span class="text-[#F89122] text-xs font-semibold uppercase tracking-widest">What They Say</span>
-          <h2 class="text-4xl lg:text-5xl font-black text-[#444444] mt-3">
-            Voices of <span class="grad-text">Success</span>
-          </h2>
-          <p class="text-[#666666] mt-4 max-w-xl mx-auto">
-            From students who landed their dream internship to companies who found exceptional talent — these are their
-            stories.
-          </p>
+          <span class="text-[#F89122] text-xs font-semibold uppercase tracking-widest">{{ $t['testimonials']['badge'] }}</span>
+          <h2 class="text-4xl lg:text-5xl font-black text-[#444444] mt-3">{!! $t['testimonials']['heading'] !!}</h2>
+          <p class="text-[#666666] mt-4 max-w-xl mx-auto">{{ $t['testimonials']['desc'] }}</p>
         </div>
 
         {{-- Featured testimonial --}}
         @php
           $featured = [
-            'quote' => 'InterLink completely changed my career trajectory. Within two weeks of creating my profile, I had three interview requests from companies I genuinely admired. The platform is intuitive, fast, and the team behind it clearly cares about student success.',
-            'name' => 'Amina Benhaddou',
-            'role' => 'Computer Science Student — placed at TechCorp',
+            'quote' => $t['testimonials']['featured_quote'],
+            'name' => $t['testimonials']['featured_name'],
+            'role' => $t['testimonials']['featured_role'],
             'stars' => 5,
           ];
         @endphp
@@ -810,73 +795,39 @@
 
         {{-- Testimonial grid --}}
         @php
-          $testimonials = [
-            [
-              'quote' => 'We have hired 12 interns through InterLink over the past year. The quality of candidates is outstanding — they arrive prepared, motivated, and ready to contribute from day one.',
-              'name' => 'Karim El-Fassi',
-              'role' => 'HR Director, Digitalys Morocco',
-              'type' => 'Company',
-              'stars' => 5,
-            ],
-            [
-              'quote' => 'The dashboard gives us everything we need to track applications and communicate with students. It saved our recruiting team at least 8 hours a week.',
-              'name' => 'Sarah Dupont',
-              'role' => 'Talent Acquisition, Innova Group',
-              'type' => 'Company',
-              'stars' => 5,
-            ],
-            [
-              'quote' => 'I was skeptical at first, but InterLink matched me with an internship that aligned perfectly with my skills. I got a full-time offer at the end!',
-              'name' => 'Youssef Tazi',
-              'role' => 'Business Analytics Student',
-              'type' => 'Student',
-              'stars' => 5,
-            ],
-            [
-              'quote' => 'Compared to other platforms, InterLink is miles ahead in user experience. Applying takes minutes, not hours. I felt supported throughout the entire process.',
-              'name' => 'Nour Alami',
-              'role' => 'Marketing Student',
-              'type' => 'Student',
-              'stars' => 5,
-            ],
-            [
-              'quote' => 'The reporting features are brilliant. We can see exactly how our listings are performing and optimize them in real time. It is like having a data analyst built into the platform.',
-              'name' => 'Mehdi Benali',
-              'role' => 'Operations Manager, CloudBridge',
-              'type' => 'Company',
-              'stars' => 5,
-            ],
-            [
-              'quote' => 'InterLink does not just connect you to internships — it helps you grow. The profile feedback and skills tagging made me realize what I had to improve before applying.',
-              'name' => 'Fatima Zahra Idrissi',
-              'role' => 'Cybersecurity Student',
-              'type' => 'Student',
-              'stars' => 5,
-            ],
-          ];
+          $testimonials = $t['testimonials']['cards'];
+          $testimonials = array_map(function ($item) {
+              return [
+                  'quote' => $item['quote'],
+                  'name' => $item['name'],
+                  'role' => $item['role'],
+                  'type' => $item['type'],
+                  'stars' => 5,
+              ];
+          }, $testimonials);
         @endphp
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
-          @foreach ($testimonials as $t)
+          @foreach ($testimonials as $item)
                   <div
                     class="bg-white rounded-3xl shadow-xl border border-[#E5E7EB] p-7 hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 group relative overflow-hidden">
 
                     {{-- Corner accent --}}
                     <div
                       class="absolute top-0 right-0 w-20 h-20 rounded-full -translate-x-4 -translate-y-4 opacity-60 pointer-events-none"
-                      style="background: {{ $t['type'] === 'Student' ? 'rgba(0,177,170,.08)' : 'rgba(248,145,34,.08)' }}"></div>
+                      style="background: {{ $item['type'] === 'Student' ? 'rgba(0,177,170,.08)' : 'rgba(248,145,34,.08)' }}"></div>
 
                     {{-- Type badge --}}
                     <span class="inline-block text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full mb-4"
-                      style="{{ $t['type'] === 'Student'
+                      style="{{ $item['type'] === 'Student'
             ? 'background:rgba(0,177,170,.1);color:#00B1AA'
             : 'background:#FFF7ED;color:#F89122' }}">
-                      {{ $t['type'] }}
+                      {{ $item['type'] }}
                     </span>
 
                     {{-- Stars --}}
                     <div class="flex gap-0.5 mb-4">
-                      @for ($s = 0; $s < $t['stars']; $s++)
+                      @for ($s = 0; $s < $item['stars']; $s++)
                         <svg class="w-4 h-4" viewBox="0 0 20 20" fill="#F89122">
                           <path
                             d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
@@ -888,19 +839,19 @@
                     <p class="text-[#666666] text-sm leading-relaxed mb-6 relative">
                       <span class="text-4xl font-black absolute -top-2 -left-1 leading-none opacity-10"
                         style="color:#00B1AA">"</span>
-                      {{ $t['quote'] }}
+                      {{ $item['quote'] }}
                     </p>
 
                     {{-- Author --}}
                     <div class="flex items-center gap-3 border-t border-[#E5E7EB] pt-5">
                       <div
                         class="w-10 h-10 rounded-full flex items-center justify-center font-black text-sm text-white flex-shrink-0"
-                        style="background: {{ $t['type'] === 'Student' ? '#00B1AA' : '#F89122' }}">
-                        {{ substr($t['name'], 0, 1) }}
+                        style="background: {{ $item['type'] === 'Student' ? '#00B1AA' : '#F89122' }}">
+                        {{ substr($item['name'], 0, 1) }}
                       </div>
                       <div>
-                        <p class="text-sm font-bold text-[#444444]">{{ $t['name'] }}</p>
-                        <p class="text-xs text-[#666666]">{{ $t['role'] }}</p>
+                        <p class="text-sm font-bold text-[#444444]">{{ $item['name'] }}</p>
+                        <p class="text-xs text-[#666666]">{{ $item['role'] }}</p>
                       </div>
                     </div>
                   </div>
@@ -912,12 +863,7 @@
           style="background:linear-gradient(135deg,#F5FBFB 0%,#FFF7ED 100%)">
           <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
             @php
-              $trust = [
-                ['v' => '4.9/5', 'l' => 'Average Rating', 'c' => '#F89122'],
-                ['v' => '98%', 'l' => 'Would Recommend', 'c' => '#00B1AA'],
-                ['v' => '3,200+', 'l' => 'Written Reviews', 'c' => '#008A84'],
-                ['v' => '12K+', 'l' => 'Happy Placements', 'c' => '#F89122'],
-              ];
+              $trust = $t['testimonials']['trust'];
             @endphp
             @foreach ($trust as $tr)
               <div>
@@ -948,25 +894,21 @@
 
       <div class="max-w-4xl mx-auto px-6 text-center relative z-10">
         <span class="inline-block text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-full mb-6 text-white"
-          style="background:rgba(255,255,255,.15)">Get Started Today</span>
-        <h2 class="text-4xl lg:text-6xl font-black text-white leading-tight mb-6">
-          Ready to Connect<br>Talent with Opportunity?
-        </h2>
-        <p class="text-white/80 text-lg max-w-xl mx-auto mb-10">
-          Join 15,000+ students and 800+ companies already using InterLink to build better careers and stronger teams.
-        </p>
+          style="background:rgba(255,255,255,.15)">{{ $t['cta']['badge'] }}</span>
+        <h2 class="text-4xl lg:text-6xl font-black text-white leading-tight mb-6">{!! $t['cta']['heading'] !!}</h2>
+        <p class="text-white/80 text-lg max-w-xl mx-auto mb-10">{{ $t['cta']['desc'] }}</p>
         <div class="flex flex-wrap gap-4 justify-center">
           <a href="#"
             class="inline-flex items-center gap-3 bg-white font-bold px-8 py-4 rounded-2xl shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300 text-sm"
             style="color:#00B1AA">
-            Start as a Student
+            {{ $t['cta']['student'] }}
             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
             </svg>
           </a>
           <a href="#"
             class="inline-flex items-center gap-3 font-bold px-8 py-4 rounded-2xl border-2 border-white/40 text-white hover:bg-white/10 hover:border-white transition-all duration-300 text-sm">
-            Post an Internship
+            {{ $t['cta']['company'] }}
           </a>
         </div>
       </div>
