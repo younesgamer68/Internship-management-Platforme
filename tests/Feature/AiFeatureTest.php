@@ -16,6 +16,8 @@ use App\Models\Ticket;
 use App\Models\User;
 use Livewire\Livewire;
 
+uses(\Illuminate\Foundation\Testing\RefreshDatabase::class);
+
 function createAiAdmin(): array
 {
     $company = Company::factory()->create(['onboarding_completed_at' => now()]);
@@ -535,4 +537,11 @@ test('dismiss ai suggestion logs dismiss action', function () {
         'user_id' => $admin->id,
         'action' => 'dismiss',
     ]);
+});
+
+test('chatbot widget new conversation sets chatting to true', function () {
+    Livewire::test(AiChatWidget::class)
+        ->call('newConversation')
+        ->assertSet('chatting', true)
+        ->assertSet('conversationId', null);
 });

@@ -20,7 +20,7 @@
 
 
     @vite(['resources/css/welcome.css'])
-    
+
     <!-- Alpine.js: plugin first, then core -->
     <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/collapse@3.14.8/dist/cdn.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.8/dist/cdn.min.js"></script>
@@ -32,6 +32,47 @@
     <style>
         [x-cloak] {
             display: none !important;
+        }
+
+        /* Shared dark-mode background fix for public pages */
+        body.page-dark {
+            background-color: #071018 !important;
+            color: #e6eef0 !important;
+        }
+
+        body.page-dark main,
+        body.page-dark section,
+        body.page-dark .bg-white,
+        body.page-dark [class*="bg-white"],
+        body.page-dark .bg-[#ffffff],
+        body.page-dark .bg-[#F5FBFB],
+        body.page-dark .bg-[#FFF7ED],
+        body.page-dark .bg-[#F7F9FA] {
+            background-color: #071018 !important;
+        }
+
+        body.page-dark .text-[#17494D],
+        body.page-dark .text-[#2d2d2d],
+        body.page-dark .text-[#444444],
+        body.page-dark .text-[#666666],
+        body.page-dark .text-gray-500,
+        body.page-dark .text-gray-600,
+        body.page-dark .text-gray-700,
+        body.page-dark .text-gray-900 {
+            color: #e6eef0 !important;
+        }
+
+        body.page-dark a,
+        body.page-dark p,
+        body.page-dark span,
+        body.page-dark li,
+        body.page-dark h1,
+        body.page-dark h2,
+        body.page-dark h3,
+        body.page-dark h4,
+        body.page-dark h5,
+        body.page-dark h6 {
+            color: #e6eef0 !important;
         }
 
         /* Brand Focus outlines */
@@ -47,7 +88,8 @@
     @yield('styles')
 </head>
 
-<body x-data="{ pageDarkMode: false, init() { window.pageDarkModeToggle = () => { $store.ui.showLoading(400); setTimeout(() => { $store.ui.darkMode = !$store.ui.darkMode }, 150) }; Alpine.effect(() => { const isDark = $store.ui.darkMode; this.pageDarkMode = isDark; window.pageDarkModeActive = isDark; document.body.classList.toggle('page-dark', isDark); window.dispatchEvent(new CustomEvent('page-dark-mode-change', { detail: { active: isDark } })); }); } }"
+<body
+    x-data="{ pageDarkMode: false, init() { window.pageDarkModeToggle = () => { $store.ui.showLoading(400); setTimeout(() => { $store.ui.darkMode = !$store.ui.darkMode }, 150) }; Alpine.effect(() => { const isDark = $store.ui.darkMode; this.pageDarkMode = isDark; window.pageDarkModeActive = isDark; document.body.classList.toggle('page-dark', isDark); window.dispatchEvent(new CustomEvent('page-dark-mode-change', { detail: { active: isDark } })); }); } }"
     class="welcome-body flex min-h-screen flex-col bg-[#ffffff] text-[#17494D] font-[Instrument_Sans,ui-sans-serif,system-ui,sans-serif] antialiased transition-colors duration-300"
     :class="pageDarkMode ? 'bg-black text-white' : 'bg-[#ffffff] text-[#17494D]'">
 

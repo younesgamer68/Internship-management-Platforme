@@ -215,38 +215,40 @@
                 if (this.$refs.chatContainer) this.$refs.chatContainer.scrollTop = this.$refs.chatContainer.scrollHeight;
             }, 50);
         }
-    }" @scroll-to-bottom.window="scrollToBottom()"
-        @open-chatbot-widget.window="openFromShortcut()" x-init="initWelcomeText(); $watch('isOpen', value => { if (value) scrollToBottom() })" id="chatbot-widget"
+    }" @scroll-to-bottom.window="scrollToBottom()" @open-chatbot-widget.window="openFromShortcut()"
+        x-init="initWelcomeText(); $watch('isOpen', value => { if (value) scrollToBottom() })" id="chatbot-widget"
         class="fixed bottom-6 right-6 z-[9999] flex flex-col items-end">
 
         {{-- Chat Window --}}
-        <div x-ref="chatPanel" x-show="visible" x-cloak wire:ignore.self style="transform: translateY(100%); opacity: 0;"
+        <div x-ref="chatPanel" x-show="visible" x-cloak wire:key="{{ $chatting ? 'chat-view' : 'home-view' }}"
+            style="transform: translateY(100%); opacity: 0;"
             class="mb-4 flex flex-col w-[380px] h-[600px] bg-white rounded-3xl shadow-[0_30px_60px_-20px_rgba(33,150,83,0.3),0_0_0_1px_rgba(33,150,83,0.1)] overflow-hidden">
 
             {{-- ========== HOME VIEW (conversation list) ========== --}}
             @if (!$chatting)
                 {{-- Header --}}
-                <div
-                    class="cw-shimmer relative shrink-0 px-4 pb-4 pt-4 overflow-hidden">
-                    <div :class="($store.ui && $store.ui.darkMode) ? 'opacity-0' : 'opacity-100'" class="cw-header-gradient-flow pointer-events-none absolute inset-0 bg-linear-to-r from-[#1b7a44] via-[#1b7a44] to-[#e7f6ee] transition-opacity duration-700 ease-in-out"></div>
-                    <div :class="($store.ui && $store.ui.darkMode) ? 'opacity-100' : 'opacity-0'" class="cw-header-gradient-flow pointer-events-none absolute inset-0 bg-linear-to-r from-black to-[#1b7a44] transition-opacity duration-700 ease-in-out"></div>
+                <div class="cw-shimmer relative shrink-0 px-4 pb-4 pt-4 overflow-hidden">
+                    <div :class="($store.ui && $store.ui.darkMode) ? 'opacity-0' : 'opacity-100'"
+                        class="cw-header-gradient-flow pointer-events-none absolute inset-0 bg-linear-to-r from-[#1b7a44] via-[#1b7a44] to-[#e7f6ee] transition-opacity duration-700 ease-in-out">
+                    </div>
+                    <div :class="($store.ui && $store.ui.darkMode) ? 'opacity-100' : 'opacity-0'"
+                        class="cw-header-gradient-flow pointer-events-none absolute inset-0 bg-linear-to-r from-black to-[#1b7a44] transition-opacity duration-700 ease-in-out">
+                    </div>
                     <div class="relative z-10 flex items-center gap-2.5">
                         <div class="flex h-9 w-9 items-center justify-center rounded-xl  p-1">
-                            <img src="{{ asset('images/Logos/LWDM.png') }}" alt="Helpdesk"
+                            <img src="{{ asset('images/Logos/big-logo-orange.png') }}" alt="Helpdesk"
                                 class="h-7 w-7 object-contain" />
                         </div>
                         <div class="flex-1">
                             <p class="text-sm font-bold tracking-tight text-white">InterLink</p>
                             <div class="flex items-center gap-1.5">
-                                <span
-                                    class="h-[5px] w-[5px] rounded-full bg-[#219653] shadow-[0_0_6px_#219653] animate-pulse"></span>
+
                                 <p class="text-[10px] text-white/75">Online now</p>
                             </div>
                         </div>
                         <button @click="toggle()" type="button"
                             class="rounded-lg p-1 text-white/80 transition hover:bg-white/15 hover:text-white">
-                            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2"
-                                stroke="currentColor">
+                            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
                             </svg>
                         </button>
@@ -297,7 +299,8 @@
                                         <p class="text-[11px] text-zinc-400">{{ $conv['short_date'] }}</p>
                                     </div>
                                     <p class="truncate text-[12px] text-zinc-800 leading-snug mb-2">InterLink:
-                                        {{ $conv['preview'] }}</p>
+                                        {{ $conv['preview'] }}
+                                    </p>
                                     <span
                                         class="inline-flex items-center rounded-full bg-gray-200/60 px-2.5 py-0.5 text-[11px] font-medium text-zinc-800 border border-black/5">
                                         Ended
@@ -320,10 +323,9 @@
 
                 {{-- New conversation button --}}
                 <div class="shrink-0 px-4 pb-3 pt-1">
-                    <button wire:click="newConversation" type="button"
+                    <button type="button" wire:click="newConversation"
                         class="flex w-full items-center justify-center gap-1.5 rounded-xl bg-linear-to-br from-[#1b7a44] to-[#1b7a44] py-2.5 text-xs font-bold text-white shadow-[0_6px_16px_-4px_rgba(33,150,83,0.4),inset_0_1px_0_rgba(255,255,255,0.15)] transition hover:scale-[1.02] hover:shadow-[0_10px_22px_-5px_rgba(33,150,83,0.5)] active:scale-[0.97]">
-                        <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke-width="2.5"
-                            stroke="currentColor">
+                        <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                         </svg>
                         New conversation
@@ -334,7 +336,7 @@
                 <div class="shrink-0 border-t border-gray-200 bg-gray-50 py-2">
                     <div class="flex items-center justify-center gap-2">
                         <div class="flex h-3 w-3 items-center justify-center">
-                            <img src="{{ asset('images/Logos/LWLM.png') }}" alt="InterLink"
+                            <img src="{{ asset('images/Logos/Logo.png') }}" alt="InterLink"
                                 class="h-4 w-4 object-contain" />
                         </div>
                         <p class="text-[9px] font-semibold tracking-wide text-zinc-400">
@@ -346,19 +348,23 @@
                 {{-- ========== CHAT VIEW ========== --}}
 
                 {{-- Chat header --}}
-                <div
-                    class="cw-shimmer relative flex shrink-0 items-center gap-2.5 px-4 py-2.5 overflow-hidden">
-                    <div :class="($store.ui && $store.ui.darkMode) ? 'opacity-0' : 'opacity-100'" class="cw-header-gradient-flow pointer-events-none absolute inset-0 bg-linear-to-r from-[#1b7a44] via-[#1b7a44] to-[#e7f6ee] transition-opacity duration-700 ease-in-out"></div>
-                    <div :class="($store.ui && $store.ui.darkMode) ? 'opacity-100' : 'opacity-0'" class="cw-header-gradient-flow pointer-events-none absolute inset-0 bg-linear-to-r from-black to-[#1b7a44] transition-opacity duration-700 ease-in-out"></div>
+                <div class="cw-shimmer relative flex shrink-0 items-center gap-2.5 px-4 py-2.5 overflow-hidden">
+                    <div :class="($store.ui && $store.ui.darkMode) ? 'opacity-0' : 'opacity-100'"
+                        class="cw-header-gradient-flow pointer-events-none absolute inset-0 bg-linear-to-r from-[#1b7a44] via-[#1b7a44] to-[#e7f6ee] transition-opacity duration-700 ease-in-out">
+                    </div>
+                    <div :class="($store.ui && $store.ui.darkMode) ? 'opacity-100' : 'opacity-0'"
+                        class="cw-header-gradient-flow pointer-events-none absolute inset-0 bg-linear-to-r from-black to-[#1b7a44] transition-opacity duration-700 ease-in-out">
+                    </div>
                     <button wire:click="backToHome" type="button"
                         class="relative z-10 rounded-lg p-1 text-white/80 transition hover:bg-white/15 hover:text-white">
                         <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
                         </svg>
                     </button>
-                    <div class="relative z-10 flex h-7 w-7 items-center justify-center rounded-lg bg-white/15 p-0.5 text-white">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
-                            stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
+                    <div
+                        class="relative z-10 flex h-7 w-7 items-center justify-center rounded-lg bg-white/15 p-0.5 text-white">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                            stroke-linejoin="round" class="h-4 w-4">
                             <path d="M3 18v-6a9 9 0 0 1 18 0v6"></path>
                             <path
                                 d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z">
@@ -373,8 +379,7 @@
                     </div>
                     <button @click="isOpen = false" type="button"
                         class="relative z-10 rounded-lg p-1 text-white/80 transition hover:bg-white/15 hover:text-white">
-                        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2"
-                            stroke="currentColor">
+                        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
                         </svg>
                     </button>
@@ -390,15 +395,14 @@
                                 <div class="flex max-w-[80%] flex-col items-end gap-0.5">
                                     <div
                                         class="rounded-xl rounded-br-md bg-linear-to-br from-[#1b7a44] to-[#1b7a44] px-3 py-2 shadow-[0_3px_10px_rgba(33,150,83,0.2)]">
-                                        <p class="text-xs leading-relaxed text-white whitespace-pre-wrap">{{ trim($msg['content']) }}</p>
+                                        <p class="text-xs leading-relaxed text-white whitespace-pre-wrap">
+                                            {{ trim($msg['content']) }}</p>
                                     </div>
                                 </div>
                             </div>
                         @else
-                            <div class="flex items-end gap-1.5 cw-msg-enter"
-                                style="animation-delay: {{ $index * 40 }}ms">
-                                <div
-                                    class="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg p-0.5 text-[#1b7a44]">
+                            <div class="flex items-end gap-1.5 cw-msg-enter" style="animation-delay: {{ $index * 40 }}ms">
+                                <div class="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg p-0.5 text-[#1b7a44]">
                                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
                                         stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5">
                                         <path d="M3 18v-6a9 9 0 0 1 18 0v6"></path>
@@ -412,7 +416,8 @@
                                 <div class="flex max-w-[80%] flex-col gap-0.5">
                                     <div
                                         class="rounded-xl rounded-bl-md bg-white px-3 py-2 shadow-[0_1px_3px_rgba(0,0,0,0.04),0_0_0_1px_rgba(0,0,0,0.02)]">
-                                        <p class="text-xs leading-relaxed text-zinc-800 whitespace-pre-wrap">{{ preg_replace('/\*{1,2}([^*]+)\*{1,2}/', '$1', trim($msg['content'])) }}</p>
+                                        <p class="text-xs leading-relaxed text-zinc-800 whitespace-pre-wrap">
+                                            {{ preg_replace('/\*{1,2}([^*]+)\*{1,2}/', '$1', trim($msg['content'])) }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -422,8 +427,7 @@
                     {{-- Typing Indicator --}}
                     @if ($isTyping)
                         <div class="flex items-end gap-1.5 cw-msg-enter">
-                            <div
-                                class="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg p-0.5 text-[#1b7a44]">
+                            <div class="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg p-0.5 text-[#1b7a44]">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
                                     stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5">
                                     <path d="M3 18v-6a9 9 0 0 1 18 0v6"></path>
@@ -481,8 +485,7 @@
                             class="flex-1 rounded-[10px] border border-gray-200 bg-gray-50 px-3 py-2 text-xs text-zinc-900 outline-none transition placeholder:text-zinc-400 focus:border-[#1b7a44] focus:bg-white focus:ring-2 focus:ring-[rgba(33,150,83,0.2)] disabled:opacity-50" />
                         <button wire:click="sendMessage" wire:loading.attr="disabled"
                             class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-linear-to-br from-[#1b7a44] to-[#1b7a44] text-white shadow-[0_2px_8px_rgba(33,150,83,0.3)] transition active:scale-90 disabled:opacity-30">
-                            <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke-width="2"
-                                stroke="currentColor">
+                            <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round"
                                     d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5" />
                             </svg>
@@ -494,12 +497,12 @@
 
         {{-- Floating Toggle Button with pulse ring --}}
         <button @click="toggle()" type="button"
-            class="cw-pulse-ring relative flex h-[52px] w-[52px] items-center justify-center rounded-2xl bg-linear-to-br from-[#17494D] to-[#1b7a44] shadow-[0_8px_24px_-6px_rgba(33,150,83,0.5),0_0_0_2px_rgba(33,150,83,0.2)] transition-all duration-200 hover:scale-[1.06] hover:shadow-[0_12px_28px_-6px_#0f2b0f,0_0_0_2px_#1b7a44] active:scale-95">
-            <img x-show="!isOpen" src="{{ asset('images/Logos/LWDM.png') }}" alt="Chat"
+            class="cw-pulse-ring relative flex h-[52px] w-[52px] items-center justify-center rounded-2xl bg-linear-to-br from-[#000000] to-[#082515] shadow-[0_8px_24px_-6px_rgba(33,150,83,0.5),0_0_0_2px_rgba(33,150,83,0.2)] transition-all duration-200 hover:scale-[1.06] hover:shadow-[0_12px_28px_-6px_#0f2b0f,0_0_0_2px_#1b7a44] active:scale-95">
+            <img x-show="!isOpen" src="{{ asset('images/Logos/big-logo-orange.png') }}" alt="Chat"
                 style="height: 27px; width: 27px;" class="object-contain" />
 
-            <svg x-show="isOpen" x-cloak class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24"
-                stroke-width="2.5" stroke="currentColor">
+            <svg x-show="isOpen" x-cloak class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke-width="2.5"
+                stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
             </svg>
         </button>

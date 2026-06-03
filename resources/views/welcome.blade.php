@@ -20,6 +20,8 @@
 
     @vite(['resources/css/welcome.css'])
 
+    @livewireStyles
+
     <style>
         /* Page-scoped dark mode overrides */
         body.page-dark {
@@ -245,7 +247,7 @@
 
             {{-- CTA Buttons --}}
             <div class="flex items-center justify-center gap-4 mb-12">
-                <a href="#"
+                <a href="{{ route('choose_path') }}"
                     class="inline-flex items-center gap-2 bg-[#00b0aa] hover:bg-[#009690] hover:shadow-lg text-white text-sm font-semibold px-6 py-3 rounded-full transition-all duration-200 shadow-sm">
                     {{ __('hero.cta_try') }}
                     <svg xmlns="http://www.w3.org/2000/svg"
@@ -254,7 +256,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                     </svg>
                 </a>
-                <a href="#"
+                <a href="{{ route('choose_path') }}"
                     class="inline-flex items-center gap-2 bg-white hover:bg-gray-100 dark:bg-white dark:border-gray-600 dark:text-gray-900 dark:hover:bg-gray-100 text-gray-900 book-demo-btn text-sm font-semibold px-6 py-3 rounded-full border border-gray-300 dark:border-gray-600 transition-all duration-200 shadow-sm hover:shadow-lg">
                     {{ __('hero.cta_demo') }}
                 </a>
@@ -535,7 +537,7 @@
                 </div>
 
                 {{-- CTA --}}
-                <a href="#register"
+                <a href="{{ route('choose_path') }}"
                     class="mt-14 inline-flex items-center gap-2 rounded-xl px-10 py-3.5 text-base font-bold text-white transition-all duration-300 hover:-translate-y-0.5 hover:scale-[1.01] bg-red-600 hover:bg-red-500">
                     <span>{!! __('welcome.discover.cta') !!}</span>
                     <span aria-hidden="true">→</span>
@@ -980,7 +982,7 @@
                     </p>
 
                     {{-- CTA --}}
-                    <a href="#"
+                    <a href="{{ route('choose_path') }}"
                         class="inline-flex items-center gap-1.5 text-xs font-bold text-blue-600 uppercase tracking-wider hover:gap-3 transition-all duration-200">
                         {!! __('welcome.lifecycle.post_cta') !!}
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24"
@@ -1017,7 +1019,7 @@
                     </p>
 
                     {{-- CTA --}}
-                    <a href="#"
+                    <a href="{{ route('choose_path') }}"
                         class="inline-flex items-center gap-1.5 text-xs font-bold text-blue-600 uppercase tracking-wider hover:gap-3 transition-all duration-200">
                         {!! __('welcome.lifecycle.review_cta') !!}
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24"
@@ -1319,7 +1321,7 @@
 
                 {{-- See More Link --}}
                 <div class="relative z-10 border-t border-gray-100 px-10 py-4 flex justify-center">
-                    <a href="#"
+                    <a href="{{ route('choose_path') }}"
                         class="inline-flex items-center gap-1.5 text-xs font-bold text-cyan-600 uppercase tracking-widest hover:gap-3 transition-all duration-200">
                         {!! __('welcome.stats.cta_more') !!}
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24"
@@ -1403,7 +1405,7 @@
                             </h4>
                             <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
                                 {!! __('welcome.philosophy.point1_desc_pt1') !!}
-                                <a href="#"
+                                <a href="{{ route('choose_path') }}"
                                     class="text-teal-600 dark:text-teal-400 hover:underline">{!! __('welcome.philosophy.point1_desc_link') !!}</a>
                                 {!! __('welcome.philosophy.point1_desc_pt2') !!}
                             </p>
@@ -1416,7 +1418,7 @@
                             </h4>
                             <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
                                 {!! __('welcome.philosophy.point2_desc_pt1') !!}
-                                <a href="#"
+                                <a href="{{ route('choose_path') }}"
                                     class="text-teal-600 dark:text-teal-400 hover:underline">{!! __('welcome.philosophy.point2_desc_link') !!}</a>
                             </p>
                         </div>
@@ -1428,7 +1430,7 @@
                             </h4>
                             <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
                                 {!! __('welcome.philosophy.point3_desc_pt1') !!}
-                                <a href="#"
+                                <a href="{{ route('choose_path') }}"
                                     class="text-teal-600 dark:text-teal-400 hover:underline">{!! __('welcome.philosophy.point3_desc_link') !!}</a>
                             </p>
                         </div>
@@ -1440,7 +1442,7 @@
                             </h4>
                             <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
                                 {!! __('welcome.philosophy.point4_desc_pt1') !!}
-                                <a href="#"
+                                <a href="{{ route('choose_path') }}"
                                     class="text-teal-600 dark:text-teal-400 hover:underline">{!! __('welcome.philosophy.point4_desc_link') !!}</a>
                                 {!! __('welcome.philosophy.point4_desc_pt2') !!}
                             </p>
@@ -1453,7 +1455,7 @@
                             </h4>
                             <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
                                 {!! __('welcome.philosophy.point5_desc_pt1') !!}
-                                <a href="#"
+                                <a href="{{ route('choose_path') }}"
                                     class="text-teal-600 dark:text-teal-400 hover:underline">{!! __('welcome.philosophy.point5_desc_link') !!}</a>
                                 {!! __('welcome.philosophy.point5_desc_pt2') !!}
                             </p>
@@ -1618,7 +1620,7 @@
 
             {{-- Buttons --}}
             <div class="flex items-center gap-4 flex-shrink-0">
-                <a href="#"
+                <a href="{{ route('choose_path') }}"
                     class="inline-flex items-center gap-2 bg-white hover:bg-gray-100 text-gray-900 text-sm font-bold px-7 py-4 rounded-xl transition-all duration-200 shadow-lg whitespace-nowrap">
                     {!! __('welcome.final_cta.btn_started') !!}
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24"
@@ -1626,7 +1628,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                     </svg>
                 </a>
-                <a href="#"
+                <a href="{{ route('choose_path') }}"
                     class="inline-flex items-center gap-2 bg-transparent hover:bg-white/10 text-white text-sm font-bold px-7 py-4 rounded-xl border border-gray-600 hover:border-gray-400 transition-all duration-200 whitespace-nowrap">
                     {!! __('welcome.final_cta.btn_demo') !!}
                 </a>
@@ -1638,7 +1640,9 @@
 
 
     <x-footer />
+    <livewire:ai-chat-widget />
 
+    @livewireScripts
 </body>
 
 </html>

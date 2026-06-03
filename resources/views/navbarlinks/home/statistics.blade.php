@@ -29,6 +29,199 @@
   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.8/dist/cdn.min.js"></script>
   <x-ui-state />
 
+<style>
+  /* ============================================================
+   DARK MODE — statistics page (complete fix)
+   Add this inside your existing <style> block or welcome.css
+   ============================================================ */
+
+/* ── Base page background ── */
+.page-dark .statistics-page {
+  background-color: #0d1f2d !important;
+  color: #e2eaf2 !important;
+}
+
+/* ── All sections (catches inline gradient backgrounds) ── */
+.page-dark .statistics-page section {
+  background: #0d1f2d !important;
+  background-image: none !important;
+}
+
+/* ── White & light background cards / wrappers ── */
+.page-dark .statistics-page .bg-white,
+.page-dark .statistics-page [class*="bg-[#FFFFFF]"],
+.page-dark .statistics-page [class*="bg-[#F5FBFB]"],
+.page-dark .statistics-page [class*="bg-[#FFF7ED]"],
+.page-dark .statistics-page [style*="background: linear-gradient(135deg, #F5FBFB"],
+.page-dark .statistics-page [style*="background:linear-gradient(135deg,#F5FBFB"],
+.page-dark .statistics-page [style*="background: linear-gradient(135deg, #FFFFFF"],
+.page-dark .statistics-page [style*="background:linear-gradient(135deg,#FFFFFF"],
+.page-dark .statistics-page .rounded-2xl,
+.page-dark .statistics-page .rounded-3xl {
+  background-color: #112233 !important;
+  background-image: none !important;
+  border-color: #1e3a52 !important;
+}
+
+/* ── Preserve brand-colored cards (teal gradient cards must stay teal) ── */
+.page-dark .statistics-page [style*="background: linear-gradient(135deg, #00B1AA"],
+.page-dark .statistics-page [style*="background:linear-gradient(135deg, #00B1AA"],
+.page-dark .statistics-page [style*="background: linear-gradient(135deg, #00B1AA 0%, #008A84"],
+.page-dark .statistics-page [style*="background:#00B1AA"] {
+  background-color: #007a75 !important;
+}
+
+/* ── Section with inline radial/gradient bg ── */
+.page-dark .statistics-page [style*="background: radial-gradient"],
+.page-dark .statistics-page [style*="background:radial-gradient"] {
+  background: #0d1f2d !important;
+}
+
+/* ── All text colors ── */
+.page-dark .statistics-page .text-\[#444444\],
+.page-dark .statistics-page [class*="text-[#444444]"] {
+  color: #e2eaf2 !important;
+}
+
+.page-dark .statistics-page .text-\[#666666\],
+.page-dark .statistics-page [class*="text-[#666666]"],
+.page-dark .statistics-page p,
+.page-dark .statistics-page span:not([style*="color:#00B1AA"]):not([style*="color:#F89122"]):not([style*="color:#008A84"]):not([style*="color:white"]):not([style*="color:#FFFFFF"]) {
+  color: #93afc4 !important;
+}
+
+/* Headings */
+.page-dark .statistics-page h2,
+.page-dark .statistics-page h3,
+.page-dark .statistics-page p.font-black,
+.page-dark .statistics-page p.font-bold {
+  color: #e2eaf2 !important;
+}
+
+/* ── Borders ── */
+.page-dark .statistics-page .border-\[#E5E7EB\],
+.page-dark .statistics-page [class*="border-[#E5E7EB]"],
+.page-dark .statistics-page .border {
+  border-color: #1e3a52 !important;
+}
+
+/* ── Metric progress bars background track ── */
+.page-dark .statistics-page .bg-\[#E5E7EB\],
+.page-dark .statistics-page [style*="background:#E5E7EB"],
+.page-dark .statistics-page [style*="background: #E5E7EB"] {
+  background-color: #1e3a52 !important;
+}
+
+/* ── Stat/engagement cards with inline style backgrounds ── */
+.page-dark .statistics-page [style*="background:rgba(0,177,170,.08)"],
+.page-dark .statistics-page [style*="background: rgba(0,177,170,.08)"] {
+  background-color: rgba(0, 177, 170, 0.15) !important;
+}
+
+.page-dark .statistics-page [style*="background:#F5FBFB"],
+.page-dark .statistics-page [style*="background: #F5FBFB"] {
+  background-color: #112233 !important;
+}
+
+.page-dark .statistics-page [style*="background:#FFF7ED"],
+.page-dark .statistics-page [style*="background: #FFF7ED"] {
+  background-color: #1f1a0e !important;
+}
+
+/* ── Chart bar empty backgrounds ── */
+.page-dark .statistics-page [style*="background:#E5E7EB"] {
+  background-color: #1e3a52 !important;
+}
+
+/* ── White text on colored bg — keep it white ── */
+.page-dark .statistics-page .text-white,
+.page-dark .statistics-page [class*="text-white"] {
+  color: #ffffff !important;
+}
+
+/* ── Border top accent line (testimonials) ── */
+.page-dark .statistics-page [style*="background: linear-gradient(to right, transparent, #00B1AA"] {
+  background: linear-gradient(to right, transparent, #00B1AA, #F89122, transparent) !important;
+}
+
+/* ── Shimmer bar (keep brand colors) ── */
+.page-dark .statistics-page .shimmer-bar {
+  opacity: 0.85;
+}
+
+/* ── Timeline mobile cards ── */
+.page-dark .statistics-page .ml-4.bg-white {
+  background-color: #112233 !important;
+  border-color: #1e3a52 !important;
+}
+
+/* ── SVG donut chart background ring ── */
+.page-dark .statistics-page circle[stroke="#E5E7EB"] {
+  stroke: #1e3a52 !important;
+}
+
+/* ── Engagement card: white bg variant ── */
+.page-dark .statistics-page [style*="background:"] {
+  background-color: #112233 !important;
+}
+
+/* ── "Trust bar" gradient strip at bottom of testimonials ── */
+.page-dark .statistics-page [style*="background:linear-gradient(135deg,#F5FBFB 0%,#FFF7ED 100%)"] {
+  background: #112233 !important;
+  background-image: none !important;
+  border-color: #1e3a52 !important;
+}
+
+/* ── Category cards in analytics bottom row ── */
+.page-dark .statistics-page .bg-white.rounded-2xl.p-4.shadow-sm {
+  background-color: #0d1f2d !important;
+  border-color: #1e3a52 !important;
+}
+
+/* ── Analytics bottom-row wrapper (F5FBFB gradient) ── */
+.page-dark .statistics-page .rounded-3xl.shadow-xl.border.border-\[#E5E7EB\].p-8 {
+  background-color: #112233 !important;
+  background-image: none !important;
+}
+
+/* ── Engagement inline card ── */
+.page-dark .statistics-page .bg-white.rounded-2xl.p-6.shadow-lg {
+  background-color: #112233 !important;
+  border-color: #1e3a52 !important;
+}
+
+/* ── Emerald badge (keep readable) ── */
+.page-dark .statistics-page .bg-emerald-50 {
+  background-color: rgba(16, 185, 129, 0.15) !important;
+}
+
+/* ── Testimonial corner accent blobs ── */
+.page-dark .statistics-page [style*="background: rgba(0,177,170,.08)"],
+.page-dark .statistics-page [style*="background: rgba(248,145,34,.08)"] {
+  opacity: 0.4;
+}
+
+/* ── Success metrics image overlay card ── */
+.page-dark .statistics-page .absolute.-bottom-5 {
+  background-color: #112233 !important;
+  border-color: #1e3a52 !important;
+}
+
+/* ── Hiring trends highlight card ── */
+.page-dark .statistics-page [style*="background:rgba(0,177,170,.08)"] {
+  background-color: rgba(0, 177, 170, 0.15) !important;
+}
+
+/* ── Ticker / decorative blobs ── */
+.page-dark .statistics-page [style*="background:rgba(0,177,170,.09)"],
+.page-dark .statistics-page [style*="background:rgba(248,145,34,.07)"],
+.page-dark .statistics-page [style*="background:rgba(0,177,170,.05)"],
+.page-dark .statistics-page [style*="background:rgba(255,255,255,.1)"] {
+  opacity: 0.3;
+}
+</style>
+
+
 </head>
 
 <body x-data="{ pageDarkMode: false, init() { window.pageDarkModeToggle = () => { $store.ui.showLoading(400); setTimeout(() => { $store.ui.darkMode = !$store.ui.darkMode }, 150) }; Alpine.effect(() => { const isDark = $store.ui.darkMode; this.pageDarkMode = isDark; window.pageDarkModeActive = isDark; document.body.classList.toggle('page-dark', isDark); window.dispatchEvent(new CustomEvent('page-dark-mode-change', { detail: { active: isDark } })); }); } }"
@@ -176,9 +369,67 @@
       opacity: 1;
       transform: translateY(0);
     }
+    /* Dark mode fixes for the statistics page */
+    .page-dark .statistics-page {
+      background-color: #07111f !important;
+      color: #ffffff !important;
+    }
+
+    .page-dark .statistics-page body,
+    .page-dark .statistics-page main,
+    .page-dark .statistics-page section,
+    .page-dark .statistics-page [style*="background: linear-gradient"],
+    .page-dark .statistics-page [style*="background:linear-gradient"],
+    .page-dark .statistics-page .bg-[#FFFFFF],
+    .page-dark .statistics-page .bg-[#F5FBFB],
+    .page-dark .statistics-page .bg-[#FFF7ED],
+    .page-dark .statistics-page .bg-white,
+    .page-dark .statistics-page [class*="bg-white"],
+    .page-dark .statistics-page [class*="bg-[#F5FBFB]"],
+    .page-dark .statistics-page [class*="bg-[#FFF7ED]"] {
+      background-color: #10223b !important;
+      border-color: #213a59 !important;
+    }
+
+    .page-dark .statistics-page .rounded-2xl,
+    .page-dark .statistics-page .rounded-3xl,
+    .page-dark .statistics-page .bg-white,
+    .page-dark .statistics-page [class*="bg-white"] {
+      background-color: #10223b !important;
+      border-color: #213a59 !important;
+    }
+
+    .page-dark .statistics-page [style*="background: linear-gradient"],
+    .page-dark .statistics-page [style*="background:linear-gradient"] {
+      background-color: #07111f !important;
+      background-image: none !important;
+    }
+
+    .page-dark .statistics-page .text-[#444444],
+    .page-dark .statistics-page .text-[#666666],
+    .page-dark .statistics-page p,
+    .page-dark .statistics-page span,
+    .page-dark .statistics-page h1,
+    .page-dark .statistics-page h2,
+    .page-dark .statistics-page h3,
+    .page-dark .statistics-page h4,
+    .page-dark .statistics-page li {
+      color: #ffffff !important;
+    }
+
+    .page-dark .statistics-page .text-[#666666],
+    .page-dark .statistics-page p.text-[#666666],
+    .page-dark .statistics-page span.text-[#666666] {
+      color: #b0c4d8 !important;
+    }
+
+    .page-dark .statistics-page .border-[#E5E7EB],
+    .page-dark .statistics-page [class*="border-[#E5E7EB]"] {
+      border-color: #213a59 !important;
+    }
   </style>
 
-  <div class="font-[Poppins] bg-[#FFFFFF] text-[#444444] antialiased overflow-x-hidden">
+  <div class="statistics-page font-[Poppins] bg-[#FFFFFF] text-[#444444] antialiased overflow-x-hidden">
 
 
 
