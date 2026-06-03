@@ -93,4 +93,9 @@ class Company extends Model
             'require_client_verification' => 'boolean',
         ];
     }
+
+    public function internships()
+    {
+        return $this->hasMany(Internship::class, 'company_id');
+    }
 }

@@ -264,6 +264,7 @@
     </div>
   </div>
 
+  <livewire:ai-chat-widget />
   @livewireScripts
   @fluxScripts
   <script src="{{ asset('admin-assets/js/sidebar.js') }}"></script>
@@ -319,6 +320,14 @@
       requestAnimationFrame(function () {
         requestAnimationFrame(function () {
           el.classList.add('entered');
+          
+          // Remove transform/will-change after animation to prevent it from creating a new 
+          // containing block for fixed position modals
+          setTimeout(function() {
+            el.style.transform = 'none';
+            el.style.willChange = 'auto';
+          }, 550);
+
           var items = el.querySelectorAll('.anim-up, .anim-scale, .anim-left');
           items.forEach(function (item, i) {
             var delay = parseInt(item.dataset.delay || 0) || (i * 65);

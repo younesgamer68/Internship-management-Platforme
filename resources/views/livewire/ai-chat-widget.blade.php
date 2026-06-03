@@ -184,7 +184,7 @@
             this.scrollToBottom();
 
             this.$nextTick(() => {
-                $wire.newConversation();
+                this.$dispatch('start-new-conversation');
             });
         },
         toggle() {
@@ -215,12 +215,13 @@
         class="fixed bottom-6 right-6 z-[9999] flex flex-col items-end">
 
         {{-- Chat Window --}}
-        <div x-ref="chatPanel" x-show="visible" x-cloak wire:key="{{ $chatting ? 'chat-view' : 'home-view' }}"
+        <div x-ref="chatPanel" x-show="visible" x-cloak
             style="transform: translateY(100%); opacity: 0;"
             class="mb-4 flex flex-col w-[380px] h-[600px] bg-white rounded-3xl shadow-[0_30px_60px_-20px_rgba(33,150,83,0.3),0_0_0_1px_rgba(33,150,83,0.1)] overflow-hidden">
 
             {{-- ========== HOME VIEW (conversation list) ========== --}}
             @if (!$chatting)
+                <div wire:key="home-view" class="flex flex-col h-full">
                 {{-- Header --}}
                 <div class="cw-shimmer relative shrink-0 px-4 pb-4 pt-4 overflow-hidden">
                     <div :class="($store.ui && $store.ui.darkMode) ? 'opacity-0' : 'opacity-100'"
@@ -318,7 +319,7 @@
 
                 {{-- New conversation button --}}
                 <div class="shrink-0 px-4 pb-3 pt-1">
-                    <button type="button" @click.prevent="$wire.newConversation()"
+                    <button type="button" wire:click="newConversation"
                         class="flex w-full items-center justify-center gap-1.5 rounded-xl bg-linear-to-br from-[#1b7a44] to-[#1b7a44] py-2.5 text-xs font-bold text-white shadow-[0_6px_16px_-4px_rgba(33,150,83,0.4),inset_0_1px_0_rgba(255,255,255,0.15)] transition hover:scale-[1.02] hover:shadow-[0_10px_22px_-5px_rgba(33,150,83,0.5)] active:scale-[0.97]">
                         <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
@@ -339,7 +340,9 @@
                         </p>
                     </div>
                 </div>
+                </div>
             @else
+                <div wire:key="chat-view" class="flex flex-col h-full">
                 {{-- ========== CHAT VIEW ========== --}}
 
                 {{-- Chat header --}}
@@ -487,12 +490,13 @@
                         </button>
                     </div>
                 </div>
+                </div>
             @endif
         </div>
 
         {{-- Floating Toggle Button with pulse ring --}}
         <button @click="toggle()" type="button"
-            class="cw-pulse-ring relative flex h-[52px] w-[52px] items-center justify-center rounded-2xl bg-linear-to-br from-[#000000] to-[#082515] shadow-[0_8px_24px_-6px_rgba(33,150,83,0.5),0_0_0_2px_rgba(33,150,83,0.2)] transition-all duration-200 hover:scale-[1.06] hover:shadow-[0_12px_28px_-6px_#0f2b0f,0_0_0_2px_#1b7a44] active:scale-95">
+            class="cw-pulse-ring relative flex h-[52px] w-[52px] items-center justify-center rounded-2xl bg-linear-to-br from-[#000000] to-[#000000] shadow-[0_8px_24px_-6px_rgba(33,150,83,0.5),0_0_0_2px_rgba(33,150,83,0.2)] transition-all duration-200 hover:scale-[1.06] hover:shadow-[0_12px_28px_-6px_#0f2b0f,0_0_0_2px_#1b7a44] active:scale-95">
             <img x-show="!isOpen" src="{{ asset('images/Logos/big-logo-orange.png') }}" alt="Chat"
                 style="height: 27px; width: 27px;" class="object-contain" />
 

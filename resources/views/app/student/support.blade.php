@@ -21,8 +21,8 @@
       </div>
       <div class="card-body faq-body">
 
-        <div class="faq-item" onclick="toggleFaq(this)">
-          <div class="faq-question">
+        <div class="faq-item" x-data="{ open: false }" :class="open ? 'open' : ''">
+          <div class="faq-question" @click="open = !open">
             <span>How do I apply for an internship?</span>
             <i class="fas fa-chevron-down faq-chevron"></i>
           </div>
@@ -31,8 +31,8 @@
           </div>
         </div>
 
-        <div class="faq-item" onclick="toggleFaq(this)">
-          <div class="faq-question">
+        <div class="faq-item" x-data="{ open: false }" :class="open ? 'open' : ''">
+          <div class="faq-question" @click="open = !open">
             <span>Can I withdraw an application?</span>
             <i class="fas fa-chevron-down faq-chevron"></i>
           </div>
@@ -41,8 +41,8 @@
           </div>
         </div>
 
-        <div class="faq-item" onclick="toggleFaq(this)">
-          <div class="faq-question">
+        <div class="faq-item" x-data="{ open: false }" :class="open ? 'open' : ''">
+          <div class="faq-question" @click="open = !open">
             <span>What documents do I need to upload?</span>
             <i class="fas fa-chevron-down faq-chevron"></i>
           </div>
@@ -51,8 +51,8 @@
           </div>
         </div>
 
-        <div class="faq-item" onclick="toggleFaq(this)">
-          <div class="faq-question">
+        <div class="faq-item" x-data="{ open: false }" :class="open ? 'open' : ''">
+          <div class="faq-question" @click="open = !open">
             <span>How will I know if I got an interview?</span>
             <i class="fas fa-chevron-down faq-chevron"></i>
           </div>
@@ -61,8 +61,8 @@
           </div>
         </div>
 
-        <div class="faq-item" onclick="toggleFaq(this)">
-          <div class="faq-question">
+        <div class="faq-item" x-data="{ open: false }" :class="open ? 'open' : ''">
+          <div class="faq-question" @click="open = !open">
             <span>What happens after I'm accepted?</span>
             <i class="fas fa-chevron-down faq-chevron"></i>
           </div>
@@ -86,10 +86,10 @@
           </div>
           <div class="contact-channel-info">
             <div class="contact-channel-label">Email Support</div>
-            <a href="mailto:internlink@epoka.edu.al" class="contact-channel-value">internlink@epoka.edu.al</a>
+            <a href="mailto:youness.ben-touttibt.00@edu.uiz.ac.ma" class="contact-channel-value">youness.ben-touttibt.00@edu.uiz.ac.ma</a>
             <div class="contact-channel-note">Replies within 24 hours</div>
           </div>
-          <button class="btn btn-sm btn-outline" onclick="navigator.clipboard.writeText('internlink@epoka.edu.al'); alert('Email copied!');">Copy</button>
+          <button class="btn btn-sm btn-outline" onclick="copyEmail()">Copy</button>
         </div>
 
         <div class="contact-channel-item">
@@ -98,10 +98,10 @@
           </div>
           <div class="contact-channel-info">
             <div class="contact-channel-label">Phone Support</div>
-            <div class="contact-channel-value">+355 4 223 2086</div>
+            <div class="contact-channel-value">+212 650-671376</div>
             <div class="contact-channel-note">Available Mon-Fri, 9am-5pm</div>
           </div>
-          <a href="tel:+35542232086" class="btn btn-sm btn-outline">Call</a>
+          <a href="tel:+212650671376" class="btn btn-sm btn-outline">Call</a>
         </div>
 
         <div class="contact-channel-item" style="border-bottom: none; padding-bottom: 0;">
@@ -113,7 +113,7 @@
             <div class="contact-channel-value">In-App Assistant</div>
             <div class="contact-channel-note">Online now</div>
           </div>
-          <button class="btn btn-sm btn-primary">Chat</button>
+          <button class="btn btn-sm btn-primary" onclick="window.dispatchEvent(new CustomEvent('open-chatbot-widget'))">Chat</button>
         </div>
       </div>
     </div>
@@ -122,100 +122,48 @@
 
   <!-- RIGHT -->
   <div class="support-col">
-
-    <!-- Submit a Ticket -->
-    <div class="card">
-      <div class="card-header">
-        <h3 class="card-title">Submit a Ticket</h3>
-      </div>
-      <div class="card-body">
-        <form class="ticket-form" onsubmit="submitTicket(event);">
-          <div class="form-group">
-            <label class="form-label">Subject</label>
-            <input type="text" class="form-control" placeholder="Brief description of your issue" required />
-          </div>
-          <div class="form-group">
-            <label class="form-label">Category</label>
-            <div style="position: relative;">
-              <select class="form-control" required style="appearance: none; background-image: url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E&quot;); background-repeat: no-repeat; background-position: right 12px center; background-size: 14px; padding-right: 36px;">
-                <option value="">Select a category</option>
-                <option>Application Issue</option>
-                <option>Document Upload</option>
-                <option>Account Access</option>
-                <option>Technical Problem</option>
-                <option>General Inquiry</option>
-              </select>
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Description</label>
-            <textarea class="form-control" rows="5" placeholder="Describe your issue in detail..." required style="resize: vertical;"></textarea>
-          </div>
-          <button type="submit" class="btn btn-primary btn-block" style="justify-content: center;"><i class="fas fa-paper-plane"></i> Submit Ticket</button>
-        </form>
-      </div>
-    </div>
-
-    <!-- My Tickets -->
-    <div class="card">
-      <div class="card-header">
-        <h3 class="card-title">My Tickets</h3>
-      </div>
-      <div class="card-body recent-tickets">
-
-        <div class="ticket-item">
-          <div class="ticket-num-badge">#TK-1042</div>
-          <div class="ticket-info">
-            <div class="ticket-subject">Document upload not working</div>
-            <div class="ticket-meta">Submitted May 18 &nbsp;·&nbsp; Open</div>
-          </div>
-          <span class="ticket-status in-progress">Open</span>
-        </div>
-
-        <div class="ticket-item">
-          <div class="ticket-num-badge">#TK-1039</div>
-          <div class="ticket-info">
-            <div class="ticket-subject">Application status not updating</div>
-            <div class="ticket-meta">Submitted May 14 &nbsp;·&nbsp; Resolved</div>
-          </div>
-          <span class="ticket-status resolved">Resolved</span>
-        </div>
-
-        <div class="ticket-item" style="border-bottom: none; padding-bottom: 0;">
-          <div class="ticket-num-badge">#TK-1031</div>
-          <div class="ticket-info">
-            <div class="ticket-subject">Unable to download transcript</div>
-            <div class="ticket-meta">Submitted May 8 &nbsp;·&nbsp; Resolved</div>
-          </div>
-          <span class="ticket-status resolved">Resolved</span>
-        </div>
-
-      </div>
-    </div>
-
+      <livewire:student.support />
   </div>
 </div>
 
 <script>
-  function toggleFaq(item) {
-    const isOpen = item.classList.contains('open');
-    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
-    if (!isOpen) item.classList.add('open');
+  function copyEmail() {
+    const email = "youness.ben-touttibt.00@edu.uiz.ac.ma";
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(email).then(() => {
+            if (window.showGlobalToast) {
+                window.showGlobalToast("Email copied to clipboard!", "success");
+            } else {
+                alert("Email copied!");
+            }
+        }).catch(err => {
+            fallbackCopy(email);
+        });
+    } else {
+        fallbackCopy(email);
+    }
   }
 
-  function submitTicket(e) {
-    e.preventDefault();
-    const btn = e.target.querySelector('[type="submit"]');
-    const originalText = btn.innerHTML;
-    btn.innerHTML = '<i class="fas fa-circle-check"></i> Ticket Submitted!';
-     btn.style.background = 'var(--primary)';
-    btn.disabled = true;
-    setTimeout(() => {
-      btn.innerHTML = originalText;
-      btn.style.background = '';
-      btn.disabled = false;
-      e.target.reset();
-    }, 2500);
+  function fallbackCopy(text) {
+    var temp = document.createElement("input");
+    temp.value = text;
+    document.body.appendChild(temp);
+    temp.select();
+    try {
+        document.execCommand("copy");
+        if (window.showGlobalToast) {
+            window.showGlobalToast("Email copied to clipboard!", "success");
+        } else {
+            alert("Email copied!");
+        }
+    } catch(err) {
+        if (window.showGlobalToast) {
+            window.showGlobalToast("Failed to copy email.", "error");
+        } else {
+            alert("Failed to copy email.");
+        }
+    }
+    document.body.removeChild(temp);
   }
 </script>
 </x-layouts::app>

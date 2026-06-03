@@ -1,5 +1,46 @@
 <x-layouts::company :title="__('Analytics')">
 
+@php
+    $company = auth()->user()->company;
+    $internships = collect();
+    $applications = collect();
+    if ($company) {
+        $internships = $company->internships()->with('applications')->get();
+        $applications = $internships->pluck('applications')->collapse();
+    }
+    
+    $totalListingViews = $internships->sum('students_viewed');
+    $totalApplicants = $applications->count();
+    $applicationRate = $totalListingViews > 0 ? round(($totalApplicants / $totalListingViews) * 100, 1) . '%' : '0%';
+    
+    // Fake stable metrics for now
+    $avgDays = '12d';
+    $offerAcceptance = '72%';
+
+    $underReview = $applications->where('status', 'Under Review')->count() + $applications->where('status', 'under_review')->count();
+    $interviewsScheduled = $applications->where('status', 'Interview')->count() + $applications->where('status', 'interview')->count();
+    $activePlacements = $applications->where('status', 'Accepted')->count() + $applications->where('status', 'accepted')->count() + $applications->where('status', 'Hired')->count();
+
+    $tableData = [];
+    $colors = ['#3B82F6', '#F59E0B', '#10B981', '#8B5CF6', '#EF4444'];
+    foreach($internships as $index => $internship) {
+        $color = $colors[$index % count($colors)];
+        $views = $internship->students_viewed ?? 0;
+        $apps = $internship->applications->count();
+        $conv = $views > 0 ? round(($apps / $views) * 100, 1) . '%' : '0%';
+        $statusClass = strtolower($internship->status) === 'open' ? 'active' : strtolower($internship->status);
+        $tableData[] = [
+            $internship->title,
+            $internship->field ?? 'General',
+            $color,
+            $views,
+            $apps,
+            $conv,
+            $statusClass,
+            ucfirst($internship->status)
+        ];
+    }
+@endphp
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 
 <style>
@@ -108,10 +149,10 @@
      ══════════════════════════════════ -->
 <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:16px;">
   @foreach([
-    ['1240', '1,240','Total Listing Views',  '+14% vs last mo', 'fa-eye','#3B82F6','rgba(59,130,246,.12)'],
-    ['38',  '3.8%',  'Application Rate',     '+0.4% this wk',  'fa-percent','#10B981','rgba(16,185,129,.12)'],
-    ['12',   '12d',   'Avg. Days to Hire',    '-2d vs last yr', 'fa-hourglass-half','#F59E0B','rgba(245,158,11,.12)'],
-    ['72',   '72%',   'Offer Acceptance',     '+5% semester',   'fa-handshake','#8B5CF6','rgba(139,92,246,.12)'],
+    [$totalListingViews, number_format($totalListingViews),'Total Listing Views',  '+14% vs last mo', 'fa-eye','#3B82F6','rgba(59,130,246,.12)'],
+    [str_replace('%', '', $applicationRate),  $applicationRate,  'Application Rate',     '+0.4% this wk',  'fa-percent','#10B981','rgba(16,185,129,.12)'],
+    ['12',   $avgDays,   'Avg. Days to Hire',    '-2d vs last yr', 'fa-hourglass-half','#F59E0B','rgba(245,158,11,.12)'],
+    ['72',   $offerAcceptance,   'Offer Acceptance',     '+5% semester',   'fa-handshake','#8B5CF6','rgba(139,92,246,.12)'],
   ] as $idx => [$raw,$display,$lbl,$chg,$icon,$color,$bg])
   <div class="stat-card hover-lift anim-scale kpi-card" data-delay="{{ $idx * 70 }}"
        style="padding:20px;gap:14px;cursor:default;background:var(--white);border:1px solid var(--border);">
@@ -134,10 +175,10 @@
 <!-- Secondary KPI row -->
 <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:28px;">
   @foreach([
-    ['47', '47',  'Applications Received', '+12 this week', 'fa-inbox','var(--primary)','var(--primary-bg)', 280],
-    ['28','28',  'Under Review',          'Active review',  'fa-user-clock','#F59E0B','rgba(245,158,11,.12)', 350],
-    ['3',  '3',   'Active Placements',     'On track',       'fa-circle-check','#10B981','rgba(16,185,129,.12)', 420],
-    ['12', '12',  'Interviews Scheduled',  'Next 7 days',    'fa-calendar-days','#6366F1','rgba(99,102,241,.12)', 490],
+    [$totalApplicants, $totalApplicants,  'Applications Received', '+12 this week', 'fa-inbox','var(--primary)','var(--primary-bg)', 280],
+    [$underReview, $underReview,  'Under Review',          'Active review',  'fa-user-clock','#F59E0B','rgba(245,158,11,.12)', 350],
+    [$activePlacements,  $activePlacements,   'Active Placements',     'On track',       'fa-circle-check','#10B981','rgba(16,185,129,.12)', 420],
+    [$interviewsScheduled, $interviewsScheduled,  'Interviews Scheduled',  'Next 7 days',    'fa-calendar-days','#6366F1','rgba(99,102,241,.12)', 490],
   ] as [$raw,$display,$lbl,$chg,$icon,$color,$bg,$delay])
   <div class="stat-card hover-lift anim-scale kpi-card" data-delay="{{ $delay }}"
        style="padding:16px;gap:12px;cursor:default;background:var(--white);border:1px solid var(--border);">
@@ -288,14 +329,7 @@
         </tr>
       </thead>
       <tbody id="reportsTableBody">
-        @foreach([
-          ['Software Development Intern','Engineering','#3B82F6',1200,34,'2.8%','active','Active'],
-          ['Marketing Coordinator',      'Marketing',  '#F59E0B', 680,21,'3.1%','active','Active'],
-          ['Data Analyst Intern',        'Data Science','#10B981', 510,18,'3.5%','active','Active'],
-          ['UI/UX Design Intern',        'Design',      '#8B5CF6', 720,27,'3.7%','draft', 'Draft'],
-          ['Financial Analyst Intern',   'Finance',     '#EF4444',   0, 0,'0.0%','draft', 'Draft'],
-          ['Backend Developer Intern',   'Engineering','#3B82F6', 340, 8,'2.4%','closed','Closed'],
-        ] as [$title,$dept,$cc,$views,$applicants,$conv,$statusClass,$statusLabel])
+        @forelse($tableData as [$title,$dept,$cc,$views,$applicants,$conv,$statusClass,$statusLabel])
         <tr>
           <td style="padding:14px 16px;">
             <div style="display:flex;align-items:center;gap:10px;">
@@ -313,7 +347,13 @@
           <td style="padding:14px 16px;font-size:12px;color:var(--gray-600);font-weight:600;">{{ $conv }}</td>
           <td style="padding:14px 16px;"><span class="status-badge {{ $statusClass }}">{{ $statusLabel }}</span></td>
         </tr>
-        @endforeach
+        @empty
+        <tr>
+            <td colspan="6" style="padding:20px;text-align:center;color:var(--gray-500);font-size:13px;">
+                No internship data available yet.
+            </td>
+        </tr>
+        @endforelse
       </tbody>
     </table>
   </div>

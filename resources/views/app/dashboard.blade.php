@@ -17,7 +17,9 @@
 @elseif($user->isIntern())
     @include('app.student.dashboard')
 @elseif($user->isCompanyManager())
-    @include('app.company.dashboard')
+    <x-layouts::company title="Company Dashboard">
+        @livewire('company.dashboard')
+    </x-layouts::company>
 @else
     {{-- Helpdesk Agent --}}
     <x-layouts::app.sidebar title="Agent Dashboard">

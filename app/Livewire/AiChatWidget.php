@@ -2,11 +2,9 @@
 
 namespace App\Livewire;
 
-use App\Ai\Agents\HelpdeskAgent;
-use App\Models\CompanyAiSettings;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
 use Livewire\Component;
 
@@ -20,7 +18,7 @@ class AiChatWidget extends Component
 
     public ?string $conversationId = null;
 
-    /** @var array<int, array{id: string, title: string, date: string}> */
+    /** @var array<int, array{id: string, title: string, date: string, preview: string}> */
     public array $conversations = [];
 
     public bool $chatting = false;
@@ -39,47 +37,18 @@ class AiChatWidget extends Component
 
     public function loadConversationList(): void
     {
-        if (! Auth::check()) {
-            $this->conversations = [];
-
-            return;
+        $this->conversations = [];
+        $saved = Session::get('chat_conversations', []);
+        
+        foreach ($saved as $id => $conv) {
+            $this->conversations[] = [
+                'id' => $id,
+                'title' => $conv['title'],
+                'preview' => $conv['preview'] ?? 'New conversation',
+                'date' => $conv['date'],
+                'short_date' => $conv['short_date'],
+            ];
         }
-
-        if (! \Illuminate\Support\Facades\Schema::hasTable('agent_conversations')) {
-            $this->conversations = [];
-            return;
-        }
-
-        $this->conversations = DB::table('agent_conversations')
-            ->where('user_id', Auth::id())
-            ->where(function ($q) {
-                if (Auth::user()->company_id) {
-                    $q->where('company_id', Auth::user()->company_id);
-                }
-            })
-            ->orderByDesc('updated_at')
-            ->limit(20)
-            ->get()
-            ->map(function ($conv) {
-                $firstMessageContent = DB::table('agent_conversation_messages')
-                    ->where('conversation_id', $conv->id)
-                    ->where('role', 'user')
-                    ->orderBy('created_at', 'asc')
-                    ->value('content');
-
-                $preview = $firstMessageContent
-                    ? \Illuminate\Support\Str::limit((string) $firstMessageContent, 60)
-                    : 'New conversation';
-
-                return [
-                    'id' => $conv->id,
-                    'title' => $conv->title ?: 'Conversation',
-                    'preview' => $preview,
-                    'date' => \Carbon\Carbon::parse($conv->created_at)->format('M j \a\t g:i A'),
-                    'short_date' => \Carbon\Carbon::parse($conv->updated_at)->format('M j'),
-                ];
-            })
-            ->all();
     }
 
     public function loadMessages(): void
@@ -88,43 +57,47 @@ class AiChatWidget extends Component
             return;
         }
 
-        if (! \Illuminate\Support\Facades\Schema::hasTable('agent_conversation_messages')) {
-            $this->messages = [];
-            return;
-        }
-
-        $history = DB::table('agent_conversation_messages')
-            ->where('conversation_id', $this->conversationId)
-            ->orderBy('created_at', 'asc')->get();
-
-        $this->messages = [];
-        foreach ($history as $msg) {
-            $role = $msg->role === 'user' ? 'user' : 'ai';
-            $this->messages[] = [
-                'role' => $role,
-                'content' => $msg->content,
-            ];
-        }
-
-        if (empty($this->messages)) {
-            $this->messages[] = [
-                'role' => 'ai',
-                'content' => "Welcome to the InterLink System! 🚀\nHow can I assist you today?",
+        $saved = Session::get('chat_conversations', []);
+        if (isset($saved[$this->conversationId])) {
+            $this->messages = $saved[$this->conversationId]['messages'];
+        } else {
+            $this->messages = [
+                [
+                    'role' => 'ai',
+                    'content' => "Welcome to the InterLink System! 🚀\nHow can I assist you today?",
+                ]
             ];
         }
     }
 
+    #[\Livewire\Attributes\On('start-new-conversation')]
     public function newConversation(): void
     {
-        $this->conversationId = null;
-        Session::forget('chat_conversation_id');
+        $this->conversationId = (string) \Illuminate\Support\Str::uuid();
+        Session::put('chat_conversation_id', $this->conversationId);
+
         $this->messages = [
             [
                 'role' => 'ai',
                 'content' => "Welcome to the InterLink System! 🚀\nHow can I assist you today?",
             ],
         ];
+
         $this->chatting = true;
+
+        $conversations = Session::get('chat_conversations', []);
+        $conversations[$this->conversationId] = [
+            'id' => $this->conversationId,
+            'title' => 'New conversation',
+            'preview' => 'New conversation',
+            'date' => now()->format('M j \a\t g:i A'),
+            'short_date' => now()->format('M j'),
+            'messages' => $this->messages,
+        ];
+        
+        Session::put('chat_conversations', $conversations);
+        Session::save();
+
         $this->dispatch('scroll-to-bottom');
     }
 
@@ -133,6 +106,7 @@ class AiChatWidget extends Component
         $this->conversationId = $id;
         Session::put('chat_conversation_id', $id);
         Session::save();
+
         $this->loadMessages();
         $this->chatting = true;
         $this->dispatch('scroll-to-bottom');
@@ -146,15 +120,10 @@ class AiChatWidget extends Component
 
     public function deleteConversation(string $id): void
     {
-        // Remove from database
-        if (\Illuminate\Support\Facades\Schema::hasTable('agent_conversation_messages')) {
-            DB::table('agent_conversation_messages')->where('conversation_id', $id)->delete();
-        }
-        if (\Illuminate\Support\Facades\Schema::hasTable('agent_conversations')) {
-            DB::table('agent_conversations')->where('id', $id)->delete();
-        }
+        $conversations = Session::get('chat_conversations', []);
+        unset($conversations[$id]);
+        Session::put('chat_conversations', $conversations);
 
-        // If the deleted conversation is currently active, clear state
         if ($this->conversationId === $id) {
             $this->conversationId = null;
             Session::forget('chat_conversation_id');
@@ -179,6 +148,16 @@ class AiChatWidget extends Component
             'content' => $userMessage,
         ];
 
+        if ($this->conversationId) {
+            $conversations = Session::get('chat_conversations', []);
+            if (isset($conversations[$this->conversationId])) {
+                $conversations[$this->conversationId]['messages'] = $this->messages;
+                $conversations[$this->conversationId]['preview'] = \Illuminate\Support\Str::limit($userMessage, 60);
+                Session::put('chat_conversations', $conversations);
+                Session::save();
+            }
+        }
+
         $this->isTyping = true;
         $this->dispatch('scroll-to-bottom');
         $this->dispatch('trigger-ai-response', message: $userMessage);
@@ -193,152 +172,72 @@ class AiChatWidget extends Component
     #[\Livewire\Attributes\On('trigger-ai-response')]
     public function triggerAiResponse(string $message): void
     {
-        if (! Auth::check()) {
+        $apiKey = env('GEMINI_API_KEY');
+
+        if (! $apiKey) {
             $this->messages[] = [
                 'role' => 'ai',
-                'content' => 'You must be logged in to use the AI chatbot.',
+                'content' => 'Gemini API key is not configured. Please add GEMINI_API_KEY to your .env file.',
             ];
             $this->isTyping = false;
             $this->dispatch('scroll-to-bottom');
-
-            return;
-        }
-
-        if (! \Illuminate\Support\Facades\Schema::hasTable('company_ai_settings')) {
-            $this->messages[] = [
-                'role' => 'ai',
-                'content' => 'AI Chatbot is currently unavailable.',
-            ];
-            $this->isTyping = false;
-            $this->dispatch('scroll-to-bottom');
-
-            return;
-        }
-
-        $preferredModel = $this->preferredAiModel();
-        $hasApiKey = $this->hasConfiguredAiApiKey();
-
-        $settings = CompanyAiSettings::query()->firstOrCreate(
-            ['company_id' => Auth::user()->company_id],
-            [
-                'ai_chatbot_enabled' => $hasApiKey,
-                'ai_model' => $preferredModel,
-            ]
-        );
-
-        if ($hasApiKey && ! $settings->ai_chatbot_enabled) {
-            $settings->update([
-                'ai_chatbot_enabled' => true,
-                'ai_model' => $preferredModel,
-            ]);
-        }
-
-        if (! $settings->ai_chatbot_enabled) {
-            $this->messages[] = [
-                'role' => 'ai',
-                'content' => 'The AI chatbot is currently disabled. Please contact your administrator.',
-            ];
-            $this->isTyping = false;
-            $this->dispatch('scroll-to-bottom');
-            $this->dispatch('show-toast', message: 'AI chatbot is disabled in settings.', type: 'error');
-
             return;
         }
 
         try {
-            $agent = new HelpdeskAgent;
-            $participant = Auth::user() ?? (object) ['id' => null];
-
-            if (! $this->conversationId) {
-                // Ensure the conversation exists immediately in the DB so rate limiting
-                // doesn't cause the user's initial message to disappear from history.
-                $this->conversationId = (string) \Illuminate\Support\Str::uuid7();
-
-                if (\Illuminate\Support\Facades\Schema::hasTable('agent_conversations')) {
-                    DB::table('agent_conversations')->insert([
-                        'id' => $this->conversationId,
-                        'user_id' => $participant->id ?? null,
-                        'company_id' => Auth::user()?->company_id,
-                        'title' => \Illuminate\Support\Str::limit($message, 50),
-                        'created_at' => now(),
-                        'updated_at' => now(),
-                    ]);
-                }
-
-                // Also manually store their initial message so it shows up in history preview
-                if (\Illuminate\Support\Facades\Schema::hasTable('agent_conversation_messages')) {
-                    DB::table('agent_conversation_messages')->insert([
-                        'id' => (string) \Illuminate\Support\Str::uuid7(),
-                        'conversation_id' => $this->conversationId,
-                        'user_id' => $participant->id ?? null,
-                        'agent' => HelpdeskAgent::class,
-                        'role' => 'user',
-                        'content' => $message,
-                        'attachments' => '[]',
-                        'tool_calls' => '[]',
-                        'tool_results' => '[]',
-                        'usage' => '[]',
-                        'meta' => '[]',
-                        'created_at' => now(),
-                        'updated_at' => now(),
-                    ]);
-                }
-
-                Session::put('chat_conversation_id', $this->conversationId);
-                Session::save();
+            $contents = [];
+            foreach ($this->messages as $msg) {
+                $contents[] = [
+                    'role' => $msg['role'] === 'user' ? 'user' : 'model',
+                    'parts' => [
+                        ['text' => $msg['content']]
+                    ]
+                ];
             }
 
-            // Always use continue() now since we guarantee the conversation ID exists
-            $response = $agent->continue($this->conversationId, $participant)->prompt(
-                $message,
-                provider: $settings->resolveProvider(),
-                model: $settings->ai_model,
-            );
+            $systemInstruction = "You are a knowledgeable, friendly customer support assistant for the InterLink Internship Management Platform. Keep every response under 3 sentences. Do not use markdown formatting like ** or # or bullet lists, except you may use markdown links when referencing resources. Assist students with applications, resumes, profiles, documents, or how to create support tickets.";
 
-            $this->messages[] = ['role' => 'ai', 'content' => trim($response->text)];
-            $this->loadMessages();
+            $response = Http::post("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={$apiKey}", [
+                'systemInstruction' => [
+                    'parts' => [
+                        ['text' => $systemInstruction]
+                    ]
+                ],
+                'contents' => $contents
+            ]);
 
-        } catch (\Exception $e) {
-            $errorMsg = $e->getMessage();
-
-            if (str_contains(strtolower($errorMsg), 'rate limit') || str_contains(strtolower($errorMsg), '429')) {
-                $userMsg = "I'm receiving too many requests right now. Please wait a moment and try again.";
+            if ($response->successful()) {
+                $responseText = $response->json('candidates.0.content.parts.0.text');
+                if (empty($responseText)) {
+                    $responseText = "I'm sorry, I couldn't generate a response. Please try again.";
+                }
             } else {
-                $userMsg = 'An internal error occurred: '.trim($errorMsg);
+                $responseText = "Error from Gemini API: " . $response->body();
             }
 
             $this->messages[] = [
                 'role' => 'ai',
-                'content' => $userMsg,
+                'content' => trim($responseText)
+            ];
+
+            if ($this->conversationId) {
+                $conversations = Session::get('chat_conversations', []);
+                if (isset($conversations[$this->conversationId])) {
+                    $conversations[$this->conversationId]['messages'] = $this->messages;
+                    Session::put('chat_conversations', $conversations);
+                    Session::save();
+                }
+            }
+
+        } catch (\Exception $e) {
+            $this->messages[] = [
+                'role' => 'ai',
+                'content' => 'An error occurred: ' . $e->getMessage(),
             ];
         }
 
         $this->isTyping = false;
         $this->dispatch('scroll-to-bottom');
-    }
-
-    private function hasConfiguredAiApiKey(): bool
-    {
-        return filled(env('GEMINI_API_KEY'))
-            || filled(env('OPENAI_API_KEY'))
-            || filled(env('ANTHROPIC_API_KEY'));
-    }
-
-    private function preferredAiModel(): string
-    {
-        if (filled(env('GEMINI_API_KEY'))) {
-            return 'gemini-2.5-flash';
-        }
-
-        if (filled(env('OPENAI_API_KEY'))) {
-            return 'gpt-4o-mini';
-        }
-
-        if (filled(env('ANTHROPIC_API_KEY'))) {
-            return 'claude-sonnet-4-20250514';
-        }
-
-        return 'gemini-2.5-flash';
     }
 
     public function render(): View

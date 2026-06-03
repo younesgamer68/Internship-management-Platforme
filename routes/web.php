@@ -733,16 +733,54 @@ Route::middleware(['auth'])->prefix('{company}')->group(function () {
     })->name('student.applications');
 
     Route::get('/student/documents', function () {
-        return view('app.student.documents');
+        $documents = \App\Models\Document::where('user_id', auth()->id())->latest()->get();
+        return view('app.student.documents', compact('documents'));
     })->name('student.documents');
+
+    Route::post('/student/documents', function (\Illuminate\Http\Request $request) {
+        \Log::info('Upload document route hit!', $request->all());
+        
+        $validator = \Illuminate\Support\Facades\Validator::make($request->all(), [
+            'document' => 'required|file|max:20480' // increased to 20MB, removed mimes
+        ]);
+
+        if ($validator->fails()) {
+            \Log::error('Validation failed', $validator->errors()->toArray());
+            return back()->withErrors($validator)->withInput();
+        }
+
+        $file = $request->file('document');
+        $path = $file->store('documents', 'public');
+        
+        \Log::info('File stored at: ' . $path);
+
+        $doc = \App\Models\Document::create([
+            'user_id' => auth()->id(),
+            'name' => $file->getClientOriginalName(),
+            'path' => $path,
+            'size' => $file->getSize(),
+            'type' => $file->getClientOriginalExtension()
+        ]);
+
+        \Log::info('Document created: ' . $doc->id);
+
+        return redirect()->route('student.documents', ['company' => $request->route('company')])
+                         ->with('success', 'Document uploaded successfully');
+    })->name('student.documents.upload');
+
+    Route::delete('/student/documents/{document}', function ($company, \App\Models\Document $document) {
+        if ($document->user_id !== auth()->id()) abort(403);
+        \Illuminate\Support\Facades\Storage::disk('public')->delete($document->path);
+        $document->delete();
+        return redirect()->route('student.documents', ['company' => $company])
+                         ->with('success', 'Document deleted successfully');
+    })->name('student.documents.destroy');
 
     Route::get('/student/profile', function () {
         return view('app.student.profile');
     })->name('student.profile');
 
-    Route::get('/student/support', function () {
-        return view('app.student.support');
-    })->name('student.support');
+    Route::get('/student/support', \App\Livewire\Student\Support::class)->name('student.support');
 
     // Admin Portal Sub-pages
     Route::get('/admin/users', [\App\Http\Controllers\AdminUsersController::class, 'index'])->name('admin.users');
