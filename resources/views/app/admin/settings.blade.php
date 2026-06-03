@@ -102,7 +102,7 @@
             <div class="settings-field-control">
               <div class="sf-input-wrap">
                 <i class="fas fa-globe sf-icon"></i>
-                <input type="text" class="sf-input" id="g-platform-name" placeholder="InternLink Platform" />
+                <input type="text" readonly class="sf-input" id="g-platform-name" placeholder="InternLink Platform" />
               </div>
             </div>
           </div>
@@ -114,7 +114,7 @@
             <div class="settings-field-control">
               <div class="sf-input-wrap">
                 <i class="fas fa-envelope sf-icon"></i>
-                <input type="email" class="sf-input" id="g-email" placeholder="admin@internlink.com" />
+                <input type="email" readonly class="sf-input" id="g-email" placeholder="youness.ben-touttibt.00@edu.uiz.ac.ma" />
               </div>
             </div>
           </div>
@@ -126,7 +126,7 @@
             <div class="settings-field-control">
               <div class="sf-input-wrap">
                 <i class="fas fa-phone sf-icon"></i>
-                <input type="text" class="sf-input" id="g-phone" placeholder="+355 69 123 4567" />
+                <input type="text" readonly class="sf-input" id="g-phone" placeholder="+212 650-671376" />
               </div>
             </div>
           </div>
@@ -961,7 +961,21 @@ function saveAppearance() {
   if (window.Alpine && Alpine.store('ui')) {
     Alpine.store('ui').lang = (langVal === 'fr' ? 'French' : 'English');
   }
+  
+  // Set Google Translate Cookie
+  if (langVal === 'fr') {
+    document.cookie = 'googtrans=/en/fr; path=/';
+    document.cookie = 'googtrans=/en/fr; domain=' + window.location.hostname + '; path=/';
+  } else {
+    document.cookie = 'googtrans=/en/en; path=/';
+    document.cookie = 'googtrans=/en/en; domain=' + window.location.hostname + '; path=/';
+  }
+  
   triggerAutosaveBadge();
+  
+  setTimeout(() => {
+    window.location.reload();
+  }, 500);
 }
 
 function resetAppearance() {

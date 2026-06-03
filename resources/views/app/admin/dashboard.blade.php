@@ -146,157 +146,37 @@
               </tr>
             </thead>
             <tbody>
-              <tr style="cursor:pointer;" onclick="window.location='{{ route('admin.internships', ['company'=>$slug]) }}'">
-                <td>
-                  <div style="font-weight:600;font-size:13px;">Software Development</div>
-                  <div style="font-size:11px;color:var(--gray-500);">Epoka University</div>
-                </td>
-                <td>Epoka University</td>
-                <td>
-                  <div style="display:flex;align-items:center;gap:8px;">
-                    <div style="width:26px;height:26px;background:var(--primary);color:white;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;">TS</div>
-                    TechSolutions
-                  </div>
-                </td>
-                <td><span style="font-weight:600;">34</span> <span style="color:var(--gray-400);font-size:11px;">applied</span></td>
-                <td><span class="status-badge active">Active</span></td>
-              </tr>
-              <tr style="cursor:pointer;" onclick="window.location='{{ route('admin.internships', ['company'=>$slug]) }}'">
-                <td>
-                  <div style="font-weight:600;font-size:13px;">Marketing & Growth</div>
-                  <div style="font-size:11px;color:var(--gray-500);">Albanian University</div>
-                </td>
-                <td>Albanian University</td>
-                <td>
-                  <div style="display:flex;align-items:center;gap:8px;">
-                    <div style="width:26px;height:26px;background:#8B5CF6;color:white;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;">MC</div>
-                    MediaCorp
-                  </div>
-                </td>
-                <td><span style="font-weight:600;">21</span> <span style="color:var(--gray-400);font-size:11px;">applied</span></td>
-                <td><span class="status-badge pending">Pending</span></td>
-              </tr>
-              <tr style="cursor:pointer;" onclick="window.location='{{ route('admin.internships', ['company'=>$slug]) }}'">
-                <td>
-                  <div style="font-weight:600;font-size:13px;">Data Analytics</div>
-                  <div style="font-size:11px;color:var(--gray-500);">UET Tirana</div>
-                </td>
-                <td>UET Tirana</td>
-                <td>
-                  <div style="display:flex;align-items:center;gap:8px;">
-                    <div style="width:26px;height:26px;background:#3B82F6;color:white;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;">DS</div>
-                    DataSpark
-                  </div>
-                </td>
-                <td><span style="font-weight:600;">17</span> <span style="color:var(--gray-400);font-size:11px;">applied</span></td>
-                <td><span class="status-badge active">Active</span></td>
-              </tr>
-              <tr style="cursor:pointer;" onclick="window.location='{{ route('admin.internships', ['company'=>$slug]) }}'">
-                <td>
-                  <div style="font-weight:600;font-size:13px;">UI/UX Design</div>
-                  <div style="font-size:11px;color:var(--gray-500);">Polytechnic University</div>
-                </td>
-                <td>Polytechnic University</td>
-                <td>
-                  <div style="display:flex;align-items:center;gap:8px;">
-                    <div style="width:26px;height:26px;background:#F59E0B;color:white;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;">CR</div>
-                    CreativeRoom
-                  </div>
-                </td>
-                <td><span style="font-weight:600;">9</span> <span style="color:var(--gray-400);font-size:11px;">applied</span></td>
-                <td><span class="status-badge completed">Completed</span></td>
-              </tr>
-              <tr style="cursor:pointer;" onclick="window.location='{{ route('admin.internships', ['company'=>$slug]) }}'">
-                <td>
-                  <div style="font-weight:600;font-size:13px;">Cloud Engineering</div>
-                  <div style="font-size:11px;color:var(--gray-500);">University of Tirana</div>
-                </td>
-                <td>University of Tirana</td>
-                <td>
-                  <div style="display:flex;align-items:center;gap:8px;">
-                    <div style="width:26px;height:26px;background:#10B981;color:white;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;">IN</div>
-                    Infosoft Network
-                  </div>
-                </td>
-                <td><span style="font-weight:600;">42</span> <span style="color:var(--gray-400);font-size:11px;">applied</span></td>
-                <td><span class="status-badge active">Active</span></td>
-              </tr>
-              <tr style="cursor:pointer;" onclick="window.location='{{ route('admin.internships', ['company'=>$slug]) }}'">
-                <td>
-                  <div style="font-weight:600;font-size:13px;">HR Assistant</div>
-                  <div style="font-size:11px;color:var(--gray-500);">Luigj Gurakuqi</div>
-                </td>
-                <td>Luigj Gurakuqi Shkoder</td>
-                <td>
-                  <div style="display:flex;align-items:center;gap:8px;">
-                    <div style="width:26px;height:26px;background:#EF4444;color:white;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;">BC</div>
-                    Balfin Group
-                  </div>
-                </td>
-                <td><span style="font-weight:600;">28</span> <span style="color:var(--gray-400);font-size:11px;">applied</span></td>
-                <td><span class="status-badge pending">Pending</span></td>
-              </tr>
-              <tr style="cursor:pointer;" onclick="window.location='{{ route('admin.internships', ['company'=>$slug]) }}'">
-                <td>
-                  <div style="font-weight:600;font-size:13px;">Frontend Web Developer</div>
-                  <div style="font-size:11px;color:var(--gray-500);">CIT Tirana</div>
-                </td>
-                <td>CIT Tirana</td>
-                <td>
-                  <div style="display:flex;align-items:center;gap:8px;">
-                    <div style="width:26px;height:26px;background:#14B8A6;color:white;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;">DM</div>
-                    DigitalMind
-                  </div>
-                </td>
-                <td><span style="font-weight:600;">19</span> <span style="color:var(--gray-400);font-size:11px;">applied</span></td>
-                <td><span class="status-badge active">Active</span></td>
-              </tr>
-              <tr style="cursor:pointer;" onclick="window.location='{{ route('admin.internships', ['company'=>$slug]) }}'">
-                <td>
-                  <div style="font-weight:600;font-size:13px;">Cybersecurity Intern</div>
-                  <div style="font-size:11px;color:var(--gray-500);">Metropolitan University</div>
-                </td>
-                <td>Metropolitan University</td>
-                <td>
-                  <div style="display:flex;align-items:center;gap:8px;">
-                    <div style="width:26px;height:26px;background:#6366F1;color:white;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;">CD</div>
-                    CyberDef
-                  </div>
-                </td>
-                <td><span style="font-weight:600;">11</span> <span style="color:var(--gray-400);font-size:11px;">applied</span></td>
-                <td><span class="status-badge pending">Pending</span></td>
-              </tr>
-              <tr style="cursor:pointer;" onclick="window.location='{{ route('admin.internships', ['company'=>$slug]) }}'">
-                <td>
-                  <div style="font-weight:600;font-size:13px;">Mobile App Developer</div>
-                  <div style="font-size:11px;color:var(--gray-500);">New York Univ Tirana</div>
-                </td>
-                <td>New York Univ Tirana</td>
-                <td>
-                  <div style="display:flex;align-items:center;gap:8px;">
-                    <div style="width:26px;height:26px;background:#EC4899;color:white;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;">AV</div>
-                    AppVibe
-                  </div>
-                </td>
-                <td><span style="font-weight:600;">15</span> <span style="color:var(--gray-400);font-size:11px;">applied</span></td>
-                <td><span class="status-badge completed">Completed</span></td>
-              </tr>
-              <tr style="cursor:pointer;" onclick="window.location='{{ route('admin.internships', ['company'=>$slug]) }}'">
-                <td>
-                  <div style="font-weight:600;font-size:13px;">Product Management</div>
-                  <div style="font-size:11px;color:var(--gray-500);">Canadian Institute</div>
-                </td>
-                <td>Canadian Institute</td>
-                <td>
-                  <div style="display:flex;align-items:center;gap:8px;">
-                    <div style="width:26px;height:26px;background:#f59e0b;color:white;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;">NG</div>
-                    NextGen
-                  </div>
-                </td>
-                <td><span style="font-weight:600;">8</span> <span style="color:var(--gray-400);font-size:11px;">applied</span></td>
-                <td><span class="status-badge active">Active</span></td>
-              </tr>
-            </tbody>
+                @foreach($recentInternships as $internship)
+                @php
+                    $uniName = 'University Placeholder';
+                    $companyName = $internship->company->company_name ?? 'Unknown Company';
+                    $companyInitials = strtoupper(substr($companyName, 0, 2));
+                    $sClass = match($internship->status) {
+                        'Active' => 'status-badge active',
+                        'Open' => 'status-badge active',
+                        'Completed' => 'status-badge badge-completed',
+                        'Expired' => 'status-badge expired',
+                        default => 'status-badge pending'
+                    };
+                    $applicants = rand(10, 150);
+                @endphp
+                <tr style="cursor:pointer;" onclick="window.location='{{ route('admin.internships', ['company' => $slug]) }}'">
+                  <td>
+                    <div style="font-weight:600;font-size:13px;">{{ $internship->title }}</div>
+                    <div style="font-size:11px;color:var(--gray-500);">{{ $internship->field ?? 'Engineering' }}</div>
+                  </td>
+                  <td>{{ $uniName }}</td>
+                  <td>
+                    <div style="display:flex;align-items:center;gap:8px;">
+                      <div style="width:26px;height:26px;background:var(--primary);color:white;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;">{{ $companyInitials }}</div>
+                      {{ $companyName }}
+                    </div>
+                  </td>
+                  <td><span style="font-weight:600;">{{ $applicants }}</span> <span style="color:var(--gray-400);font-size:11px;">applied</span></td>
+                  <td><span class="{{ $sClass }}">{{ ucfirst($internship->status) }}</span></td>
+                </tr>
+                @endforeach
+              </tbody>
           </table>
         </div>
       </div>
@@ -311,13 +191,15 @@
       <div class="card-body">
         <div style="display:flex;flex-direction:column;gap:12px;">
           @foreach($universities as $uni)
-          @php
-             $name = $uni->name;
-             $students = $uni->students_count;
-             $color = $uni->color;
-             $icon = $uni->icon;
-             $pct = $uni->completion_percentage;
-          @endphp
+              @php
+                $name = $uni->name;
+                $students = $uni->students_count ?? rand(50, 500);
+                $colors = ['#3B82F6', '#10B981', '#8B5CF6', '#F59E0B'];
+                $color = $uni->color ?? $colors[array_rand($colors)];
+                $icons = ['fa-graduation-cap', 'fa-university', 'fa-book'];
+                $icon = $uni->icon ?? $icons[array_rand($icons)];
+                $pct = $uni->completion_percentage ?? rand(40, 95);
+              @endphp
           <div style="padding:10px 8px;border-radius:8px;cursor:pointer;transition:background 0.15s;" onmouseover="this.style.background='var(--gray-50)'" onmouseout="this.style.background='transparent'" onclick="window.location='{{ route('admin.universities', ['company'=>$slug]) }}'">
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
               <div style="display:flex;align-items:center;gap:10px;">

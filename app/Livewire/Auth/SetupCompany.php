@@ -68,7 +68,7 @@ class SetupCompany extends Component
             $user->update([
                 'name' => $this->name,
                 'company_id' => $company->id,
-                'role' => 'admin',
+                'role' => 'company_manager',
             ]);
         });
 

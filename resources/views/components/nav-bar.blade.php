@@ -50,13 +50,17 @@ Navbar — local state only; $store.ui.darkMode / lang / t() from $store.ui
             @else
                 <a href="{{ route('choose_path') }}" class="text-xs font-medium transition-colors duration-200"
                     :class="@if($blueBg || $blackBg) 'text-white hover:text-white' @else ($store.ui.darkMode ? 'text-gray-400 hover:text-white' : 'text-[#68737D] hover:text-[#17494D]') @endif"
-                    x-text="$store.ui.t('utilitySignIn')"></a>
+                    x-text="$store.ui.t('utilitySignIn')">
             @endauth
-            <a href="{{ route('about') }}" class="text-xs font-medium transition-colors duration-200"
-                :class="@if($blueBg || $blackBg) 'text-white hover:text-white' @else ($store.ui.darkMode ? 'text-gray-400 hover:text-white' : 'text-[#68737D] hover:text-[#17494D]') @endif">{{ __('nav.about_us') }}</a>
-            <a href="{{ route('contact') }}" class="text-xs font-medium transition-colors duration-200"
-                :class="@if($blueBg || $blackBg) 'text-white hover:text-white' @else ($store.ui.darkMode ? 'text-gray-400 hover:text-white' : 'text-[#68737D] hover:text-[#17494D]') @endif"
-                x-text="$store.ui.t('utilityContactUs')">{{ __('nav.contact_us') }}</a>
+                <a href="{{ route('navbarlink.resources.cv-builder') }}"
+                    class="text-xs font-medium transition-colors duration-200"
+                    :class="@if($blueBg || $blackBg) 'text-white hover:text-white' @else ($store.ui.darkMode ? 'text-gray-400 hover:text-white' : 'text-[#68737D] hover:text-[#17494D]') @endif"
+                    x-text="$store.ui.t('resources_cv_builder')"></a>
+                <a href="{{ route('about') }}" class="text-xs font-medium transition-colors duration-200"
+                    :class="@if($blueBg || $blackBg) 'text-white hover:text-white' @else ($store.ui.darkMode ? 'text-gray-400 hover:text-white' : 'text-[#68737D] hover:text-[#17494D]') @endif">{{ __('nav.about_us') }}</a>
+                <a href="{{ route('contact') }}" class="text-xs font-medium transition-colors duration-200"
+                    :class="@if($blueBg || $blackBg) 'text-white hover:text-white' @else ($store.ui.darkMode ? 'text-gray-400 hover:text-white' : 'text-[#68737D] hover:text-[#17494D]') @endif"
+                    x-text="$store.ui.t('utilityContactUs')">{{ __('nav.contact_us') }}</a>
         </div>
     </div>
 
@@ -474,15 +478,15 @@ Navbar — local state only; $store.ui.darkMode / lang / t() from $store.ui
                                 <form method="POST" action="{{ route('logout') }}" class="inline">
                                     @csrf
                                     <button type="submit" :class="[
-                                                                                    'rounded-xl border px-5 py-2 text-sm font-semibold transition-all duration-200',
-                                                                                    @if($blueBg || $blackBg)
-                                                                                        'border-white text-white hover:bg-white hover:text-black'
-                                                                                    @else
-                                                                                        $store.ui.darkMode 
-                                                                                            ? 'border-gray-500 text-gray-200 hover:bg-white hover:text-black'
-                                                                                            : 'border-[#1F1F1F] text-[#1F1F1F] hover:bg-[#1F1F1F] hover:text-white'
-                                                                                    @endif
-                                                                                ]">
+                                                                                                            'rounded-xl border px-5 py-2 text-sm font-semibold transition-all duration-200',
+                                                                                                            @if($blueBg || $blackBg)
+                                                                                                                'border-white text-white hover:bg-white hover:text-black'
+                                                                                                            @else
+                                                                                                                $store.ui.darkMode
+                                                                                                                    ? 'border-gray-500 text-gray-200 hover:bg-white hover:text-black'
+                                                                                                                    : 'border-[#1F1F1F] text-[#1F1F1F] hover:bg-[#1F1F1F] hover:text-white'
+                                                                                                            @endif
+                                                                                                        ]">
                                         {{ __('nav.logout') }}
                                     </button>
                                 </form>

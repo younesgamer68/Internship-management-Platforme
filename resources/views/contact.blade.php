@@ -65,6 +65,195 @@
             transform: none;
         }
 
+        /* ============================================================
+   DARK MODE — contact page
+   Fires when body.page-dark is set by Alpine x-init
+============================================================ */
+
+        /* ── Page & section backgrounds ── */
+        body.page-dark,
+        body.page-dark main {
+            background-color: #07111f !important;
+        }
+
+        body.page-dark section {
+            background-color: #07111f !important;
+        }
+
+        /* ── Main form card ── */
+        body.page-dark .card {
+            background: #0d1f2d !important;
+            border-color: rgba(255, 255, 255, .07) !important;
+            box-shadow: 0 4px 32px rgba(0, 0, 0, .5) !important;
+        }
+
+        body.page-dark .card:hover {
+            box-shadow: 0 8px 48px rgba(0, 0, 0, .65) !important;
+        }
+
+        /* ── Contact sidebar cards ── */
+        body.page-dark .contact-card {
+            background: #0d1f2d !important;
+            border-color: rgba(255, 255, 255, .07) !important;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, .45) !important;
+        }
+
+        body.page-dark .contact-card:hover {
+            box-shadow: 0 8px 40px rgba(0, 0, 0, .6) !important;
+        }
+
+        /* ── Step cards (01 02 03) ── */
+        body.page-dark .step-card {
+            background: #0d1f2d !important;
+            border-color: rgba(110, 231, 183, .12) !important;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, .4) !important;
+        }
+
+        body.page-dark .step-card:hover {
+            box-shadow: 0 8px 32px rgba(0, 0, 0, .55) !important;
+        }
+
+        /* ── Form inputs, selects, textarea ── */
+        body.page-dark .field-input,
+        body.page-dark .field-select,
+        body.page-dark .field-textarea {
+            background: #091929 !important;
+            border-color: rgba(255, 255, 255, .1) !important;
+            color: #d4e8ec !important;
+        }
+
+        body.page-dark .field-input::placeholder,
+        body.page-dark .field-textarea::placeholder {
+            color: rgba(255, 255, 255, .25) !important;
+        }
+
+        body.page-dark .field-input:hover,
+        body.page-dark .field-select:hover,
+        body.page-dark .field-textarea:hover {
+            border-color: rgba(78, 164, 168, .45) !important;
+        }
+
+        body.page-dark .field-input:focus,
+        body.page-dark .field-select:focus,
+        body.page-dark .field-textarea:focus {
+            border-color: #00b1aa !important;
+            background: #071522 !important;
+            box-shadow: 0 0 0 3px rgba(0, 177, 170, .18) !important;
+        }
+
+        body.page-dark .field-label {
+            color: rgba(255, 255, 255, .82) !important;
+        }
+
+        /* Select arrow icon */
+        body.page-dark .field-select {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='rgba(255,255,255,0.4)' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E") !important;
+            background-repeat: no-repeat !important;
+            background-position: right .875rem center !important;
+            background-color: #091929 !important;
+        }
+
+        body.page-dark .field-select option {
+            background-color: #0d1f2d;
+            color: #d4e8ec;
+        }
+
+        /* ── Hero label pill ── */
+        body.page-dark .hero-label {
+            color: #4ea4a8 !important;
+            background: rgba(78, 164, 168, .12) !important;
+            border-color: rgba(78, 164, 168, .28) !important;
+        }
+
+        /* ── Contact card icons ── */
+        body.page-dark .contact-card-icon {
+            background: rgba(78, 164, 168, .15) !important;
+        }
+
+        body.page-dark .contact-card-icon svg {
+            stroke: #4ea4a8 !important;
+        }
+
+        /* ── Contact email links ── */
+        body.page-dark .contact-link {
+            color: #6ee7b7 !important;
+            background: rgba(110, 231, 183, .08) !important;
+        }
+
+        body.page-dark .contact-link:hover {
+            background: rgba(110, 231, 183, .16) !important;
+            color: #a7f3d0 !important;
+        }
+
+        /* ── Checklist items ── */
+        body.page-dark .checklist-item {
+            color: rgba(255, 255, 255, .58) !important;
+        }
+
+        /* ── Step number badges ── */
+        body.page-dark .step-number {
+            background: rgba(0, 177, 170, .15) !important;
+            color: #00c9c1 !important;
+        }
+
+        /* ── Office cards ── */
+        body.page-dark .office-card h3 {
+            color: #d4e8ec !important;
+        }
+
+        body.page-dark .office-card p {
+            color: rgba(255, 255, 255, .48) !important;
+        }
+
+        body.page-dark .office-card:hover {
+            border-color: rgba(78, 164, 168, .2) !important;
+            background: rgba(13, 31, 45, .8) !important;
+            box-shadow: 0 2px 16px rgba(0, 0, 0, .3) !important;
+        }
+
+        body.page-dark .office-map-link {
+            color: #5eead4 !important;
+        }
+
+        body.page-dark .office-map-link:hover {
+            color: #99f6e4 !important;
+        }
+
+        /* ── Office section (light gray bg → dark) ── */
+        body.page-dark section[aria-label] {
+            background-color: #060f1a !important;
+            border-color: rgba(110, 231, 183, .08) !important;
+        }
+
+        /* ── Success banner ── */
+        body.page-dark .success-banner {
+            background: linear-gradient(135deg, #0a2e1a, #0d3520) !important;
+            border-color: rgba(110, 231, 183, .22) !important;
+            color: #6ee7b7 !important;
+        }
+
+        /* ── Section divider ── */
+        body.page-dark .section-divider {
+            background: linear-gradient(to right, transparent, rgba(255, 255, 255, .07) 30%, rgba(255, 255, 255, .07) 70%, transparent) !important;
+        }
+
+        /* ── Photo grid ── */
+        body.page-dark .photo-grid img {
+            opacity: 0.78;
+            filter: brightness(0.82) saturate(0.85);
+        }
+
+        /* ── Submit button stays brand colored ── */
+        body.page-dark .btn-submit {
+            background: #00b1aa !important;
+            color: #ffffff !important;
+            box-shadow: 0 2px 18px rgba(0, 177, 170, .35) !important;
+        }
+
+        body.page-dark .btn-submit:hover {
+            box-shadow: 0 4px 28px rgba(0, 177, 170, .5) !important;
+        }
+
         .scroll-stagger.is-visible>*:nth-child(1) {
             transition-delay: .00s;
         }
@@ -479,163 +668,10 @@
                 height: 8.5rem;
             }
         }
-
-
-        /* ============================================================
-       DARK MODE — triggered by body.page-dark
-       (Alpine effect adds this class when $store.ui.darkMode = true)
-    ============================================================ */
-
-        /* ── Cards ── */
-        body.page-dark .card,
-        body.page-dark .contact-card,
-        body.page-dark .step-card {
-            background: #0d1f2d !important;
-            border-color: rgba(255, 255, 255, .08) !important;
-            box-shadow: 0 4px 24px rgba(0, 0, 0, .45) !important;
-        }
-
-        body.page-dark .card:hover,
-        body.page-dark .contact-card:hover,
-        body.page-dark .step-card:hover {
-            box-shadow: 0 8px 40px rgba(0, 0, 0, .6) !important;
-        }
-
-        /* ── Form fields ── */
-        body.page-dark .field-input,
-        body.page-dark .field-select,
-        body.page-dark .field-textarea {
-            background: #0a1a27 !important;
-            border-color: rgba(255, 255, 255, .12) !important;
-            color: #e2eaf2 !important;
-        }
-
-        body.page-dark .field-input::placeholder,
-        body.page-dark .field-textarea::placeholder {
-            color: rgba(255, 255, 255, .3) !important;
-        }
-
-        body.page-dark .field-input:hover,
-        body.page-dark .field-select:hover,
-        body.page-dark .field-textarea:hover {
-            border-color: rgba(255, 255, 255, .22) !important;
-        }
-
-        body.page-dark .field-input:focus,
-        body.page-dark .field-select:focus,
-        body.page-dark .field-textarea:focus {
-            border-color: rgba(0, 177, 170, .65) !important;
-            background: #071522 !important;
-            box-shadow: 0 0 0 3.5px rgba(0, 177, 170, .15) !important;
-        }
-
-        body.page-dark .field-label {
-            color: rgba(255, 255, 255, .85) !important;
-        }
-
-        body.page-dark .field-select {
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='rgba(255,255,255,0.4)' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E") !important;
-            background-repeat: no-repeat !important;
-            background-position: right .875rem center !important;
-            background-color: #0a1a27 !important;
-        }
-
-        body.page-dark .field-select option {
-            background: #0d1f2d;
-            color: #e2eaf2;
-        }
-
-        /* ── Hero label ── */
-        body.page-dark .hero-label {
-            color: #4ea4a8 !important;
-            background: rgba(78, 164, 168, .12) !important;
-            border-color: rgba(78, 164, 168, .25) !important;
-        }
-
-        /* ── Contact card icons ── */
-        body.page-dark .contact-card-icon {
-            background: rgba(78, 164, 168, .15) !important;
-        }
-
-        body.page-dark .contact-card-icon svg {
-            stroke: #4ea4a8 !important;
-        }
-
-        /* ── Contact links ── */
-        body.page-dark .contact-link {
-            color: #6ee7b7 !important;
-            background: rgba(110, 231, 183, .08) !important;
-        }
-
-        body.page-dark .contact-link:hover {
-            background: rgba(110, 231, 183, .15) !important;
-            color: #a7f3d0 !important;
-        }
-
-        /* ── Checklist ── */
-        body.page-dark .checklist-item {
-            color: rgba(255, 255, 255, .6) !important;
-        }
-
-        /* ── Office section ── */
-        body.page-dark .office-card h3 {
-            color: #e2eaf2 !important;
-        }
-
-        body.page-dark .office-card p {
-            color: rgba(255, 255, 255, .5) !important;
-        }
-
-        body.page-dark .office-card:hover {
-            border-color: rgba(255, 255, 255, .1) !important;
-            background: rgba(255, 255, 255, .04) !important;
-            box-shadow: 0 2px 12px rgba(0, 0, 0, .35) !important;
-        }
-
-        body.page-dark .office-map-link {
-            color: #6ee7b7 !important;
-        }
-
-        body.page-dark .office-map-link:hover {
-            color: #a7f3d0 !important;
-        }
-
-        /* ── Step number badges ── */
-        body.page-dark .step-number {
-            background: rgba(0, 177, 170, .15) !important;
-            color: #4ea4a8 !important;
-        }
-
-        /* ── Success banner ── */
-        body.page-dark .success-banner {
-            background: linear-gradient(135deg, #0a2e1a, #0d3520) !important;
-            border-color: rgba(110, 231, 183, .25) !important;
-            color: #6ee7b7 !important;
-        }
-
-        /* ── Section divider ── */
-        body.page-dark .section-divider {
-            background: linear-gradient(to right, transparent, rgba(255, 255, 255, .08) 30%, rgba(255, 255, 255, .08) 70%, transparent) !important;
-        }
-
-        /* ── Photo grid ── */
-        body.page-dark .photo-grid img {
-            opacity: 0.8;
-            filter: brightness(0.85) saturate(0.88);
-        }
-
-        /* ── btn-submit glow ── */
-        body.page-dark .btn-submit {
-            box-shadow: 0 2px 14px rgba(0, 177, 170, .3) !important;
-        }
-
-        body.page-dark .btn-submit:hover {
-            box-shadow: 0 4px 22px rgba(0, 177, 170, .45) !important;
-        }
     </style>
 </head>
 
-<body x-data
+<body x-data x-init="Alpine.effect(() => { document.body.classList.toggle('page-dark', $store.ui.darkMode) })"
     class="flex min-h-screen flex-col bg-white font-[Instrument_Sans,ui-sans-serif,system-ui,sans-serif] text-[#17494D] antialiased transition-colors duration-300"
     :class="$store.ui.darkMode ? 'bg-black text-white' : 'bg-white text-[#17494D]'">
 
@@ -1161,7 +1197,7 @@
     </main>
 
     <x-footer />
-    <livewire:ai-chat-widget />
+
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {

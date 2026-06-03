@@ -77,5 +77,14 @@
 .view-info-label { font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--gray-400);display:flex;align-items:center;gap:5px; }
 .view-info-value { font-size:14px;font-weight:600;color:var(--gray-800); }
 .required { color:var(--danger); }
+/* Pagination Override */
+.mt-4 nav { display: flex; align-items: center; justify-content: space-between; }
+.mt-4 nav .hidden { display: none; }
+.mt-4 nav span.relative, .mt-4 nav a.relative { display: inline-flex; align-items: center; padding: 0.5rem 0.75rem; border: 1px solid var(--border); font-size: 13px; line-height: 1.25rem; font-weight: 500; color: var(--gray-600); text-decoration: none; margin-left: -1px; }
+.mt-4 nav span.relative:first-child, .mt-4 nav a.relative:first-child { border-top-left-radius: 0.375rem; border-bottom-left-radius: 0.375rem; }
+.mt-4 nav span.relative:last-child, .mt-4 nav a.relative:last-child { border-top-right-radius: 0.375rem; border-bottom-right-radius: 0.375rem; }
+.mt-4 nav a.relative:hover { background-color: var(--gray-50); }
+.mt-4 nav span.relative.z-0 { border-radius: 0.375rem; box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); }
+.mt-4 nav span[aria-current="page"] { z-index: 10; color: var(--primary); border-color: var(--primary); background-color: rgba(37,99,235,0.05); }
 </style>
 </x-layouts::app>

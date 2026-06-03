@@ -1,65 +1,17 @@
-<x-layouts::app :title="__('Internships Management')">
-<!-- PAGE HEADER -->
-      <div class="page-header">
-        <div>
-          <h2 class="page-title">All Internships</h2>
-          <p class="page-subtitle">Manage and monitor all internship listings across universities</p>
-        </div>
-        <button class="btn btn-primary" onclick="openAddModal()"><i class="fas fa-plus"></i> Add Internship</button>
-      </div>
+import re
 
-      <!-- STATS CARDS -->
-      <div class="stats-grid stats-grid-4">
-        <div class="stat-card">
-          <div class="stat-card-icon" style="background: rgba(37,99,235,0.1); color: var(--primary);">
-            <i class="fas fa-briefcase"></i>
-          </div>
-          <div class="stat-card-body">
-            <div class="stat-card-value">{{ $totalInternships ?? 0 }}</div>
-            <div class="stat-card-label">Total Internships</div>
-            <div class="stat-card-change positive"><i class="fas fa-arrow-up"></i> 8% from last month</div>
-          </div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-card-icon" style="background: rgba(16,185,129,0.1); color: var(--green);">
-            <i class="fas fa-circle-check"></i>
-          </div>
-          <div class="stat-card-body">
-            <div class="stat-card-value">{{ $activeInternships ?? 0 }}</div>
-            <div class="stat-card-label">Active Internships</div>
-            <div class="stat-card-change positive"><i class="fas fa-arrow-up"></i> 5% from last month</div>
-          </div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-card-icon" style="background: rgba(245,158,11,0.1); color: var(--warning);">
-            <i class="fas fa-clock"></i>
-          </div>
-          <div class="stat-card-body">
-            <div class="stat-card-value">{{ $pendingInternships ?? 0 }}</div>
-            <div class="stat-card-label">Pending Review</div>
-            <div class="stat-card-change negative"><i class="fas fa-arrow-up"></i> 3 new today</div>
-          </div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-card-icon" style="background: rgba(99,102,241,0.1); color: #6366F1;">
-            <i class="fas fa-flag-checkered"></i>
-          </div>
-          <div class="stat-card-body">
-            <div class="stat-card-value">{{ $completedInternships ?? 0 }}</div>
-            <div class="stat-card-label">Completed</div>
-            <div class="stat-card-change positive"><i class="fas fa-arrow-up"></i> 12% from last month</div>
-          </div>
-        </div>
-      </div>
+path = 'resources/views/app/admin/internships.blade.php'
+with open(path, 'r', encoding='utf-8') as f:
+    content = f.read()
 
-      <!-- FILTER BAR -->
-      <div class="filter-bar card">
-        <div class="filter-bar-inner">
-          <div class="search-wrapper">
-            <i class="fas fa-search search-icon"></i>
-            <input type="text" class="search-input" placeholder="Search internships by title or company..." />
-          </div>
-                    <div class="filter-selects">
+# 1. Stats Replacements
+content = re.sub(r'<div class="stat-card-value">365</div>', r'<div class="stat-card-value">{{ $totalInternships ?? 0 }}</div>', content)
+content = re.sub(r'<div class="stat-card-value">320</div>', r'<div class="stat-card-value">{{ $activeInternships ?? 0 }}</div>', content)
+content = re.sub(r'<div class="stat-card-value">45</div>', r'<div class="stat-card-value">{{ $pendingInternships ?? 0 }}</div>', content)
+content = re.sub(r'<div class="stat-card-value">275</div>', r'<div class="stat-card-value">{{ $completedInternships ?? 0 }}</div>', content)
+
+# 2. Filter Bar: Keep only search and status
+filter_selects_replacement = """          <div class="filter-selects">
             <select class="filter-select" id="statusFilter" onchange="applyFilters()">
               <option value="">All Statuses</option>
               <option value="Active">Active</option>
@@ -67,22 +19,11 @@
               <option value="Completed">Completed</option>
               <option value="Expired">Expired</option>
             </select>
-          </div>
-        </div>
-      </div>
+          </div>"""
+content = re.sub(r'<div class="filter-selects">.*?</div>\s*</div>\s*</div>', filter_selects_replacement + '\n        </div>\n      </div>', content, flags=re.DOTALL)
 
-      <!-- TABLE CARD -->
-      <div class="card">
-        <div class="card-header">
-          <h3 class="card-title">Internship Listings</h3>
-          <div class="card-actions">
-            <button class="btn btn-sm btn-outline" onclick="exportInternships()"><i class="fas fa-download"></i> Export</button>
-            <button class="btn btn-sm btn-outline"><i class="fas fa-filter"></i> Filter</button>
-          </div>
-        </div>
-        <div class="table-wrapper" style="overflow-x: auto; width: 100%;">
-          <table class="data-table" style="min-width: 800px;">
-                        <thead>
+# 3. Table Header
+table_head_replacement = """            <thead>
               <tr>
                 <th>Title & Field</th>
                 <th>Company</th>
@@ -92,8 +33,11 @@
                 <th>Status</th>
                 <th>Actions</th>
               </tr>
-            </thead>
-                                    <tbody>
+            </thead>"""
+content = re.sub(r'<thead>.*?</thead>', table_head_replacement, content, flags=re.DOTALL)
+
+# 4. Table Body
+table_body_replacement = """            <tbody>
               @foreach($internships as $internship)
               @php
                   $initials = substr(strtoupper($internship->company->name ?? 'NA'), 0, 2);
@@ -108,10 +52,9 @@
                       'Expired' => 'badge-expired',
                       default => 'badge-active'
                   };
-                  $deadline = $internship->deadline ? $internship->deadline->format('Y-m-d') : '';
-                  $skills_joined = is_array($internship->skills_required) ? implode(', ', $internship->skills_required) : $internship->skills_required;
+                  $deadline = $internship->deadline ? $internship->deadline->format('M Y') : '—';
               @endphp
-              <tr data-id="{{ $internship->id }}" data-desc="{{ htmlspecialchars($internship->description ?? '') }}" data-skills="{{ htmlspecialchars($skills_joined ?? '') }}" data-deadline="{{ $deadline }}">
+              <tr data-id="{{ $internship->id }}">
                 <td>
                   <div class="cell-with-logo">
                     <div class="company-logo" style="background: rgba(37,99,235,0.12); color: var(--primary);">{{ $initials }}</div>
@@ -124,7 +67,7 @@
                 <td class="cell-company" data-company-id="{{ $internship->company_id }}">{{ $internship->company->name ?? '—' }}</td>
                 <td><span class="type-badge {{ $typeClass }}">{{ $internship->internship_type ?? 'Full-time' }}</span></td>
                 <td><span class="duration-badge">{{ $internship->duration }}</span></td>
-                <td>{{ $internship->deadline ? $internship->deadline->format('M Y') : '—' }}</td>
+                <td>{{ $deadline }}</td>
                 <td><span class="badge-status {{ $sClass }}">{{ $internship->status }}</span></td>
                 <td>
                   <div class="flex gap-8">
@@ -135,42 +78,11 @@
                 </td>
               </tr>
               @endforeach
-            </tbody>
-          </table>
-        </div>
+            </tbody>"""
+content = re.sub(r'<tbody>.*?</tbody>', table_body_replacement, content, flags=re.DOTALL)
 
-        <!-- PAGINATION -->
-        <div class="pagination" style="display: flex; justify-content: space-between; align-items: center; width: 100%; border-top: 1px solid rgba(229, 231, 235, 0.6); padding-top: 20px; margin-top: 20px; flex-wrap: wrap; gap: 16px;">
-          <div class="pagination-info" style="color: var(--gray-500); font-size: 13px;" id="paginationInfo">Showing 1–10 of 365 internships</div>
-          <div class="pagination-controls" style="display: flex; gap: 6px; align-items: center;" id="paginationControls">
-            <button class="page-btn" disabled><i class="fas fa-chevron-left"></i></button>
-            <button class="page-btn active">1</button>
-            <button class="page-btn">2</button>
-            <button class="page-btn">3</button>
-            <span style="color: var(--gray-400); margin: 0 4px;">...</span>
-            <button class="page-btn">37</button>
-            <button class="page-btn"><i class="fas fa-chevron-right"></i></button>
-          </div>
-        </div>
-      </div>
-
-<!-- ═══════════════════════════════════════════════════════════
-     ADD INTERNSHIP MODAL (slide-in panel)
-════════════════════════════════════════════════════════════ -->
-<div class="modal-overlay" id="addModal" onclick="closeModalOnOverlay(event,'addModal')">
-  <div class="slide-panel">
-    <div class="slide-panel-header">
-      <div class="slide-panel-title">
-        <div class="slide-panel-icon" style="background:rgba(37,99,235,0.12);color:var(--primary)"><i class="fas fa-plus"></i></div>
-        <div>
-          <h3>Add New Internship</h3>
-          <p>Fill in the internship details below</p>
-        </div>
-      </div>
-      <button class="panel-close-btn" onclick="closeModal('addModal')"><i class="fas fa-xmark"></i></button>
-    </div>
-    <div class="slide-panel-body">
-            <form onsubmit="submitAddForm(event)">
+# 5. Add Modal Body
+add_modal_replacement = """      <form onsubmit="submitAddForm(event)">
 
         <div class="panel-section-label">Basic Information</div>
 
@@ -274,80 +186,11 @@
           <button type="button" class="btn btn-outline" onclick="closeModal('addModal')">Cancel</button>
           <button type="submit" class="btn btn-primary"><i class="fas fa-plus"></i> Add Internship</button>
         </div>
-      </form>
-    </div>
-  </div>
-</div>
+      </form>"""
+content = re.sub(r'<form onsubmit="submitAddForm\(event\)".*?</form>', add_modal_replacement, content, flags=re.DOTALL)
 
-<!-- ═══════════════════════════════════════════════════════════
-     VIEW INTERNSHIP MODAL
-════════════════════════════════════════════════════════════ -->
-<div class="modal-overlay" id="viewModal" onclick="closeModalOnOverlay(event,'viewModal')">
-  <div class="center-modal view-modal-box">
-    <div class="center-modal-header">
-      <div class="view-modal-badge" id="view-initials-badge">TS</div>
-      <div class="center-modal-title-wrap">
-        <h3 id="view-title">Software Development</h3>
-        <p id="view-subtitle-company">Full Stack Position · TechSolutions</p>
-      </div>
-      <button class="panel-close-btn" onclick="closeModal('viewModal')"><i class="fas fa-xmark"></i></button>
-    </div>
-    <div class="view-modal-body">
-      <div class="view-info-grid">
-        <div class="view-info-item">
-          <span class="view-info-label"><i class="fas fa-university"></i> University</span>
-          <span class="view-info-value" id="view-university">—</span>
-        </div>
-        <div class="view-info-item">
-          <span class="view-info-label"><i class="fas fa-sitemap"></i> Department</span>
-          <span class="view-info-value" id="view-department">—</span>
-        </div>
-        <div class="view-info-item">
-          <span class="view-info-label"><i class="fas fa-tag"></i> Type</span>
-          <span class="view-info-value" id="view-type">—</span>
-        </div>
-        <div class="view-info-item">
-          <span class="view-info-label"><i class="fas fa-clock"></i> Duration</span>
-          <span class="view-info-value" id="view-duration">—</span>
-        </div>
-        <div class="view-info-item">
-          <span class="view-info-label"><i class="fas fa-calendar"></i> Deadline</span>
-          <span class="view-info-value" id="view-deadline">—</span>
-        </div>
-        <div class="view-info-item">
-          <span class="view-info-label"><i class="fas fa-circle-half-stroke"></i> Status</span>
-          <span class="view-info-value" id="view-status-badge">—</span>
-        </div>
-      </div>
-      <div class="view-desc-block">
-        <div class="view-info-label"><i class="fas fa-align-left"></i> Description</div>
-        <p id="view-description" class="view-description-text">No description provided.</p>
-      </div>
-    </div>
-    <div class="center-modal-footer">
-      <button class="btn btn-outline" onclick="closeModal('viewModal')">Close</button>
-      <button class="btn btn-primary" onclick="openEditFromView()"><i class="fas fa-pen"></i> Edit</button>
-    </div>
-  </div>
-</div>
-
-<!-- ═══════════════════════════════════════════════════════════
-     EDIT INTERNSHIP MODAL (slide-in panel)
-════════════════════════════════════════════════════════════ -->
-<div class="modal-overlay" id="editModal" onclick="closeModalOnOverlay(event,'editModal')">
-  <div class="slide-panel">
-    <div class="slide-panel-header">
-      <div class="slide-panel-title">
-        <div class="slide-panel-icon" style="background:rgba(245,158,11,0.12);color:var(--warning)"><i class="fas fa-pen"></i></div>
-        <div>
-          <h3>Edit Internship</h3>
-          <p>Update the internship details</p>
-        </div>
-      </div>
-      <button class="panel-close-btn" onclick="closeModal('editModal')"><i class="fas fa-xmark"></i></button>
-    </div>
-    <div class="slide-panel-body">
-            <form onsubmit="submitEditForm(event)">
+# 6. Edit Modal Body
+edit_modal_replacement = """      <form onsubmit="submitEditForm(event)">
 
         <div class="panel-section-label">Basic Information</div>
 
@@ -450,334 +293,12 @@
           <button type="button" class="btn btn-outline" onclick="closeModal('editModal')">Cancel</button>
           <button type="submit" class="btn btn-primary"><i class="fas fa-floppy-disk"></i> Save Changes</button>
         </div>
-      </form>
-    </div>
-  </div>
-</div>
+      </form>"""
+content = re.sub(r'<form onsubmit="submitEditForm\(event\)".*?</form>', edit_modal_replacement, content, flags=re.DOTALL)
 
-<!-- ═══════════════════════════════════════════════════════════
-     DELETE CONFIRM MODAL
-════════════════════════════════════════════════════════════ -->
-<div class="modal-overlay" id="deleteModal" onclick="closeModalOnOverlay(event,'deleteModal')">
-  <div class="center-modal delete-modal-box">
-    <div class="delete-modal-icon-wrap">
-      <div class="delete-modal-icon"><i class="fas fa-trash-can"></i></div>
-    </div>
-    <h3 class="delete-modal-title">Delete Internship</h3>
-    <p class="delete-modal-desc">Are you sure you want to delete <strong id="delete-name">this internship</strong>? This action cannot be undone.</p>
-    <div class="delete-modal-actions">
-      <button class="btn btn-outline" onclick="closeModal('deleteModal')">Cancel</button>
-      <button class="btn btn-danger" id="delete-confirm-btn"><i class="fas fa-trash-can"></i> Delete</button>
-    </div>
-  </div>
-</div>
 
-<!-- SUCCESS TOAST -->
-<div class="toast-notification" id="toastNotif">
-  <i class="fas fa-circle-check toast-icon"></i>
-  <span id="toast-msg">Action completed successfully!</span>
-</div>
-
-<style>
-/* ── EXTRA INTERNSHIP PAGE STYLES ── */
-.dept-tag {
-  display: inline-block;
-  background: rgba(99,102,241,0.1);
-  color: #6366F1;
-  font-size: 11px;
-  font-weight: 600;
-  padding: 3px 10px;
-  border-radius: 20px;
-  white-space: nowrap;
-}
-
-.type-badge {
-  display: inline-block;
-  font-size: 11px;
-  font-weight: 600;
-  padding: 3px 10px;
-  border-radius: 20px;
-  white-space: nowrap;
-}
-.type-fulltime { background: rgba(37,99,235,0.1); color: var(--primary); }
-.type-parttime { background: rgba(245,158,11,0.1); color: var(--warning); }
-.type-remote   { background: rgba(16,185,129,0.1); color: var(--green); }
-
-.btn-icon-outline {
-  display: inline-flex; align-items: center; justify-content: center;
-  width: 32px; height: 32px; padding: 0;
-  border-radius: 8px;
-  background: transparent;
-  border: 1.5px solid var(--gray-300);
-  color: var(--gray-600);
-  font-size: 13px;
-  transition: var(--transition);
-}
-.btn-icon-outline:hover { background: var(--gray-50); border-color: var(--primary); color: var(--primary); }
-
-.btn-icon-danger {
-  display: inline-flex; align-items: center; justify-content: center;
-  width: 32px; height: 32px; padding: 0;
-  border-radius: 8px;
-  background: transparent;
-  border: 1.5px solid rgba(239,68,68,0.3);
-  color: var(--danger);
-  font-size: 13px;
-  transition: var(--transition);
-}
-.btn-icon-danger:hover { background: rgba(239,68,68,0.08); border-color: var(--danger); }
-
-/* ── MODAL OVERLAY ── */
-.modal-overlay {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(15,23,42,0.55);
-  backdrop-filter: blur(4px);
-  z-index: 1000;
-  align-items: center;
-  justify-content: center;
-}
-.modal-overlay.open { display: flex; animation: fadeIn 0.2s ease; }
-
-@keyframes fadeIn { from { opacity:0 } to { opacity:1 } }
-
-/* SLIDE PANEL */
-.slide-panel {
-  background: #fff;
-  border-radius: 16px;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.18);
-  width: 540px;
-  max-width: 94vw;
-  max-height: 90vh;
-  display: flex; flex-direction: column;
-  animation: popIn 0.25s cubic-bezier(0.16,1,0.3,1);
-  overflow: hidden;
-}
-
-.slide-panel-header {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 22px 24px;
-  border-bottom: 1px solid var(--gray-100);
-  background: var(--gray-50);
-  flex-shrink: 0;
-}
-.slide-panel-title { display: flex; align-items: center; gap: 14px; }
-.slide-panel-icon {
-  width: 42px; height: 42px; border-radius: 10px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 16px; flex-shrink: 0;
-}
-.slide-panel-title h3 { font-size: 16px; font-weight: 700; color: var(--gray-800); margin: 0; }
-.slide-panel-title p  { font-size: 12px; color: var(--gray-500); margin: 2px 0 0; }
-
-.panel-close-btn {
-  width: 34px; height: 34px; border-radius: 8px;
-  background: var(--gray-100);
-  border: none; cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  color: var(--gray-600); font-size: 15px;
-  transition: var(--transition);
-}
-.panel-close-btn:hover { background: var(--gray-200); color: var(--gray-800); }
-
-.slide-panel-body {
-  flex: 1; overflow-y: auto; padding: 24px;
-  scrollbar-width: thin;
-  scrollbar-color: var(--gray-200) transparent;
-}
-
-.panel-section-label {
-  font-size: 11px; font-weight: 700; text-transform: uppercase;
-  letter-spacing: 0.07em; color: var(--gray-400);
-  margin: 20px 0 14px;
-  padding-bottom: 8px;
-  border-bottom: 1px solid var(--gray-100);
-}
-.panel-section-label:first-child { margin-top: 0; }
-
-.slide-panel-footer {
-  display: flex; gap: 10px; justify-content: flex-end;
-  padding-top: 20px; margin-top: 8px;
-  border-top: 1px solid var(--gray-100);
-}
-
-/* FORM ELEMENTS */
-.form-input {
-  width: 100%;
-  padding: 10px 14px;
-  border: 1.5px solid var(--gray-200);
-  border-radius: 8px;
-  font-size: 13px;
-  color: var(--gray-800);
-  background: #fff;
-  transition: var(--transition);
-  outline: none;
-}
-.form-input:focus {
-  border-color: var(--primary);
-  box-shadow: 0 0 0 3px var(--primary-bg);
-}
-.form-input::placeholder { color: var(--gray-400); }
-
-.form-textarea { resize: vertical; min-height: 100px; }
-
-.form-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-.form-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
-
-.input-with-icon { position: relative; }
-.input-with-icon .input-icon {
-  position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
-  color: var(--gray-400); font-size: 13px; pointer-events: none;
-}
-.input-with-icon .form-input { padding-left: 34px; }
-
-.select-wrapper-panel { position: relative; }
-.select-wrapper-panel .input-icon {
-  position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
-  color: var(--gray-400); font-size: 13px; pointer-events: none; z-index: 1;
-}
-.select-wrapper-panel .select-arrow {
-  position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
-  color: var(--gray-400); font-size: 11px; pointer-events: none;
-}
-.select-wrapper-panel .form-select { padding-left: 34px; padding-right: 30px; appearance: none; }
-
-/* CENTER MODAL */
-.center-modal {
-  background: #fff;
-  border-radius: 16px;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.18);
-  width: 580px; max-width: 94vw;
-  animation: popIn 0.25s cubic-bezier(0.16,1,0.3,1);
-  overflow: hidden;
-}
-@keyframes popIn { from { transform: scale(0.92); opacity: 0 } to { transform: scale(1); opacity: 1 } }
-
-.center-modal-header {
-  display: flex; align-items: center; gap: 14px;
-  padding: 22px 24px;
-  border-bottom: 1px solid var(--gray-100);
-  background: var(--gray-50);
-}
-.center-modal-title-wrap { flex: 1; }
-.center-modal-title-wrap h3 { font-size: 16px; font-weight: 700; color: var(--gray-800); margin: 0; }
-.center-modal-title-wrap p  { font-size: 12px; color: var(--gray-500); margin: 3px 0 0; }
-
-.center-modal-footer {
-  display: flex; gap: 10px; justify-content: flex-end;
-  padding: 16px 24px;
-  border-top: 1px solid var(--gray-100);
-}
-
-/* VIEW MODAL */
-.view-modal-box { width: 560px; }
-.view-modal-badge {
-  width: 48px; height: 48px; border-radius: 12px;
-  background: rgba(37,99,235,0.12); color: var(--primary);
-  display: flex; align-items: center; justify-content: center;
-  font-weight: 700; font-size: 16px; flex-shrink: 0;
-}
-.view-modal-body { padding: 20px 24px; }
-.view-info-grid {
-  display: grid; grid-template-columns: 1fr 1fr;
-  gap: 14px; margin-bottom: 18px;
-}
-.view-info-item { display: flex; flex-direction: column; gap: 4px; }
-.view-info-label {
-  font-size: 11px; font-weight: 600; text-transform: uppercase;
-  letter-spacing: 0.06em; color: var(--gray-400);
-  display: flex; align-items: center; gap: 5px;
-}
-.view-info-value { font-size: 14px; font-weight: 600; color: var(--gray-800); }
-.view-desc-block { margin-top: 4px; padding-top: 16px; border-top: 1px solid var(--gray-100); }
-.view-description-text { font-size: 13px; color: var(--gray-600); line-height: 1.65; margin-top: 8px; }
-
-/* DELETE MODAL */
-.delete-modal-box { width: 420px; text-align: center; padding: 32px 28px; }
-.delete-modal-icon-wrap { margin-bottom: 16px; }
-.delete-modal-icon {
-  width: 64px; height: 64px; border-radius: 50%;
-  background: rgba(239,68,68,0.1); color: var(--danger);
-  display: inline-flex; align-items: center; justify-content: center;
-  font-size: 26px;
-}
-.delete-modal-title { font-size: 18px; font-weight: 700; color: var(--gray-800); margin: 0 0 8px; }
-.delete-modal-desc { font-size: 14px; color: var(--gray-500); line-height: 1.6; margin-bottom: 24px; }
-.delete-modal-actions { display: flex; gap: 10px; justify-content: center; }
-
-/* TOAST */
-.toast-notification {
-  position: fixed; bottom: 28px; right: 28px;
-  background: var(--gray-900);
-  color: #fff;
-  border-radius: 10px;
-  padding: 12px 20px;
-  font-size: 13px; font-weight: 500;
-  display: flex; align-items: center; gap: 10px;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
-  z-index: 2000;
-  transform: translateY(80px); opacity: 0;
-  transition: all 0.35s cubic-bezier(0.16,1,0.3,1);
-  pointer-events: none;
-}
-.toast-notification.show { transform: translateY(0); opacity: 1; }
-.toast-icon { color: var(--green); font-size: 16px; }
-
-@media (max-width: 1024px) {
-  .stats-grid-4 { grid-template-columns: repeat(2, 1fr); }
-  .filters-bar { flex-direction: column; align-items: stretch; }
-  .filter-group { flex-wrap: wrap; }
-}
-@media (max-width: 768px) {
-  .stats-grid-4 { grid-template-columns: 1fr; }
-  .page-header { flex-direction: column; align-items: flex-start; gap: 16px; }
-  .table-wrapper { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-  table { min-width: 800px; }
-}
-</style>
-
-<script>
-function exportInternships() {
-  const rows = [['Title', 'Company', 'Field', 'Type', 'Duration', 'Deadline', 'Status']];
-  
-  const tbody = document.querySelector('.data-table tbody');
-  const trs = Array.from(tbody.querySelectorAll('tr'));
-  
-  trs.forEach(row => {
-    if (row.style.display === 'none') return;
-    
-    const title = row.querySelector('.cell-title') ? row.querySelector('.cell-title').textContent.trim().replace(/"/g, '""') : '';
-    const field = row.querySelector('.cell-subtitle') ? row.querySelector('.cell-subtitle').textContent.trim().replace(/"/g, '""') : '';
-    const company = row.cells[1] ? row.cells[1].textContent.trim().replace(/"/g, '""') : '';
-    const type = row.cells[2] ? row.cells[2].textContent.trim() : '';
-    const duration = row.cells[3] ? row.cells[3].textContent.trim() : '';
-    const deadline = row.cells[4] ? row.cells[4].textContent.trim() : '';
-    const status = row.cells[5] ? row.cells[5].textContent.trim() : '';
-    
-    rows.push([
-      `"${title}"`,
-      `"${company}"`,
-      `"${field}"`,
-      `"${type}"`,
-      `"${duration}"`,
-      `"${deadline}"`,
-      `"${status}"`
-    ]);
-  });
-  
-  const csv = rows.map(r => r.join(',')).join('\n');
-  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.setAttribute('download', 'internships_export.csv');
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  showToast('Export downloaded successfully!');
-}
-
+# 7. JS Replacement
+js_script = """<script>
 let rowToDelete = null;
 let rowBeingEdited = null;
 
@@ -855,8 +376,7 @@ function viewInternship(btn) {
   document.getElementById('view-type').textContent = type;
   document.getElementById('view-duration').textContent = duration;
   document.getElementById('view-deadline').textContent = deadline;
-    const deadlineStr = row.getAttribute('data-deadline');
-  document.getElementById('view-description').textContent = row.getAttribute('data-desc') || 'No description available for this listing.';
+  document.getElementById('view-description').textContent = 'No description available for this listing.';
 
   const sb = document.getElementById('view-status-badge');
   sb.className = 'badge-status ' + (status ? status.className.replace('badge-status','').trim() : '');
@@ -881,10 +401,7 @@ function editInternship(btn) {
   setSelectVal('edit-type', typeText);
   setSelectVal('edit-duration', row.querySelector('.duration-badge')?.textContent || '3 months');
   setSelectVal('edit-status', row.querySelector('.badge-status')?.textContent || 'Active');
-    const deadlineStr = row.getAttribute('data-deadline');
-  document.getElementById('edit-deadline').value = deadlineStr;
-  document.getElementById('edit-description').value = row.getAttribute('data-desc');
-  document.getElementById('edit-skills').value = row.getAttribute('data-skills');
+  document.getElementById('edit-description').value = '-';
 
   document.getElementById('editModal').classList.add('open');
   document.body.style.overflow = 'hidden';
@@ -1055,5 +572,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   applyFilters();
 });
-</script>
-</x-layouts::app>
+</script>"""
+
+content = re.sub(r'<script>.*?</script>', js_script, content, flags=re.DOTALL)
+
+with open(path, 'w', encoding='utf-8') as f:
+    f.write(content)
+
+print("Updated internships.blade.php successfully!")

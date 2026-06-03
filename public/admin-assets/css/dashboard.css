@@ -1441,7 +1441,8 @@
   align-items: center;
   justify-content: center;
   padding: 20px;
-}
+
+  backdrop-filter: blur(6px);}
 
 .modal-overlay.active {
   display: flex;

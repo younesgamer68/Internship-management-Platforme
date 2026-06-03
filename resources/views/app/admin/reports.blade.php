@@ -110,9 +110,9 @@
 ══════════════════════════════════ -->
 <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:16px;">
   @foreach([
-    ['2450', '2,450','Total Students',     '+14% semester',  'fa-user-graduate','#3B82F6','rgba(59,130,246,.12)'],
-    ['275',  '275',  'Completed',          '+12% this qtr',  'fa-flag-checkered','#10B981','rgba(16,185,129,.12)'],
-    ['320',  '320',  'Active Internships', '+5% monthly',    'fa-briefcase','#00b1aa','rgba(0,177,170,.12)'],
+    [$totalStudents, number_format($totalStudents),'Total Students',     '+14% semester',  'fa-user-graduate','#3B82F6','rgba(59,130,246,.12)'],
+    [$completedInternships, number_format($completedInternships),  'Completed',          '+12% this qtr',  'fa-flag-checkered','#10B981','rgba(16,185,129,.12)'],
+    [$activeInternships, number_format($activeInternships),  'Active Internships', '+5% monthly',    'fa-briefcase','#00b1aa','rgba(0,177,170,.12)'],
     ['87',   '87%',  'Placement Rate',     '+3% vs last yr', 'fa-chart-line','#F59E0B','rgba(245,158,11,.12)'],
   ] as $idx => [$raw,$display,$lbl,$chg,$icon,$color,$bg])
   <div class="stat-card hover-lift anim-scale kpi-card" data-delay="{{ $idx * 70 }}"
@@ -313,32 +313,27 @@
             @endforeach
           </tr>
         </thead>
-        <tbody>
-          @foreach([
-            ['TS','TechSolutions','#00b1aa',38,29,4.9],
-            ['DS','DataSpark',    '#3B82F6',31,22,4.8],
-            ['MC','MediaCorp',    '#8B5CF6',24,18,4.7],
-            ['CR','CreativeRoom', '#F59E0B',19,13,4.6],
-            ['AI','AInova',       '#EF4444',15,11,4.5],
-          ] as $ci => [$init,$name,$cc,$posts,$hired,$score])
-          <tr style="border-top:1px solid var(--border);transition:background 0.15s;" onmouseover="this.style.background='rgba(0,177,170,0.04)'" onmouseout="this.style.background=''">
-            <td style="padding:10px 0;font-size:12px;color:var(--gray-400);font-weight:600;">{{ $ci+1 }}</td>
-            <td style="padding:10px 0;">
-              <div style="display:flex;align-items:center;gap:8px;">
-                <div style="width:28px;height:28px;border-radius:7px;background:{{ $cc }};color:white;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;">{{ $init }}</div>
-                <span style="font-size:12px;font-weight:600;color:var(--gray-800);">{{ $name }}</span>
-              </div>
-            </td>
-            <td style="padding:10px 0;text-align:center;font-size:12px;">{{ $posts }}</td>
-            <td style="padding:10px 0;text-align:center;font-size:12px;">{{ $hired }}</td>
-            <td style="padding:10px 0;text-align:right;">
-              <span style="font-size:12px;font-weight:700;color:{{ $score>=4.8?'#10B981':($score>=4.6?'#3B82F6':'#F59E0B') }};">
-                <i class="fas fa-star" style="font-size:9px;"></i> {{ $score }}
-              </span>
-            </td>
-          </tr>
-          @endforeach
-        </tbody>
+                    <tbody>
+              @foreach($recentApplications as $app)
+              @php
+                  $sClass = match($app->status) {
+                      'pending' => 'badge-pending',
+                      'rejected' => 'badge-rejected',
+                      'accepted' => 'badge-active',
+                      default => 'badge-pending'
+                  };
+              @endphp
+              <tr>
+                <td>{{ $app->user->name ?? 'Unknown' }}</td>
+                <td>{{ $app->internship->title ?? 'Unknown' }}</td>
+                <td>{{ $app->created_at->format('M d, Y') }}</td>
+                <td><span class="badge-status {{ $sClass }}">{{ ucfirst($app->status) }}</span></td>
+                <td>
+                  <button class="btn btn-sm btn-outline">View</button>
+                </td>
+              </tr>
+              @endforeach
+            </tbody>
       </table>
     </div>
   </div>
@@ -710,15 +705,19 @@ function showToast(msg, type='success') {
 
 function exportPDF() {
   const btn = document.getElementById('exportBtn');
-  btn.innerHTML='<i class="fas fa-spinner fa-spin"></i> Exporting...'; btn.disabled=true;
-  setTimeout(()=>{
-    btn.innerHTML='<i class="fas fa-circle-check"></i> Done!';
-    Object.assign(btn.style,{background:'#e6f4ea',color:'#2e7d32',borderColor:'#2e7d32'});
+  btn.innerHTML='<i class="fas fa-spinner fa-spin"></i> Preparing...'; btn.disabled=true;
+  
+  // Hide UI elements not meant for printing
+  const originalTitle = document.title;
+  document.title = 'InternLink_Reports_Export';
+  
+  setTimeout(() => {
+    window.print();
+    btn.innerHTML='<i class="fas fa-file-pdf"></i> Export PDF'; 
+    btn.disabled=false;
+    document.title = originalTitle;
     showToast('PDF exported successfully!','success');
-    const a=document.createElement('a'); a.href='data:text/plain;charset=utf-8,InternLink Report';
-    a.download='InternLink_Report.pdf'; a.click();
-    setTimeout(()=>{ btn.innerHTML='<i class="fas fa-file-pdf"></i> Export PDF'; btn.style.cssText=''; btn.disabled=false; },2500);
-  },1500);
+  }, 800);
 }
 
 function generateReport() {

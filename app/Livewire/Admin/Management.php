@@ -3,7 +3,7 @@
 namespace App\Livewire\Admin;
 
 use App\Models\Company;
-use App\Models\InternProfile;
+use App\Models\UserInfo;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -13,28 +13,21 @@ use Livewire\Component;
 class Management extends Component
 {
     public string $companyName = '';
-
     public string $companySlug = '';
-
     public string $companyEmail = '';
-
     public ?string $companyPhone = null;
-
+    
     public string $managerName = '';
-
     public string $managerEmail = '';
-
     public string $managerPassword = '';
 
-    public ?int $internCompanyId = null;
-
-    public string $internName = '';
-
-    public string $internEmail = '';
-
-    public string $internPassword = '';
-
-    public ?string $internPosition = 'Intern';
+    // Student fields
+    public string $studentFirstName = '';
+    public string $studentLastName = '';
+    public string $studentEmail = '';
+    public string $studentPassword = '';
+    public string $studentUniversity = '';
+    public string $studentFieldOfStudy = '';
 
     public function mount(): void
     {
@@ -44,7 +37,7 @@ class Management extends Component
     #[Computed]
     public function companies()
     {
-        return Company::query()->select(['id', 'name', 'slug'])->orderBy('name', 'asc')->get();
+        return Company::query()->select(['id', 'company_name', 'slug'])->orderBy('company_name', 'asc')->get();
     }
 
     #[Computed]
@@ -56,7 +49,7 @@ class Management extends Component
     #[Computed]
     public function internCount(): int
     {
-        return User::query()->where('role', 'intern')->count('*');
+        return User::query()->where('role', 'student')->count('*');
     }
 
     public function createCompany(): void
@@ -81,7 +74,7 @@ class Management extends Component
         }
 
         $company = Company::create([
-            'name' => $this->companyName,
+            'company_name' => $this->companyName,
             'slug' => $slug,
             'email' => $this->companyEmail,
             'phone' => $this->companyPhone,
@@ -102,33 +95,36 @@ class Management extends Component
         session()->flash('company-created', 'Company and manager created successfully.');
     }
 
-    public function createIntern(): void
+    public function createStudent(): void
     {
         $this->validate([
-            'internCompanyId' => ['required', 'exists:companies,id'],
-            'internName' => ['required', 'string', 'min:2', 'max:100'],
-            'internEmail' => ['required', 'email', 'max:255', 'unique:users,email'],
-            'internPassword' => ['required', 'string', 'min:8'],
-            'internPosition' => ['nullable', 'string', 'max:100'],
+            'studentFirstName' => ['required', 'string', 'min:2', 'max:100'],
+            'studentLastName' => ['required', 'string', 'min:2', 'max:100'],
+            'studentEmail' => ['required', 'email', 'max:255', 'unique:users,email'],
+            'studentPassword' => ['required', 'string', 'min:8'],
+            'studentUniversity' => ['nullable', 'string', 'max:100'],
+            'studentFieldOfStudy' => ['nullable', 'string', 'max:100'],
         ]);
 
-        $intern = User::create([
-            'company_id' => $this->internCompanyId,
-            'name' => $this->internName,
-            'email' => $this->internEmail,
-            'password' => Hash::make($this->internPassword),
-            'role' => 'intern',
+        $student = User::create([
+            'name' => $this->studentFirstName . ' ' . $this->studentLastName,
+            'email' => $this->studentEmail,
+            'password' => Hash::make($this->studentPassword),
+            'role' => 'student',
             'email_verified_at' => now(),
         ]);
 
-        InternProfile::create([
-            'user_id' => $intern->id,
-            'company_id' => $this->internCompanyId,
-            'position' => $this->internPosition ?: 'Intern',
+        UserInfo::create([
+            'user_id' => $student->id,
+            'first_name' => $this->studentFirstName,
+            'last_name' => $this->studentLastName,
+            'university' => $this->studentUniversity,
+            'field_of_study' => $this->studentFieldOfStudy,
+            'status' => 'active',
         ]);
 
-        $this->reset(['internCompanyId', 'internName', 'internEmail', 'internPassword', 'internPosition']);
-        session()->flash('intern-created', 'Intern account created successfully.');
+        $this->reset(['studentFirstName', 'studentLastName', 'studentEmail', 'studentPassword', 'studentUniversity', 'studentFieldOfStudy']);
+        session()->flash('intern-created', 'Student account created successfully.');
     }
 
     public function render()

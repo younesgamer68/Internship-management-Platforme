@@ -190,13 +190,23 @@ class AiChatWidget extends Component
             return;
         }
 
+        $preferredModel = $this->preferredAiModel();
+        $hasApiKey = $this->hasConfiguredAiApiKey();
+
         $settings = CompanyAiSettings::query()->firstOrCreate(
             ['company_id' => Auth::user()->company_id],
             [
-                'ai_chatbot_enabled' => false,
-                'ai_model' => 'gemini-2.5-flash',
+                'ai_chatbot_enabled' => $hasApiKey,
+                'ai_model' => $preferredModel,
             ]
         );
+
+        if ($hasApiKey && ! $settings->ai_chatbot_enabled) {
+            $settings->update([
+                'ai_chatbot_enabled' => true,
+                'ai_model' => $preferredModel,
+            ]);
+        }
 
         if (! $settings->ai_chatbot_enabled) {
             $this->messages[] = [
@@ -276,6 +286,30 @@ class AiChatWidget extends Component
 
         $this->isTyping = false;
         $this->dispatch('scroll-to-bottom');
+    }
+
+    private function hasConfiguredAiApiKey(): bool
+    {
+        return filled(env('GEMINI_API_KEY'))
+            || filled(env('OPENAI_API_KEY'))
+            || filled(env('ANTHROPIC_API_KEY'));
+    }
+
+    private function preferredAiModel(): string
+    {
+        if (filled(env('GEMINI_API_KEY'))) {
+            return 'gemini-2.5-flash';
+        }
+
+        if (filled(env('OPENAI_API_KEY'))) {
+            return 'gpt-4o-mini';
+        }
+
+        if (filled(env('ANTHROPIC_API_KEY'))) {
+            return 'claude-sonnet-4-20250514';
+        }
+
+        return 'gemini-2.5-flash';
     }
 
     public function render(): View

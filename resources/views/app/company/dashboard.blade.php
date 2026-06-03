@@ -1,619 +1,1370 @@
 <x-layouts::company title="Company Dashboard">
-<style>
-  /* ── Welcome Banner ── */
-  .welcome-banner {
-    background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 50%, #0d9488 100%);
-    border-radius: 20px; padding: 32px 36px; color: #fff;
-    margin-bottom: 28px; display: flex; align-items: center; justify-content: space-between;
-    position: relative; overflow: hidden;
-    box-shadow: 0 10px 25px -5px rgba(0, 177, 170, 0.25);
-  }
-  .welcome-banner::before {
-    content: ''; position: absolute; inset: 0;
-    background: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23fff' fill-opacity='0.04'%3E%3Ccircle cx='40' cy='40' r='30'/%3E%3C/g%3E%3C/svg%3E");
-    background-size: 60px 60px;
-  }
-  .welcome-banner::after {
-    content: ''; position: absolute; -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
-    width: 250px; height: 250px; border-radius: 50%;
-    background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%);
-    top: -50px; right: -50px; pointer-events: none;
-  }
-  .welcome-banner-content { position: relative; z-index: 2; }
-  .welcome-banner h2 { font-size: 1.75rem; font-weight: 800; margin: 0 0 8px; color: #fff !important; letter-spacing: -0.02em; }
-  .welcome-banner p  { margin: 0; opacity: .9; font-size: .95rem; color: #fff !important; font-weight: 500; }
-  .welcome-banner-icon { font-size: 5rem; opacity: .12; color: #fff !important; position: relative; z-index: 1; transform: rotate(-10deg); transition: transform 0.3s; }
-  .welcome-banner:hover .welcome-banner-icon { transform: rotate(0deg) scale(1.05); }
-  .welcome-quick-actions { display: flex; gap: 12px; margin-top: 20px; flex-wrap: wrap; }
-  .welcome-quick-btn {
-    background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.25);
-    color: #fff; border-radius: 10px; padding: 10px 18px; font-size: .85rem;
-    font-weight: 600; cursor: pointer; transition: all .2s cubic-bezier(.4,0,.2,1); backdrop-filter: blur(6px);
-    display: inline-flex; align-items: center; gap: 8px;
-  }
-  .welcome-quick-btn:hover { background: rgba(255,255,255,0.25); border-color: rgba(255,255,255,0.4); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+  <style>
+    /* ── Welcome Banner ── */
+    .welcome-banner {
+      background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 50%, #0d9488 100%);
+      border-radius: 20px;
+      padding: 32px 36px;
+      color: #fff;
+      margin-bottom: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 10px 25px -5px rgba(0, 177, 170, 0.25);
+    }
 
-  /* ── Stats ── */
-  .stats-grid {
-    display: grid; grid-template-columns: repeat(4, 1fr);
-    gap: 20px; margin-bottom: 28px;
-  }
-  .stat-card {
-    background: var(--white); border-radius: 16px; padding: 24px;
-    box-shadow: var(--shadow-sm); display: flex; align-items: center; gap: 18px;
-    border: 1px solid var(--border); transition: all 0.3s cubic-bezier(.4,0,.2,1);
-    position: relative; overflow: hidden;
-  }
-  .stat-card::after {
-    content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 4px;
-    background: linear-gradient(90deg, var(--primary) 0%, var(--primary-light) 100%); opacity: 0; transition: opacity .3s;
-  }
-  .stat-card:hover { box-shadow: var(--shadow); transform: translateY(-4px); border-color: var(--primary-light); }
-  .stat-card:hover::after { opacity: 1; }
-  .stat-icon {
-    width: 52px; height: 52px; border-radius: 14px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 1.4rem; flex-shrink: 0; transition: transform 0.3s ease;
-  }
-  .stat-card:hover .stat-icon { transform: scale(1.1); }
-  .stat-icon.blue   { background: var(--primary-bg); color: var(--primary); }
-  .stat-icon.green  { background: var(--green-bg); color: var(--green); }
-  .stat-icon.orange { background: var(--warning-bg); color: var(--warning); }
-  .stat-icon.purple { background: rgba(139,92,246,.12); color: #8B5CF6; }
-  .stat-value { font-size: 2rem; font-weight: 800; line-height: 1.1; color: var(--gray-900); letter-spacing: -0.03em; }
-  .stat-label { font-size: .85rem; color: var(--text-muted); margin-top: 6px; font-weight: 600; }
-  .stat-trend { font-size: .75rem; margin-top: 6px; font-weight: 700; display: inline-flex; align-items: center; gap: 4px; }
-  .stat-trend.up { color: var(--green); }
+    .welcome-banner::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23fff' fill-opacity='0.04'%3E%3Ccircle cx='40' cy='40' r='30'/%3E%3C/g%3E%3C/svg%3E");
+      background-size: 60px 60px;
+    }
 
-  /* ── Layout ── */
-  .content-grid { display: grid; grid-template-columns: 1fr 340px; gap: 24px; }
-  .card {
-    background: var(--white); border-radius: 16px; padding: 24px;
-    box-shadow: var(--shadow-sm); margin-bottom: 24px;
-    border: 1px solid var(--border); transition: all 0.3s cubic-bezier(.4,0,.2,1);
-  }
-  .card:hover { box-shadow: var(--shadow); }
-  .card:last-child { margin-bottom: 0; }
-  .card-header {
-    display: flex; align-items: center; justify-content: space-between;
-    margin-bottom: 20px; padding-bottom: 14px; border-bottom: 1px solid var(--gray-100);
-  }
-  .card-title { font-size: 1.05rem; font-weight: 700; margin: 0; color: var(--gray-900); display: flex; align-items: center; gap: 10px; }
-  .card-title i { color: var(--primary); font-size: 1rem; }
-  .btn-link { background: none; border: none; color: var(--primary); font-size: .85rem; cursor: pointer; padding: 6px 12px; font-weight: 600; border-radius: 8px; transition: all .2s; }
-  .btn-link:hover { background: var(--primary-bg); transform: translateX(2px); }
+    .welcome-banner::after {
+      content: '';
+      position: absolute;
+      -webkit-backdrop-filter: blur(10px);
+      backdrop-filter: blur(10px);
+      width: 250px;
+      height: 250px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.08) 0%, transparent 70%);
+      top: -50px;
+      right: -50px;
+      pointer-events: none;
+    }
 
-  /* ── Applicant items ── */
-  .applicant-item {
-    display: flex; align-items: center; gap: 16px;
-    padding: 16px 14px; border-radius: 12px; transition: all .2s; cursor: pointer;
-    border: 1px solid transparent;
-  }
-  .applicant-item:hover { background: var(--gray-50); border-color: var(--gray-100); }
-  .applicant-avatar {
-    width: 44px; height: 44px; border-radius: 50%;
-    background: var(--primary-bg); color: var(--primary);
-    display: flex; align-items: center; justify-content: center;
-    font-weight: 700; font-size: .9rem; flex-shrink: 0;
-    box-shadow: inset 0 2px 4px rgba(0,0,0,0.06);
-  }
-  .applicant-info { flex: 1; min-width: 0; }
-  .applicant-name { font-weight: 700; font-size: .95rem; color: var(--gray-900); }
-  .applicant-meta { font-size: .8rem; color: var(--text-muted); margin-top: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .applicant-role { font-size: .8rem; color: var(--gray-600); margin-top: 3px; display: flex; align-items: center; gap: 4px; font-weight: 500; }
-  .applicant-actions { display: flex; gap: 8px; flex-shrink: 0; }
-  .applicant-tags { display: flex; gap: 6px; margin-top: 6px; flex-wrap: wrap; }
-  .applicant-tag { font-size: 0.68rem; padding: 2px 8px; border-radius: 4px; font-weight: 600; background: var(--gray-100); color: var(--gray-600); }
-  .applicant-tag.gpa { background: var(--green-bg); color: var(--green); }
-  .applicant-tag.match { background: var(--primary-bg); color: var(--primary); }
+    .welcome-banner-content {
+      position: relative;
+      z-index: 2;
+    }
 
-  .btn-xs {
-    width: 32px; height: 32px; border-radius: 8px; font-size: .8rem;
-    border: 1.5px solid transparent; cursor: pointer; transition: all .2s;
-    display: inline-flex; align-items: center; justify-content: center;
-  }
-  .btn-xs.view    { background: var(--primary-bg); color: var(--primary); border-color: rgba(0,177,170,.2); width: auto; padding: 0 12px; font-weight: 600; gap: 4px; }
-  .btn-xs.accept  { background: var(--green-bg); color: var(--green); border-color: rgba(16,185,129,.2); }
-  .btn-xs.reject  { background: var(--danger-bg); color: var(--danger); border-color: rgba(239,68,68,.2); }
-  .btn-xs.view:hover   { background: var(--primary); color: #fff; }
-  .btn-xs.accept:hover { background: var(--green); color: #fff; }
-  .btn-xs.reject:hover { background: var(--danger); color: #fff; }
+    .welcome-banner h2 {
+      font-size: 1.75rem;
+      font-weight: 800;
+      margin: 0 0 8px;
+      color: #fff !important;
+      letter-spacing: -0.02em;
+    }
 
-  .status-badge {
-    display: inline-flex; align-items: center; gap: 4px;
-    padding: 4px 10px; border-radius: 20px; font-size: .75rem; font-weight: 700; flex-shrink: 0;
-  }
-  .status-badge.new       { background: var(--primary-bg); color: var(--primary); }
-  .status-badge.reviewing { background: var(--warning-bg); color: var(--warning); }
-  .status-badge.interview { background: var(--green-bg); color: var(--green); }
-  .status-badge.active    { background: var(--green-bg); color: var(--green); }
-  .status-badge.accepted  { background: var(--green-bg); color: var(--green); }
-  .status-badge.rejected  { background: var(--danger-bg); color: var(--danger); }
+    .welcome-banner p {
+      margin: 0;
+      opacity: .9;
+      font-size: .95rem;
+      color: #fff !important;
+      font-weight: 500;
+    }
 
-  /* ── Offer items ── */
-  .offer-item {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 16px 14px; border-radius: 12px; transition: all .2s; cursor: pointer;
-    border: 1px solid transparent;
-  }
-  .offer-item:hover { background: var(--gray-50); border-color: var(--gray-100); }
-  .offer-title { font-weight: 700; font-size: .95rem; color: var(--gray-900); }
-  .offer-meta  { font-size: .8rem; color: var(--text-muted); margin-top: 4px; display: flex; align-items: center; gap: 8px; }
-  .offer-right { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+    .welcome-banner-icon {
+      font-size: 5rem;
+      opacity: .12;
+      color: #fff !important;
+      position: relative;
+      z-index: 1;
+      transform: rotate(-10deg);
+      transition: transform 0.3s;
+    }
 
-  /* ── Pipeline ── */
-  .pipeline-item { display: flex; align-items: center; gap: 14px; margin-bottom: 16px; }
-  .pipeline-item:last-child { margin-bottom: 0; }
-  .pipeline-label { font-size: .85rem; color: var(--gray-700); width: 110px; flex-shrink: 0; font-weight: 600; }
-  .pipeline-bar-wrap { flex: 1; background: var(--gray-100); border-radius: 20px; height: 10px; overflow: hidden; }
-  .pipeline-bar { height: 100%; border-radius: 20px; transition: width 1.2s cubic-bezier(.4,0,.2,1); }
-  .pipeline-value { font-size: .85rem; font-weight: 700; width: 28px; text-align: right; color: var(--gray-800); }
+    .welcome-banner:hover .welcome-banner-icon {
+      transform: rotate(0deg) scale(1.05);
+    }
 
-  /* ── Interview slot ── */
-  .interview-slot {
-    display: flex; gap: 14px; padding: 14px 12px; border-radius: 12px;
-    transition: all .2s; cursor: pointer; border: 1px solid transparent;
-  }
-  .interview-slot:hover { background: var(--gray-50); border-color: var(--gray-100); }
-  .interview-date-box {
-    background: var(--primary-bg); color: var(--primary);
-    border-radius: 12px; padding: 8px 12px;
-    text-align: center; flex-shrink: 0; min-width: 54px;
-    box-shadow: 0 4px 6px -1px rgba(0, 177, 170, 0.1);
-  }
-  .interview-date-box .day { font-size: 1.2rem; font-weight: 800; line-height: 1; }
-  .interview-date-box .mon { font-size: .7rem; font-weight: 700; text-transform: uppercase; margin-top: 3px; letter-spacing: 0.05em; }
-  .interview-info { flex: 1; min-width: 0; }
-  .interview-name { font-weight: 700; font-size: .9rem; color: var(--gray-900); }
-  .interview-role { font-size: .78rem; color: var(--text-muted); margin-top: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .interview-time { font-size: .78rem; color: var(--gray-600); margin-top: 6px; display: flex; align-items: center; gap: 6px; font-weight: 500; }
+    .welcome-quick-actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
 
-  /* ── Activity Feed ── */
-  .activity-feed { display: flex; flex-direction: column; gap: 16px; }
-  .activity-item { display: flex; gap: 12px; position: relative; }
-  .activity-item::before {
-    content: ''; position: absolute; left: 16px; top: 32px; bottom: -20px; width: 2px; background: var(--gray-100);
-  }
-  .activity-item:last-child::before { display: none; }
-  .activity-icon {
-    width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
-    font-size: 0.78rem; flex-shrink: 0; position: relative; z-index: 2;
-  }
-  .activity-icon.apply    { background: var(--primary-bg); color: var(--primary); }
-  .activity-icon.calendar { background: rgba(139,92,246,.12); color: #8B5CF6; }
-  .activity-icon.check    { background: var(--green-bg); color: var(--green); }
-  .activity-info { flex: 1; min-width: 0; }
-  .activity-text { font-size: 0.82rem; color: var(--gray-800); line-height: 1.4; }
-  .activity-text strong { font-weight: 700; color: var(--gray-900); }
-  .activity-time { font-size: 0.72rem; color: var(--text-muted); margin-top: 4px; font-weight: 500; }
+    .welcome-quick-btn {
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      color: #fff;
+      border-radius: 10px;
+      padding: 10px 18px;
+      font-size: .85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all .2s cubic-bezier(.4, 0, .2, 1);
+      backdrop-filter: blur(6px);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
 
-  /* ── Analytics Preview Chart ── */
-  .chart-container { position: relative; height: 160px; margin-bottom: 12px; width: 100%; }
-  .chart-tooltip {
-    position: absolute; display: none; background: var(--gray-900); color: #fff;
-    padding: 6px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: 600;
-    pointer-events: none; z-index: 10; box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-  }
-  .chart-dot { cursor: pointer; transition: r 0.2s; }
-  .chart-dot:hover { r: 6px !important; }
+    .welcome-quick-btn:hover {
+      background: rgba(255, 255, 255, 0.25);
+      border-color: rgba(255, 255, 255, 0.4);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
 
-  /* ── Modal ── */
-  .modal-overlay {
-    display: none; position: fixed; inset: 0; background: rgba(0,0,0,.45);
-    z-index: 9990; align-items: center; justify-content: center; padding: 20px;
-    backdrop-filter: blur(4px);
-  }
-  .modal-overlay.open { display: flex; animation: fadeInOverlay .2s ease; }
-  @keyframes fadeInOverlay { from { opacity: 0; } to { opacity: 1; } }
-  .modal-box {
-    background: var(--white); border-radius: 20px; padding: 32px;
-    width: 100%; max-width: 480px; box-shadow: 0 24px 64px rgba(0,0,0,.18);
-    animation: slideUpModal .25s cubic-bezier(.16,1,.3,1);
-    position: relative; max-height: 90vh; overflow-y: auto;
-  }
-  @keyframes slideUpModal { from { opacity: 0; transform: translateY(24px) scale(.97); } to { opacity: 1; transform: none; } }
-  .modal-close {
-    position: absolute; top: 16px; right: 16px;
-    width: 32px; height: 32px; border-radius: 8px; background: var(--gray-100);
-    border: none; cursor: pointer; color: var(--gray-600); font-size: 14px;
-    display: flex; align-items: center; justify-content: center; transition: all .2s;
-  }
-  .modal-close:hover { background: var(--danger-bg); color: var(--danger); }
-  .modal-avatar {
-    width: 64px; height: 64px; border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 1.4rem; font-weight: 800; margin: 0 auto 16px; color: #fff;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-  }
-  .modal-name { font-size: 1.25rem; font-weight: 800; text-align: center; color: var(--gray-900); }
-  .modal-role { font-size: .85rem; color: var(--text-muted); text-align: center; margin-top: 4px; font-weight: 500; }
-  .modal-info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 20px 0; }
-  .modal-info-item { background: var(--gray-50); border-radius: 10px; padding: 12px; border: 1px solid var(--border); }
-  .modal-info-label { font-size: .7rem; color: var(--text-muted); font-weight: 700; text-transform: uppercase; letter-spacing: .05em; }
-  .modal-info-value { font-size: .9rem; font-weight: 600; color: var(--gray-800); margin-top: 4px; }
-  .modal-actions { display: flex; gap: 10px; margin-top: 20px; }
-  .modal-actions button { flex: 1; padding: 12px; border-radius: 10px; font-size: .88rem; font-weight: 700; border: none; cursor: pointer; transition: all .2s; display: flex; align-items: center; justify-content: center; gap: 6px; }
-  .btn-accept { background: var(--green-bg); color: var(--green); }
-  .btn-accept:hover { background: var(--green); color: #fff; }
-  .btn-reject { background: var(--danger-bg); color: var(--danger); }
-  .btn-reject:hover { background: var(--danger); color: #fff; }
-  .btn-interview { background: var(--primary-bg); color: var(--primary); }
-  .btn-interview:hover { background: var(--primary); color: #fff; }
+    /* ── Stats ── */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      margin-bottom: 28px;
+    }
 
-  /* ── Responsive ── */
-  @media (max-width: 1150px) {
-    .stats-grid { grid-template-columns: repeat(2, 1fr); }
-    .content-grid { grid-template-columns: 1fr; }
-  }
-  @media (max-width: 640px) {
-    .stats-grid { grid-template-columns: 1fr; }
-    .welcome-banner { padding: 24px 20px; }
-    .welcome-banner h2 { font-size: 1.35rem; }
-    .welcome-banner-icon { display: none; }
-    .applicant-actions .btn-xs span { display: none; }
-    .applicant-actions .btn-xs { width: 32px; padding: 0; }
-    .modal-info-grid { grid-template-columns: 1fr; }
-  }
-</style>
+    .stat-card {
+      background: var(--white);
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      border: 1px solid var(--border);
+      transition: all 0.3s cubic-bezier(.4, 0, .2, 1);
+      position: relative;
+      overflow: hidden;
+    }
 
-<!-- Welcome Banner -->
-<div class="welcome-banner">
-  <div class="welcome-banner-content">
-    <h2>Welcome back, {{ auth()->user()->company?->name ?? auth()->user()->name }}!</h2>
-    <p>You have <strong>8</strong> new applicants and <strong>2</strong> interviews scheduled for today.</p>
-    <div class="welcome-quick-actions">
-      <button class="welcome-quick-btn" onclick="document.location='{{ route('company.applicants', ['company' => auth()->user()->company?->slug ?? 'internlink-demo']) }}'">
-        <i class="fas fa-users"></i> View Applicants
-      </button>
-      <button class="welcome-quick-btn" onclick="document.location='{{ route('company.interviews', ['company' => auth()->user()->company?->slug ?? 'internlink-demo']) }}'">
-        <i class="fas fa-calendar"></i> Interviews
-      </button>
-      <button class="welcome-quick-btn" onclick="document.location='{{ route('company.offers', ['company' => auth()->user()->company?->slug ?? 'internlink-demo']) }}'">
-        <i class="fas fa-plus"></i> Post Internship
-      </button>
+    .stat-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary) 0%, var(--primary-light) 100%);
+      opacity: 0;
+      transition: opacity .3s;
+    }
+
+    .stat-card:hover {
+      box-shadow: var(--shadow);
+      transform: translateY(-4px);
+      border-color: var(--primary-light);
+    }
+
+    .stat-card:hover::after {
+      opacity: 1;
+    }
+
+    .stat-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      flex-shrink: 0;
+      transition: transform 0.3s ease;
+    }
+
+    .stat-card:hover .stat-icon {
+      transform: scale(1.1);
+    }
+
+    .stat-icon.blue {
+      background: var(--primary-bg);
+      color: var(--primary);
+    }
+
+    .stat-icon.green {
+      background: var(--green-bg);
+      color: var(--green);
+    }
+
+    .stat-icon.orange {
+      background: var(--warning-bg);
+      color: var(--warning);
+    }
+
+    .stat-icon.purple {
+      background: rgba(139, 92, 246, .12);
+      color: #8B5CF6;
+    }
+
+    .stat-value {
+      font-size: 2rem;
+      font-weight: 800;
+      line-height: 1.1;
+      color: var(--gray-900);
+      letter-spacing: -0.03em;
+    }
+
+    .stat-label {
+      font-size: .85rem;
+      color: var(--text-muted);
+      margin-top: 6px;
+      font-weight: 600;
+    }
+
+    .stat-trend {
+      font-size: .75rem;
+      margin-top: 6px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .stat-trend.up {
+      color: var(--green);
+    }
+
+    /* ── Layout ── */
+    .content-grid {
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 24px;
+    }
+
+    .card {
+      background: var(--white);
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 24px;
+      border: 1px solid var(--border);
+      transition: all 0.3s cubic-bezier(.4, 0, .2, 1);
+    }
+
+    .card:hover {
+      box-shadow: var(--shadow);
+    }
+
+    .card:last-child {
+      margin-bottom: 0;
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--gray-100);
+    }
+
+    .card-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin: 0;
+      color: var(--gray-900);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .card-title i {
+      color: var(--primary);
+      font-size: 1rem;
+    }
+
+    .btn-link {
+      background: none;
+      border: none;
+      color: var(--primary);
+      font-size: .85rem;
+      cursor: pointer;
+      padding: 6px 12px;
+      font-weight: 600;
+      border-radius: 8px;
+      transition: all .2s;
+    }
+
+    .btn-link:hover {
+      background: var(--primary-bg);
+      transform: translateX(2px);
+    }
+
+    /* ── Applicant items ── */
+    .applicant-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px 14px;
+      border-radius: 12px;
+      transition: all .2s;
+      cursor: pointer;
+      border: 1px solid transparent;
+    }
+
+    .applicant-item:hover {
+      background: var(--gray-50);
+      border-color: var(--gray-100);
+    }
+
+    .applicant-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--primary-bg);
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: .9rem;
+      flex-shrink: 0;
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.06);
+    }
+
+    .applicant-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .applicant-name {
+      font-weight: 700;
+      font-size: .95rem;
+      color: var(--gray-900);
+    }
+
+    .applicant-meta {
+      font-size: .8rem;
+      color: var(--text-muted);
+      margin-top: 3px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .applicant-role {
+      font-size: .8rem;
+      color: var(--gray-600);
+      margin-top: 3px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-weight: 500;
+    }
+
+    .applicant-actions {
+      display: flex;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .applicant-tags {
+      display: flex;
+      gap: 6px;
+      margin-top: 6px;
+      flex-wrap: wrap;
+    }
+
+    .applicant-tag {
+      font-size: 0.68rem;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-weight: 600;
+      background: var(--gray-100);
+      color: var(--gray-600);
+    }
+
+    .applicant-tag.gpa {
+      background: var(--green-bg);
+      color: var(--green);
+    }
+
+    .applicant-tag.match {
+      background: var(--primary-bg);
+      color: var(--primary);
+    }
+
+    .btn-xs {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      font-size: .8rem;
+      border: 1.5px solid transparent;
+      cursor: pointer;
+      transition: all .2s;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .btn-xs.view {
+      background: var(--primary-bg);
+      color: var(--primary);
+      border-color: rgba(0, 177, 170, .2);
+      width: auto;
+      padding: 0 12px;
+      font-weight: 600;
+      gap: 4px;
+    }
+
+    .btn-xs.accept {
+      background: var(--green-bg);
+      color: var(--green);
+      border-color: rgba(16, 185, 129, .2);
+    }
+
+    .btn-xs.reject {
+      background: var(--danger-bg);
+      color: var(--danger);
+      border-color: rgba(239, 68, 68, .2);
+    }
+
+    .btn-xs.view:hover {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    .btn-xs.accept:hover {
+      background: var(--green);
+      color: #fff;
+    }
+
+    .btn-xs.reject:hover {
+      background: var(--danger);
+      color: #fff;
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: .75rem;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .status-badge.new {
+      background: var(--primary-bg);
+      color: var(--primary);
+    }
+
+    .status-badge.reviewing {
+      background: var(--warning-bg);
+      color: var(--warning);
+    }
+
+    .status-badge.interview {
+      background: var(--green-bg);
+      color: var(--green);
+    }
+
+    .status-badge.active {
+      background: var(--green-bg);
+      color: var(--green);
+    }
+
+    .status-badge.accepted {
+      background: var(--green-bg);
+      color: var(--green);
+    }
+
+    .status-badge.rejected {
+      background: var(--danger-bg);
+      color: var(--danger);
+    }
+
+    /* ── Offer items ── */
+    .offer-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 14px;
+      border-radius: 12px;
+      transition: all .2s;
+      cursor: pointer;
+      border: 1px solid transparent;
+    }
+
+    .offer-item:hover {
+      background: var(--gray-50);
+      border-color: var(--gray-100);
+    }
+
+    .offer-title {
+      font-weight: 700;
+      font-size: .95rem;
+      color: var(--gray-900);
+    }
+
+    .offer-meta {
+      font-size: .8rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .offer-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+
+    /* ── Pipeline ── */
+    .pipeline-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+
+    .pipeline-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .pipeline-label {
+      font-size: .85rem;
+      color: var(--gray-700);
+      width: 110px;
+      flex-shrink: 0;
+      font-weight: 600;
+    }
+
+    .pipeline-bar-wrap {
+      flex: 1;
+      background: var(--gray-100);
+      border-radius: 20px;
+      height: 10px;
+      overflow: hidden;
+    }
+
+    .pipeline-bar {
+      height: 100%;
+      border-radius: 20px;
+      transition: width 1.2s cubic-bezier(.4, 0, .2, 1);
+    }
+
+    .pipeline-value {
+      font-size: .85rem;
+      font-weight: 700;
+      width: 28px;
+      text-align: right;
+      color: var(--gray-800);
+    }
+
+    /* ── Interview slot ── */
+    .interview-slot {
+      display: flex;
+      gap: 14px;
+      padding: 14px 12px;
+      border-radius: 12px;
+      transition: all .2s;
+      cursor: pointer;
+      border: 1px solid transparent;
+    }
+
+    .interview-slot:hover {
+      background: var(--gray-50);
+      border-color: var(--gray-100);
+    }
+
+    .interview-date-box {
+      background: var(--primary-bg);
+      color: var(--primary);
+      border-radius: 12px;
+      padding: 8px 12px;
+      text-align: center;
+      flex-shrink: 0;
+      min-width: 54px;
+      box-shadow: 0 4px 6px -1px rgba(0, 177, 170, 0.1);
+    }
+
+    .interview-date-box .day {
+      font-size: 1.2rem;
+      font-weight: 800;
+      line-height: 1;
+    }
+
+    .interview-date-box .mon {
+      font-size: .7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      margin-top: 3px;
+      letter-spacing: 0.05em;
+    }
+
+    .interview-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .interview-name {
+      font-weight: 700;
+      font-size: .9rem;
+      color: var(--gray-900);
+    }
+
+    .interview-role {
+      font-size: .78rem;
+      color: var(--text-muted);
+      margin-top: 3px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .interview-time {
+      font-size: .78rem;
+      color: var(--gray-600);
+      margin-top: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 500;
+    }
+
+    /* ── Activity Feed ── */
+    .activity-feed {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .activity-item {
+      display: flex;
+      gap: 12px;
+      position: relative;
+    }
+
+    .activity-item::before {
+      content: '';
+      position: absolute;
+      left: 16px;
+      top: 32px;
+      bottom: -20px;
+      width: 2px;
+      background: var(--gray-100);
+    }
+
+    .activity-item:last-child::before {
+      display: none;
+    }
+
+    .activity-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.78rem;
+      flex-shrink: 0;
+      position: relative;
+      z-index: 2;
+    }
+
+    .activity-icon.apply {
+      background: var(--primary-bg);
+      color: var(--primary);
+    }
+
+    .activity-icon.calendar {
+      background: rgba(139, 92, 246, .12);
+      color: #8B5CF6;
+    }
+
+    .activity-icon.check {
+      background: var(--green-bg);
+      color: var(--green);
+    }
+
+    .activity-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .activity-text {
+      font-size: 0.82rem;
+      color: var(--gray-800);
+      line-height: 1.4;
+    }
+
+    .activity-text strong {
+      font-weight: 700;
+      color: var(--gray-900);
+    }
+
+    .activity-time {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+      font-weight: 500;
+    }
+
+    /* ── Analytics Preview Chart ── */
+    .chart-container {
+      position: relative;
+      height: 160px;
+      margin-bottom: 12px;
+      width: 100%;
+    }
+
+    .chart-tooltip {
+      position: absolute;
+      display: none;
+      background: var(--gray-900);
+      color: #fff;
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      pointer-events: none;
+      z-index: 10;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .chart-dot {
+      cursor: pointer;
+      transition: r 0.2s;
+    }
+
+    .chart-dot:hover {
+      r: 6px !important;
+    }
+
+    /* ── Modal ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, .45);
+      z-index: 9990;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      backdrop-filter: blur(4px);
+    }
+
+    .modal-overlay.open {
+      display: flex;
+      animation: fadeInOverlay .2s ease;
+    }
+
+    @keyframes fadeInOverlay {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    .modal-box {
+      background: var(--white);
+      border-radius: 20px;
+      padding: 32px;
+      width: 100%;
+      max-width: 480px;
+      box-shadow: 0 24px 64px rgba(0, 0, 0, .18);
+      animation: slideUpModal .25s cubic-bezier(.16, 1, .3, 1);
+      position: relative;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    @keyframes slideUpModal {
+      from {
+        opacity: 0;
+        transform: translateY(24px) scale(.97);
+      }
+
+      to {
+        opacity: 1;
+        transform: none;
+      }
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: var(--gray-100);
+      border: none;
+      cursor: pointer;
+      color: var(--gray-600);
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all .2s;
+    }
+
+    .modal-close:hover {
+      background: var(--danger-bg);
+      color: var(--danger);
+    }
+
+    .modal-avatar {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      font-weight: 800;
+      margin: 0 auto 16px;
+      color: #fff;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .modal-name {
+      font-size: 1.25rem;
+      font-weight: 800;
+      text-align: center;
+      color: var(--gray-900);
+    }
+
+    .modal-role {
+      font-size: .85rem;
+      color: var(--text-muted);
+      text-align: center;
+      margin-top: 4px;
+      font-weight: 500;
+    }
+
+    .modal-info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin: 20px 0;
+    }
+
+    .modal-info-item {
+      background: var(--gray-50);
+      border-radius: 10px;
+      padding: 12px;
+      border: 1px solid var(--border);
+    }
+
+    .modal-info-label {
+      font-size: .7rem;
+      color: var(--text-muted);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+    }
+
+    .modal-info-value {
+      font-size: .9rem;
+      font-weight: 600;
+      color: var(--gray-800);
+      margin-top: 4px;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .modal-actions button {
+      flex: 1;
+      padding: 12px;
+      border-radius: 10px;
+      font-size: .88rem;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      transition: all .2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .btn-accept {
+      background: var(--green-bg);
+      color: var(--green);
+    }
+
+    .btn-accept:hover {
+      background: var(--green);
+      color: #fff;
+    }
+
+    .btn-reject {
+      background: var(--danger-bg);
+      color: var(--danger);
+    }
+
+    .btn-reject:hover {
+      background: var(--danger);
+      color: #fff;
+    }
+
+    .btn-interview {
+      background: var(--primary-bg);
+      color: var(--primary);
+    }
+
+    .btn-interview:hover {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 1150px) {
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .content-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .welcome-banner {
+        padding: 24px 20px;
+      }
+
+      .welcome-banner h2 {
+        font-size: 1.35rem;
+      }
+
+      .welcome-banner-icon {
+        display: none;
+      }
+
+      .applicant-actions .btn-xs span {
+        display: none;
+      }
+
+      .applicant-actions .btn-xs {
+        width: 32px;
+        padding: 0;
+      }
+
+      .modal-info-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+
+  <!-- Welcome Banner -->
+  <div class="welcome-banner">
+    <div class="welcome-banner-content">
+      <h2>Welcome back, {{ auth()->user()->company?->name ?? auth()->user()->name }}!</h2>
+      <p>You have <strong>8</strong> new applicants and <strong>2</strong> interviews scheduled for today.</p>
+      <div class="welcome-quick-actions">
+        <button class="welcome-quick-btn"
+          onclick="document.location='{{ route('company.applicants', ['company' => auth()->user()->company?->slug ?? 'internlink-demo']) }}'">
+          <i class="fas fa-users"></i> View Applicants
+        </button>
+        <button class="welcome-quick-btn"
+          onclick="document.location='{{ route('company.interviews', ['company' => auth()->user()->company?->slug ?? 'internlink-demo']) }}'">
+          <i class="fas fa-calendar"></i> Interviews
+        </button>
+        <button class="welcome-quick-btn"
+          onclick="document.location='{{ route('company.offers', ['company' => auth()->user()->company?->slug ?? 'internlink-demo']) }}'">
+          <i class="fas fa-plus"></i> Post Internship
+        </button>
+      </div>
+    </div>
+    <i class="fas fa-building welcome-banner-icon"></i>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-icon blue"><i class="fas fa-briefcase"></i></div>
+      <div>
+        <div class="stat-value">3</div>
+        <div class="stat-label">Active Internships</div>
+        <div class="stat-trend up"><i class="fas fa-arrow-up"></i> +1 this month</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon green"><i class="fas fa-users"></i></div>
+      <div>
+        <div class="stat-value" id="totalApplicantsCount">47</div>
+        <div class="stat-label">Total Applicants</div>
+        <div class="stat-trend up"><i class="fas fa-arrow-up"></i> 8 new today</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon orange"><i class="fas fa-calendar-check"></i></div>
+      <div>
+        <div class="stat-value">5</div>
+        <div class="stat-label">Interviews Scheduled</div>
+        <div class="stat-trend up"><i class="fas fa-arrow-up"></i> 2 today</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon purple"><i class="fas fa-user-check"></i></div>
+      <div>
+        <div class="stat-value" id="hiredCount">8</div>
+        <div class="stat-label">Hired This Month</div>
+        <div class="stat-trend up"><i class="fas fa-arrow-up"></i> On track</div>
+      </div>
     </div>
   </div>
-  <i class="fas fa-building welcome-banner-icon"></i>
-</div>
 
-<!-- Stats -->
-<div class="stats-grid">
-  <div class="stat-card">
-    <div class="stat-icon blue"><i class="fas fa-briefcase"></i></div>
-    <div>
-      <div class="stat-value">3</div>
-      <div class="stat-label">Active Internships</div>
-      <div class="stat-trend up"><i class="fas fa-arrow-up"></i> +1 this month</div>
-    </div>
-  </div>
-  <div class="stat-card">
-    <div class="stat-icon green"><i class="fas fa-users"></i></div>
-    <div>
-      <div class="stat-value" id="totalApplicantsCount">47</div>
-      <div class="stat-label">Total Applicants</div>
-      <div class="stat-trend up"><i class="fas fa-arrow-up"></i> 8 new today</div>
-    </div>
-  </div>
-  <div class="stat-card">
-    <div class="stat-icon orange"><i class="fas fa-calendar-check"></i></div>
-    <div>
-      <div class="stat-value">5</div>
-      <div class="stat-label">Interviews Scheduled</div>
-      <div class="stat-trend up"><i class="fas fa-arrow-up"></i> 2 today</div>
-    </div>
-  </div>
-  <div class="stat-card">
-    <div class="stat-icon purple"><i class="fas fa-user-check"></i></div>
-    <div>
-      <div class="stat-value" id="hiredCount">8</div>
-      <div class="stat-label">Hired This Month</div>
-      <div class="stat-trend up"><i class="fas fa-arrow-up"></i> On track</div>
-    </div>
-  </div>
-</div>
+  <!-- Content Grid -->
+  <div class="content-grid">
 
-<!-- Content Grid -->
-<div class="content-grid">
+    <!-- LEFT COLUMN -->
+    <div class="left-col">
 
-  <!-- LEFT COLUMN -->
-  <div class="left-col">
-
-    <!-- Applicant Analytics Chart Card (Premium Detail) -->
-    <div class="card">
-      <div class="card-header">
-        <h2 class="card-title"><i class="fas fa-chart-line"></i> Applicant Trends</h2>
-        <div style="font-size: 0.78rem; font-weight: 600; color: var(--text-muted);">Last 7 Days</div>
-      </div>
-      <div class="card-body" style="padding-top: 4px; position: relative;">
-        <div class="chart-tooltip" id="chartTooltip"></div>
-        <div class="chart-container">
-          <svg viewBox="0 0 650 160" width="100%" height="100%" preserveAspectRatio="none">
-            <!-- Grid lines -->
-            <line x1="50" y1="20" x2="620" y2="20" stroke="#f1f5f9" stroke-width="1.5"></line>
-            <line x1="50" y1="60" x2="620" y2="60" stroke="#f1f5f9" stroke-width="1.5"></line>
-            <line x1="50" y1="100" x2="620" y2="100" stroke="#f1f5f9" stroke-width="1.5"></line>
-            <line x1="50" y1="140" x2="620" y2="140" stroke="#cbd5e1" stroke-width="1.5"></line>
-            
-            <!-- Trend Line Area -->
-            <path d="M 50 140 C 69.0 132.0, 107.0 104.0, 145 100 C 183.0 96.0, 202.0 124.0, 240 120 C 278.0 116.0, 297.0 96.0, 335 80 C 373.0 64.0, 392.0 42.0, 430 40 C 468.0 38.0, 487.0 66.0, 525 70 C 563.0 74.0, 601.0 62.0, 620 60 L 620 140 L 50 140 Z" fill="url(#chartGrad)" opacity="0.15"></path>
-            
-            <!-- Trend Line Path -->
-            <path d="M 50 140 C 69.0 132.0, 107.0 104.0, 145 100 C 183.0 96.0, 202.0 124.0, 240 120 C 278.0 116.0, 297.0 96.0, 335 80 C 373.0 64.0, 392.0 42.0, 430 40 C 468.0 38.0, 487.0 66.0, 525 70 C 563.0 74.0, 601.0 62.0, 620 60" fill="none" stroke="var(--primary)" stroke-width="3" stroke-linecap="round"></path>
-            
-            <!-- Interactive Dots -->
-            <circle class="chart-dot" cx="50" cy="140" r="4.5" fill="#fff" stroke="var(--primary)" stroke-width="2.5" onmouseover="showTooltip(event, 'May 23', '2 applicants')" onmouseout="hideTooltip()"></circle>
-            <circle class="chart-dot" cx="145" cy="100" r="4.5" fill="#fff" stroke="var(--primary)" stroke-width="2.5" onmouseover="showTooltip(event, 'May 24', '6 applicants')" onmouseout="hideTooltip()"></circle>
-            <circle class="chart-dot" cx="240" cy="120" r="4.5" fill="#fff" stroke="var(--primary)" stroke-width="2.5" onmouseover="showTooltip(event, 'May 25', '4 applicants')" onmouseout="hideTooltip()"></circle>
-            <circle class="chart-dot" cx="335" cy="80" r="4.5" fill="#fff" stroke="var(--primary)" stroke-width="2.5" onmouseover="showTooltip(event, 'May 26', '9 applicants')" onmouseout="hideTooltip()"></circle>
-            <circle class="chart-dot" cx="430" cy="40" r="4.5" fill="#fff" stroke="var(--primary)" stroke-width="2.5" onmouseover="showTooltip(event, 'May 27', '14 applicants')" onmouseout="hideTooltip()"></circle>
-            <circle class="chart-dot" cx="525" cy="70" r="4.5" fill="#fff" stroke="var(--primary)" stroke-width="2.5" onmouseover="showTooltip(event, 'May 28', '11 applicants')" onmouseout="hideTooltip()"></circle>
-            <circle class="chart-dot" cx="620" cy="60" r="4.5" fill="#fff" stroke="var(--primary)" stroke-width="2.5" onmouseover="showTooltip(event, 'Today', '12 applicants')" onmouseout="hideTooltip()"></circle>
-            
-            <!-- Gradients -->
-            <defs>
-              <linearGradient id="chartGrad" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stop-color="var(--primary)"></stop>
-                <stop offset="100%" stop-color="transparent"></stop>
-              </linearGradient>
-            </defs>
-          </svg>
+      <!-- Applicant Analytics Chart Card (Premium Detail) -->
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title"><i class="fas fa-chart-line"></i> Applicant Trends</h2>
+          <div style="font-size: 0.78rem; font-weight: 600; color: var(--text-muted);">Last 7 Days</div>
         </div>
-        <div style="display: flex; justify-content: space-between; padding: 0 10px 0 45px; font-size: 0.72rem; color: var(--text-muted); font-weight: 600;">
-          <span>May 23</span>
-          <span>May 24</span>
-          <span>May 25</span>
-          <span>May 26</span>
-          <span>May 27</span>
-          <span>May 28</span>
-          <span>Today</span>
-        </div>
-      </div>
-    </div>
+        <div class="card-body" style="padding-top: 4px; position: relative;">
+          <div class="chart-tooltip" id="chartTooltip"></div>
+          <div class="chart-container">
+            <svg viewBox="0 0 650 160" width="100%" height="100%" preserveAspectRatio="none">
+              <!-- Grid lines -->
+              <line x1="50" y1="20" x2="620" y2="20" stroke="#f1f5f9" stroke-width="1.5"></line>
+              <line x1="50" y1="60" x2="620" y2="60" stroke="#f1f5f9" stroke-width="1.5"></line>
+              <line x1="50" y1="100" x2="620" y2="100" stroke="#f1f5f9" stroke-width="1.5"></line>
+              <line x1="50" y1="140" x2="620" y2="140" stroke="#cbd5e1" stroke-width="1.5"></line>
 
-    <!-- Recent Applicants -->
-    <div class="card">
-      <div class="card-header">
-        <h2 class="card-title"><i class="fas fa-user-clock"></i> Intern Applicants</h2>
-        <a href="{{ route('company.applicants', ['company' => auth()->user()->company?->slug ?? 'internlink-demo']) }}" class="btn-link">View All <i class="fas fa-arrow-right" style="font-size:.72rem;"></i></a>
-      </div>
+              <!-- Trend Line Area -->
+              <path
+                d="M 50 140 C 69.0 132.0, 107.0 104.0, 145 100 C 183.0 96.0, 202.0 124.0, 240 120 C 278.0 116.0, 297.0 96.0, 335 80 C 373.0 64.0, 392.0 42.0, 430 40 C 468.0 38.0, 487.0 66.0, 525 70 C 563.0 74.0, 601.0 62.0, 620 60 L 620 140 L 50 140 Z"
+                fill="url(#chartGrad)" opacity="0.15"></path>
 
-      <div id="applicantsContainer">
-        <!-- Applicant rows injected by JS -->
-      </div>
-    </div>
+              <!-- Trend Line Path -->
+              <path
+                d="M 50 140 C 69.0 132.0, 107.0 104.0, 145 100 C 183.0 96.0, 202.0 124.0, 240 120 C 278.0 116.0, 297.0 96.0, 335 80 C 373.0 64.0, 392.0 42.0, 430 40 C 468.0 38.0, 487.0 66.0, 525 70 C 563.0 74.0, 601.0 62.0, 620 60"
+                fill="none" stroke="var(--primary)" stroke-width="3" stroke-linecap="round"></path>
 
-    <!-- Active Internship Offers -->
-    <div class="card">
-      <div class="card-header">
-        <h2 class="card-title"><i class="fas fa-briefcase"></i> Active Internship Offers</h2>
-        <a href="{{ route('company.offers', ['company' => auth()->user()->company?->slug ?? 'internlink-demo']) }}" class="btn-link">Manage <i class="fas fa-arrow-right" style="font-size:.72rem;"></i></a>
-      </div>
+              <!-- Interactive Dots -->
+              <circle class="chart-dot" cx="50" cy="140" r="4.5" fill="#fff" stroke="var(--primary)" stroke-width="2.5"
+                onmouseover="showTooltip(event, 'May 23', '2 applicants')" onmouseout="hideTooltip()"></circle>
+              <circle class="chart-dot" cx="145" cy="100" r="4.5" fill="#fff" stroke="var(--primary)" stroke-width="2.5"
+                onmouseover="showTooltip(event, 'May 24', '6 applicants')" onmouseout="hideTooltip()"></circle>
+              <circle class="chart-dot" cx="240" cy="120" r="4.5" fill="#fff" stroke="var(--primary)" stroke-width="2.5"
+                onmouseover="showTooltip(event, 'May 25', '4 applicants')" onmouseout="hideTooltip()"></circle>
+              <circle class="chart-dot" cx="335" cy="80" r="4.5" fill="#fff" stroke="var(--primary)" stroke-width="2.5"
+                onmouseover="showTooltip(event, 'May 26', '9 applicants')" onmouseout="hideTooltip()"></circle>
+              <circle class="chart-dot" cx="430" cy="40" r="4.5" fill="#fff" stroke="var(--primary)" stroke-width="2.5"
+                onmouseover="showTooltip(event, 'May 27', '14 applicants')" onmouseout="hideTooltip()"></circle>
+              <circle class="chart-dot" cx="525" cy="70" r="4.5" fill="#fff" stroke="var(--primary)" stroke-width="2.5"
+                onmouseover="showTooltip(event, 'May 28', '11 applicants')" onmouseout="hideTooltip()"></circle>
+              <circle class="chart-dot" cx="620" cy="60" r="4.5" fill="#fff" stroke="var(--primary)" stroke-width="2.5"
+                onmouseover="showTooltip(event, 'Today', '12 applicants')" onmouseout="hideTooltip()"></circle>
 
-      <div class="offer-item">
-        <div>
-          <div class="offer-title">Software Development Intern</div>
-          <div class="offer-meta"><i class="fas fa-map-marker-alt" style="font-size:.7rem;"></i>Remote &nbsp;·&nbsp; Deadline: Jun 30, 2026</div>
-        </div>
-        <div class="offer-right">
-          <span style="font-size:.78rem;color:var(--gray-600);"><i class="fas fa-users" style="font-size:.72rem;margin-right:3px;"></i>34 applicants</span>
-          <span class="status-badge active">Active</span>
+              <!-- Gradients -->
+              <defs>
+                <linearGradient id="chartGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="var(--primary)"></stop>
+                  <stop offset="100%" stop-color="transparent"></stop>
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+          <div
+            style="display: flex; justify-content: space-between; padding: 0 10px 0 45px; font-size: 0.72rem; color: var(--text-muted); font-weight: 600;">
+            <span>May 23</span>
+            <span>May 24</span>
+            <span>May 25</span>
+            <span>May 26</span>
+            <span>May 27</span>
+            <span>May 28</span>
+            <span>Today</span>
+          </div>
         </div>
       </div>
 
-      <div class="offer-item">
-        <div>
-          <div class="offer-title">Marketing Coordinator</div>
-          <div class="offer-meta"><i class="fas fa-map-marker-alt" style="font-size:.7rem;"></i>New York &nbsp;·&nbsp; Deadline: Jul 15, 2026</div>
+      <!-- Recent Applicants -->
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title"><i class="fas fa-user-clock"></i> Intern Applicants</h2>
+          <a href="{{ route('company.applicants', ['company' => auth()->user()->company?->slug ?? 'internlink-demo']) }}"
+            class="btn-link">View All <i class="fas fa-arrow-right" style="font-size:.72rem;"></i></a>
         </div>
-        <div class="offer-right">
-          <span style="font-size:.78rem;color:var(--gray-600);"><i class="fas fa-users" style="font-size:.72rem;margin-right:3px;"></i>21 applicants</span>
-          <span class="status-badge active">Active</span>
-        </div>
-      </div>
 
-      <div class="offer-item">
-        <div>
-          <div class="offer-title">Data Analyst Intern</div>
-          <div class="offer-meta"><i class="fas fa-map-marker-alt" style="font-size:.7rem;"></i>Boston &nbsp;·&nbsp; Deadline: Jul 1, 2026</div>
-        </div>
-        <div class="offer-right">
-          <span style="font-size:.78rem;color:var(--gray-600);"><i class="fas fa-users" style="font-size:.72rem;margin-right:3px;"></i>18 applicants</span>
-          <span class="status-badge active">Active</span>
-        </div>
-      </div>
-    </div>
-
-  </div><!-- /left-col -->
-
-  <!-- RIGHT COLUMN -->
-  <div class="right-col">
-
-    <!-- Hiring Pipeline -->
-    <div class="card">
-      <div class="card-header">
-        <h2 class="card-title"><i class="fas fa-filter"></i> Hiring Pipeline</h2>
-      </div>
-      <div class="pipeline-item">
-        <div class="pipeline-label">Applications</div>
-        <div class="pipeline-bar-wrap"><div class="pipeline-bar" style="width:100%;background:var(--primary);" id="bar-total"></div></div>
-        <div class="pipeline-value" id="pv-total">47</div>
-      </div>
-      <div class="pipeline-item">
-        <div class="pipeline-label">Under Review</div>
-        <div class="pipeline-bar-wrap"><div class="pipeline-bar" style="width:59%;background:var(--primary-light);" id="bar-review"></div></div>
-        <div class="pipeline-value" id="pv-review">28</div>
-      </div>
-      <div class="pipeline-item">
-        <div class="pipeline-label">Interview Stage</div>
-        <div class="pipeline-bar-wrap"><div class="pipeline-bar" style="width:25%;background:var(--warning);" id="bar-interview"></div></div>
-        <div class="pipeline-value" id="pv-interview">12</div>
-      </div>
-      <div class="pipeline-item">
-        <div class="pipeline-label">Offers Extended</div>
-        <div class="pipeline-bar-wrap"><div class="pipeline-bar" style="width:17%;background:#a855f7;"></div></div>
-        <div class="pipeline-value">8</div>
-      </div>
-      <div class="pipeline-item">
-        <div class="pipeline-label">Hired</div>
-        <div class="pipeline-bar-wrap"><div class="pipeline-bar" style="width:10%;background:var(--green);" id="bar-hired"></div></div>
-        <div class="pipeline-value" id="pv-hired">5</div>
-      </div>
-    </div>
-
-    <!-- Upcoming Interviews -->
-    <div class="card">
-      <div class="card-header">
-        <h2 class="card-title"><i class="fas fa-calendar-alt"></i> Upcoming Interviews</h2>
-        <a href="{{ route('company.interviews', ['company' => auth()->user()->company?->slug ?? 'internlink-demo']) }}" class="btn-link">View All</a>
-      </div>
-
-      <div class="interview-slot" onclick="showToast('Opening video call for Alex Johnson...','info')">
-        <div class="interview-date-box"><div class="day">24</div><div class="mon">May</div></div>
-        <div class="interview-info">
-          <div class="interview-name">Alex Johnson</div>
-          <div class="interview-role">Software Development Intern</div>
-          <div class="interview-time"><i class="fas fa-clock"></i> 10:00 AM <i class="fas fa-video"></i> Video Call</div>
+        <div id="applicantsContainer">
+          <!-- Applicant rows injected by JS -->
         </div>
       </div>
 
-      <div class="interview-slot" onclick="showToast('Opening video call for James Wilson...','info')">
-        <div class="interview-date-box"><div class="day">25</div><div class="mon">May</div></div>
-        <div class="interview-info">
-          <div class="interview-name">James Wilson</div>
-          <div class="interview-role">Backend Developer Intern</div>
-          <div class="interview-time"><i class="fas fa-clock"></i> 2:30 PM <i class="fas fa-video"></i> Video Call</div>
+      <!-- Active Internship Offers -->
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title"><i class="fas fa-briefcase"></i> Active Internship Offers</h2>
+          <a href="{{ route('company.offers', ['company' => auth()->user()->company?->slug ?? 'internlink-demo']) }}"
+            class="btn-link">Manage <i class="fas fa-arrow-right" style="font-size:.72rem;"></i></a>
+        </div>
+
+        <div class="offer-item">
+          <div>
+            <div class="offer-title">Software Development Intern</div>
+            <div class="offer-meta"><i class="fas fa-map-marker-alt" style="font-size:.7rem;"></i>Remote &nbsp;·&nbsp;
+              Deadline: Jun 30, 2026</div>
+          </div>
+          <div class="offer-right">
+            <span style="font-size:.78rem;color:var(--gray-600);"><i class="fas fa-users"
+                style="font-size:.72rem;margin-right:3px;"></i>34 applicants</span>
+            <span class="status-badge active">Active</span>
+          </div>
+        </div>
+
+        <div class="offer-item">
+          <div>
+            <div class="offer-title">Marketing Coordinator</div>
+            <div class="offer-meta"><i class="fas fa-map-marker-alt" style="font-size:.7rem;"></i>New York &nbsp;·&nbsp;
+              Deadline: Jul 15, 2026</div>
+          </div>
+          <div class="offer-right">
+            <span style="font-size:.78rem;color:var(--gray-600);"><i class="fas fa-users"
+                style="font-size:.72rem;margin-right:3px;"></i>21 applicants</span>
+            <span class="status-badge active">Active</span>
+          </div>
+        </div>
+
+        <div class="offer-item">
+          <div>
+            <div class="offer-title">Data Analyst Intern</div>
+            <div class="offer-meta"><i class="fas fa-map-marker-alt" style="font-size:.7rem;"></i>Boston &nbsp;·&nbsp;
+              Deadline: Jul 1, 2026</div>
+          </div>
+          <div class="offer-right">
+            <span style="font-size:.78rem;color:var(--gray-600);"><i class="fas fa-users"
+                style="font-size:.72rem;margin-right:3px;"></i>18 applicants</span>
+            <span class="status-badge active">Active</span>
+          </div>
         </div>
       </div>
 
-      <div class="interview-slot" onclick="showToast('In-person interview with Priya Sharma at 11:00 AM','info')">
-        <div class="interview-date-box"><div class="day">27</div><div class="mon">May</div></div>
-        <div class="interview-info">
-          <div class="interview-name">Priya Sharma</div>
-          <div class="interview-role">Data Analyst Intern</div>
-          <div class="interview-time"><i class="fas fa-clock"></i> 11:00 AM <i class="fas fa-building"></i> In-Person</div>
+    </div><!-- /left-col -->
+
+    <!-- RIGHT COLUMN -->
+    <div class="right-col">
+
+      <!-- Hiring Pipeline -->
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title"><i class="fas fa-filter"></i> Hiring Pipeline</h2>
+        </div>
+        <div class="pipeline-item">
+          <div class="pipeline-label">Applications</div>
+          <div class="pipeline-bar-wrap">
+            <div class="pipeline-bar" style="width:100%;background:var(--primary);" id="bar-total"></div>
+          </div>
+          <div class="pipeline-value" id="pv-total">47</div>
+        </div>
+        <div class="pipeline-item">
+          <div class="pipeline-label">Under Review</div>
+          <div class="pipeline-bar-wrap">
+            <div class="pipeline-bar" style="width:59%;background:var(--primary-light);" id="bar-review"></div>
+          </div>
+          <div class="pipeline-value" id="pv-review">28</div>
+        </div>
+        <div class="pipeline-item">
+          <div class="pipeline-label">Interview Stage</div>
+          <div class="pipeline-bar-wrap">
+            <div class="pipeline-bar" style="width:25%;background:var(--warning);" id="bar-interview"></div>
+          </div>
+          <div class="pipeline-value" id="pv-interview">12</div>
+        </div>
+        <div class="pipeline-item">
+          <div class="pipeline-label">Offers Extended</div>
+          <div class="pipeline-bar-wrap">
+            <div class="pipeline-bar" style="width:17%;background:#a855f7;"></div>
+          </div>
+          <div class="pipeline-value">8</div>
+        </div>
+        <div class="pipeline-item">
+          <div class="pipeline-label">Hired</div>
+          <div class="pipeline-bar-wrap">
+            <div class="pipeline-bar" style="width:10%;background:var(--green);" id="bar-hired"></div>
+          </div>
+          <div class="pipeline-value" id="pv-hired">5</div>
         </div>
       </div>
 
-      <div class="interview-slot" onclick="showToast('Opening video call for Emma Norton...','info')">
-        <div class="interview-date-box" style="background:var(--warning-bg);color:var(--warning);"><div class="day">28</div><div class="mon">May</div></div>
-        <div class="interview-info">
-          <div class="interview-name">Emma Norton</div>
-          <div class="interview-role">Data Analyst Intern</div>
-          <div class="interview-time"><i class="fas fa-clock"></i> 9:15 AM <i class="fas fa-video"></i> Video Call</div>
+      <!-- Upcoming Interviews -->
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title"><i class="fas fa-calendar-alt"></i> Upcoming Interviews</h2>
+          <a href="{{ route('company.interviews', ['company' => auth()->user()->company?->slug ?? 'internlink-demo']) }}"
+            class="btn-link">View All</a>
         </div>
-      </div>
 
-      <div class="interview-slot" onclick="showToast('Opening video call for David Brown...','info')">
-        <div class="interview-date-box" style="background:var(--gray-100);color:var(--gray-600);"><div class="day">30</div><div class="mon">May</div></div>
-        <div class="interview-info">
-          <div class="interview-name">David Brown</div>
-          <div class="interview-role">Systems Administrator Intern</div>
-          <div class="interview-time"><i class="fas fa-clock"></i> 1:00 PM <i class="fas fa-video"></i> Video Call</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Recent Activity Feed (Premium Detail) -->
-    <div class="card">
-      <div class="card-header">
-        <h2 class="card-title"><i class="fas fa-rectangle-list"></i> Recent Activity</h2>
-      </div>
-      <div class="card-body" style="padding-top: 4px;">
-        <div class="activity-feed">
-          <div class="activity-item">
-            <div class="activity-icon apply"><i class="fas fa-file-signature"></i></div>
-            <div class="activity-info">
-              <div class="activity-text">New application received from <strong>Sofia Lee</strong>.</div>
-              <div class="activity-time">10 mins ago</div>
+        <div class="interview-slot" onclick="showToast('Opening video call for Alex Johnson...','info')">
+          <div class="interview-date-box">
+            <div class="day">24</div>
+            <div class="mon">May</div>
+          </div>
+          <div class="interview-info">
+            <div class="interview-name">Alex Johnson</div>
+            <div class="interview-role">Software Development Intern</div>
+            <div class="interview-time"><i class="fas fa-clock"></i> 10:00 AM <i class="fas fa-video"></i> Video Call
             </div>
           </div>
-          <div class="activity-item">
-            <div class="activity-icon calendar"><i class="fas fa-calendar-check"></i></div>
-            <div class="activity-info">
-              <div class="activity-text">Interview scheduled with <strong>James Wilson</strong>.</div>
-              <div class="activity-time">1 hour ago</div>
+        </div>
+
+        <div class="interview-slot" onclick="showToast('Opening video call for James Wilson...','info')">
+          <div class="interview-date-box">
+            <div class="day">25</div>
+            <div class="mon">May</div>
+          </div>
+          <div class="interview-info">
+            <div class="interview-name">James Wilson</div>
+            <div class="interview-role">Backend Developer Intern</div>
+            <div class="interview-time"><i class="fas fa-clock"></i> 2:30 PM <i class="fas fa-video"></i> Video Call
             </div>
           </div>
-          <div class="activity-item">
-            <div class="activity-icon check"><i class="fas fa-circle-check"></i></div>
-            <div class="activity-info">
-              <div class="activity-text">Software Developer offer accepted by <strong>Emma Stone</strong>.</div>
-              <div class="activity-time">Yesterday</div>
+        </div>
+
+        <div class="interview-slot" onclick="showToast('In-person interview with Priya Sharma at 11:00 AM','info')">
+          <div class="interview-date-box">
+            <div class="day">27</div>
+            <div class="mon">May</div>
+          </div>
+          <div class="interview-info">
+            <div class="interview-name">Priya Sharma</div>
+            <div class="interview-role">Data Analyst Intern</div>
+            <div class="interview-time"><i class="fas fa-clock"></i> 11:00 AM <i class="fas fa-building"></i> In-Person
+            </div>
+          </div>
+        </div>
+
+        <div class="interview-slot" onclick="showToast('Opening video call for Emma Norton...','info')">
+          <div class="interview-date-box" style="background:var(--warning-bg);color:var(--warning);">
+            <div class="day">28</div>
+            <div class="mon">May</div>
+          </div>
+          <div class="interview-info">
+            <div class="interview-name">Emma Norton</div>
+            <div class="interview-role">Data Analyst Intern</div>
+            <div class="interview-time"><i class="fas fa-clock"></i> 9:15 AM <i class="fas fa-video"></i> Video Call
+            </div>
+          </div>
+        </div>
+
+        <div class="interview-slot" onclick="showToast('Opening video call for David Brown...','info')">
+          <div class="interview-date-box" style="background:var(--gray-100);color:var(--gray-600);">
+            <div class="day">30</div>
+            <div class="mon">May</div>
+          </div>
+          <div class="interview-info">
+            <div class="interview-name">David Brown</div>
+            <div class="interview-role">Systems Administrator Intern</div>
+            <div class="interview-time"><i class="fas fa-clock"></i> 1:00 PM <i class="fas fa-video"></i> Video Call
             </div>
           </div>
         </div>
       </div>
-    </div>
 
-  </div><!-- /right-col -->
-</div><!-- /content-grid -->
+      <!-- Recent Activity Feed (Premium Detail) -->
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title"><i class="fas fa-rectangle-list"></i> Recent Activity</h2>
+        </div>
+        <div class="card-body" style="padding-top: 4px;">
+          <div class="activity-feed">
+            <div class="activity-item">
+              <div class="activity-icon apply"><i class="fas fa-file-signature"></i></div>
+              <div class="activity-info">
+                <div class="activity-text">New application received from <strong>Sofia Lee</strong>.</div>
+                <div class="activity-time">10 mins ago</div>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-icon calendar"><i class="fas fa-calendar-check"></i></div>
+              <div class="activity-info">
+                <div class="activity-text">Interview scheduled with <strong>James Wilson</strong>.</div>
+                <div class="activity-time">1 hour ago</div>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-icon check"><i class="fas fa-circle-check"></i></div>
+              <div class="activity-info">
+                <div class="activity-text">Software Developer offer accepted by <strong>Emma Stone</strong>.</div>
+                <div class="activity-time">Yesterday</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
-<!-- Applicant Detail Modal -->
-<div class="modal-overlay" id="applicantModal">
-  <div class="modal-box">
-    <button class="modal-close" onclick="closeModal('applicantModal')"><i class="fas fa-xmark"></i></button>
-    <div class="modal-avatar" id="modalAvatar"></div>
-    <div class="modal-name" id="modalName"></div>
-    <div class="modal-role" id="modalRole"></div>
-    <div class="modal-info-grid">
-      <div class="modal-info-item">
-        <div class="modal-info-label">University</div>
-        <div class="modal-info-value" id="modalUniversity">—</div>
+    </div><!-- /right-col -->
+  </div><!-- /content-grid -->
+
+  <!-- Applicant Detail Modal -->
+  <div class="modal-overlay" id="applicantModal">
+    <div class="modal-box">
+      <button class="modal-close" onclick="closeModal('applicantModal')"><i class="fas fa-xmark"></i></button>
+      <div class="modal-avatar" id="modalAvatar"></div>
+      <div class="modal-name" id="modalName"></div>
+      <div class="modal-role" id="modalRole"></div>
+      <div class="modal-info-grid">
+        <div class="modal-info-item">
+          <div class="modal-info-label">University</div>
+          <div class="modal-info-value" id="modalUniversity">—</div>
+        </div>
+        <div class="modal-info-item">
+          <div class="modal-info-label">GPA</div>
+          <div class="modal-info-value" id="modalGpa">—</div>
+        </div>
+        <div class="modal-info-item">
+          <div class="modal-info-label">Applied</div>
+          <div class="modal-info-value" id="modalApplied">—</div>
+        </div>
+        <div class="modal-info-item">
+          <div class="modal-info-label">Status</div>
+          <div class="modal-info-value" id="modalStatus">—</div>
+        </div>
       </div>
-      <div class="modal-info-item">
-        <div class="modal-info-label">GPA</div>
-        <div class="modal-info-value" id="modalGpa">—</div>
+      <div class="modal-actions">
+        <button class="btn-accept" id="modalAcceptBtn" onclick="modalAction('accept')"><i class="fas fa-check"></i>
+          Accept</button>
+        <button class="btn-interview" id="modalInterviewBtn" onclick="modalAction('interview')"><i
+            class="fas fa-calendar"></i> Schedule Interview</button>
+        <button class="btn-reject" id="modalRejectBtn" onclick="modalAction('reject')"><i class="fas fa-times"></i>
+          Reject</button>
       </div>
-      <div class="modal-info-item">
-        <div class="modal-info-label">Applied</div>
-        <div class="modal-info-value" id="modalApplied">—</div>
-      </div>
-      <div class="modal-info-item">
-        <div class="modal-info-label">Status</div>
-        <div class="modal-info-value" id="modalStatus">—</div>
-      </div>
-    </div>
-    <div class="modal-actions">
-      <button class="btn-accept" id="modalAcceptBtn" onclick="modalAction('accept')"><i class="fas fa-check"></i> Accept</button>
-      <button class="btn-interview" id="modalInterviewBtn" onclick="modalAction('interview')"><i class="fas fa-calendar"></i> Schedule Interview</button>
-      <button class="btn-reject" id="modalRejectBtn" onclick="modalAction('reject')"><i class="fas fa-times"></i> Reject</button>
     </div>
   </div>
-</div>
 
-<script>
-const COLORS = ['#00b1aa','#F59E0B','#10B981','#8B5CF6','#EF4444','#3B82F6'];
-const applicantsData = [
-  { initials:'AJ', name:'Alex Johnson',   meta:'Computer Science — Epoka University',         role:'Software Development Intern', university:'Epoka University',    gpa:'3.8', applied:'May 20, 2026', status:'New',       color:'#00b1aa', tags: ['GPA 3.8', 'Epoka Univ', 'Top Match'] },
-  { initials:'MG', name:'Maria Garcia',   meta:'Business Administration — Albanian Univ.',    role:'Marketing Coordinator',        university:'Albanian University', gpa:'3.6', applied:'May 19, 2026', status:'Reviewing', color:'#F59E0B', tags: ['GPA 3.6', 'Albanian Univ'] },
-  { initials:'JW', name:'James Wilson',   meta:'Computer Science — University of Tirana',    role:'Backend Developer Intern',      university:'Univ. of Tirana',    gpa:'3.9', applied:'May 18, 2026', status:'Interview', color:'#10B981', tags: ['GPA 3.9', 'Tirana CS', 'Strong Candidate'] },
-  { initials:'SL', name:'Sofia Lee',      meta:'Design — Polytechnic University',             role:'UI/UX Design Intern',           university:'Polytechnic Univ.',  gpa:'3.7', applied:'May 17, 2026', status:'New',       color:'#8B5CF6', tags: ['GPA 3.7', 'Portfolio Linked'] },
-  { initials:'DB', name:'David Brown',    meta:'Information Technology — EPOKA',             role:'Systems Administrator Intern',   university:'Epoka University',    gpa:'3.5', applied:'May 16, 2026', status:'Reviewing', color:'#3B82F6', tags: ['GPA 3.5'] },
-  { initials:'EN', name:'Emma Norton',    meta:'Data Science — UET',                         role:'Data Analyst Intern',            university:'UET Tirana',          gpa:'3.9', applied:'May 15, 2026', status:'Interview', color:'#10B981', tags: ['GPA 3.9', 'Strong Match'] },
-  { initials:'RK', name:'Ryan King',      meta:'Marketing — University of Tirana',           role:'Marketing Coordinator',          university:'Univ. of Tirana',     gpa:'3.4', applied:'May 14, 2026', status:'New',       color:'#EF4444', tags: ['Creative Portfolio'] },
-];
+  <script>
+    const COLORS = ['#00b1aa', '#F59E0B', '#10B981', '#8B5CF6', '#EF4444', '#3B82F6'];
+    const applicantsData = [
+      { initials: 'AJ', name: 'Alex Johnson', meta: 'Computer Science — Epoka University', role: 'Software Development Intern', university: 'Epoka University', gpa: '3.8', applied: 'May 20, 2026', status: 'New', color: '#00b1aa', tags: ['GPA 3.8', 'Epoka Univ', 'Top Match'] },
+      { initials: 'MG', name: 'Maria Garcia', meta: 'Business Administration — Albanian Univ.', role: 'Marketing Coordinator', university: 'Albanian University', gpa: '3.6', applied: 'May 19, 2026', status: 'Reviewing', color: '#F59E0B', tags: ['GPA 3.6', 'Albanian Univ'] },
+      { initials: 'JW', name: 'James Wilson', meta: 'Computer Science — University of Tirana', role: 'Backend Developer Intern', university: 'Univ. of Tirana', gpa: '3.9', applied: 'May 18, 2026', status: 'Interview', color: '#10B981', tags: ['GPA 3.9', 'Tirana CS', 'Strong Candidate'] },
+      { initials: 'SL', name: 'Sofia Lee', meta: 'Design — Polytechnic University', role: 'UI/UX Design Intern', university: 'Polytechnic Univ.', gpa: '3.7', applied: 'May 17, 2026', status: 'New', color: '#8B5CF6', tags: ['GPA 3.7', 'Portfolio Linked'] },
+      { initials: 'DB', name: 'David Brown', meta: 'Information Technology — EPOKA', role: 'Systems Administrator Intern', university: 'Epoka University', gpa: '3.5', applied: 'May 16, 2026', status: 'Reviewing', color: '#3B82F6', tags: ['GPA 3.5'] },
+      { initials: 'EN', name: 'Emma Norton', meta: 'Data Science — UET', role: 'Data Analyst Intern', university: 'UET Tirana', gpa: '3.9', applied: 'May 15, 2026', status: 'Interview', color: '#10B981', tags: ['GPA 3.9', 'Strong Match'] },
+      { initials: 'RK', name: 'Ryan King', meta: 'Marketing — University of Tirana', role: 'Marketing Coordinator', university: 'Univ. of Tirana', gpa: '3.4', applied: 'May 14, 2026', status: 'New', color: '#EF4444', tags: ['Creative Portfolio'] },
+    ];
 
-let currentApplicant = null;
-let applicantStates = JSON.parse(localStorage.getItem('dashApplicantStates') || '{}');
+    let currentApplicant = null;
+    let applicantStates = JSON.parse(localStorage.getItem('dashApplicantStates') || '{}');
 
-function saveStates() { localStorage.setItem('dashApplicantStates', JSON.stringify(applicantStates)); }
+    function saveStates() { localStorage.setItem('dashApplicantStates', JSON.stringify(applicantStates)); }
 
-function renderApplicants() {
-  const container = document.getElementById('applicantsContainer');
-  container.innerHTML = '';
-  applicantsData.forEach((a, i) => {
-    const state = applicantStates[i] || a.status;
-    const isResolved = state === 'Accepted' || state === 'Rejected';
-    const div = document.createElement('div');
-    div.className = 'applicant-item';
-    
-    let tagHtml = '';
-    a.tags.forEach(t => {
-      const cls = t.startsWith('GPA 3.9') || t.startsWith('GPA 3.8') ? 'gpa' : (t.includes('Match') || t.includes('Strong') ? 'match' : '');
-      tagHtml += `<span class="applicant-tag ${cls}">${t}</span>`;
-    });
+    function renderApplicants() {
+      const container = document.getElementById('applicantsContainer');
+      container.innerHTML = '';
+      applicantsData.forEach((a, i) => {
+        const state = applicantStates[i] || a.status;
+        const isResolved = state === 'Accepted' || state === 'Rejected';
+        const div = document.createElement('div');
+        div.className = 'applicant-item';
 
-    div.innerHTML = `
+        let tagHtml = '';
+        a.tags.forEach(t => {
+          const cls = t.startsWith('GPA 3.9') || t.startsWith('GPA 3.8') ? 'gpa' : (t.includes('Match') || t.includes('Strong') ? 'match' : '');
+          tagHtml += `<span class="applicant-tag ${cls}">${t}</span>`;
+        });
+
+        div.innerHTML = `
       <div class="applicant-avatar" style="background:${a.color}22;color:${a.color};">${a.initials}</div>
       <div class="applicant-info">
         <div class="applicant-name">${a.name}</div>
@@ -627,91 +1378,91 @@ function renderApplicants() {
         ${!isResolved ? `<button class="btn-xs accept" onclick="quickAction(event,${i},'accept')"><i class="fas fa-check"></i></button>
         <button class="btn-xs reject" onclick="quickAction(event,${i},'reject')"><i class="fas fa-times"></i></button>` : ''}
       </div>`;
-    container.appendChild(div);
-  });
-}
+        container.appendChild(div);
+      });
+    }
 
-function openApplicant(e, idx) {
-  e.stopPropagation();
-  const a = applicantsData[idx];
-  currentApplicant = idx;
-  const state = applicantStates[idx] || a.status;
-  document.getElementById('modalAvatar').textContent = a.initials;
-  document.getElementById('modalAvatar').style.background = a.color;
-  document.getElementById('modalName').textContent = a.name;
-  document.getElementById('modalRole').textContent = a.role;
-  document.getElementById('modalUniversity').textContent = a.university;
-  document.getElementById('modalGpa').textContent = a.gpa;
-  document.getElementById('modalApplied').textContent = a.applied;
-  document.getElementById('modalStatus').textContent = state;
-  const isResolved = state === 'Accepted' || state === 'Rejected';
-  document.getElementById('modalAcceptBtn').style.display = isResolved ? 'none' : '';
-  document.getElementById('modalRejectBtn').style.display = isResolved ? 'none' : '';
-  document.getElementById('modalInterviewBtn').style.display = isResolved ? 'none' : '';
-  document.getElementById('applicantModal').classList.add('open');
-}
+    function openApplicant(e, idx) {
+      e.stopPropagation();
+      const a = applicantsData[idx];
+      currentApplicant = idx;
+      const state = applicantStates[idx] || a.status;
+      document.getElementById('modalAvatar').textContent = a.initials;
+      document.getElementById('modalAvatar').style.background = a.color;
+      document.getElementById('modalName').textContent = a.name;
+      document.getElementById('modalRole').textContent = a.role;
+      document.getElementById('modalUniversity').textContent = a.university;
+      document.getElementById('modalGpa').textContent = a.gpa;
+      document.getElementById('modalApplied').textContent = a.applied;
+      document.getElementById('modalStatus').textContent = state;
+      const isResolved = state === 'Accepted' || state === 'Rejected';
+      document.getElementById('modalAcceptBtn').style.display = isResolved ? 'none' : '';
+      document.getElementById('modalRejectBtn').style.display = isResolved ? 'none' : '';
+      document.getElementById('modalInterviewBtn').style.display = isResolved ? 'none' : '';
+      document.getElementById('applicantModal').classList.add('open');
+    }
 
-function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+    function closeModal(id) { document.getElementById(id).classList.remove('open'); }
 
-function modalAction(action) {
-  const a = applicantsData[currentApplicant];
-  if (action === 'accept') {
-    applicantStates[currentApplicant] = 'Accepted';
-    showGlobalToast(`${a.name} accepted.`, 'success');
-  } else if (action === 'reject') {
-    applicantStates[currentApplicant] = 'Rejected';
-    showGlobalToast(`${a.name} was rejected.`, 'danger');
-  } else {
-    showGlobalToast(`Interview scheduled for ${a.name}`, 'info');
-  }
-  saveStates();
-  closeModal('applicantModal');
-  renderApplicants();
-}
+    function modalAction(action) {
+      const a = applicantsData[currentApplicant];
+      if (action === 'accept') {
+        applicantStates[currentApplicant] = 'Accepted';
+        showGlobalToast(`${a.name} accepted.`, 'success');
+      } else if (action === 'reject') {
+        applicantStates[currentApplicant] = 'Rejected';
+        showGlobalToast(`${a.name} was rejected.`, 'danger');
+      } else {
+        showGlobalToast(`Interview scheduled for ${a.name}`, 'info');
+      }
+      saveStates();
+      closeModal('applicantModal');
+      renderApplicants();
+    }
 
-function quickAction(e, idx, action) {
-  e.stopPropagation();
-  const a = applicantsData[idx];
-  if (action === 'accept') {
-    applicantStates[idx] = 'Accepted';
-    showGlobalToast(`${a.name} accepted.`, 'success');
-  } else {
-    applicantStates[idx] = 'Rejected';
-    showGlobalToast(`${a.name} was rejected.`, 'danger');
-  }
-  saveStates();
-  renderApplicants();
-}
+    function quickAction(e, idx, action) {
+      e.stopPropagation();
+      const a = applicantsData[idx];
+      if (action === 'accept') {
+        applicantStates[idx] = 'Accepted';
+        showGlobalToast(`${a.name} accepted.`, 'success');
+      } else {
+        applicantStates[idx] = 'Rejected';
+        showGlobalToast(`${a.name} was rejected.`, 'danger');
+      }
+      saveStates();
+      renderApplicants();
+    }
 
-function showToast(msg, type) {
-  if (window.showGlobalToast) showGlobalToast(msg, type);
-}
+    function showToast(msg, type) {
+      if (window.showGlobalToast) showGlobalToast(msg, type);
+    }
 
-// SVG Line Chart Tooltips
-function showTooltip(e, label, val) {
-  const t = document.getElementById('chartTooltip');
-  t.style.display = 'block';
-  t.innerHTML = `<div style="font-weight:700;">${label}</div><div>${val}</div>`;
-  
-  // Calculate tooltip placement
-  const rect = e.target.getBoundingClientRect();
-  const containerRect = e.target.ownerSVGElement.getBoundingClientRect();
-  
-  const x = rect.left - containerRect.left + 8;
-  const y = rect.top - containerRect.top - 42;
-  
-  t.style.left = x + 'px';
-  t.style.top = y + 'px';
-}
+    // SVG Line Chart Tooltips
+    function showTooltip(e, label, val) {
+      const t = document.getElementById('chartTooltip');
+      t.style.display = 'block';
+      t.innerHTML = `<div style="font-weight:700;">${label}</div><div>${val}</div>`;
 
-function hideTooltip() {
-  document.getElementById('chartTooltip').style.display = 'none';
-}
+      // Calculate tooltip placement
+      const rect = e.target.getBoundingClientRect();
+      const containerRect = e.target.ownerSVGElement.getBoundingClientRect();
 
-document.querySelectorAll('.modal-overlay').forEach(m => {
-  m.addEventListener('click', function(e) { if(e.target === this) this.classList.remove('open'); });
-});
+      const x = rect.left - containerRect.left + 8;
+      const y = rect.top - containerRect.top - 42;
 
-renderApplicants();
-</script>
+      t.style.left = x + 'px';
+      t.style.top = y + 'px';
+    }
+
+    function hideTooltip() {
+      document.getElementById('chartTooltip').style.display = 'none';
+    }
+
+    document.querySelectorAll('.modal-overlay').forEach(m => {
+      m.addEventListener('click', function (e) { if (e.target === this) this.classList.remove('open'); });
+    });
+
+    renderApplicants();
+  </script>
 </x-layouts::company>

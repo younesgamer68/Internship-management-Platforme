@@ -89,51 +89,54 @@
       <!-- Register Intern Section -->
       <section id="interns" class="card scroll-mt-24">
         <div class="card-header">
-          <span class="card-title"><i class="fas fa-plus-circle text-green" style="margin-right: 8px;"></i>Register an Intern</span>
+          <span class="card-title"><i class="fas fa-plus-circle text-green" style="margin-right: 8px;"></i>Register a Student</span>
         </div>
         <div class="card-body">
-          <p class="text-gray mb-16" style="font-size: 13px;">Assign an intern to an active company and generate login credentials.</p>
+          <p class="text-gray mb-16" style="font-size: 13px;">Create a new student account to join the platform.</p>
 
-          <form wire:submit="createIntern" class="settings-form">
-            <div class="form-group">
-              <label class="form-label">Company Placement</label>
-              <select wire:model="internCompanyId" class="form-control" style="background-image: none;">
-                <option value="">Choose a company placement...</option>
-                @foreach ($this->companies as $company)
-                    <option value="{{ $company->id }}">{{ $company->name }} ({{ $company->slug }})</option>
-                @endforeach
-              </select>
-              @error('internCompanyId') <p class="text-sm text-danger mt-4"><i class="fas fa-triangle-exclamation"></i> {{ $message }}</p> @enderror
-            </div>
+          <form wire:submit="createStudent" class="settings-form">
 
             <div class="form-row">
               <div class="form-group">
-                <label class="form-label">Intern Full Name</label>
-                <input wire:model="internName" type="text" placeholder="e.g. Jane Smith" class="form-control" />
-                @error('internName') <p class="text-sm text-danger mt-4"><i class="fas fa-triangle-exclamation"></i> {{ $message }}</p> @enderror
+                <label class="form-label">First Name</label>
+                <input wire:model="studentFirstName" type="text" placeholder="e.g. Jane" class="form-control" />
+                @error('studentFirstName') <p class="text-sm text-danger mt-4"><i class="fas fa-triangle-exclamation"></i> {{ $message }}</p> @enderror
               </div>
               <div class="form-group">
-                <label class="form-label">Intern Email</label>
-                <input wire:model="internEmail" type="email" placeholder="e.g. j.smith@gmail.com" class="form-control" />
-                @error('internEmail') <p class="text-sm text-danger mt-4"><i class="fas fa-triangle-exclamation"></i> {{ $message }}</p> @enderror
+                <label class="form-label">Last Name</label>
+                <input wire:model="studentLastName" type="text" placeholder="e.g. Smith" class="form-control" />
+                @error('studentLastName') <p class="text-sm text-danger mt-4"><i class="fas fa-triangle-exclamation"></i> {{ $message }}</p> @enderror
               </div>
             </div>
 
             <div class="form-row">
               <div class="form-group">
-                <label class="form-label">Intern Password</label>
-                <input wire:model="internPassword" type="password" placeholder="••••••••" class="form-control" />
-                @error('internPassword') <p class="text-sm text-danger mt-4"><i class="fas fa-triangle-exclamation"></i> {{ $message }}</p> @enderror
+                <label class="form-label">Email</label>
+                <input wire:model="studentEmail" type="email" placeholder="e.g. j.smith@gmail.com" class="form-control" />
+                @error('studentEmail') <p class="text-sm text-danger mt-4"><i class="fas fa-triangle-exclamation"></i> {{ $message }}</p> @enderror
               </div>
               <div class="form-group">
-                <label class="form-label">Position / Role</label>
-                <input wire:model="internPosition" type="text" placeholder="e.g. Frontend Engineer Intern" class="form-control" />
-                @error('internPosition') <p class="text-sm text-danger mt-4"><i class="fas fa-triangle-exclamation"></i> {{ $message }}</p> @enderror
+                <label class="form-label">Password</label>
+                <input wire:model="studentPassword" type="password" placeholder="••••••••" class="form-control" />
+                @error('studentPassword') <p class="text-sm text-danger mt-4"><i class="fas fa-triangle-exclamation"></i> {{ $message }}</p> @enderror
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">University</label>
+                <input wire:model="studentUniversity" type="text" placeholder="e.g. Harvard University" class="form-control" />
+                @error('studentUniversity') <p class="text-sm text-danger mt-4"><i class="fas fa-triangle-exclamation"></i> {{ $message }}</p> @enderror
+              </div>
+              <div class="form-group">
+                <label class="form-label">Field of Study</label>
+                <input wire:model="studentFieldOfStudy" type="text" placeholder="e.g. Computer Science" class="form-control" />
+                @error('studentFieldOfStudy') <p class="text-sm text-danger mt-4"><i class="fas fa-triangle-exclamation"></i> {{ $message }}</p> @enderror
               </div>
             </div>
 
             <div class="form-footer" style="margin-top: 24px;">
-              <button type="submit" class="btn btn-green w-full"><i class="fas fa-plus" style="margin-right: 4px;"></i> Register Intern Profile</button>
+              <button type="submit" class="btn btn-green w-full"><i class="fas fa-plus" style="margin-right: 4px;"></i> Register Student Profile</button>
             </div>
           </form>
         </div>

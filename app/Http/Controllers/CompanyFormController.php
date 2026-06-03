@@ -45,7 +45,7 @@ class CompanyFormController extends Controller
             $slug = $baseSlug;
             $counter = 1;
 
-            while (Company::where('slug', $slug)->exists()) {
+            while (Company::query()->where('slug', $slug)->exists()) {
                 $slug = $baseSlug . '-' . $counter;
                 $counter++;
             }
@@ -65,6 +65,7 @@ class CompanyFormController extends Controller
 
             $user->update([
                 'company_id' => $company->id,
+                'role' => 'company_manager',
             ]);
         });
 

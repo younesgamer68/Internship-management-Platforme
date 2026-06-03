@@ -32,17 +32,19 @@ Route::view('/about', 'aboutus')->name('about');
 Route::get('/home', function () {
     if (auth()->check()) {
         $user = auth()->user();
-        if ($user->role === 'intern') {
+        if ($user->role === 'student' || $user->role === 'intern') {
             $detail = \App\Models\UserInfo::where('user_id', $user->id)->first();
             if ($detail) {
-                return redirect()->route('intern.dashboard');
+                return redirect()->route('student.dashboard');
             }
-            return $user->career_field
-                ? redirect()->route('intern.opportunities')
-                : redirect()->route('career_fields');
+            return redirect()->route('choose_intership');
+        } elseif ($user->role === 'admin') {
+            return redirect()->route('admin.dashboard');
+        } elseif ($user->role === 'company') {
+            return redirect()->route('agent.dashboard');
         }
     }
-    return redirect()->route('choose_intership');
+    return redirect()->route('welcome');
 })->middleware('auth')->name('app.home');
 
 Route::get('/choose-path', function () {
@@ -733,34 +735,27 @@ Route::middleware(['auth'])->prefix('{company}')->group(function () {
     })->name('student.support');
 
     // Admin Portal Sub-pages
-    Route::get('/admin/users', function () {
-        return view('app.admin.users');
-    })->name('admin.users');
+    Route::get('/admin/users', [\App\Http\Controllers\AdminUsersController::class, 'index'])->name('admin.users');
 
     Route::get('/admin/universities', [\App\Http\Controllers\AdminUniversitiesController::class, 'index'])->name('admin.universities');
     Route::post('/admin/universities', [\App\Http\Controllers\AdminUniversitiesController::class, 'store'])->name('admin.universities.store');
     Route::put('/admin/universities/{id}', [\App\Http\Controllers\AdminUniversitiesController::class, 'update'])->name('admin.universities.update');
     Route::delete('/admin/universities/{id}', [\App\Http\Controllers\AdminUniversitiesController::class, 'destroy'])->name('admin.universities.destroy');
 
-    Route::get('/admin/departments', function () {
-        return view('app.admin.departments');
-    })->name('admin.departments');
+    Route::get('/admin/departments', [\App\Http\Controllers\AdminDepartmentsController::class, 'index'])->name('admin.departments');
 
-    Route::get('/admin/internships', function () {
-        return view('app.admin.internships');
-    })->name('admin.internships');
+    Route::get('/admin/internships', [\App\Http\Controllers\AdminInternshipsController::class, 'index'])->name('admin.internships');
+    Route::post('/admin/internships', [\App\Http\Controllers\AdminInternshipsController::class, 'store'])->name('admin.internships.store');
+    Route::put('/admin/internships/{id}', [\App\Http\Controllers\AdminInternshipsController::class, 'update'])->name('admin.internships.update');
+    Route::delete('/admin/internships/{id}', [\App\Http\Controllers\AdminInternshipsController::class, 'destroy'])->name('admin.internships.destroy');
 
-    Route::get('/admin/reports', function () {
-        return view('app.admin.reports');
-    })->name('admin.reports');
+    Route::get('/admin/reports', [\App\Http\Controllers\AdminReportsController::class, 'index'])->name('admin.reports');
 
     Route::get('/admin/settings', function () {
         return view('app.admin.settings');
     })->name('admin.settings');
 
-    Route::get('/admin/support', function () {
-        return view('app.admin.support');
-    })->name('admin.support');
+    Route::get('/admin/support', [\App\Http\Controllers\AdminSupportController::class, 'index'])->name('admin.support');
 });
 
 require __DIR__.'/settings.php';

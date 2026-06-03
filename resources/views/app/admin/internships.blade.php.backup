@@ -15,7 +15,7 @@
             <i class="fas fa-briefcase"></i>
           </div>
           <div class="stat-card-body">
-            <div class="stat-card-value">{{ $totalInternships ?? 0 }}</div>
+            <div class="stat-card-value">365</div>
             <div class="stat-card-label">Total Internships</div>
             <div class="stat-card-change positive"><i class="fas fa-arrow-up"></i> 8% from last month</div>
           </div>
@@ -25,7 +25,7 @@
             <i class="fas fa-circle-check"></i>
           </div>
           <div class="stat-card-body">
-            <div class="stat-card-value">{{ $activeInternships ?? 0 }}</div>
+            <div class="stat-card-value">320</div>
             <div class="stat-card-label">Active Internships</div>
             <div class="stat-card-change positive"><i class="fas fa-arrow-up"></i> 5% from last month</div>
           </div>
@@ -35,7 +35,7 @@
             <i class="fas fa-clock"></i>
           </div>
           <div class="stat-card-body">
-            <div class="stat-card-value">{{ $pendingInternships ?? 0 }}</div>
+            <div class="stat-card-value">45</div>
             <div class="stat-card-label">Pending Review</div>
             <div class="stat-card-change negative"><i class="fas fa-arrow-up"></i> 3 new today</div>
           </div>
@@ -45,7 +45,7 @@
             <i class="fas fa-flag-checkered"></i>
           </div>
           <div class="stat-card-body">
-            <div class="stat-card-value">{{ $completedInternships ?? 0 }}</div>
+            <div class="stat-card-value">275</div>
             <div class="stat-card-label">Completed</div>
             <div class="stat-card-change positive"><i class="fas fa-arrow-up"></i> 12% from last month</div>
           </div>
@@ -59,13 +59,33 @@
             <i class="fas fa-search search-icon"></i>
             <input type="text" class="search-input" placeholder="Search internships by title or company..." />
           </div>
-                    <div class="filter-selects">
-            <select class="filter-select" id="statusFilter" onchange="applyFilters()">
+          <div class="filter-selects">
+            <select class="filter-select">
+              <option value="">All Universities</option>
+              <option>Epoka University</option>
+              <option>Albanian University</option>
+              <option>University of Tirana</option>
+              <option>Polytechnic University</option>
+              <option>Beder University</option>
+              <option>UET</option>
+            </select>
+            <select class="filter-select">
+              <option value="">All Departments</option>
+              <option>Software Engineering</option>
+              <option>Computer Networks</option>
+              <option>Finance & Accounting</option>
+              <option>Marketing & Commerce</option>
+              <option>Civil Engineering</option>
+              <option>Electrical Engineering</option>
+              <option>Physics & Mathematics</option>
+              <option>Public Health</option>
+            </select>
+            <select class="filter-select">
               <option value="">All Statuses</option>
-              <option value="Active">Active</option>
-              <option value="Pending">Pending</option>
-              <option value="Completed">Completed</option>
-              <option value="Expired">Expired</option>
+              <option>Active</option>
+              <option>Pending</option>
+              <option>Completed</option>
+              <option>Expired</option>
             </select>
           </div>
         </div>
@@ -76,16 +96,18 @@
         <div class="card-header">
           <h3 class="card-title">Internship Listings</h3>
           <div class="card-actions">
-            <button class="btn btn-sm btn-outline" onclick="exportInternships()"><i class="fas fa-download"></i> Export</button>
+            <button class="btn btn-sm btn-outline"><i class="fas fa-download"></i> Export</button>
             <button class="btn btn-sm btn-outline"><i class="fas fa-filter"></i> Filter</button>
           </div>
         </div>
-        <div class="table-wrapper" style="overflow-x: auto; width: 100%;">
-          <table class="data-table" style="min-width: 800px;">
-                        <thead>
+        <div class="table-wrapper">
+          <table class="data-table">
+            <thead>
               <tr>
-                <th>Title & Field</th>
+                <th>Title & Company</th>
                 <th>Company</th>
+                <th>University</th>
+                <th>Department</th>
                 <th>Type</th>
                 <th>Duration</th>
                 <th>Deadline</th>
@@ -93,39 +115,24 @@
                 <th>Actions</th>
               </tr>
             </thead>
-                                    <tbody>
-              @foreach($internships as $internship)
-              @php
-                  $initials = substr(strtoupper($internship->company->name ?? 'NA'), 0, 2);
-                  $typeClass = match($internship->internship_type) {
-                      'Part-time' => 'type-parttime',
-                      'Remote' => 'type-remote',
-                      default => 'type-fulltime'
-                  };
-                  $sClass = match($internship->status) {
-                      'Pending' => 'badge-pending',
-                      'Completed' => 'badge-completed',
-                      'Expired' => 'badge-expired',
-                      default => 'badge-active'
-                  };
-                  $deadline = $internship->deadline ? $internship->deadline->format('Y-m-d') : '';
-                  $skills_joined = is_array($internship->skills_required) ? implode(', ', $internship->skills_required) : $internship->skills_required;
-              @endphp
-              <tr data-id="{{ $internship->id }}" data-desc="{{ htmlspecialchars($internship->description ?? '') }}" data-skills="{{ htmlspecialchars($skills_joined ?? '') }}" data-deadline="{{ $deadline }}">
+            <tbody>
+              <tr>
                 <td>
                   <div class="cell-with-logo">
-                    <div class="company-logo" style="background: rgba(37,99,235,0.12); color: var(--primary);">{{ $initials }}</div>
+                    <div class="company-logo" style="background: rgba(37,99,235,0.12); color: var(--primary);">TS</div>
                     <div>
-                      <div class="cell-title">{{ $internship->title }}</div>
-                      <div class="cell-subtitle">{{ $internship->field ?? '—' }}</div>
+                      <div class="cell-title">Software Development</div>
+                      <div class="cell-subtitle">Full Stack Position</div>
                     </div>
                   </div>
                 </td>
-                <td class="cell-company" data-company-id="{{ $internship->company_id }}">{{ $internship->company->name ?? '—' }}</td>
-                <td><span class="type-badge {{ $typeClass }}">{{ $internship->internship_type ?? 'Full-time' }}</span></td>
-                <td><span class="duration-badge">{{ $internship->duration }}</span></td>
-                <td>{{ $internship->deadline ? $internship->deadline->format('M Y') : '—' }}</td>
-                <td><span class="badge-status {{ $sClass }}">{{ $internship->status }}</span></td>
+                <td>TechSolutions</td>
+                <td>Epoka University</td>
+                <td><span class="dept-tag">Software Eng.</span></td>
+                <td><span class="type-badge type-fulltime">Full-time</span></td>
+                <td><span class="duration-badge">3 months</span></td>
+                <td>Jul 2024</td>
+                <td><span class="badge-status badge-active">Active</span></td>
                 <td>
                   <div class="flex gap-8">
                     <button class="btn btn-sm btn-icon-outline" onclick="viewInternship(this)" title="View"><i class="fas fa-eye"></i></button>
@@ -134,7 +141,131 @@
                   </div>
                 </td>
               </tr>
-              @endforeach
+              <tr>
+                <td>
+                  <div class="cell-with-logo">
+                    <div class="company-logo" style="background: rgba(245,158,11,0.12); color: var(--warning);">MC</div>
+                    <div>
+                      <div class="cell-title">Marketing Internship</div>
+                      <div class="cell-subtitle">Digital Marketing</div>
+                    </div>
+                  </div>
+                </td>
+                <td>MediaCorp</td>
+                <td>Albanian University</td>
+                <td><span class="dept-tag">Marketing</span></td>
+                <td><span class="type-badge type-parttime">Part-time</span></td>
+                <td><span class="duration-badge">2 months</span></td>
+                <td>Jun 2024</td>
+                <td><span class="badge-status badge-pending">Pending</span></td>
+                <td>
+                  <div class="flex gap-8">
+                    <button class="btn btn-sm btn-icon-outline" onclick="viewInternship(this)" title="View"><i class="fas fa-eye"></i></button>
+                    <button class="btn btn-sm btn-icon-outline" onclick="editInternship(this)" title="Edit"><i class="fas fa-pen"></i></button>
+                    <button class="btn btn-sm btn-icon-danger" onclick="deleteInternship(this)" title="Delete"><i class="fas fa-trash"></i></button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="cell-with-logo">
+                    <div class="company-logo" style="background: rgba(16,185,129,0.12); color: var(--green);">DS</div>
+                    <div>
+                      <div class="cell-title">Data Analysis</div>
+                      <div class="cell-subtitle">Business Intelligence</div>
+                    </div>
+                  </div>
+                </td>
+                <td>DataSpark</td>
+                <td>University of Tirana</td>
+                <td><span class="dept-tag">Comp. Networks</span></td>
+                <td><span class="type-badge type-remote">Remote</span></td>
+                <td><span class="duration-badge">4 months</span></td>
+                <td>Aug 2024</td>
+                <td><span class="badge-status badge-active">Active</span></td>
+                <td>
+                  <div class="flex gap-8">
+                    <button class="btn btn-sm btn-icon-outline" onclick="viewInternship(this)" title="View"><i class="fas fa-eye"></i></button>
+                    <button class="btn btn-sm btn-icon-outline" onclick="editInternship(this)" title="Edit"><i class="fas fa-pen"></i></button>
+                    <button class="btn btn-sm btn-icon-danger" onclick="deleteInternship(this)" title="Delete"><i class="fas fa-trash"></i></button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="cell-with-logo">
+                    <div class="company-logo" style="background: rgba(139,92,246,0.12); color: #8B5CF6;">DH</div>
+                    <div>
+                      <div class="cell-title">UI/UX Design</div>
+                      <div class="cell-subtitle">Product Design</div>
+                    </div>
+                  </div>
+                </td>
+                <td>DesignHub</td>
+                <td>Polytechnic University</td>
+                <td><span class="dept-tag">Electrical Eng.</span></td>
+                <td><span class="type-badge type-fulltime">Full-time</span></td>
+                <td><span class="duration-badge">3 months</span></td>
+                <td>May 2024</td>
+                <td><span class="badge-status badge-completed">Completed</span></td>
+                <td>
+                  <div class="flex gap-8">
+                    <button class="btn btn-sm btn-icon-outline" onclick="viewInternship(this)" title="View"><i class="fas fa-eye"></i></button>
+                    <button class="btn btn-sm btn-icon-outline" onclick="editInternship(this)" title="Edit"><i class="fas fa-pen"></i></button>
+                    <button class="btn btn-sm btn-icon-danger" onclick="deleteInternship(this)" title="Delete"><i class="fas fa-trash"></i></button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="cell-with-logo">
+                    <div class="company-logo" style="background: rgba(245,158,11,0.12); color: var(--warning);">FG</div>
+                    <div>
+                      <div class="cell-title">Financial Analysis</div>
+                      <div class="cell-subtitle">Corporate Finance</div>
+                    </div>
+                  </div>
+                </td>
+                <td>FinGroup</td>
+                <td>Beder University</td>
+                <td><span class="dept-tag">Finance & Acct.</span></td>
+                <td><span class="type-badge type-parttime">Part-time</span></td>
+                <td><span class="duration-badge">2 months</span></td>
+                <td>Jul 2024</td>
+                <td><span class="badge-status badge-pending">Pending</span></td>
+                <td>
+                  <div class="flex gap-8">
+                    <button class="btn btn-sm btn-icon-outline" onclick="viewInternship(this)" title="View"><i class="fas fa-eye"></i></button>
+                    <button class="btn btn-sm btn-icon-outline" onclick="editInternship(this)" title="Edit"><i class="fas fa-pen"></i></button>
+                    <button class="btn btn-sm btn-icon-danger" onclick="deleteInternship(this)" title="Delete"><i class="fas fa-trash"></i></button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="cell-with-logo">
+                    <div class="company-logo" style="background: rgba(37,99,235,0.12); color: var(--primary);">CB</div>
+                    <div>
+                      <div class="cell-title">Backend Development</div>
+                      <div class="cell-subtitle">API & Server Engineering</div>
+                    </div>
+                  </div>
+                </td>
+                <td>CodeBase</td>
+                <td>UET</td>
+                <td><span class="dept-tag">Software Eng.</span></td>
+                <td><span class="type-badge type-remote">Remote</span></td>
+                <td><span class="duration-badge">4 months</span></td>
+                <td>Sep 2024</td>
+                <td><span class="badge-status badge-active">Active</span></td>
+                <td>
+                  <div class="flex gap-8">
+                    <button class="btn btn-sm btn-icon-outline" onclick="viewInternship(this)" title="View"><i class="fas fa-eye"></i></button>
+                    <button class="btn btn-sm btn-icon-outline" onclick="editInternship(this)" title="Edit"><i class="fas fa-pen"></i></button>
+                    <button class="btn btn-sm btn-icon-danger" onclick="deleteInternship(this)" title="Delete"><i class="fas fa-trash"></i></button>
+                  </div>
+                </td>
+              </tr>
             </tbody>
           </table>
         </div>
@@ -170,7 +301,7 @@
       <button class="panel-close-btn" onclick="closeModal('addModal')"><i class="fas fa-xmark"></i></button>
     </div>
     <div class="slide-panel-body">
-            <form onsubmit="submitAddForm(event)">
+      <form onsubmit="submitAddForm(event)">
 
         <div class="panel-section-label">Basic Information</div>
 
@@ -184,18 +315,51 @@
 
         <div class="form-row-2">
           <div class="form-group">
-            <label class="form-label">Field <span class="required">*</span></label>
-            <input type="text" class="form-input" id="add-field" placeholder="e.g. Software Engineering" required />
+            <label class="form-label">Position / Subtitle <span class="required">*</span></label>
+            <input type="text" class="form-input" id="add-subtitle" placeholder="e.g. Full Stack Position" required />
           </div>
           <div class="form-group">
-            <label class="form-label">Company <span class="required">*</span></label>
-            <div class="select-wrapper-panel">
+            <label class="form-label">Company Name <span class="required">*</span></label>
+            <div class="input-with-icon">
               <i class="fas fa-building input-icon"></i>
-              <select class="form-input form-select" id="add-company" required>
-                <option value="">Select Company</option>
-                @foreach($companies as $comp)
-                  <option value="{{ $comp->id }}">{{ $comp->name }}</option>
-                @endforeach
+              <input type="text" class="form-input" id="add-company" placeholder="e.g. TechSolutions" required />
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-section-label">Academic Association</div>
+
+        <div class="form-row-2">
+          <div class="form-group">
+            <label class="form-label">University <span class="required">*</span></label>
+            <div class="select-wrapper-panel">
+              <i class="fas fa-university input-icon"></i>
+              <select class="form-input form-select" id="add-university" required>
+                <option value="">Select University</option>
+                <option>Epoka University</option>
+                <option>Albanian University</option>
+                <option>University of Tirana</option>
+                <option>Polytechnic University</option>
+                <option>Beder University</option>
+                <option>UET</option>
+              </select>
+              <i class="fas fa-chevron-down select-arrow"></i>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Department <span class="required">*</span></label>
+            <div class="select-wrapper-panel">
+              <i class="fas fa-sitemap input-icon"></i>
+              <select class="form-input form-select" id="add-department" required>
+                <option value="">Select Department</option>
+                <option>Software Engineering</option>
+                <option>Computer Networks</option>
+                <option>Finance & Accounting</option>
+                <option>Marketing & Commerce</option>
+                <option>Civil Engineering</option>
+                <option>Electrical Engineering</option>
+                <option>Physics & Mathematics</option>
+                <option>Public Health</option>
               </select>
               <i class="fas fa-chevron-down select-arrow"></i>
             </div>
@@ -210,9 +374,10 @@
             <div class="select-wrapper-panel">
               <i class="fas fa-tag input-icon"></i>
               <select class="form-input form-select" id="add-type" required>
-                <option value="Full-time">Full-time</option>
-                <option value="Part-time">Part-time</option>
-                <option value="Remote">Remote</option>
+                <option value="">Select Type</option>
+                <option>Full-time</option>
+                <option>Part-time</option>
+                <option>Remote</option>
               </select>
               <i class="fas fa-chevron-down select-arrow"></i>
             </div>
@@ -222,14 +387,15 @@
             <div class="select-wrapper-panel">
               <i class="fas fa-clock input-icon"></i>
               <select class="form-input form-select" id="add-duration" required>
-                <option value="1 month">1 month</option>
-                <option value="2 months">2 months</option>
-                <option value="3 months">3 months</option>
-                <option value="4 months">4 months</option>
-                <option value="5 months">5 months</option>
-                <option value="6 months">6 months</option>
-                <option value="9 months">9 months</option>
-                <option value="12 months">12 months</option>
+                <option value="">Select Duration</option>
+                <option>1 month</option>
+                <option>2 months</option>
+                <option>3 months</option>
+                <option>4 months</option>
+                <option>5 months</option>
+                <option>6 months</option>
+                <option>9 months</option>
+                <option>12 months</option>
               </select>
               <i class="fas fa-chevron-down select-arrow"></i>
             </div>
@@ -249,11 +415,20 @@
           </div>
         </div>
 
-        <div class="form-group" style="margin-top:14px;">
-          <label class="form-label">Application Deadline <span class="required">*</span></label>
-          <div class="input-with-icon">
-            <i class="fas fa-calendar input-icon"></i>
-            <input type="date" class="form-input" id="add-deadline" required />
+        <div class="form-row-2">
+          <div class="form-group">
+            <label class="form-label">Application Deadline <span class="required">*</span></label>
+            <div class="input-with-icon">
+              <i class="fas fa-calendar input-icon"></i>
+              <input type="date" class="form-input" id="add-deadline" required />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Max Applicants</label>
+            <div class="input-with-icon">
+              <i class="fas fa-user-group input-icon"></i>
+              <input type="number" class="form-input" id="add-maxapplicants" placeholder="e.g. 50" min="1" />
+            </div>
           </div>
         </div>
 
@@ -347,7 +522,7 @@
       <button class="panel-close-btn" onclick="closeModal('editModal')"><i class="fas fa-xmark"></i></button>
     </div>
     <div class="slide-panel-body">
-            <form onsubmit="submitEditForm(event)">
+      <form onsubmit="submitEditForm(event)">
 
         <div class="panel-section-label">Basic Information</div>
 
@@ -361,17 +536,51 @@
 
         <div class="form-row-2">
           <div class="form-group">
-            <label class="form-label">Field</label>
-            <input type="text" class="form-input" id="edit-field" />
+            <label class="form-label">Position / Subtitle</label>
+            <input type="text" class="form-input" id="edit-subtitle" />
           </div>
           <div class="form-group">
-            <label class="form-label">Company <span class="required">*</span></label>
-            <div class="select-wrapper-panel">
+            <label class="form-label">Company Name <span class="required">*</span></label>
+            <div class="input-with-icon">
               <i class="fas fa-building input-icon"></i>
-              <select class="form-input form-select" id="edit-company" required>
-                @foreach($companies as $comp)
-                  <option value="{{ $comp->id }}">{{ $comp->name }}</option>
-                @endforeach
+              <input type="text" class="form-input" id="edit-company" required />
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-section-label">Academic Association</div>
+
+        <div class="form-row-2">
+          <div class="form-group">
+            <label class="form-label">University <span class="required">*</span></label>
+            <div class="select-wrapper-panel">
+              <i class="fas fa-university input-icon"></i>
+              <select class="form-input form-select" id="edit-university" required>
+                <option value="">Select University</option>
+                <option>Epoka University</option>
+                <option>Albanian University</option>
+                <option>University of Tirana</option>
+                <option>Polytechnic University</option>
+                <option>Beder University</option>
+                <option>UET</option>
+              </select>
+              <i class="fas fa-chevron-down select-arrow"></i>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Department <span class="required">*</span></label>
+            <div class="select-wrapper-panel">
+              <i class="fas fa-sitemap input-icon"></i>
+              <select class="form-input form-select" id="edit-department" required>
+                <option value="">Select Department</option>
+                <option>Software Engineering</option>
+                <option>Computer Networks</option>
+                <option>Finance & Accounting</option>
+                <option>Marketing & Commerce</option>
+                <option>Civil Engineering</option>
+                <option>Electrical Engineering</option>
+                <option>Physics & Mathematics</option>
+                <option>Public Health</option>
               </select>
               <i class="fas fa-chevron-down select-arrow"></i>
             </div>
@@ -386,9 +595,9 @@
             <div class="select-wrapper-panel">
               <i class="fas fa-tag input-icon"></i>
               <select class="form-input form-select" id="edit-type" required>
-                <option value="Full-time">Full-time</option>
-                <option value="Part-time">Part-time</option>
-                <option value="Remote">Remote</option>
+                <option>Full-time</option>
+                <option>Part-time</option>
+                <option>Remote</option>
               </select>
               <i class="fas fa-chevron-down select-arrow"></i>
             </div>
@@ -398,14 +607,14 @@
             <div class="select-wrapper-panel">
               <i class="fas fa-clock input-icon"></i>
               <select class="form-input form-select" id="edit-duration" required>
-                <option value="1 month">1 month</option>
-                <option value="2 months">2 months</option>
-                <option value="3 months">3 months</option>
-                <option value="4 months">4 months</option>
-                <option value="5 months">5 months</option>
-                <option value="6 months">6 months</option>
-                <option value="9 months">9 months</option>
-                <option value="12 months">12 months</option>
+                <option>1 month</option>
+                <option>2 months</option>
+                <option>3 months</option>
+                <option>4 months</option>
+                <option>5 months</option>
+                <option>6 months</option>
+                <option>9 months</option>
+                <option>12 months</option>
               </select>
               <i class="fas fa-chevron-down select-arrow"></i>
             </div>
@@ -415,27 +624,36 @@
             <div class="select-wrapper-panel">
               <i class="fas fa-circle-half-stroke input-icon"></i>
               <select class="form-input form-select" id="edit-status">
-                <option value="Active">Active</option>
-                <option value="Pending">Pending</option>
-                <option value="Completed">Completed</option>
-                <option value="Expired">Expired</option>
+                <option>Active</option>
+                <option>Pending</option>
+                <option>Completed</option>
+                <option>Expired</option>
               </select>
               <i class="fas fa-chevron-down select-arrow"></i>
             </div>
           </div>
         </div>
 
-        <div class="form-group" style="margin-top:14px;">
-          <label class="form-label">Application Deadline</label>
-          <div class="input-with-icon">
-            <i class="fas fa-calendar input-icon"></i>
-            <input type="date" class="form-input" id="edit-deadline" />
+        <div class="form-row-2">
+          <div class="form-group">
+            <label class="form-label">Application Deadline</label>
+            <div class="input-with-icon">
+              <i class="fas fa-calendar input-icon"></i>
+              <input type="date" class="form-input" id="edit-deadline" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Max Applicants</label>
+            <div class="input-with-icon">
+              <i class="fas fa-user-group input-icon"></i>
+              <input type="number" class="form-input" id="edit-maxapplicants" min="1" />
+            </div>
           </div>
         </div>
 
         <div class="form-group">
-          <label class="form-label">Description <span class="required">*</span></label>
-          <textarea class="form-input form-textarea" id="edit-description" rows="4" required></textarea>
+          <label class="form-label">Description</label>
+          <textarea class="form-input form-textarea" id="edit-description" rows="4"></textarea>
         </div>
 
         <div class="form-group">
@@ -723,61 +941,9 @@
 }
 .toast-notification.show { transform: translateY(0); opacity: 1; }
 .toast-icon { color: var(--green); font-size: 16px; }
-
-@media (max-width: 1024px) {
-  .stats-grid-4 { grid-template-columns: repeat(2, 1fr); }
-  .filters-bar { flex-direction: column; align-items: stretch; }
-  .filter-group { flex-wrap: wrap; }
-}
-@media (max-width: 768px) {
-  .stats-grid-4 { grid-template-columns: 1fr; }
-  .page-header { flex-direction: column; align-items: flex-start; gap: 16px; }
-  .table-wrapper { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-  table { min-width: 800px; }
-}
 </style>
 
 <script>
-function exportInternships() {
-  const rows = [['Title', 'Company', 'Field', 'Type', 'Duration', 'Deadline', 'Status']];
-  
-  const tbody = document.querySelector('.data-table tbody');
-  const trs = Array.from(tbody.querySelectorAll('tr'));
-  
-  trs.forEach(row => {
-    if (row.style.display === 'none') return;
-    
-    const title = row.querySelector('.cell-title') ? row.querySelector('.cell-title').textContent.trim().replace(/"/g, '""') : '';
-    const field = row.querySelector('.cell-subtitle') ? row.querySelector('.cell-subtitle').textContent.trim().replace(/"/g, '""') : '';
-    const company = row.cells[1] ? row.cells[1].textContent.trim().replace(/"/g, '""') : '';
-    const type = row.cells[2] ? row.cells[2].textContent.trim() : '';
-    const duration = row.cells[3] ? row.cells[3].textContent.trim() : '';
-    const deadline = row.cells[4] ? row.cells[4].textContent.trim() : '';
-    const status = row.cells[5] ? row.cells[5].textContent.trim() : '';
-    
-    rows.push([
-      `"${title}"`,
-      `"${company}"`,
-      `"${field}"`,
-      `"${type}"`,
-      `"${duration}"`,
-      `"${deadline}"`,
-      `"${status}"`
-    ]);
-  });
-  
-  const csv = rows.map(r => r.join(',')).join('\n');
-  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.setAttribute('download', 'internships_export.csv');
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  showToast('Export downloaded successfully!');
-}
-
 let rowToDelete = null;
 let rowBeingEdited = null;
 
@@ -806,30 +972,49 @@ document.addEventListener('keydown', e => {
 function submitAddForm(e) {
   e.preventDefault();
   const title    = document.getElementById('add-title').value.trim();
-  const field = document.getElementById('add-field').value.trim();
-  const company_id  = document.getElementById('add-company').value;
+  const subtitle = document.getElementById('add-subtitle').value.trim();
+  const company  = document.getElementById('add-company').value.trim();
+  const univ     = document.getElementById('add-university').value;
+  const dept     = document.getElementById('add-department').value;
   const type     = document.getElementById('add-type').value;
   const duration = document.getElementById('add-duration').value;
   const status   = document.getElementById('add-status').value;
   const deadline = document.getElementById('add-deadline').value;
-  const description = document.getElementById('add-description').value.trim();
-  const skills_required = document.getElementById('add-skills').value.trim();
 
-  fetch(`/{{ $slug }}/admin/internships`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '{{ csrf_token() }}'
-    },
-    body: JSON.stringify({ 
-      title, field, company_id, internship_type: type, 
-      duration, status, deadline, description, skills_required 
-    })
-  }).then(res => res.json()).then(data => {
-    if (data.success) {
-      window.location.reload();
-    }
-  });
+  const initials  = company.split(' ').map(w => w[0]).join('').toUpperCase().slice(0,2);
+  const deptShort = dept ? dept.replace(' Engineering','Eng.').replace(' & ',' & ').slice(0,14) : '—';
+  const typeClass = { 'Full-time':'type-fulltime','Part-time':'type-parttime','Remote':'type-remote' }[type] || 'type-fulltime';
+  const sClass    = { Active:'badge-active', Pending:'badge-pending', Completed:'badge-completed', Expired:'badge-expired' }[status] || 'badge-active';
+  const deadlineDisplay = deadline ? new Date(deadline).toLocaleDateString('en-US',{month:'short',year:'numeric'}) : '—';
+
+  const tbody = document.querySelector('.data-table tbody');
+  const row   = document.createElement('tr');
+  row.style.opacity = '0';
+  row.style.transition = 'opacity 0.4s ease';
+  row.innerHTML = `
+    <td><div class="cell-with-logo">
+      <div class="company-logo" style="background:rgba(37,99,235,0.12);color:var(--primary)">${initials}</div>
+      <div><div class="cell-title">${title}</div><div class="cell-subtitle">${subtitle}</div></div>
+    </div></td>
+    <td>${company}</td>
+    <td>${univ || '—'}</td>
+    <td><span class="dept-tag">${deptShort}</span></td>
+    <td><span class="type-badge ${typeClass}">${type}</span></td>
+    <td><span class="duration-badge">${duration}</span></td>
+    <td>${deadlineDisplay}</td>
+    <td><span class="badge-status ${sClass}">${status}</span></td>
+    <td><div class="flex gap-8">
+      <button class="btn btn-sm btn-icon-outline" onclick="viewInternship(this)" title="View"><i class="fas fa-eye"></i></button>
+      <button class="btn btn-sm btn-icon-outline" onclick="editInternship(this)" title="Edit"><i class="fas fa-pen"></i></button>
+      <button class="btn btn-sm btn-icon-danger" onclick="deleteInternship(this)" title="Delete"><i class="fas fa-trash"></i></button>
+    </div></td>`;
+  tbody.insertBefore(row, tbody.firstChild);
+  setTimeout(() => row.style.opacity = '1', 50);
+
+  e.target.reset();
+  closeModal('addModal');
+  showToast('Internship added successfully!');
+  applyFilters();
 }
 
 // ── VIEW ──
@@ -838,25 +1023,23 @@ function viewInternship(btn) {
   const title    = row.querySelector('.cell-title').textContent;
   const subtitle = row.querySelector('.cell-subtitle').textContent;
   const company  = row.cells[1].textContent;
+  const univ     = row.cells[2].textContent;
+  const dept     = row.querySelector('.dept-tag')?.textContent || '—';
   const type     = row.querySelector('.type-badge')?.textContent || '—';
   const duration = row.querySelector('.duration-badge')?.textContent || '—';
-  const deadline = row.cells[4].textContent;
+  const deadline = row.cells[6].textContent;
   const status   = row.querySelector('.badge-status');
   const initials = company.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
 
   document.getElementById('view-initials-badge').textContent = initials;
   document.getElementById('view-title').textContent = title;
   document.getElementById('view-subtitle-company').textContent = `${subtitle} · ${company}`;
-  
-  // hide unused fields in view modal
-  document.getElementById('view-university').parentElement.style.display = 'none';
-  document.getElementById('view-department').parentElement.style.display = 'none';
-  
+  document.getElementById('view-university').textContent = univ;
+  document.getElementById('view-department').textContent = dept;
   document.getElementById('view-type').textContent = type;
   document.getElementById('view-duration').textContent = duration;
   document.getElementById('view-deadline').textContent = deadline;
-    const deadlineStr = row.getAttribute('data-deadline');
-  document.getElementById('view-description').textContent = row.getAttribute('data-desc') || 'No description available for this listing.';
+  document.getElementById('view-description').textContent = 'No description available for this listing.';
 
   const sb = document.getElementById('view-status-badge');
   sb.className = 'badge-status ' + (status ? status.className.replace('badge-status','').trim() : '');
@@ -871,20 +1054,21 @@ function editInternship(btn) {
   rowBeingEdited = btn.closest('tr');
   const row = rowBeingEdited;
 
-  document.getElementById('edit-title').value    = row.querySelector('.cell-title').textContent.trim();
-  document.getElementById('edit-field').value = row.querySelector('.cell-subtitle').textContent.trim();
-  
-  const compId = row.querySelector('.cell-company').getAttribute('data-company-id');
-  setSelectVal('edit-company', compId);
+  document.getElementById('edit-title').value    = row.querySelector('.cell-title').textContent;
+  document.getElementById('edit-subtitle').value = row.querySelector('.cell-subtitle').textContent;
+  document.getElementById('edit-company').value  = row.cells[1].textContent;
+
+  setSelectVal('edit-university', row.cells[2].textContent);
+  const deptText = row.querySelector('.dept-tag')?.textContent || '';
+  // try to match full dept name
+  const deptMap = {'Software Eng.':'Software Engineering','Comp. Networks':'Computer Networks','Finance & Acct.':'Finance & Accounting','Marketing':'Marketing & Commerce','Civil Eng.':'Civil Engineering','Electrical Eng.':'Electrical Engineering','Physics & Math.':'Physics & Mathematics'};
+  setSelectVal('edit-department', deptMap[deptText] || deptText);
 
   const typeText = row.querySelector('.type-badge')?.textContent || 'Full-time';
   setSelectVal('edit-type', typeText);
   setSelectVal('edit-duration', row.querySelector('.duration-badge')?.textContent || '3 months');
   setSelectVal('edit-status', row.querySelector('.badge-status')?.textContent || 'Active');
-    const deadlineStr = row.getAttribute('data-deadline');
-  document.getElementById('edit-deadline').value = deadlineStr;
-  document.getElementById('edit-description').value = row.getAttribute('data-desc');
-  document.getElementById('edit-skills').value = row.getAttribute('data-skills');
+  document.getElementById('edit-description').value = '';
 
   document.getElementById('editModal').classList.add('open');
   document.body.style.overflow = 'hidden';
@@ -893,6 +1077,9 @@ function editInternship(btn) {
 function openEditFromView() {
   closeModal('viewModal');
   if (rowBeingEdited) return;
+  // fallback — pick first row
+  const firstBtn = document.querySelector('.data-table tbody tr .btn-icon-outline:nth-child(2)');
+  if (firstBtn) editInternship(firstBtn);
 }
 
 function setSelectVal(id, val) {
@@ -909,32 +1096,41 @@ function submitEditForm(e) {
   e.preventDefault();
   if (!rowBeingEdited) { closeModal('editModal'); return; }
 
-  const id = rowBeingEdited.getAttribute('data-id');
   const title    = document.getElementById('edit-title').value.trim();
-  const field = document.getElementById('edit-field').value.trim();
-  const company_id  = document.getElementById('edit-company').value;
+  const subtitle = document.getElementById('edit-subtitle').value.trim();
+  const company  = document.getElementById('edit-company').value.trim();
+  const univ     = document.getElementById('edit-university').value;
+  const dept     = document.getElementById('edit-department').value;
   const type     = document.getElementById('edit-type').value;
   const duration = document.getElementById('edit-duration').value;
   const status   = document.getElementById('edit-status').value;
-  const deadline = document.getElementById('edit-deadline').value;
-  const description = document.getElementById('edit-description').value.trim();
-  const skills_required = document.getElementById('edit-skills').value.trim();
 
-  fetch(`/{{ $slug }}/admin/internships/${id}`, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-      'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '{{ csrf_token() }}'
-    },
-    body: JSON.stringify({ 
-      title, field, company_id, internship_type: type, 
-      duration, status, deadline, description, skills_required 
-    })
-  }).then(res => res.json()).then(data => {
-    if (data.success) {
-      window.location.reload();
-    }
-  });
+  const deptShort = dept ? dept.replace(' Engineering','Eng.').replace(' & ',' & ').slice(0,14) : '—';
+  const typeClass = { 'Full-time':'type-fulltime','Part-time':'type-parttime','Remote':'type-remote' }[type] || 'type-fulltime';
+  const sClass    = { Active:'badge-active', Pending:'badge-pending', Completed:'badge-completed', Expired:'badge-expired' }[status] || 'badge-active';
+
+  rowBeingEdited.querySelector('.cell-title').textContent    = title;
+  rowBeingEdited.querySelector('.cell-subtitle').textContent = subtitle;
+  rowBeingEdited.cells[1].textContent = company;
+  rowBeingEdited.cells[2].textContent = univ;
+
+  const deptSpan = rowBeingEdited.querySelector('.dept-tag');
+  if (deptSpan) deptSpan.textContent = deptShort;
+
+  const typeSpan = rowBeingEdited.querySelector('.type-badge');
+  if (typeSpan) { typeSpan.textContent = type; typeSpan.className = `type-badge ${typeClass}`; }
+
+  const durSpan = rowBeingEdited.querySelector('.duration-badge');
+  if (durSpan) durSpan.textContent = duration;
+
+  const statSpan = rowBeingEdited.querySelector('.badge-status');
+  if (statSpan) { statSpan.textContent = status; statSpan.className = `badge-status ${sClass}`; }
+
+  rowBeingEdited.style.background = 'rgba(0,177,170,0.06)';
+  setTimeout(() => rowBeingEdited.style.background = '', 800);
+  rowBeingEdited = null;
+  closeModal('editModal');
+  showToast('Internship updated successfully!');
 }
 
 // ── DELETE ──
@@ -949,27 +1145,16 @@ function deleteInternship(btn) {
 
 function confirmDelete() {
   if (!rowToDelete) return;
-  const id = rowToDelete.getAttribute('data-id');
-  
-  fetch(`/{{ $slug }}/admin/internships/${id}`, {
-    method: 'DELETE',
-    headers: {
-      'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '{{ csrf_token() }}'
-    }
-  }).then(res => res.json()).then(data => {
-    if (data.success) {
-      rowToDelete.style.opacity  = '0';
-      rowToDelete.style.transform= 'translateY(-8px)';
-      rowToDelete.style.transition = 'all 0.35s ease';
-      setTimeout(() => { 
-        rowToDelete.remove(); 
-        rowToDelete = null; 
-        applyFilters(); 
-      }, 360);
-      closeModal('deleteModal');
-      showToast('Internship deleted.');
-    }
-  });
+  rowToDelete.style.opacity  = '0';
+  rowToDelete.style.transform= 'translateY(-8px)';
+  rowToDelete.style.transition = 'all 0.35s ease';
+  setTimeout(() => { 
+    rowToDelete.remove(); 
+    rowToDelete = null; 
+    applyFilters(); 
+  }, 360);
+  closeModal('deleteModal');
+  showToast('Internship deleted.');
 }
 
 // ── TOAST ──
@@ -979,29 +1164,47 @@ function showToast(msg) {
   t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), 3000);
 }
-
 // ── FILTER & PAGINATION ──
 let currentPage = 1;
-const rowsPerPage = 10;
+const rowsPerPage = 5;
 
 function applyFilters() {
   const searchInput = document.querySelector('.search-input').value.toLowerCase();
-  const statusFilter = document.getElementById('statusFilter').value.toLowerCase();
+  const selects = document.querySelectorAll('.filter-select');
+  const univFilter = selects[0].value.toLowerCase();
+  const deptFilter = selects[1].value.toLowerCase();
+  const statusFilter = selects[2].value.toLowerCase();
 
   const tbody = document.querySelector('.data-table tbody');
   const rows = Array.from(tbody.querySelectorAll('tr'));
   
   let visibleRows = [];
 
+  const deptMap = {
+    'software engineering': 'software eng.',
+    'computer networks': 'comp. networks',
+    'finance & accounting': 'finance & acct.',
+    'marketing & commerce': 'marketing',
+    'civil engineering': 'civil eng.',
+    'electrical engineering': 'electrical eng.',
+    'physics & mathematics': 'physics & math.',
+    'public health': 'public health'
+  };
+
   rows.forEach(row => {
     const titleCompany = row.cells[0].textContent.toLowerCase();
     const company = row.cells[1].textContent.toLowerCase();
+    const univ = row.cells[2].textContent.toLowerCase();
+    const dept = row.querySelector('.dept-tag')?.textContent.toLowerCase() || '';
     const status = row.querySelector('.badge-status')?.textContent.toLowerCase() || '';
 
     const matchesSearch = titleCompany.includes(searchInput) || company.includes(searchInput);
+    const matchesUniv = !univFilter || univFilter.includes('all') || univ.includes(univFilter);
+    const expectedDept = deptMap[deptFilter] || deptFilter;
+    const matchesDept = !deptFilter || deptFilter.includes('all') || dept.includes(expectedDept);
     const matchesStatus = !statusFilter || statusFilter.includes('all') || status === statusFilter;
 
-    if (matchesSearch && matchesStatus) {
+    if (matchesSearch && matchesUniv && matchesDept && matchesStatus) {
       visibleRows.push(row);
       row.style.display = '';
     } else {
@@ -1050,8 +1253,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const searchInput = document.querySelector('.search-input');
   if(searchInput) searchInput.addEventListener('input', () => { currentPage = 1; applyFilters(); });
   
-  const statusFilter = document.getElementById('statusFilter');
-  if(statusFilter) statusFilter.addEventListener('change', () => { currentPage = 1; applyFilters(); });
+  document.querySelectorAll('.filter-select').forEach(select => {
+    select.addEventListener('change', () => { currentPage = 1; applyFilters(); });
+  });
 
   applyFilters();
 });

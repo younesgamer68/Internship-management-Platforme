@@ -1640,7 +1640,9 @@
 
 
     <x-footer />
-    <livewire:ai-chat-widget />
+    
+
+    
 
     @livewireScripts
 </body>

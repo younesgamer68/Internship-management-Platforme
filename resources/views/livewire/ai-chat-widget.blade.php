@@ -182,15 +182,10 @@
             panel.classList.add('cw-slide-up');
             this.isOpen = true;
             this.scrollToBottom();
-    
-            if (!$wire.chatting && !Array.isArray($wire.messages)) {
+
+            this.$nextTick(() => {
                 $wire.newConversation();
-                return;
-            }
-    
-            if (!$wire.chatting && Array.isArray($wire.messages) && $wire.messages.length === 0) {
-                $wire.newConversation();
-            }
+            });
         },
         toggle() {
             const panel = this.$refs.chatPanel;
@@ -323,7 +318,7 @@
 
                 {{-- New conversation button --}}
                 <div class="shrink-0 px-4 pb-3 pt-1">
-                    <button type="button" wire:click="newConversation"
+                    <button type="button" @click.prevent="$wire.newConversation()"
                         class="flex w-full items-center justify-center gap-1.5 rounded-xl bg-linear-to-br from-[#1b7a44] to-[#1b7a44] py-2.5 text-xs font-bold text-white shadow-[0_6px_16px_-4px_rgba(33,150,83,0.4),inset_0_1px_0_rgba(255,255,255,0.15)] transition hover:scale-[1.02] hover:shadow-[0_10px_22px_-5px_rgba(33,150,83,0.5)] active:scale-[0.97]">
                         <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />

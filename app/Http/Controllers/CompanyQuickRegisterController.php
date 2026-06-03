@@ -32,7 +32,7 @@ class CompanyQuickRegisterController extends Controller
             'name' => $name,
             'email' => $request->email,
             'password' => null,
-            'role' => 'admin',
+            'role' => 'company_manager',
             'email_verified_at' => null,
         ]);
 
