@@ -54,8 +54,7 @@ Navbar — local state only; $store.ui.darkMode / lang / t() from $store.ui
             @endauth
                 <a href="{{ route('navbarlink.resources.cv-builder') }}"
                     class="text-xs font-medium transition-colors duration-200"
-                    :class="@if($blueBg || $blackBg) 'text-white hover:text-white' @else ($store.ui.darkMode ? 'text-gray-400 hover:text-white' : 'text-[#68737D] hover:text-[#17494D]') @endif"
-                    x-text="$store.ui.t('resources_cv_builder')"></a>
+                    :class="@if($blueBg || $blackBg) 'text-white hover:text-white' @else ($store.ui.darkMode ? 'text-gray-400 hover:text-white' : 'text-[#68737D] hover:text-[#17494D]') @endif">{{ __('nav.resources_cv_builder') }}</a>
                 <a href="{{ route('about') }}" class="text-xs font-medium transition-colors duration-200"
                     :class="@if($blueBg || $blackBg) 'text-white hover:text-white' @else ($store.ui.darkMode ? 'text-gray-400 hover:text-white' : 'text-[#68737D] hover:text-[#17494D]') @endif">{{ __('nav.about_us') }}</a>
                 <a href="{{ route('contact') }}" class="text-xs font-medium transition-colors duration-200"

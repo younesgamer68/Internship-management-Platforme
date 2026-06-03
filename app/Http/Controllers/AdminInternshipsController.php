@@ -10,7 +10,7 @@ class AdminInternshipsController extends Controller
 {
     public function index($companySlug = null)
     {
-        $internships = Internship::with('company')->orderBy('id', 'desc')->get();
+        $internships = Internship::with('company')->orderBy('id', 'desc')->paginate(10);
         $companies = Company::orderBy('name')->get();
         
         $totalInternships = Internship::count();

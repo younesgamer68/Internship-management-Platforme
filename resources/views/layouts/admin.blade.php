@@ -172,9 +172,7 @@
           class="nav-item {{ request()->routeIs('admin.support') ? 'active' : '' }}">
           <i class="fas fa-circle-question"></i><span>Support</span>
         </a>
-        <a href="{{ route('welcome') }}" class="nav-item {{ request()->routeIs('welcome') ? 'active' : '' }}">
-          <i class="fas fa-house"></i><span>Home</span>
-        </a>
+
       </nav>
 
       <div class="sidebar-bottom">
@@ -216,6 +214,12 @@
           <h1>{{ $title ?? 'Admin Dashboard' }}</h1>
         </div>
         <div class="topbar-right">
+          <button type="button" id="home-nav-btn" title="Back to Homepage" onclick="document.getElementById('homeModal').style.display='flex'"
+            style="width: 36px; height: 36px; border-radius: 50%; background: var(--gray-50); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; color: var(--gray-600); cursor: pointer; transition: all 0.2s; margin-right: 4px;"
+            onmouseover="this.style.background='var(--primary-bg,rgba(0,177,170,0.12))';this.style.color='var(--primary)';this.style.borderColor='var(--primary)';"
+            onmouseout="this.style.background='var(--gray-50)';this.style.color='var(--gray-600)';this.style.borderColor='var(--border)';">
+            <i class="fas fa-house" style="font-size: 13px;"></i>
+          </button>
           <button type="button" id="dark-mode-toggle" title="Toggle dark mode" onclick="toggleGlobalDarkMode()"
             style="width: 36px; height: 36px; border-radius: 50%; background: var(--gray-50); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; color: var(--gray-600); cursor: pointer; transition: all 0.2s; margin-right: 4px;"
             onmouseover="this.style.background='var(--gray-100)';" onmouseout="this.style.background='var(--gray-50)';">
@@ -316,6 +320,28 @@
   </script>
   <script type="text/javascript"
     src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+  <!-- Home Navigation Modal -->
+  <div id="homeModal" style="display:none;position:fixed;inset:0;z-index:99999;align-items:center;justify-content:center;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);background:rgba(0,0,0,0.45);transition:opacity 0.3s;" onclick="if(event.target===this)this.style.display='none'">
+    <div style="background:#fff;border-radius:20px;box-shadow:0 25px 60px rgba(0,0,0,0.22);max-width:420px;width:92%;padding:40px 32px;text-align:center;animation:homeModalPop 0.3s cubic-bezier(.16,1,.3,1);">
+      <div style="width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#2563EB,#3B82F6);display:flex;align-items:center;justify-content:center;margin:0 auto 18px;">
+        <i class="fas fa-house" style="color:#fff;font-size:22px;"></i>
+      </div>
+      <h3 style="font-size:20px;font-weight:700;color:#1e293b;margin:0 0 8px;">Leave Dashboard?</h3>
+      <p style="font-size:14px;color:#64748b;line-height:1.6;margin:0 0 28px;">You are about to leave the admin dashboard and return to the main homepage. Any unsaved changes will be lost.</p>
+      <div style="display:flex;gap:12px;justify-content:center;">
+        <button onclick="document.getElementById('homeModal').style.display='none'" style="padding:11px 24px;border-radius:12px;border:1.5px solid #e2e8f0;background:#fff;font-size:14px;font-weight:600;color:#475569;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.background='#f8fafc';this.style.borderColor='#cbd5e1'" onmouseout="this.style.background='#fff';this.style.borderColor='#e2e8f0'">Cancel</button>
+        <a href="{{ route('welcome') }}" style="padding:11px 24px;border-radius:12px;background:linear-gradient(135deg,#2563EB,#3B82F6);color:#fff;font-size:14px;font-weight:600;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:all 0.2s;box-shadow:0 4px 14px rgba(37,99,235,0.35);" onmouseover="this.style.transform='translateY(-1px)';this.style.boxShadow='0 6px 20px rgba(37,99,235,0.45)'" onmouseout="this.style.transform='';this.style.boxShadow='0 4px 14px rgba(37,99,235,0.35)'"><i class="fas fa-arrow-left" style="font-size:12px;"></i> Back to Homepage</a>
+      </div>
+    </div>
+  </div>
+  <style>@keyframes homeModalPop{from{opacity:0;transform:scale(0.92) translateY(12px);}to{opacity:1;transform:scale(1) translateY(0);}}
+  html.admin-dark #homeModal > div, html.dark #homeModal > div{background:#1e293b !important;}
+  html.admin-dark #homeModal h3, html.dark #homeModal h3{color:#f1f5f9 !important;}
+  html.admin-dark #homeModal p, html.dark #homeModal p{color:#94a3b8 !important;}
+  html.admin-dark #homeModal button, html.dark #homeModal button{background:#334155 !important;border-color:#475569 !important;color:#e2e8f0 !important;}
+  html.admin-dark #homeModal button:hover, html.dark #homeModal button:hover{background:#475569 !important;}
+  </style>
 
   @stack('modals')
 </body>

@@ -4,7 +4,7 @@
 <style>
   /* ── Welcome Banner ── */
   .welcome-banner {
-    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 60%, #4f46e5 100%) !important;
+    background: var(--primary) !important;
     border-radius: 20px; padding: 32px; color: #fff;
     margin-bottom: 28px; display: flex; align-items: center; justify-content: space-between;
     position: relative; overflow: hidden;
@@ -260,24 +260,52 @@
       </div>
       <div class="card-body" style="padding-top:4px;">
 
-        @foreach([
-          ['CT','ConnorTech','Software Development Internship','San Francisco, CA','Pending',  'pending',  40, 'warning','Application under review'],
-          ['SD','SierraDynamics','Product Management Internship','New York, NY', 'Interview','interview',75, 'green',  'Interview: Jun 28, 2025'],
-          ['BG','Bayview Group','Marketing & Communications Internship','Boston, MA','Pending','pending',  30, 'warning','Awaiting document review'],
-          ['NV','NovaSystems','Backend Engineer Intern','Austin, TX','Accepted','accepted',  100, 'green','Offer Accepted'],
-          ['LF','Luminate Financial','Data Science Intern','Chicago, IL','Rejected','rejected',  10, 'gray','Did not pass screening'],
-        ] as [$init,$company,$title,$location,$status,$statusClass,$pct,$fillClass,$note])
+        @forelse($applications as $app)
+          @php
+              $internship = $app->internship;
+              $company = $internship?->company;
+              $title = $internship?->title ?? 'Position';
+              $companyName = $company?->name ?? 'Company';
+              $init = substr($companyName, 0, 2);
+              $location = trim(implode(', ', array_filter([$internship?->city, $internship?->country]))) ?: ($internship?->location ?? 'Remote');
+              
+              $statusRaw = strtolower($app->status);
+              $status = ucfirst($app->status);
+              $statusClass = match($statusRaw) {
+                  'interview scheduled', 'interview' => 'interview',
+                  'accepted' => 'accepted',
+                  'rejected' => 'rejected',
+                  default => 'pending',
+              };
+              $fillClass = match($statusRaw) {
+                  'interview scheduled', 'interview', 'accepted' => 'green',
+                  'rejected' => 'gray',
+                  default => 'warning',
+              };
+              $pct = match($statusRaw) {
+                  'accepted' => 100,
+                  'interview scheduled', 'interview' => 75,
+                  'rejected' => 100,
+                  default => 40,
+              };
+              $note = match($statusRaw) {
+                  'accepted' => 'Offer Accepted',
+                  'interview scheduled', 'interview' => 'Interview Scheduled',
+                  'rejected' => 'Application Rejected',
+                  default => 'Application under review',
+              };
+          @endphp
         <div class="application-item">
           <div class="application-header">
             <div class="application-info">
               <div class="application-company-logo"
-                   style="background:{{ $statusClass==='interview' ? 'var(--green)' : ($init==='BG' ? '#8B5CF6' : 'var(--primary)') }};">
-                {{ $init }}
+                   style="background:{{ $statusClass==='interview' ? 'var(--green)' : 'var(--primary)' }};">
+                {{ strtoupper($init) }}
               </div>
               <div>
                 <div class="application-title">{{ $title }}</div>
                 <div class="application-meta">
-                  <i class="fas fa-building" style="font-size:10px;"></i> {{ $company }}
+                  <i class="fas fa-building" style="font-size:10px;"></i> {{ $companyName }}
                   &nbsp;·&nbsp;
                   <i class="fas fa-location-dot" style="font-size:10px;"></i> {{ $location }}
                 </div>
@@ -296,21 +324,26 @@
             <span class="progress-label" style="color:var(--gray-700);font-size:12px;font-weight:700;">{{ $pct }}%</span>
           </div>
           <div class="application-actions">
-            <button class="btn btn-sm btn-outline" onclick="viewApplication('{{ $company }}','{{ $title }}')">
+            <button class="btn btn-sm btn-outline" onclick="viewApplication('{{ addslashes($companyName) }}','{{ addslashes($title) }}')">
               <i class="fas fa-eye"></i> View
             </button>
             @if($statusClass === 'interview')
-            <button class="btn btn-sm btn-primary" onclick="confirmInterview('{{ $company }}')">  
+            <button class="btn btn-sm btn-primary" onclick="confirmInterview('{{ addslashes($companyName) }}')">  
               <i class="fas fa-calendar-check"></i> Confirm
             </button>
             @else
-            <button class="btn btn-sm" style="background:var(--danger-bg);color:var(--danger);border:none;border-radius:8px;padding:6px 14px;font-size:12px;font-weight:600;cursor:pointer;" onclick="withdrawApp('{{ $company }}')">
+            <button class="btn btn-sm" style="background:var(--danger-bg);color:var(--danger);border:none;border-radius:8px;padding:6px 14px;font-size:12px;font-weight:600;cursor:pointer;" onclick="withdrawApp('{{ addslashes($companyName) }}')">
               <i class="fas fa-rotate-left"></i> Withdraw
             </button>
             @endif
           </div>
         </div>
-        @endforeach
+        @empty
+        <div style="padding: 30px; text-align: center; color: var(--gray-500);">
+            <i class="fas fa-inbox" style="font-size: 2rem; margin-bottom: 10px; color: var(--gray-300);"></i>
+            <p style="margin: 0;">You haven't applied to any internships yet.</p>
+        </div>
+        @endforelse
 
       </div>
     </div>

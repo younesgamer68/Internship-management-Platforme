@@ -114,7 +114,7 @@
             <div class="settings-field-control">
               <div class="sf-input-wrap">
                 <i class="fas fa-envelope sf-icon"></i>
-                <input type="email" readonly class="sf-input" id="g-email" placeholder="youness.ben-touttibt.00@edu.uiz.ac.ma" />
+                <input type="email" class="sf-input" id="g-email" value="youness.ben-touttibt.00@edu.uiz.ac.ma" />
               </div>
             </div>
           </div>
@@ -126,7 +126,7 @@
             <div class="settings-field-control">
               <div class="sf-input-wrap">
                 <i class="fas fa-phone sf-icon"></i>
-                <input type="text" readonly class="sf-input" id="g-phone" placeholder="+212 650-671376" />
+                <input type="text" class="sf-input" id="g-phone" value="+212 650-671376" />
               </div>
             </div>
           </div>
@@ -813,14 +813,23 @@ function applyDensity(mode) {
 ═══════════════════════════════════════════════ */
 const GENERAL_DEFAULTS = {
   platformName: 'InternLink Platform',
-  email: 'admin@internlink.com',
-  phone: '+355 69 123 4567',
+  email: 'youness.ben-touttibt.00@edu.uiz.ac.ma',
+  phone: '+212 650-671376',
   filesize: '10',
   warning: '7',
 };
 
 function loadGeneral() {
-  const saved = JSON.parse(localStorage.getItem('adminGeneral') || '{}');
+  const savedStr = localStorage.getItem('adminGeneral');
+  let saved = {};
+  if (savedStr) {
+    saved = JSON.parse(savedStr);
+    if (saved.email === 'admin@internlink.com') {
+      saved.email = 'youness.ben-touttibt.00@edu.uiz.ac.ma';
+      saved.phone = '+212 650-671376';
+      localStorage.setItem('adminGeneral', JSON.stringify(saved));
+    }
+  }
   const d = { ...GENERAL_DEFAULTS, ...saved };
   document.getElementById('g-platform-name').value = d.platformName;
   document.getElementById('g-email').value  = d.email;

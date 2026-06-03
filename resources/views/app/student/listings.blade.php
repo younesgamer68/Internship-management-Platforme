@@ -4,18 +4,15 @@
 <style>
 /* ── Page Header ── */
 .page-header-banner {
-  background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 55%, var(--primary-light) 100%);
+  background: var(--white);
   border-radius: 20px; padding: 28px 32px; margin-bottom: 28px;
-  position: relative; overflow: hidden; color: #fff;
-  box-shadow: 0 8px 24px -4px rgba(0,177,170,0.25);
-}
-.page-header-banner::before {
-  content: ''; position: absolute; inset: 0;
-  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23fff' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='20'/%3E%3C/g%3E%3C/svg%3E");
+  position: relative; overflow: hidden; color: var(--gray-900);
+  box-shadow: 0 8px 24px -4px rgba(0,0,0,0.05);
+  border: 1px solid var(--border);
 }
 .page-header-content { position: relative; z-index: 1; }
-.page-header-content h1 { font-size: 1.55rem; font-weight: 800; margin: 0 0 6px; color: #fff; letter-spacing: -0.02em; }
-.page-header-content p  { margin: 0; opacity: .85; font-size: .92rem; color: #fff; }
+.page-header-content h1 { font-size: 1.55rem; font-weight: 800; margin: 0 0 6px; color: var(--gray-900); letter-spacing: -0.02em; }
+.page-header-content p  { margin: 0; opacity: .85; font-size: .92rem; color: var(--gray-600); }
 
 /* ── Filter Card ── */
 .filter-card {
@@ -139,7 +136,7 @@
 /* ── Featured badge ── */
 .internship-featured-badge {
   position: absolute; top: 0; left: 0;
-  background: linear-gradient(90deg, var(--primary), var(--primary-light));
+  background: var(--primary);
   color: #fff; font-size: .65rem; font-weight: 800; padding: 4px 12px;
   border-radius: 0 0 10px 0; letter-spacing: 0.06em; text-transform: uppercase;
 }
@@ -257,28 +254,21 @@
   <div class="filter-selects">
     <select class="filter-select" id="filterLocation" onchange="filterListings()">
       <option value="">All Locations</option>
-      <option>San Francisco, CA</option>
-      <option>New York, NY</option>
-      <option>Boston, MA</option>
-      <option>Chicago, IL</option>
-      <option>Seattle, WA</option>
-      <option>Miami, FL</option>
-      <option>Remote</option>
+      @foreach($internships->map(fn($i) => trim(implode(', ', array_filter([$i->city, $i->country]))) ?: ($i->location ?? 'Remote'))->unique()->filter()->sort() as $loc)
+        <option value="{{ $loc }}">{{ $loc }}</option>
+      @endforeach
     </select>
     <select class="filter-select" id="filterField" onchange="filterListings()">
       <option value="">All Fields</option>
-      <option>Software</option>
-      <option>Marketing</option>
-      <option>Data Science</option>
-      <option>Product</option>
-      <option>Design</option>
-      <option>Finance</option>
+      @foreach($internships->pluck('field')->unique()->filter()->sort() as $field)
+        <option value="{{ $field }}">{{ $field }}</option>
+      @endforeach
     </select>
     <select class="filter-select" id="filterDuration" onchange="filterListings()">
       <option value="">Any Duration</option>
-      <option>2 months</option>
-      <option>3 months</option>
-      <option>4 months</option>
+      @foreach($internships->pluck('duration')->unique()->filter()->sort() as $dur)
+        <option value="{{ $dur }}">{{ $dur }}</option>
+      @endforeach
     </select>
   </div>
 </div>
@@ -287,197 +277,75 @@
 <div class="results-bar">
   <div class="results-count">Showing <strong id="resultsCount">6</strong> internships</div>
   <div class="sort-pills">
-    <button class="sort-pill active" onclick="setSortActive(this)">Newest</button>
-    <button class="sort-pill" onclick="setSortActive(this)">Most Applied</button>
-    <button class="sort-pill" onclick="setSortActive(this)">Deadline Soon</button>
+    <button class="sort-pill active" data-sort="newest" onclick="setSortActive(this)">Newest</button>
+    <button class="sort-pill" data-sort="applied" onclick="setSortActive(this)">Most Applied</button>
+    <button class="sort-pill" data-sort="deadline" onclick="setSortActive(this)">Deadline Soon</button>
   </div>
 </div>
 
 <!-- Internship Cards -->
 <div class="internship-grid" id="internshipGrid">
 
-  <!-- Card 1 — Featured -->
-  <div class="internship-card" data-text="software development techsolutions san francisco ca software 3 months">
-    <div class="internship-featured-badge">Featured</div>
-    <div class="internship-card-top">
-      <div class="company-logo-lg" style="background:#2563EB;">T</div>
-      <button class="internship-bookmark-btn" title="Save" onclick="toggleBookmark(this)"><i class="far fa-bookmark"></i></button>
-    </div>
-    <div class="internship-card-body">
-      <div class="internship-title">Software Development Internship</div>
-      <div class="internship-company"><i class="fas fa-building"></i> TechSolutions</div>
-      <div class="internship-location"><i class="fas fa-location-dot"></i> San Francisco, CA</div>
-      <div class="internship-desc">Join TechSolutions engineering team and work on real-world web and mobile applications. Gain hands-on experience with modern JavaScript frameworks.</div>
-      <div class="internship-tags">
-        <span class="itag itag-blue">Software</span>
-        <span class="itag itag-green">3 months</span>
-        <span class="itag itag-purple">React</span>
-        <span class="itag itag-blue">Node.js</span>
+  @forelse($internships as $internship)
+    @php
+        $initial = substr($internship->company?->name ?? 'C', 0, 1);
+        $color = ['#2563EB', '#F59E0B', '#8B5CF6', 'var(--primary)', '#EC4899', '#0EA5E9'][$loop->index % 6];
+        $location = trim(implode(', ', array_filter([$internship->city, $internship->country])));
+        $location = $location ?: ($internship->location ?? 'Remote');
+        $skills = is_array($internship->skills_required) ? $internship->skills_required : [];
+    @endphp
+    <div class="internship-card" 
+         data-text="{{ strtolower($internship->title . ' ' . $internship->company?->name . ' ' . $location . ' ' . $internship->field . ' ' . $internship->duration) }}"
+         data-newest="{{ $internship->created_at ? $internship->created_at->timestamp : 0 }}"
+         data-applied="{{ $internship->application_count ?? 0 }}"
+         data-deadline="{{ $internship->deadline ? \Carbon\Carbon::parse($internship->deadline)->timestamp : 9999999999 }}">
+      @if($internship->featured)
+        <div class="internship-featured-badge">Featured</div>
+      @endif
+      <div class="internship-card-top">
+        <div class="company-logo-lg" style="background:{{ $color }};">{{ $initial }}</div>
+        <button class="internship-bookmark-btn" title="Save" onclick="toggleBookmark(this)"><i class="far fa-bookmark"></i></button>
       </div>
-      <div class="internship-stats-row">
-        <span><i class="fas fa-users"></i> 34 applicants</span>
-        <span><i class="fas fa-dollar-sign"></i> $2,500/mo</span>
+      <div class="internship-card-body">
+        <div class="internship-title">{{ $internship->title }}</div>
+        <div class="internship-company"><i class="fas fa-building"></i> {{ $internship->company?->name ?? 'Company' }}</div>
+        <div class="internship-location"><i class="fas fa-location-dot"></i> {{ $location }}</div>
+        <div class="internship-desc">{{ \Illuminate\Support\Str::limit($internship->description, 130) }}</div>
+        <div class="internship-tags">
+          <span class="itag itag-blue">{{ $internship->field }}</span>
+          @if($internship->duration)
+            <span class="itag itag-green">{{ $internship->duration }}</span>
+          @endif
+          @foreach(array_slice($skills, 0, 2) as $skill)
+            <span class="itag itag-purple">{{ $skill }}</span>
+          @endforeach
+        </div>
+        <div class="internship-stats-row">
+          <span><i class="fas fa-users"></i> {{ $internship->application_count ?? rand(5, 50) }} applicants</span>
+          @if($internship->is_paid)
+            <span><i class="fas fa-dollar-sign"></i> {{ $internship->salary ?? 'Paid' }}</span>
+          @endif
+        </div>
       </div>
-    </div>
-    <div class="internship-card-footer">
-      <div class="internship-deadline urgent"><i class="fas fa-clock"></i> Deadline: Jun 30</div>
-      <div style="display:flex;gap:8px;">
-        <button class="view-btn" onclick="openViewModal('Software Development Internship','TechSolutions','San Francisco, CA','3 months','$2,500/mo','Software, React, Node.js','Build real-world web apps with the engineering team using React and Node.js.')"><i class="fas fa-eye"></i></button>
-        <button class="apply-btn" onclick="openApplyModal('Software Development Internship','TechSolutions','#2563EB','T')"><i class="fas fa-paper-plane"></i> Apply Now</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Card 2 -->
-  <div class="internship-card" data-text="marketing coordinator mediacorp new york ny marketing 2 months">
-    <div class="internship-card-top">
-      <div class="company-logo-lg" style="background:#F59E0B;">M</div>
-      <button class="internship-bookmark-btn" title="Save" onclick="toggleBookmark(this)"><i class="far fa-bookmark"></i></button>
-    </div>
-    <div class="internship-card-body">
-      <div class="internship-title">Marketing Coordinator Intern</div>
-      <div class="internship-company"><i class="fas fa-building"></i> MediaCorp</div>
-      <div class="internship-location"><i class="fas fa-location-dot"></i> New York, NY</div>
-      <div class="internship-desc">Help develop campaigns, coordinate social media content, and analyze market trends alongside our marketing team at a top media company.</div>
-      <div class="internship-tags">
-        <span class="itag itag-orange">Marketing</span>
-        <span class="itag itag-green">2 months</span>
-        <span class="itag itag-blue">Social Media</span>
-      </div>
-      <div class="internship-stats-row">
-        <span><i class="fas fa-users"></i> 21 applicants</span>
-        <span><i class="fas fa-dollar-sign"></i> $1,800/mo</span>
-      </div>
-    </div>
-    <div class="internship-card-footer">
-      <div class="internship-deadline"><i class="fas fa-calendar-alt"></i> Deadline: Jul 15</div>
-      <div style="display:flex;gap:8px;">
-        <button class="view-btn" onclick="openViewModal('Marketing Coordinator','MediaCorp','New York, NY','2 months','$1,800/mo','Marketing, Social Media','Develop campaigns and coordinate social media content for a top media company.')"><i class="fas fa-eye"></i></button>
-        <button class="apply-btn" onclick="openApplyModal('Marketing Coordinator','MediaCorp','#F59E0B','M')"><i class="fas fa-paper-plane"></i> Apply Now</button>
+      <div class="internship-card-footer">
+        @php
+            $isUrgent = $internship->deadline && (\Carbon\Carbon::parse($internship->deadline)->isPast() || \Carbon\Carbon::parse($internship->deadline)->diffInDays(now()) < 7);
+        @endphp
+        <div class="internship-deadline {{ $isUrgent ? 'urgent' : '' }}">
+          <i class="fas fa-{{ $isUrgent ? 'clock' : 'calendar-alt' }}"></i> Deadline: {{ $internship->deadline ? \Carbon\Carbon::parse($internship->deadline)->format('M d') : 'N/A' }}
+        </div>
+        <div style="display:flex;gap:8px;">
+          <button class="view-btn" onclick="openViewModal('{{ addslashes($internship->title) }}','{{ addslashes($internship->company?->name ?? '') }}','{{ addslashes($location) }}','{{ addslashes($internship->duration ?? 'N/A') }}','{{ $internship->is_paid ? addslashes($internship->salary ?? 'Paid') : 'Unpaid' }}','{{ addslashes(implode(', ', $skills)) }}','{{ addslashes(preg_replace('/\s+/', ' ', $internship->description)) }}')"><i class="fas fa-eye"></i></button>
+          <button class="apply-btn" onclick="openApplyModal('{{ addslashes($internship->title) }}','{{ addslashes($internship->company?->name ?? '') }}','{{ $color }}','{{ $initial }}')"><i class="fas fa-paper-plane"></i> Apply Now</button>
+        </div>
       </div>
     </div>
-  </div>
-
-  <!-- Card 3 -->
-  <div class="internship-card" data-text="data science intern dataspark boston ma data science 4 months">
-    <div class="internship-card-top">
-      <div class="company-logo-lg" style="background:#8B5CF6;">D</div>
-      <button class="internship-bookmark-btn" title="Save" onclick="toggleBookmark(this)"><i class="far fa-bookmark"></i></button>
+  @empty
+    <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: var(--gray-500);">
+        <i class="fas fa-folder-open" style="font-size: 3rem; margin-bottom: 10px; color: var(--gray-300);"></i>
+        <p>No internships available at the moment.</p>
     </div>
-    <div class="internship-card-body">
-      <div class="internship-title">Data Science Intern</div>
-      <div class="internship-company"><i class="fas fa-building"></i> DataSpark</div>
-      <div class="internship-location"><i class="fas fa-location-dot"></i> Boston, MA</div>
-      <div class="internship-desc">Work directly with data scientists building machine learning pipelines, performing data analysis, and creating visualizations from large datasets.</div>
-      <div class="internship-tags">
-        <span class="itag itag-purple">Data Science</span>
-        <span class="itag itag-green">4 months</span>
-        <span class="itag itag-blue">Python</span>
-        <span class="itag itag-blue">ML</span>
-      </div>
-      <div class="internship-stats-row">
-        <span><i class="fas fa-users"></i> 18 applicants</span>
-        <span><i class="fas fa-dollar-sign"></i> $3,000/mo</span>
-      </div>
-    </div>
-    <div class="internship-card-footer">
-      <div class="internship-deadline"><i class="fas fa-calendar-alt"></i> Deadline: Jul 1</div>
-      <div style="display:flex;gap:8px;">
-        <button class="view-btn" onclick="openViewModal('Data Science Intern','DataSpark','Boston, MA','4 months','$3,000/mo','Python, ML, Data Analysis','Build ML pipelines and create visualizations from large datasets.')"><i class="fas fa-eye"></i></button>
-        <button class="apply-btn" onclick="openApplyModal('Data Science Intern','DataSpark','#8B5CF6','D')"><i class="fas fa-paper-plane"></i> Apply Now</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Card 4 -->
-  <div class="internship-card" data-text="product management intern growthco chicago il product 3 months">
-    <div class="internship-card-top">
-      <div class="company-logo-lg" style="background:var(--primary);">G</div>
-      <button class="internship-bookmark-btn" title="Save" onclick="toggleBookmark(this)"><i class="far fa-bookmark"></i></button>
-    </div>
-    <div class="internship-card-body">
-      <div class="internship-title">Product Management Intern</div>
-      <div class="internship-company"><i class="fas fa-building"></i> GrowthCo</div>
-      <div class="internship-location"><i class="fas fa-location-dot"></i> Chicago, IL</div>
-      <div class="internship-desc">Collaborate with cross-functional teams to define product requirements, run user research sessions, and contribute to product roadmap decisions.</div>
-      <div class="internship-tags">
-        <span class="itag itag-blue">Product</span>
-        <span class="itag itag-green">3 months</span>
-        <span class="itag itag-orange">Strategy</span>
-      </div>
-      <div class="internship-stats-row">
-        <span><i class="fas fa-users"></i> 29 applicants</span>
-        <span><i class="fas fa-dollar-sign"></i> $2,200/mo</span>
-      </div>
-    </div>
-    <div class="internship-card-footer">
-      <div class="internship-deadline"><i class="fas fa-calendar-alt"></i> Deadline: Aug 1</div>
-      <div style="display:flex;gap:8px;">
-        <button class="view-btn" onclick="openViewModal('Product Management Intern','GrowthCo','Chicago, IL','3 months','$2,200/mo','Product, Strategy, Research','Define product requirements, run user research, and contribute to roadmap decisions.')"><i class="fas fa-eye"></i></button>
-        <button class="apply-btn" onclick="openApplyModal('Product Management Intern','GrowthCo','var(--primary)','G')"><i class="fas fa-paper-plane"></i> Apply Now</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Card 5 -->
-  <div class="internship-card" data-text="ui ux design intern designhub seattle wa design 3 months">
-    <div class="internship-card-top">
-      <div class="company-logo-lg" style="background:#EC4899;">D</div>
-      <button class="internship-bookmark-btn" title="Save" onclick="toggleBookmark(this)"><i class="far fa-bookmark"></i></button>
-    </div>
-    <div class="internship-card-body">
-      <div class="internship-title">UI/UX Design Intern</div>
-      <div class="internship-company"><i class="fas fa-building"></i> DesignHub</div>
-      <div class="internship-location"><i class="fas fa-location-dot"></i> Seattle, WA</div>
-      <div class="internship-desc">Create wireframes, user flows, and high-fidelity prototypes using Figma while collaborating with developers to ship polished, user-centered products.</div>
-      <div class="internship-tags">
-        <span class="itag itag-pink">Design</span>
-        <span class="itag itag-green">3 months</span>
-        <span class="itag itag-blue">Figma</span>
-      </div>
-      <div class="internship-stats-row">
-        <span><i class="fas fa-users"></i> 15 applicants</span>
-        <span><i class="fas fa-dollar-sign"></i> $2,000/mo</span>
-      </div>
-    </div>
-    <div class="internship-card-footer">
-      <div class="internship-deadline"><i class="fas fa-calendar-alt"></i> Deadline: Jul 20</div>
-      <div style="display:flex;gap:8px;">
-        <button class="view-btn" onclick="openViewModal('UI/UX Design Intern','DesignHub','Seattle, WA','3 months','$2,000/mo','Design, Figma, Prototyping','Create wireframes and prototypes using Figma for user-centered digital products.')"><i class="fas fa-eye"></i></button>
-        <button class="apply-btn" onclick="openApplyModal('UI/UX Design Intern','DesignHub','#EC4899','D')"><i class="fas fa-paper-plane"></i> Apply Now</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Card 6 -->
-  <div class="internship-card" data-text="financial analyst intern fingroup miami fl finance 2 months">
-    <div class="internship-card-top">
-      <div class="company-logo-lg" style="background:#0EA5E9;">F</div>
-      <button class="internship-bookmark-btn" title="Save" onclick="toggleBookmark(this)"><i class="far fa-bookmark"></i></button>
-    </div>
-    <div class="internship-card-body">
-      <div class="internship-title">Financial Analyst Intern</div>
-      <div class="internship-company"><i class="fas fa-building"></i> FinGroup</div>
-      <div class="internship-location"><i class="fas fa-location-dot"></i> Miami, FL</div>
-      <div class="internship-desc">Assist senior analysts with financial modeling, report preparation, and investment research to support key business decisions across our portfolio.</div>
-      <div class="internship-tags">
-        <span class="itag itag-blue">Finance</span>
-        <span class="itag itag-green">2 months</span>
-        <span class="itag itag-orange">Excel</span>
-      </div>
-      <div class="internship-stats-row">
-        <span><i class="fas fa-users"></i> 11 applicants</span>
-        <span><i class="fas fa-dollar-sign"></i> $2,100/mo</span>
-      </div>
-    </div>
-    <div class="internship-card-footer">
-      <div class="internship-deadline urgent"><i class="fas fa-clock"></i> Deadline: Jun 25</div>
-      <div style="display:flex;gap:8px;">
-        <button class="view-btn" onclick="openViewModal('Financial Analyst Intern','FinGroup','Miami, FL','2 months','$2,100/mo','Finance, Excel, Modeling','Assist analysts with financial modeling and investment research.')"><i class="fas fa-eye"></i></button>
-        <button class="apply-btn" onclick="openApplyModal('Financial Analyst Intern','FinGroup','#0EA5E9','F')"><i class="fas fa-paper-plane"></i> Apply Now</button>
-      </div>
-    </div>
-  </div>
+  @endforelse
 
 </div><!-- /.internship-grid -->
 
@@ -618,7 +486,31 @@ function toggleBookmark(btn) {
 function setSortActive(el) {
   document.querySelectorAll('.sort-pill').forEach(p => p.classList.remove('active'));
   el.classList.add('active');
+  sortListings(el.dataset.sort);
 }
+
+function sortListings(sortType) {
+  const grid = document.getElementById('internshipGrid');
+  const cards = Array.from(grid.querySelectorAll('.internship-card'));
+  
+  cards.sort((a, b) => {
+    if (sortType === 'newest') {
+      return parseInt(b.dataset.newest) - parseInt(a.dataset.newest);
+    } else if (sortType === 'applied') {
+      return parseInt(b.dataset.applied) - parseInt(a.dataset.applied);
+    } else if (sortType === 'deadline') {
+      return parseInt(a.dataset.deadline) - parseInt(b.dataset.deadline);
+    }
+    return 0;
+  });
+  
+  cards.forEach(card => grid.appendChild(card));
+}
+
+// Initial sort on load
+document.addEventListener('DOMContentLoaded', () => {
+  sortListings('newest');
+});
 
 /* ── Search + Filter ── */
 function filterListings() {

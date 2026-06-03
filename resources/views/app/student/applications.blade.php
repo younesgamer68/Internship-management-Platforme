@@ -180,23 +180,30 @@
   </div>
 </div>
 
+@php
+  $totalApps = $applications->count();
+  $pendingApps = $applications->filter(fn($app) => strtolower($app->status) === 'pending')->count();
+  $interviewApps = $applications->filter(fn($app) => in_array(strtolower($app->status), ['interview', 'interview scheduled']))->count();
+  $acceptedApps = $applications->filter(fn($app) => strtolower($app->status) === 'accepted')->count();
+  $rejectedApps = $applications->filter(fn($app) => strtolower($app->status) === 'rejected')->count();
+@endphp
 <!-- Stats -->
 <div class="stats-row-4">
   <div class="stat-card-sm">
     <div class="stat-ico blue"><i class="fas fa-file-alt"></i></div>
-    <div><div class="stat-num">5</div><div class="stat-lbl">Total Applied</div></div>
+    <div><div class="stat-num">{{ $totalApps }}</div><div class="stat-lbl">Total Applied</div></div>
   </div>
   <div class="stat-card-sm">
     <div class="stat-ico orange"><i class="fas fa-hourglass-half"></i></div>
-    <div><div class="stat-num">2</div><div class="stat-lbl">Under Review</div></div>
+    <div><div class="stat-num">{{ $pendingApps }}</div><div class="stat-lbl">Under Review</div></div>
   </div>
   <div class="stat-card-sm">
     <div class="stat-ico blue"><i class="fas fa-calendar-check"></i></div>
-    <div><div class="stat-num">1</div><div class="stat-lbl">Interview Set</div></div>
+    <div><div class="stat-num">{{ $interviewApps }}</div><div class="stat-lbl">Interview Set</div></div>
   </div>
   <div class="stat-card-sm">
     <div class="stat-ico green"><i class="fas fa-trophy"></i></div>
-    <div><div class="stat-num">1</div><div class="stat-lbl">Accepted</div></div>
+    <div><div class="stat-num">{{ $acceptedApps }}</div><div class="stat-lbl">Accepted</div></div>
   </div>
 </div>
 
@@ -204,11 +211,11 @@
 <div class="main-card">
   <!-- Tabs -->
   <div class="tabs-header">
-    <button class="tab-btn active" data-tab="all">All <span class="tab-count">5</span></button>
-    <button class="tab-btn" data-tab="pending">Pending <span class="tab-count">2</span></button>
-    <button class="tab-btn" data-tab="interview">Interview <span class="tab-count">1</span></button>
-    <button class="tab-btn" data-tab="accepted">Accepted <span class="tab-count">1</span></button>
-    <button class="tab-btn" data-tab="rejected">Rejected <span class="tab-count">1</span></button>
+    <button class="tab-btn active" data-tab="all">All <span class="tab-count">{{ $totalApps }}</span></button>
+    <button class="tab-btn" data-tab="pending">Pending <span class="tab-count">{{ $pendingApps }}</span></button>
+    <button class="tab-btn" data-tab="interview">Interview <span class="tab-count">{{ $interviewApps }}</span></button>
+    <button class="tab-btn" data-tab="accepted">Accepted <span class="tab-count">{{ $acceptedApps }}</span></button>
+    <button class="tab-btn" data-tab="rejected">Rejected <span class="tab-count">{{ $rejectedApps }}</span></button>
   </div>
 
   <!-- Table -->
@@ -227,164 +234,84 @@
       </thead>
       <tbody id="appTableBody">
 
-        <!-- Row 1 -->
-        <tr data-status="pending">
+        @forelse($applications as $app)
+          @php
+              $internship = $app->internship;
+              $company = $internship?->company;
+              $title = $internship?->title ?? 'Position';
+              $companyName = $company?->name ?? 'Company';
+              $init = substr($companyName, 0, 2);
+              $location = trim(implode(', ', array_filter([$internship?->city, $internship?->country]))) ?: ($internship?->location ?? 'Remote');
+              $duration = $internship?->duration ?? 'N/A';
+              
+              $statusRaw = strtolower($app->status);
+              $status = ucfirst($app->status);
+              $statusClass = match($statusRaw) {
+                  'interview scheduled', 'interview' => 'interview',
+                  'accepted' => 'accepted',
+                  'rejected' => 'rejected',
+                  default => 'pending',
+              };
+              $badgeClass = match($statusRaw) {
+                  'interview scheduled', 'interview' => 's-interview',
+                  'accepted' => 's-accepted',
+                  'rejected' => 's-rejected',
+                  default => 's-pending',
+              };
+              $fillClass = match($statusRaw) {
+                  'interview scheduled', 'interview', 'accepted' => 'var(--primary)',
+                  'rejected' => 'var(--danger)',
+                  default => 'var(--warning)',
+              };
+              $pct = match($statusRaw) {
+                  'accepted', 'rejected' => 100,
+                  'interview scheduled', 'interview' => 75,
+                  default => 40,
+              };
+              $date = $app->applied_at ? $app->applied_at->format('M d, Y') : 'N/A';
+          @endphp
+        <tr data-status="{{ $statusClass }}">
           <td>
-            <div class="cell-title">Software Development Internship</div>
-            <div class="cell-sub"><i class="fas fa-location-dot"></i> San Francisco, CA</div>
+            <div class="cell-title">{{ $title }}</div>
+            <div class="cell-sub"><i class="fas fa-location-dot"></i> {{ $location }}</div>
           </td>
           <td>
             <div class="company-cell">
-              <div class="company-logo-sm" style="background:#2563EB;">CT</div>
-              <span class="company-name">ConnorTech</span>
+              <div class="company-logo-sm" style="background:{{ $statusClass === 'interview' ? 'var(--primary)' : 'var(--primary)' }};">
+                {{ strtoupper($init) }}
+              </div>
+              <span class="company-name">{{ $companyName }}</span>
             </div>
           </td>
-          <td><div class="date-cell">May 10, 2025</div></td>
-          <td><span class="duration-badge">3 months</span></td>
-          <td><span class="s-badge s-pending">Pending</span></td>
+          <td><div class="date-cell">{{ $date }}</div></td>
+          <td><span class="duration-badge">{{ $duration }}</span></td>
+          <td><span class="s-badge {{ $badgeClass }}">{{ $status }}</span></td>
           <td>
             <div class="prog-wrap">
-              <div class="prog-bar"><div class="prog-fill" style="width:40%;background:var(--warning);"></div></div>
-              <span class="prog-pct">40%</span>
+              <div class="prog-bar"><div class="prog-fill" style="width:{{ $pct }}%;background:{{ $fillClass }};"></div></div>
+              <span class="prog-pct">{{ $pct }}%</span>
             </div>
           </td>
           <td>
             <div class="action-cell">
-              <button class="btn-view" onclick="openDetailModal('Software Development Internship','ConnorTech','San Francisco, CA','Pending','40%','3 months','#2563EB','CT','May 10, 2025')">
+              <button class="btn-view" onclick="openDetailModal('{{ addslashes($title) }}','{{ addslashes($companyName) }}','{{ addslashes($location) }}','{{ addslashes($status) }}','{{ $pct }}%','{{ addslashes($duration) }}','var(--primary)','{{ strtoupper($init) }}','{{ $date }}')">
                 <i class="fas fa-eye"></i> View
               </button>
-              <button class="btn-withdraw" onclick="withdrawApp(this,'ConnorTech')">
+              <button class="btn-withdraw" onclick="withdrawApp(this,'{{ addslashes($companyName) }}')">
                 <i class="fas fa-xmark"></i>
               </button>
             </div>
           </td>
         </tr>
-
-        <!-- Row 2 -->
-        <tr data-status="interview">
-          <td>
-            <div class="cell-title">Product Management Internship</div>
-            <div class="cell-sub"><i class="fas fa-location-dot"></i> New York, NY</div>
-          </td>
-          <td>
-            <div class="company-cell">
-              <div class="company-logo-sm" style="background:var(--primary);">SD</div>
-              <span class="company-name">SierraDynamics</span>
-            </div>
-          </td>
-          <td><div class="date-cell">May 15, 2025</div></td>
-          <td><span class="duration-badge">2 months</span></td>
-          <td><span class="s-badge s-interview">Interview Scheduled</span></td>
-          <td>
-            <div class="prog-wrap">
-              <div class="prog-bar"><div class="prog-fill" style="width:75%;background:var(--primary);"></div></div>
-              <span class="prog-pct">75%</span>
-            </div>
-          </td>
-          <td>
-            <div class="action-cell">
-              <button class="btn-view" onclick="openDetailModal('Product Management Internship','SierraDynamics','New York, NY','Interview Scheduled','75%','2 months','var(--primary)','SD','May 15, 2025')">
-                <i class="fas fa-eye"></i> View
-              </button>
-              <button class="btn-withdraw" onclick="withdrawApp(this,'SierraDynamics')">
-                <i class="fas fa-xmark"></i>
-              </button>
-            </div>
-          </td>
+        @empty
+        <tr>
+            <td colspan="7" style="text-align: center; padding: 40px; color: var(--gray-500);">
+                <i class="fas fa-inbox" style="font-size: 2rem; margin-bottom: 10px; color: var(--gray-300);"></i>
+                <p style="margin: 0;">You haven't applied to any internships yet.</p>
+                <a href="{{ route('student.listings', ['company' => $slug]) }}" style="color: var(--primary); font-weight: 600; text-decoration: none; display: inline-block; margin-top: 10px;">Browse Internships →</a>
+            </td>
         </tr>
-
-        <!-- Row 3 -->
-        <tr data-status="pending">
-          <td>
-            <div class="cell-title">Marketing Internship</div>
-            <div class="cell-sub"><i class="fas fa-location-dot"></i> Boston, MA</div>
-          </td>
-          <td>
-            <div class="company-cell">
-              <div class="company-logo-sm" style="background:#8B5CF6;">BG</div>
-              <span class="company-name">Bayview Group</span>
-            </div>
-          </td>
-          <td><div class="date-cell">May 18, 2025</div></td>
-          <td><span class="duration-badge">2 months</span></td>
-          <td><span class="s-badge s-pending">Pending</span></td>
-          <td>
-            <div class="prog-wrap">
-              <div class="prog-bar"><div class="prog-fill" style="width:30%;background:var(--warning);"></div></div>
-              <span class="prog-pct">30%</span>
-            </div>
-          </td>
-          <td>
-            <div class="action-cell">
-              <button class="btn-view" onclick="openDetailModal('Marketing Internship','Bayview Group','Boston, MA','Pending','30%','2 months','#8B5CF6','BG','May 18, 2025')">
-                <i class="fas fa-eye"></i> View
-              </button>
-              <button class="btn-withdraw" onclick="withdrawApp(this,'Bayview Group')">
-                <i class="fas fa-xmark"></i>
-              </button>
-            </div>
-          </td>
-        </tr>
-
-        <!-- Row 4 -->
-        <tr data-status="rejected">
-          <td>
-            <div class="cell-title">Data Science Intern</div>
-            <div class="cell-sub"><i class="fas fa-location-dot"></i> Boston, MA</div>
-          </td>
-          <td>
-            <div class="company-cell">
-              <div class="company-logo-sm" style="background:#8B5CF6;">DS</div>
-              <span class="company-name">DataSpark</span>
-            </div>
-          </td>
-          <td><div class="date-cell">Apr 28, 2025</div></td>
-          <td><span class="duration-badge">4 months</span></td>
-          <td><span class="s-badge s-rejected">Rejected</span></td>
-          <td>
-            <div class="prog-wrap">
-              <div class="prog-bar"><div class="prog-fill" style="width:100%;background:var(--danger);"></div></div>
-              <span class="prog-pct">100%</span>
-            </div>
-          </td>
-          <td>
-            <div class="action-cell">
-              <button class="btn-view" onclick="openDetailModal('Data Science Intern','DataSpark','Boston, MA','Rejected','100%','4 months','#8B5CF6','DS','Apr 28, 2025')">
-                <i class="fas fa-eye"></i> View
-              </button>
-            </div>
-          </td>
-        </tr>
-
-        <!-- Row 5 -->
-        <tr data-status="accepted">
-          <td>
-            <div class="cell-title">UI/UX Design Intern</div>
-            <div class="cell-sub"><i class="fas fa-location-dot"></i> Seattle, WA</div>
-          </td>
-          <td>
-            <div class="company-cell">
-              <div class="company-logo-sm" style="background:#EC4899;">DH</div>
-              <span class="company-name">DesignHub</span>
-            </div>
-          </td>
-          <td><div class="date-cell">Apr 20, 2025</div></td>
-          <td><span class="duration-badge">3 months</span></td>
-          <td><span class="s-badge s-accepted">Accepted</span></td>
-          <td>
-            <div class="prog-wrap">
-              <div class="prog-bar"><div class="prog-fill" style="width:100%;background:var(--green);"></div></div>
-              <span class="prog-pct">100%</span>
-            </div>
-          </td>
-          <td>
-            <div class="action-cell">
-              <button class="btn-view" onclick="openDetailModal('UI/UX Design Intern','DesignHub','Seattle, WA','Accepted','100%','3 months','#EC4899','DH','Apr 20, 2025')">
-                <i class="fas fa-eye"></i> View
-              </button>
-            </div>
-          </td>
-        </tr>
+        @endforelse
 
       </tbody>
     </table>

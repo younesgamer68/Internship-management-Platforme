@@ -212,7 +212,6 @@
 </template>
 
 
-</div>
 <!-- ─── Modals ─── -->
 @if(session()->has('message'))
     <div style="background: var(--green); color: white; padding: 10px; border-radius: 8px; margin-bottom: 20px;">

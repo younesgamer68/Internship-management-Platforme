@@ -80,8 +80,8 @@
             <button class="btn btn-sm btn-outline"><i class="fas fa-filter"></i> Filter</button>
           </div>
         </div>
-        <div class="table-wrapper" style="overflow-x: auto; width: 100%;">
-          <table class="data-table" style="min-width: 800px;">
+        <div class="table-wrapper">
+          <table class="data-table">
                         <thead>
               <tr>
                 <th>Title & Field</th>
@@ -140,17 +140,8 @@
         </div>
 
         <!-- PAGINATION -->
-        <div class="pagination" style="display: flex; justify-content: space-between; align-items: center; width: 100%; border-top: 1px solid rgba(229, 231, 235, 0.6); padding-top: 20px; margin-top: 20px; flex-wrap: wrap; gap: 16px;">
-          <div class="pagination-info" style="color: var(--gray-500); font-size: 13px;" id="paginationInfo">Showing 1–10 of 365 internships</div>
-          <div class="pagination-controls" style="display: flex; gap: 6px; align-items: center;" id="paginationControls">
-            <button class="page-btn" disabled><i class="fas fa-chevron-left"></i></button>
-            <button class="page-btn active">1</button>
-            <button class="page-btn">2</button>
-            <button class="page-btn">3</button>
-            <span style="color: var(--gray-400); margin: 0 4px;">...</span>
-            <button class="page-btn">37</button>
-            <button class="page-btn"><i class="fas fa-chevron-right"></i></button>
-          </div>
+        <div class="mt-6">
+          {{ $internships->links() }}
         </div>
       </div>
 

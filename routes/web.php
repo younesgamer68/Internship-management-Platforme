@@ -711,15 +711,25 @@ Route::middleware(['auth'])->prefix('{company}')->group(function () {
 
     // Student Portal Sub-pages
     Route::get('/student/dashboard', function () {
-        return view('app.student.dashboard');
+        $applications = \App\Models\Application::with('internship.company')
+            ->where('user_id', auth()->id())
+            ->latest()
+            ->take(5)
+            ->get();
+        return view('app.student.dashboard', compact('applications'));
     })->name('student.dashboard');
 
     Route::get('/student/listings', function () {
-        return view('app.student.listings');
+        $internships = \App\Models\Internship::with('company')->latest()->get();
+        return view('app.student.listings', compact('internships'));
     })->name('student.listings');
 
     Route::get('/student/applications', function () {
-        return view('app.student.applications');
+        $applications = \App\Models\Application::with('internship.company')
+            ->where('user_id', auth()->id())
+            ->latest()
+            ->get();
+        return view('app.student.applications', compact('applications'));
     })->name('student.applications');
 
     Route::get('/student/documents', function () {

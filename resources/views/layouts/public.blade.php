@@ -37,6 +37,7 @@
         /* ============================================================
    DARK MODE — public layout (page-dark class on body)
    Only fires when $store.ui.darkMode = true
+   ─── ZERO white backgrounds policy ───
 ============================================================ */
 
         /* ── Page base ── */
@@ -50,13 +51,15 @@
             background-color: #07111f !important;
         }
 
-        /* ── All sections ── */
-        body.page-dark section {
+        /* ── All sections & divs — nuclear override ── */
+        body.page-dark section,
+        body.page-dark article,
+        body.page-dark aside {
             background-color: #07111f !important;
             background-image: none !important;
         }
 
-        /* ── White & light backgrounds → dark navy ── */
+        /* ── NUCLEAR: catch-all for ANY element with white/light background-color ── */
         body.page-dark .bg-white,
         body.page-dark [class*="bg-white"],
         body.page-dark .bg-\[#ffffff\],
@@ -66,12 +69,19 @@
         body.page-dark .bg-\[#F7F9FA\],
         body.page-dark .bg-\[#f9fcfc\],
         body.page-dark .bg-\[#f8ffff\],
+        body.page-dark .bg-\[#fbffff\],
+        body.page-dark .bg-\[#ededed\],
+        body.page-dark .bg-\[#F8FAFA\],
         body.page-dark .bg-gray-50,
-        body.page-dark .bg-gray-100 {
+        body.page-dark .bg-gray-100,
+        body.page-dark .bg-zinc-50,
+        body.page-dark .bg-zinc-100,
+        body.page-dark .bg-slate-50,
+        body.page-dark .bg-slate-100 {
             background-color: #0d1f2d !important;
         }
 
-        /* ── Cards: any rounded box that acts as a surface ── */
+        /* ── Cards: any rounded surface ── */
         body.page-dark .rounded-2xl,
         body.page-dark .rounded-3xl,
         body.page-dark .rounded-xl {
@@ -79,11 +89,12 @@
             border-color: rgba(255, 255, 255, .07) !important;
         }
 
-        /* ── Explicit card/panel classes ── */
+        /* ── Explicit card/panel/shadow classes ── */
         body.page-dark .card,
         body.page-dark .contact-card,
         body.page-dark .step-card,
         body.page-dark .statistics-page .rounded-3xl,
+        body.page-dark [class*="shadow-2xl"],
         body.page-dark [class*="shadow-xl"],
         body.page-dark [class*="shadow-lg"],
         body.page-dark [class*="shadow-md"] {
@@ -92,14 +103,27 @@
             box-shadow: 0 4px 24px rgba(0, 0, 0, .45) !important;
         }
 
-        /* ── Inline style backgrounds ── */
+        /* ── Inline style backgrounds — exhaustive coverage ── */
         body.page-dark [style*="background: #fff"],
         body.page-dark [style*="background:#fff"],
         body.page-dark [style*="background: #FFF"],
+        body.page-dark [style*="background:#FFF"],
         body.page-dark [style*="background: #FFFFFF"],
         body.page-dark [style*="background:#FFFFFF"],
+        body.page-dark [style*="background: #ffffff"],
+        body.page-dark [style*="background:#ffffff"],
         body.page-dark [style*="background: white"],
         body.page-dark [style*="background:white"],
+        body.page-dark [style*="background-color: #fff"],
+        body.page-dark [style*="background-color:#fff"],
+        body.page-dark [style*="background-color: #FFF"],
+        body.page-dark [style*="background-color:#FFF"],
+        body.page-dark [style*="background-color: #FFFFFF"],
+        body.page-dark [style*="background-color:#FFFFFF"],
+        body.page-dark [style*="background-color: #ffffff"],
+        body.page-dark [style*="background-color:#ffffff"],
+        body.page-dark [style*="background-color: white"],
+        body.page-dark [style*="background-color:white"],
         body.page-dark [style*="background: #f8ffff"],
         body.page-dark [style*="background:#f8ffff"],
         body.page-dark [style*="background: #fbffff"],
@@ -108,10 +132,28 @@
         body.page-dark [style*="background:#F5FBFB"],
         body.page-dark [style*="background: #FFF7ED"],
         body.page-dark [style*="background:#FFF7ED"],
+        body.page-dark [style*="background: #F7F9FA"],
+        body.page-dark [style*="background:#F7F9FA"],
+        body.page-dark [style*="background: #f9fcfc"],
+        body.page-dark [style*="background:#f9fcfc"],
+        body.page-dark [style*="background: #ededed"],
+        body.page-dark [style*="background:#ededed"],
+        body.page-dark [style*="background: #F8FAFA"],
+        body.page-dark [style*="background:#F8FAFA"],
+        body.page-dark [style*="background: #fafbff"],
+        body.page-dark [style*="background:#fafbff"],
+        body.page-dark [style*="background: #f3f3f3"],
+        body.page-dark [style*="background:#f3f3f3"],
+        body.page-dark [style*="background: #f0f0f0"],
+        body.page-dark [style*="background:#f0f0f0"],
+        body.page-dark [style*="background: #f5f5f5"],
+        body.page-dark [style*="background:#f5f5f5"],
         body.page-dark [style*="background: linear-gradient(135deg, #F5FBFB"],
         body.page-dark [style*="background:linear-gradient(135deg,#F5FBFB"],
         body.page-dark [style*="background: linear-gradient(135deg, #FFFFFF"],
         body.page-dark [style*="background:linear-gradient(135deg,#FFFFFF"],
+        body.page-dark [style*="background: linear-gradient(135deg, #ffffff"],
+        body.page-dark [style*="background:linear-gradient(135deg,#ffffff"],
         body.page-dark [style*="background: linear-gradient(135deg,#F5FBFB"],
         body.page-dark [style*="background:linear-gradient(135deg, #F5FBFB"] {
             background: #0d1f2d !important;
@@ -122,9 +164,13 @@
         body.page-dark .border,
         body.page-dark [class*="border-[#E5E7EB]"],
         body.page-dark [class*="border-gray"],
+        body.page-dark [class*="border-zinc"],
+        body.page-dark [class*="border-slate"],
         body.page-dark .border-gray-100,
         body.page-dark .border-gray-200,
-        body.page-dark .border-gray-300 {
+        body.page-dark .border-gray-300,
+        body.page-dark [style*="border:1px solid #e5e7eb"],
+        body.page-dark [style*="border: 1px solid #e5e7eb"] {
             border-color: rgba(255, 255, 255, .08) !important;
         }
 
@@ -152,11 +198,15 @@
             color: #94b8c0 !important;
         }
 
-        /* ── TEXT: specific teal/dark classes ── */
+        /* ── TEXT: specific dark classes → light ── */
         body.page-dark .text-\[#17494D\],
         body.page-dark .text-\[#444444\],
         body.page-dark .text-\[#2d2d2d\],
-        body.page-dark .text-\[#0f2230\] {
+        body.page-dark .text-\[#0f2230\],
+        body.page-dark .text-\[#222\],
+        body.page-dark .text-\[#333\],
+        body.page-dark .text-\[#111\],
+        body.page-dark .text-black {
             color: #f0f8fa !important;
         }
 
@@ -164,19 +214,25 @@
         body.page-dark .text-\[#567d81\],
         body.page-dark .text-\[#547d80\],
         body.page-dark .text-\[#4e767a\],
+        body.page-dark .text-\[#7B7B7B\],
         body.page-dark .text-gray-500,
         body.page-dark .text-gray-600,
-        body.page-dark .text-gray-700 {
+        body.page-dark .text-gray-700,
+        body.page-dark .text-zinc-500,
+        body.page-dark .text-zinc-600 {
             color: #7aaab3 !important;
         }
 
         body.page-dark .text-gray-900,
-        body.page-dark .text-gray-800 {
+        body.page-dark .text-gray-800,
+        body.page-dark .text-zinc-900,
+        body.page-dark .text-zinc-800 {
             color: #e2eaf2 !important;
         }
 
         /* ── Keep brand teal text ── */
         body.page-dark .text-\[#00B1AA\],
+        body.page-dark .text-\[#00b1aa\],
         body.page-dark [style*="color:#00B1AA"],
         body.page-dark [style*="color: #00B1AA"],
         body.page-dark [style*="color:#008A84"],
@@ -217,6 +273,8 @@
         body.page-dark a.btn-submit,
         body.page-dark a[class*="bg-[#00B1AA]"],
         body.page-dark button[class*="bg-[#00B1AA]"],
+        body.page-dark a[class*="bg-[#00b1aa]"],
+        body.page-dark button[class*="bg-[#00b1aa]"],
         body.page-dark .btn-submit {
             color: #ffffff !important;
             background-color: #00b1aa !important;
@@ -292,8 +350,15 @@
         /* ── Badges / pills with light backgrounds ── */
         body.page-dark [class*="bg-gray-100"],
         body.page-dark [class*="bg-gray-50"],
+        body.page-dark [class*="bg-zinc-100"],
+        body.page-dark [class*="bg-zinc-50"],
         body.page-dark .bg-emerald-50,
-        body.page-dark .bg-blue-50 {
+        body.page-dark .bg-blue-50,
+        body.page-dark .bg-blue-100,
+        body.page-dark .bg-emerald-100,
+        body.page-dark .bg-orange-50,
+        body.page-dark .bg-red-50,
+        body.page-dark .bg-yellow-50 {
             background-color: rgba(255, 255, 255, .06) !important;
         }
 
@@ -344,6 +409,16 @@
             box-shadow: 0 8px 32px rgba(0, 0, 0, .5) !important;
         }
 
+        /* ── Modals & Panels ── */
+        body.page-dark .modal,
+        body.page-dark [class*="modal"],
+        body.page-dark .slide-panel,
+        body.page-dark .center-modal,
+        body.page-dark .danger-confirm-modal {
+            background-color: #0d1f2d !important;
+            border-color: rgba(255, 255, 255, .08) !important;
+        }
+
         /* ── Scrollbar ── */
         body.page-dark ::-webkit-scrollbar {
             width: 6px;
@@ -360,6 +435,29 @@
 
         body.page-dark ::-webkit-scrollbar-thumb:hover {
             background: #2a5570;
+        }
+
+        /* ══════════════════════════════════════════════════════════════
+           FINAL CATCH-ALL — No white backgrounds shall pass!
+           Targets ANY div/section/article that still computes as white.
+           Uses a broad selector with low specificity cost.
+        ══════════════════════════════════════════════════════════════ */
+        body.page-dark div[style*="background-color: #ffffff"],
+        body.page-dark div[style*="background-color:#ffffff"],
+        body.page-dark div[style*="background-color: white"],
+        body.page-dark div[style*="background-color:white"],
+        body.page-dark div[style*="background: #ffffff"],
+        body.page-dark div[style*="background:#ffffff"],
+        body.page-dark div[style*="background: white"],
+        body.page-dark div[style*="background:white"],
+        body.page-dark div[style*="background: #fff;"],
+        body.page-dark div[style*="background:#fff;"],
+        body.page-dark section[style*="background-color: white"],
+        body.page-dark section[style*="background-color:white"],
+        body.page-dark section[style*="background-color: #fff"],
+        body.page-dark section[style*="background-color:#fff"] {
+            background: #0d1f2d !important;
+            background-image: none !important;
         }
 
         /* Brand Focus outlines */
