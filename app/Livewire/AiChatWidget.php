@@ -45,6 +45,11 @@ class AiChatWidget extends Component
             return;
         }
 
+        if (! \Illuminate\Support\Facades\Schema::hasTable('agent_conversations')) {
+            $this->conversations = [];
+            return;
+        }
+
         $this->conversations = DB::table('agent_conversations')
             ->where('user_id', Auth::id())
             ->where(function ($q) {
@@ -80,6 +85,11 @@ class AiChatWidget extends Component
     public function loadMessages(): void
     {
         if (! $this->conversationId) {
+            return;
+        }
+
+        if (! \Illuminate\Support\Facades\Schema::hasTable('agent_conversation_messages')) {
+            $this->messages = [];
             return;
         }
 
@@ -137,8 +147,12 @@ class AiChatWidget extends Component
     public function deleteConversation(string $id): void
     {
         // Remove from database
-        DB::table('agent_conversation_messages')->where('conversation_id', $id)->delete();
-        DB::table('agent_conversations')->where('id', $id)->delete();
+        if (\Illuminate\Support\Facades\Schema::hasTable('agent_conversation_messages')) {
+            DB::table('agent_conversation_messages')->where('conversation_id', $id)->delete();
+        }
+        if (\Illuminate\Support\Facades\Schema::hasTable('agent_conversations')) {
+            DB::table('agent_conversations')->where('id', $id)->delete();
+        }
 
         // If the deleted conversation is currently active, clear state
         if ($this->conversationId === $id) {
@@ -190,6 +204,17 @@ class AiChatWidget extends Component
             return;
         }
 
+        if (! \Illuminate\Support\Facades\Schema::hasTable('company_ai_settings')) {
+            $this->messages[] = [
+                'role' => 'ai',
+                'content' => 'AI Chatbot is currently unavailable.',
+            ];
+            $this->isTyping = false;
+            $this->dispatch('scroll-to-bottom');
+
+            return;
+        }
+
         $settings = CompanyAiSettings::query()->firstOrCreate(
             ['company_id' => Auth::user()->company_id],
             [
@@ -219,31 +244,35 @@ class AiChatWidget extends Component
                 // doesn't cause the user's initial message to disappear from history.
                 $this->conversationId = (string) \Illuminate\Support\Str::uuid7();
 
-                DB::table('agent_conversations')->insert([
-                    'id' => $this->conversationId,
-                    'user_id' => $participant->id ?? null,
-                    'company_id' => Auth::user()?->company_id,
-                    'title' => \Illuminate\Support\Str::limit($message, 50),
-                    'created_at' => now(),
-                    'updated_at' => now(),
-                ]);
+                if (\Illuminate\Support\Facades\Schema::hasTable('agent_conversations')) {
+                    DB::table('agent_conversations')->insert([
+                        'id' => $this->conversationId,
+                        'user_id' => $participant->id ?? null,
+                        'company_id' => Auth::user()?->company_id,
+                        'title' => \Illuminate\Support\Str::limit($message, 50),
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ]);
+                }
 
                 // Also manually store their initial message so it shows up in history preview
-                DB::table('agent_conversation_messages')->insert([
-                    'id' => (string) \Illuminate\Support\Str::uuid7(),
-                    'conversation_id' => $this->conversationId,
-                    'user_id' => $participant->id ?? null,
-                    'agent' => HelpdeskAgent::class,
-                    'role' => 'user',
-                    'content' => $message,
-                    'attachments' => '[]',
-                    'tool_calls' => '[]',
-                    'tool_results' => '[]',
-                    'usage' => '[]',
-                    'meta' => '[]',
-                    'created_at' => now(),
-                    'updated_at' => now(),
-                ]);
+                if (\Illuminate\Support\Facades\Schema::hasTable('agent_conversation_messages')) {
+                    DB::table('agent_conversation_messages')->insert([
+                        'id' => (string) \Illuminate\Support\Str::uuid7(),
+                        'conversation_id' => $this->conversationId,
+                        'user_id' => $participant->id ?? null,
+                        'agent' => HelpdeskAgent::class,
+                        'role' => 'user',
+                        'content' => $message,
+                        'attachments' => '[]',
+                        'tool_calls' => '[]',
+                        'tool_results' => '[]',
+                        'usage' => '[]',
+                        'meta' => '[]',
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ]);
+                }
 
                 Session::put('chat_conversation_id', $this->conversationId);
                 Session::save();
