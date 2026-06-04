@@ -17,7 +17,7 @@ class Application extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class)->withoutGlobalScope(\App\Scopes\CompanyScope::class);
     }
 
     public function internship()

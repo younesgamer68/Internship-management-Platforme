@@ -49,6 +49,38 @@
             display: block !important;
         }
 
+        /* ── Full height layout with invisible scrollbars ── */
+        html, body {
+            height: 100vh;
+            overflow: hidden;
+        }
+        
+        .app-layout {
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .main-content {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .page-content {
+            flex: 1;
+            overflow-y: auto;
+            /* Hide scrollbar for Chrome, Safari and Opera */
+        }
+        .page-content::-webkit-scrollbar {
+            display: none;
+        }
+        .page-content {
+            /* Hide scrollbar for IE, Edge and Firefox */
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
         /* Breadcrumb chip for company */
         .topbar-role-chip {
             display: inline-flex;
@@ -157,7 +189,10 @@
             <div class="sidebar-bottom">
                 <div class="sidebar-user">
                     <div class="sidebar-user-avatar">
-                        @if (auth()->user()->avatar)
+                        @if (optional(auth()->user()->company)->logo)
+                            <img src="{{ Storage::url(auth()->user()->company->logo) }}" alt="{{ optional(auth()->user()->company)->company_name }}"
+                                class="w-full h-full rounded-full object-cover" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">
+                        @elseif (auth()->user()->avatar)
                             <img src="{{ Storage::url(auth()->user()->avatar) }}" alt="{{ auth()->user()->name }}"
                                 class="w-full h-full rounded-full object-cover">
                         @else
@@ -165,8 +200,8 @@
                         @endif
                     </div>
                     <div class="sidebar-user-info">
-                        <div class="sidebar-user-name">{{ auth()->user()->name }}</div>
-                        <div class="sidebar-user-role">{{ auth()->user()->company?->name ?? 'Company Account' }}</div>
+                        <div class="sidebar-user-name">{{ optional(auth()->user()->company)->company_name ?? auth()->user()->name }}</div>
+                        <div class="sidebar-user-role">{{ optional(auth()->user()->company)->company_name ? optional(auth()->user()->company)->company_name . ' Company' : 'Company Account' }}</div>
                     </div>
                     <form id="logout-form-sidebar" method="POST" action="{{ route('logout') }}" style="display:none;">
                         @csrf
@@ -213,19 +248,22 @@
                         <i class="fas fa-moon" id="dark-mode-icon" style="font-size: 14px;"></i>
                     </button>
 
-
-
+                    {{-- Notification Bell --}}
+                    <livewire:notification-bell />
                     <!-- User avatar button -->
                     <div class="user-avatar-btn">
                         <div class="avatar">
-                            @if (auth()->user()->avatar)
+                            @if (optional(auth()->user()->company)->logo)
+                                <img src="{{ Storage::url(auth()->user()->company->logo) }}" alt="{{ optional(auth()->user()->company)->company_name }}"
+                                    class="w-full h-full rounded-full object-cover" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">
+                            @elseif (auth()->user()->avatar)
                                 <img src="{{ Storage::url(auth()->user()->avatar) }}" alt="{{ auth()->user()->name }}"
                                     class="w-full h-full rounded-full object-cover">
                             @else
                                 {{ auth()->user()->initials() }}
                             @endif
                         </div>
-                        <span class="user-name">{{ auth()->user()->name }}</span>
+                        <span class="user-name">{{ optional(auth()->user()->company)->company_name ?? auth()->user()->name }}</span>
                         <form id="logout-form-topbar" method="POST" action="{{ route('logout') }}"
                             style="display:none;">
                             @csrf

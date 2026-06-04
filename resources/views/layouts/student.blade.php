@@ -168,6 +168,10 @@
           class="nav-item {{ request()->routeIs('student.applications') ? 'active' : '' }}">
           <i class="fas fa-file-alt"></i><span>Applications</span>
         </a>
+        <a href="{{ route('student.offers', ['company' => $companySlug]) }}"
+          class="nav-item {{ request()->routeIs('student.offers') ? 'active' : '' }}">
+          <i class="fas fa-gift"></i><span>Offers</span>
+        </a>
         <a href="{{ route('student.documents', ['company' => $companySlug]) }}"
           class="nav-item {{ request()->routeIs('student.documents') ? 'active' : '' }}">
           <i class="fas fa-folder-open"></i><span>Documents</span>
@@ -234,6 +238,9 @@
             <i class="fas fa-moon" id="dark-mode-icon"></i>
           </button>
 
+          {{-- Notification Bell --}}
+          <livewire:notification-bell />
+
           <div class="user-avatar-btn">
             <div class="avatar" style="background:var(--primary);">
               @if(auth()->user()->avatar)
@@ -264,6 +271,7 @@
     </div>
   </div>
 
+  <livewire:ai-chat-widget />
   @livewireScripts
   @fluxScripts
   <script src="{{ asset('admin-assets/js/sidebar.js') }}"></script>
@@ -319,6 +327,14 @@
       requestAnimationFrame(function () {
         requestAnimationFrame(function () {
           el.classList.add('entered');
+          
+          // Remove transform/will-change after animation to prevent it from creating a new 
+          // containing block for fixed position modals
+          setTimeout(function() {
+            el.style.transform = 'none';
+            el.style.willChange = 'auto';
+          }, 550);
+
           var items = el.querySelectorAll('.anim-up, .anim-scale, .anim-left');
           items.forEach(function (item, i) {
             var delay = parseInt(item.dataset.delay || 0) || (i * 65);

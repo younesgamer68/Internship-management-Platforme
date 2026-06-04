@@ -1,4 +1,4 @@
-<div>
+<div x-data="{ editOpen: false }" @open-edit-modal.window="editOpen = true">
 @php $slug = auth()->user()->company?->slug ?? 'internlink-demo'; @endphp
 
 
@@ -13,9 +13,10 @@
       @else
         {{ auth()->user()->initials() }}
       @endif
-      <div class="profile-avatar-upload" onclick="showToast('Photo upload coming soon','info')" title="Change photo">
+      <label for="profilePhotoInput" class="profile-avatar-upload" title="Change photo" style="cursor:pointer; display:flex;">
         <i class="fas fa-camera"></i>
-      </div>
+      </label>
+      <input type="file" id="profilePhotoInput" wire:model.live="photo" accept="image/*" style="display:none;">
     </div>
     <div class="profile-identity">
       <h2 id="displayName">{{ $name }}</h2>
@@ -71,16 +72,16 @@
     <div class="p-card">
       <div class="p-card-header">
         <h3 class="p-card-title"><i class="fas fa-id-card"></i> Personal Information</h3>
-        <button class="btn-edit-section" onclick="openEditModal('personal')"><i class="fas fa-pen"></i> Edit</button>
+        <button class="btn-edit-section" @click="editOpen = true"><i class="fas fa-pen"></i> Edit</button>
       </div>
       <div class="p-card-body">
         <div class="info-grid-2">
-          <div class="info-field"><div class="info-label">Full Name</div><div class="info-value" id="infoName">{{ auth()->user()->name }}</div></div>
-          <div class="info-field"><div class="info-label">Email</div><div class="info-value" id="infoEmail">{{ auth()->user()->email }}</div></div>
-          <div class="info-field"><div class="info-label">Phone</div><div class="info-value" id="infoPhone">+355 69 456 7890</div></div>
-          <div class="info-field"><div class="info-label">Date of Birth</div><div class="info-value" id="infoDob">March 15, 2001</div></div>
-          <div class="info-field"><div class="info-label">Nationality</div><div class="info-value" id="infoNationality">Albanian</div></div>
-          <div class="info-field"><div class="info-label">Location</div><div class="info-value" id="infoLocation">Tirana, Albania</div></div>
+          <div class="info-field"><div class="info-label">Full Name</div><div class="info-value" id="infoName">{{ $name }}</div></div>
+          <div class="info-field"><div class="info-label">Email</div><div class="info-value" id="infoEmail">{{ $email }}</div></div>
+          <div class="info-field"><div class="info-label">Phone</div><div class="info-value" id="infoPhone">{{ $phone ?? 'Not set' }}</div></div>
+          <div class="info-field"><div class="info-label">Date of Birth</div><div class="info-value" id="infoDob">{{ $date_of_birth ? \Carbon\Carbon::parse($date_of_birth)->format('F j, Y') : 'Not set' }}</div></div>
+          <div class="info-field"><div class="info-label">Nationality</div><div class="info-value" id="infoNationality">{{ $country ?? 'Not set' }}</div></div>
+          <div class="info-field"><div class="info-label">Location</div><div class="info-value" id="infoLocation">{{ $city ? $city . ', ' . $country : 'Not set' }}</div></div>
         </div>
       </div>
     </div>
@@ -89,16 +90,16 @@
     <div class="p-card">
       <div class="p-card-header">
         <h3 class="p-card-title"><i class="fas fa-graduation-cap"></i> Academic Details</h3>
-        <button class="btn-edit-section" onclick="openEditModal('academic')"><i class="fas fa-pen"></i> Edit</button>
+        <button class="btn-edit-section" @click="editOpen = true"><i class="fas fa-pen"></i> Edit</button>
       </div>
       <div class="p-card-body">
         <div class="info-grid-2">
-          <div class="info-field"><div class="info-label">University</div><div class="info-value" id="infoUniversity">Epoka University</div></div>
-          <div class="info-field"><div class="info-label">Faculty</div><div class="info-value" id="infoFaculty">Faculty of Engineering</div></div>
-          <div class="info-field"><div class="info-label">Department</div><div class="info-value" id="infoDept">Computer Science</div></div>
-          <div class="info-field"><div class="info-label">Year</div><div class="info-value" id="infoAcYear">3rd Year</div></div>
-          <div class="info-field"><div class="info-label">GPA</div><div class="info-value" id="infoGpa">3.8 / 4.0</div></div>
-          <div class="info-field"><div class="info-label">Student ID</div><div class="info-value" id="infoStudentId">CS-2021-0342</div></div>
+          <div class="info-field"><div class="info-label">University</div><div class="info-value" id="infoUniversity">{{ $university ?? 'Not set' }}</div></div>
+          <div class="info-field"><div class="info-label">Field of Study</div><div class="info-value" id="infoFaculty">{{ $field_of_study ?? 'Not set' }}</div></div>
+          <div class="info-field"><div class="info-label">Degree</div><div class="info-value" id="infoDept">{{ $degree ?? 'Not set' }}</div></div>
+          <div class="info-field"><div class="info-label">Start Year</div><div class="info-value" id="infoAcYear">{{ $education_start_year ?? 'Not set' }}</div></div>
+          <div class="info-field"><div class="info-label">GPA</div><div class="info-value" id="infoGpa">{{ $gpa ? $gpa . ' / 4.0' : 'Not set' }}</div></div>
+          <div class="info-field"><div class="info-label">Student ID / Referral</div><div class="info-value" id="infoStudentId">{{ $student_id ?? 'Not set' }}</div></div>
         </div>
       </div>
     </div>
@@ -107,11 +108,11 @@
     <div class="p-card">
       <div class="p-card-header">
         <h3 class="p-card-title"><i class="fas fa-align-left"></i> About Me</h3>
-        <button class="btn-edit-section" onclick="openEditModal('bio')"><i class="fas fa-pen"></i> Edit</button>
+        <button class="btn-edit-section" @click="editOpen = true"><i class="fas fa-pen"></i> Edit</button>
       </div>
       <div class="p-card-body">
-        <p id="infoBio" style="font-size:.88rem;color:var(--gray-700);line-height:1.65;margin:0;">
-          Final year Computer Science student at Epoka University with a passion for software engineering, machine learning, and building impactful applications. Looking for internship opportunities where I can apply my skills and grow professionally.
+        <p id="infoBio" style="font-size:.88rem;color:var(--gray-700);line-height:1.65;margin:0;white-space:pre-wrap;">
+          {{ $experience ?? 'Final year student looking for internship opportunities where I can apply my skills and grow professionally.' }}
         </p>
       </div>
     </div>
@@ -123,11 +124,17 @@
     <div class="p-card">
       <div class="p-card-header">
         <h3 class="p-card-title"><i class="fas fa-code"></i> Skills</h3>
-        <button class="btn-edit-section" onclick="openEditModal('skills')"><i class="fas fa-pen"></i> Edit</button>
+        <button class="btn-edit-section" @click="editOpen = true"><i class="fas fa-pen"></i> Edit</button>
       </div>
       <div class="p-card-body">
         <div class="skill-tags-wrap" id="skillTagsDisplay">
-          <!-- Rendered by JS -->
+          @if($skills)
+              @foreach(explode(',', $skills) as $skill)
+                  <span class="skill-tag">{{ trim($skill) }}</span>
+              @endforeach
+          @else
+              <span style="font-size:.85rem;color:var(--gray-500);">No skills listed.</span>
+          @endif
         </div>
       </div>
     </div>
@@ -136,10 +143,21 @@
     <div class="p-card">
       <div class="p-card-header">
         <h3 class="p-card-title"><i class="fas fa-language"></i> Languages</h3>
-        <button class="btn-edit-section" onclick="openEditModal('languages')"><i class="fas fa-pen"></i> Edit</button>
+        <button class="btn-edit-section" @click="editOpen = true"><i class="fas fa-pen"></i> Edit</button>
       </div>
       <div class="p-card-body" id="languagesDisplay" style="padding-top:4px;">
-        <!-- Rendered by JS -->
+          @if($languages)
+              @foreach(explode(',', $languages) as $lang)
+                  <div class="lang-item">
+                      <div class="lang-left">
+                          <div class="lang-icon"><i class="fas fa-globe"></i></div>
+                          <div class="lang-name">{{ trim($lang) }}</div>
+                      </div>
+                  </div>
+              @endforeach
+          @else
+              <span style="font-size:.85rem;color:var(--gray-500);">No languages listed.</span>
+          @endif
       </div>
     </div>
 
@@ -147,69 +165,35 @@
     <div class="p-card">
       <div class="p-card-header">
         <h3 class="p-card-title"><i class="fas fa-link"></i> Social Links</h3>
-        <button class="btn-edit-section" onclick="openEditModal('social')"><i class="fas fa-pen"></i> Edit All</button>
+        <button class="btn-edit-section" @click="editOpen = true"><i class="fas fa-pen"></i> Edit</button>
       </div>
       <div class="p-card-body" id="socialLinksDisplay" style="padding-top:4px;">
-        <!-- Rendered by JS -->
+          @if($linkedin_url)
+          <div class="social-item">
+              <div class="social-icon-wrap linkedin"><i class="fab fa-linkedin-in"></i></div>
+              <div class="social-info">
+                  <div class="social-platform">LinkedIn</div>
+                  <a href="{{ $linkedin_url }}" target="_blank" class="social-link">{{ $linkedin_url }}</a>
+              </div>
+          </div>
+          @endif
+          @if($portfolio_url)
+          <div class="social-item">
+              <div class="social-icon-wrap github"><i class="fas fa-globe"></i></div>
+              <div class="social-info">
+                  <div class="social-platform">Portfolio</div>
+                  <a href="{{ $portfolio_url }}" target="_blank" class="social-link">{{ $portfolio_url }}</a>
+              </div>
+          </div>
+          @endif
+          @if(!$linkedin_url && !$portfolio_url)
+              <span style="font-size:.85rem;color:var(--gray-500);">No social links added.</span>
+          @endif
       </div>
     </div>
   </div>
 
 </div>
-
-<!-- ═══════════════ MODALS (teleported to body by JS to escape CSS transform stacking context) ═══════════════ -->
-<template id="modalTemplates">
-
-<!-- Generic Edit Modal -->
-<div id="editModal" class="modal-overlay" onclick="if(event.target===this)closeEditModal()">
-  <div class="modal-box">
-    <button class="modal-close" onclick="closeEditModal()"><i class="fas fa-xmark"></i></button>
-    <div class="modal-head">
-      <div class="modal-icon" id="editModalIcon"><i class="fas fa-pen"></i></div>
-      <div>
-        <div class="modal-head-title" id="editModalTitle">Edit Section</div>
-        <div class="modal-head-sub" id="editModalSub">Update your information</div>
-      </div>
-    </div>
-    <div id="editModalBody"></div>
-    <div class="modal-footer">
-      <button class="btn-modal-cancel" onclick="closeEditModal()">Cancel</button>
-      <button class="btn-modal-save" id="saveEditBtn" onclick="saveEdit()"><i class="fas fa-check"></i> Save Changes</button>
-    </div>
-  </div>
-</div>
-
-<!-- Change Password Modal -->
-<div id="passwordModal" class="modal-overlay" onclick="if(event.target===this)closePasswordModal()">
-  <div class="modal-box">
-    <button class="modal-close" onclick="closePasswordModal()"><i class="fas fa-xmark"></i></button>
-    <div class="modal-head">
-      <div class="modal-icon" style="background:rgba(139,92,246,.1);color:#8B5CF6;"><i class="fas fa-key"></i></div>
-      <div>
-        <div class="modal-head-title">Change Password</div>
-        <div class="modal-head-sub">Keep your account secure with a strong password</div>
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="form-label">Current Password</label>
-      <input type="password" class="form-input" id="pwCurrent" placeholder="••••••••">
-    </div>
-    <div class="form-group">
-      <label class="form-label">New Password</label>
-      <input type="password" class="form-input" id="pwNew" placeholder="At least 6 characters">
-    </div>
-    <div class="form-group">
-      <label class="form-label">Confirm New Password</label>
-      <input type="password" class="form-input" id="pwConfirm" placeholder="Re-enter new password">
-    </div>
-    <div class="modal-footer">
-      <button class="btn-modal-cancel" onclick="closePasswordModal()">Cancel</button>
-      <button class="btn-modal-save" onclick="submitPassword()"><i class="fas fa-shield-halved"></i> Update Password</button>
-    </div>
-  </div>
-</div>
-
-</template>
 
 
 <!-- ─── Modals ─── -->
@@ -219,16 +203,9 @@
     </div>
 @endif
 
-<div x-data="{ editOpen: false }" @open-edit-modal.window="editOpen = true">
-  <div class="profile-actions" style="margin-top:20px;">
-    <button type="button" class="btn-edit-profile" @click="editOpen = true">
-      <i class="fas fa-pen"></i> Edit Profile
-    </button>
-  </div>
-
   <div class="modal-overlay" :class="editOpen ? 'open' : ''" x-show="editOpen" style="display: flex;">
-    <div class="modal-box" @click.outside="editOpen = false">
-      <button class="modal-close" @click="editOpen = false"><i class="fas fa-times"></i></button>
+    <div class="modal-box" @click.outside="editOpen = false" style="max-height: 85vh; overflow-y: auto;">
+      <button class="modal-close" @click="editOpen = false" type="button"><i class="fas fa-times"></i></button>
       <div class="modal-head">
         <div class="modal-icon"><i class="fas fa-user-edit"></i></div>
         <div>
@@ -238,8 +215,17 @@
       </div>
       
       <form wire:submit.prevent="saveProfile">
+        @if ($errors->any())
+          <div style="background: #FEF2F2; color: #DC2626; padding: 12px; border-radius: 8px; margin-bottom: 16px; font-size: 14px; border: 1px solid #FCA5A5;">
+            <ul style="margin: 0; padding-left: 20px;">
+              @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+              @endforeach
+            </ul>
+          </div>
+        @endif
         <div class="form-group">
-          <label class="form-label">Name</label>
+          <label class="form-label">Full Name</label>
           <input type="text" class="form-input" wire:model="name">
         </div>
         <div class="form-grid-2">
@@ -248,16 +234,8 @@
             <input type="text" class="form-input" wire:model="phone">
           </div>
           <div class="form-group">
-            <label class="form-label">University</label>
-            <input type="text" class="form-input" wire:model="university">
-          </div>
-          <div class="form-group">
-            <label class="form-label">Degree</label>
-            <input type="text" class="form-input" wire:model="degree">
-          </div>
-          <div class="form-group">
-            <label class="form-label">GPA</label>
-            <input type="text" class="form-input" wire:model="gpa">
+            <label class="form-label">Date of Birth</label>
+            <input type="date" class="form-input" wire:model="date_of_birth">
           </div>
           <div class="form-group">
             <label class="form-label">Country</label>
@@ -267,22 +245,51 @@
             <label class="form-label">City</label>
             <input type="text" class="form-input" wire:model="city">
           </div>
-        </div>
-        
-        <div class="form-group" style="margin-top:10px;">
-            <label class="form-label">Profile Photo</label>
-            <input type="file" wire:model="photo" accept="image/*" class="form-input">
-            <div wire:loading wire:target="photo">Uploading...</div>
+          <div class="form-group">
+            <label class="form-label">University</label>
+            <input type="text" class="form-input" wire:model="university">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Field of Study</label>
+            <input type="text" class="form-input" wire:model="field_of_study">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Degree</label>
+            <input type="text" class="form-input" wire:model="degree">
+          </div>
+          <div class="form-group">
+            <label class="form-label">GPA</label>
+            <input type="text" class="form-input" wire:model="gpa">
+          </div>
+          <div class="form-group" style="grid-column: 1 / -1;">
+            <label class="form-label">About Me / Bio</label>
+            <textarea class="form-textarea" rows="3" wire:model="experience" placeholder="Tell us about yourself..."></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Skills (comma separated)</label>
+            <input type="text" class="form-input" wire:model="skills" placeholder="e.g. PHP, Laravel, React">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Languages (comma separated)</label>
+            <input type="text" class="form-input" wire:model="languages" placeholder="e.g. English, Albanian">
+          </div>
+          <div class="form-group">
+            <label class="form-label">LinkedIn URL</label>
+            <input type="text" class="form-input" wire:model="linkedin_url" placeholder="https://linkedin.com/in/...">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Portfolio URL</label>
+            <input type="text" class="form-input" wire:model="portfolio_url" placeholder="https://...">
+          </div>
         </div>
 
-        <div class="modal-footer">
+        <div class="modal-footer" style="position: sticky; bottom: -32px; background: white; padding: 16px 0; border-top: 1px solid var(--gray-100); margin-top: 24px;">
           <button type="button" class="btn-modal-cancel" @click="editOpen = false">Cancel</button>
           <button type="submit" class="btn-modal-save"><i class="fas fa-check"></i> Save Changes</button>
         </div>
       </form>
     </div>
   </div>
-</div>
 <script>
 function openEditModal(type) {
     window.dispatchEvent(new CustomEvent('open-edit-modal'));

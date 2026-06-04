@@ -182,7 +182,9 @@
               <img src="{{ Storage::url(auth()->user()->avatar) }}" alt="{{ auth()->user()->name }}"
                 class="w-full h-full rounded-full object-cover">
             @else
-              {{ auth()->user()->initials() }}
+              <div style="background-color: #ef4444; color: white; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; border-radius: 50%;">
+                <i class="fas fa-user"></i>
+              </div>
             @endif
           </div>
           <div class="sidebar-user-info">
@@ -225,13 +227,19 @@
             onmouseover="this.style.background='var(--gray-100)';" onmouseout="this.style.background='var(--gray-50)';">
             <i class="fas fa-moon" id="dark-mode-icon" style="font-size: 14px;"></i>
           </button>
+
+          {{-- Notification Bell --}}
+          <livewire:notification-bell />
+
           <div class="user-avatar-btn">
             <div class="avatar">
               @if (auth()->user()->avatar)
                 <img src="{{ Storage::url(auth()->user()->avatar) }}" alt="{{ auth()->user()->name }}"
                   class="w-full h-full rounded-full object-cover">
               @else
-                {{ auth()->user()->initials() }}
+                <div style="background-color: #ef4444; color: white; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; border-radius: 50%;">
+                  <i class="fas fa-user" style="font-size: 1.1em;"></i>
+                </div>
               @endif
             </div>
             <span class="user-name">{{ auth()->user()->name }}</span>

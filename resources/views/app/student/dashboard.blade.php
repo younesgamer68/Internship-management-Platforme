@@ -265,7 +265,7 @@
               $internship = $app->internship;
               $company = $internship?->company;
               $title = $internship?->title ?? 'Position';
-              $companyName = $company?->name ?? 'Company';
+              $companyName = $company?->company_name ?? 'Company';
               $init = substr($companyName, 0, 2);
               $location = trim(implode(', ', array_filter([$internship?->city, $internship?->country]))) ?: ($internship?->location ?? 'Remote');
               
@@ -398,19 +398,26 @@
         <a href="{{ route('student.listings', ['company'=>$slug]) }}" class="card-link">Explore All →</a>
       </div>
       <div class="card-body" style="padding-top:4px;">
-        @foreach([
-          ['TS','TechSolutions','#00b1aa','Full-Stack Developer Intern','Remote · 3 months','Engineering','Jun 30, 2025',42],
-          ['MC','MediaCorp',   '#8B5CF6','Digital Marketing Intern',   'New York · 2 months','Marketing','Jul 15, 2025',27],
-          ['AI','AInova',      '#3B82F6','Machine Learning Intern',    'Boston · 4 months','Data Science','Jul 1, 2025',18],
-          ['QC','QuantumCore', '#F59E0B','Cybersecurity Analyst Intern','Washington DC · 6 months','Security','Aug 10, 2025',14],
-          ['VL','Vanguard Labs','#10B981','UX Researcher Intern',       'San Francisco · 3 months','Design','Jul 22, 2025',31],
-        ] as [$init,$company,$color,$title,$meta,$dept,$deadline,$count])
-        <div class="recommended-row" onclick="applyToListing('{{ $title }}','{{ $company }}')" title="Click to apply">
+        @forelse($recommendedInternships as $intern)
+          @php
+              $companyName = $intern->company?->company_name ?? 'Company';
+              $init = strtoupper(substr($companyName, 0, 2)) ?: 'C';
+              $colors = ['#00b1aa', '#8B5CF6', '#3B82F6', '#F59E0B', '#10B981'];
+              $color = $colors[$loop->index % 5];
+              $title = $intern->title ?? 'Position';
+              $location = trim(implode(', ', array_filter([$intern->city, $intern->country]))) ?: ($intern->location ?? 'Remote');
+              $duration = $intern->duration ?? '3 months';
+              $meta = $location . ' · ' . $duration;
+              $dept = $intern->field ?? 'General';
+              $deadline = $intern->deadline ? \Carbon\Carbon::parse($intern->deadline)->format('M d, Y') : 'Open';
+              $count = $intern->applications->count();
+          @endphp
+        <div class="recommended-row" onclick="applyToListing('{{ addslashes($title) }}','{{ addslashes($companyName) }}')" title="Click to apply">
           <div style="width:40px;height:40px;border-radius:10px;background:{{ $color }};color:white;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;">{{ $init }}</div>
           <div style="flex:1;min-width:0;">
             <div style="font-size:13.5px;font-weight:700;color:var(--gray-900);">{{ $title }}</div>
             <div style="font-size:11.5px;color:var(--gray-500);margin-top:3px;">
-              {{ $company }} &nbsp;·&nbsp; {{ $meta }}
+              {{ $companyName }} &nbsp;·&nbsp; {{ $meta }}
             </div>
           </div>
           <div style="text-align:right;flex-shrink:0;padding-left:10px;">
@@ -419,7 +426,11 @@
             <div style="font-size:10px;color:var(--gray-400);margin-top:3px;font-weight:500;"><i class="fas fa-users" style="font-size:9px;margin-right:2px;"></i> {{ $count }} applicants</div>
           </div>
         </div>
-        @endforeach
+        @empty
+        <div style="padding: 20px; text-align: center; color: var(--gray-500); font-size: 13px;">
+            No recommended internships found at the moment.
+        </div>
+        @endforelse
       </div>
     </div>
   </div>
@@ -485,33 +496,25 @@
     <div class="card anim-left" data-delay="220">
       <div class="card-header">
         <div class="card-title" style="font-size:14px;">Standard Documents</div>
-        <span style="font-size:11px;font-weight:700;color:var(--primary);">3 / 5</span>
+        <span style="font-size:11px;font-weight:700;color:var(--primary);">{{ $documents->count() }}</span>
       </div>
       <div class="card-body" style="padding-top:4px;">
-        @foreach([
-          ['Resume.pdf',       '2.4 MB', true],
-          ['Cover Letter.pdf', '1.1 MB', true],
-          ['Transcript.pdf',   '3.2 MB', true],
-          ['ID Document.pdf',  '—',      false],
-          ['Reference.pdf',    '—',      false],
-        ] as [$name,$size,$uploaded])
+        @forelse($documents as $doc)
         <div class="document-item">
-          <div class="document-icon" style="background:{{ $uploaded ? 'var(--primary-bg)' : 'var(--gray-100)' }};color:{{ $uploaded ? 'var(--primary)' : 'var(--gray-400)' }};">
+          <div class="document-icon" style="background:var(--primary-bg);color:var(--primary);">
             <i class="fas fa-file-pdf"></i>
           </div>
           <div class="document-info">
-            <div class="document-name" style="color:{{ $uploaded ? 'var(--gray-800)' : 'var(--gray-400)' }};">{{ $name }}</div>
-            <div class="document-size">{{ $uploaded ? $size.' · Verified' : 'Not uploaded' }}</div>
+            <div class="document-name" style="color:var(--gray-800);">{{ $doc->name }}</div>
+            <div class="document-size">{{ $doc->size ? number_format($doc->size / 1024, 2) . ' KB' : 'Unknown Size' }} · Uploaded</div>
           </div>
-          @if($uploaded)
-          <button class="icon-btn" title="Download" onclick="downloadDoc('{{ $name }}')"><i class="fas fa-download"></i></button>
-          @else
-          <button class="icon-btn" title="Upload" style="color:var(--primary);border-color:var(--primary);background:var(--primary-bg);" onclick="uploadDoc('{{ $name }}')">
-            <i class="fas fa-upload"></i>
-          </button>
-          @endif
+          <a href="{{ Storage::url($doc->path) }}" target="_blank" class="icon-btn" title="Download"><i class="fas fa-download"></i></a>
         </div>
-        @endforeach
+        @empty
+        <div style="padding: 20px; text-align: center; color: var(--gray-500); font-size: 13px;">
+          No documents uploaded yet.
+        </div>
+        @endforelse
         <div style="margin-top:16px;">
           <a href="{{ route('student.documents', ['company'=>$slug]) }}" class="btn btn-outline" style="border-color:var(--primary);color:var(--primary);width:100%;justify-content:center;">
             <i class="fas fa-upload"></i> Upload Documents
@@ -527,12 +530,18 @@
         <a href="#" class="card-link" style="font-size:12px;" onclick="markAllRead(event)">Mark all read</a>
       </div>
       <div class="card-body" style="padding-top:4px;">
-        @foreach([
-          ['Interview scheduled for SierraDynamics',    '2 hours ago',   'green',  'fa-calendar-check', true],
-          ['Your documents have been verified',          'Yesterday',     'blue',   'fa-file-circle-check', true],
-          ['Deadline approaching: ConnorTech application','2 days ago',  'warning','fa-clock', false],
-          ['New internship match: AInova ML Intern',    '3 days ago',    'blue',   'fa-briefcase', false],
-        ] as [$text,$time,$type,$icon,$unread])
+        @php
+            $notifications = auth()->user()->notifications()->take(5)->get();
+        @endphp
+        @forelse($notifications as $notification)
+          @php
+              $data = $notification->data;
+              $unread = is_null($notification->read_at);
+              $text = $data['message'] ?? 'New notification';
+              $icon = $data['icon'] ?? 'fa-bell';
+              $type = $data['color'] ?? 'blue';
+              $time = $notification->created_at->diffForHumans();
+          @endphp
         <div class="notification-item {{ $unread ? 'unread' : '' }}">
           <div class="notification-icon {{ $type }}"><i class="fas {{ $icon }}"></i></div>
           <div class="notification-content">
@@ -540,7 +549,11 @@
             <div class="notification-time">{{ $time }}</div>
           </div>
         </div>
-        @endforeach
+        @empty
+        <div style="padding: 20px; text-align: center; color: var(--gray-500); font-size: 13px;">
+          No notifications yet.
+        </div>
+        @endforelse
       </div>
     </div>
 

@@ -335,8 +335,8 @@
           <i class="fas fa-{{ $isUrgent ? 'clock' : 'calendar-alt' }}"></i> Deadline: {{ $internship->deadline ? \Carbon\Carbon::parse($internship->deadline)->format('M d') : 'N/A' }}
         </div>
         <div style="display:flex;gap:8px;">
-          <button class="view-btn" onclick="openViewModal('{{ addslashes($internship->title) }}','{{ addslashes($internship->company?->name ?? '') }}','{{ addslashes($location) }}','{{ addslashes($internship->duration ?? 'N/A') }}','{{ $internship->is_paid ? addslashes($internship->salary ?? 'Paid') : 'Unpaid' }}','{{ addslashes(implode(', ', $skills)) }}','{{ addslashes(preg_replace('/\s+/', ' ', $internship->description)) }}')"><i class="fas fa-eye"></i></button>
-          <button class="apply-btn" onclick="openApplyModal('{{ addslashes($internship->title) }}','{{ addslashes($internship->company?->name ?? '') }}','{{ $color }}','{{ $initial }}')"><i class="fas fa-paper-plane"></i> Apply Now</button>
+          <button class="view-btn" onclick="openViewModal('{{ addslashes($internship->title) }}','{{ addslashes($internship->company?->name ?? '') }}','{{ addslashes($location) }}','{{ addslashes($internship->duration ?? 'N/A') }}','{{ $internship->is_paid ? addslashes($internship->salary ?? 'Paid') : 'Unpaid' }}','{{ addslashes(implode(', ', $skills)) }}','{{ addslashes(preg_replace('/\s+/', ' ', $internship->description)) }}', {{ $internship->id }})"><i class="fas fa-eye"></i></button>
+          <button class="apply-btn" onclick="openApplyModal('{{ addslashes($internship->title) }}','{{ addslashes($internship->company?->name ?? '') }}','{{ $color }}','{{ $initial }}', {{ $internship->id }})"><i class="fas fa-paper-plane"></i> Apply Now</button>
         </div>
       </div>
     </div>
@@ -360,36 +360,51 @@
 
 <!-- ── Apply Now Modal ── -->
 <div id="applyModal" class="modal-overlay" onclick="if(event.target===this)closeApplyModal()">
-  <div class="modal-box">
-    <button class="modal-close-btn" onclick="closeApplyModal()"><i class="fas fa-xmark"></i></button>
+  <form id="applyForm" class="modal-box" method="POST" action="" enctype="multipart/form-data">
+    @csrf
+    <button type="button" class="modal-close-btn" onclick="closeApplyModal()"><i class="fas fa-xmark"></i></button>
     <div class="modal-company-logo" id="applyModalLogo"></div>
     <div class="modal-title" id="applyModalTitle">Apply for Position</div>
     <div class="modal-subtitle" id="applyModalCompany"></div>
     <div class="form-group">
       <label class="form-label">Cover Letter <span style="color:var(--text-muted);font-weight:400;">(optional)</span></label>
-      <textarea class="form-textarea" id="applyCoverLetter" rows="4" placeholder="Tell the company why you'd be a great fit for this role..."></textarea>
+      <textarea class="form-textarea" name="cover_letter" id="applyCoverLetter" rows="4" placeholder="Tell the company why you'd be a great fit for this role..."></textarea>
     </div>
     <div class="form-group">
       <label class="form-label">Resume / CV</label>
-      <div class="upload-zone" onclick="document.getElementById('resumeInput').click()">
-        <i class="fas fa-file-arrow-up"></i>
-        <span id="resumeLabel">Click to attach your resume (PDF, DOC)</span>
+      
+      @if(isset($documents) && $documents->count() > 0)
+      <div style="margin-bottom: 12px;">
+        <select name="existing_document_id" id="existingDocumentSelect" class="form-textarea" style="margin-bottom: 10px;" onchange="if(this.value) { document.getElementById('uploadZoneWrapper').style.display='none'; document.getElementById('resumeInput').value=''; document.getElementById('resumeLabel').textContent='Click to attach your resume (PDF, DOC)'; } else { document.getElementById('uploadZoneWrapper').style.display='block'; }">
+          <option value="">Upload a new resume below, or select an existing document...</option>
+          @foreach($documents as $doc)
+            <option value="{{ $doc->id }}">{{ $doc->name }} ({{ strtoupper($doc->type) }})</option>
+          @endforeach
+        </select>
       </div>
-      <input type="file" id="resumeInput" accept=".pdf,.doc,.docx" style="display:none;" onchange="document.getElementById('resumeLabel').textContent=this.files[0]?.name||'No file selected'">
+      @endif
+
+      <div id="uploadZoneWrapper">
+        <div class="upload-zone" onclick="document.getElementById('resumeInput').click()">
+          <i class="fas fa-file-arrow-up"></i>
+          <span id="resumeLabel">Click to attach your resume (PDF, DOC)</span>
+        </div>
+        <input type="file" name="resume" id="resumeInput" accept=".pdf,.doc,.docx" style="display:none;" onchange="document.getElementById('resumeLabel').textContent=this.files[0]?.name||'No file selected'; if(this.files.length>0 && document.getElementById('existingDocumentSelect')) { document.getElementById('existingDocumentSelect').value = ''; }">
+      </div>
     </div>
     <div class="modal-footer-btns">
-      <button class="btn-cancel" onclick="closeApplyModal()">Cancel</button>
-      <button class="btn-submit" id="submitAppBtn" onclick="submitApplication()">
+      <button type="button" class="btn-cancel" onclick="closeApplyModal()">Cancel</button>
+      <button type="submit" class="btn-submit" id="submitAppBtn">
         <i class="fas fa-paper-plane"></i> Submit Application
       </button>
     </div>
-  </div>
+  </form>
 </div>
 
 <!-- ── View Detail Modal ── -->
 <div id="viewModal" class="modal-overlay" onclick="if(event.target===this)closeViewModal()">
   <div class="modal-box" style="max-width:560px;">
-    <button class="modal-close-btn" onclick="closeViewModal()"><i class="fas fa-xmark"></i></button>
+    <button type="button" class="modal-close-btn" onclick="closeViewModal()"><i class="fas fa-xmark"></i></button>
     <div class="modal-company-logo" id="viewModalLogo" style="background:#2563EB;">T</div>
     <div class="modal-title" id="viewModalTitle">Position Title</div>
     <div class="modal-subtitle" id="viewModalCompany"></div>
@@ -428,7 +443,7 @@
 let currentApplyTitle = '';
 let currentApplyCompany = '';
 /* ── Apply Modal ── */
-function openApplyModal(title, company, color, initial) {
+function openApplyModal(title, company, color, initial, id) {
   currentApplyTitle = title;
   currentApplyCompany = company;
   document.getElementById('applyModalTitle').textContent = title;
@@ -438,27 +453,24 @@ function openApplyModal(title, company, color, initial) {
   logo.style.background = color;
   document.getElementById('applyCoverLetter').value = '';
   document.getElementById('resumeLabel').textContent = 'Click to attach your resume (PDF, DOC)';
+  document.getElementById('resumeInput').value = '';
+  if (document.getElementById('existingDocumentSelect')) {
+    document.getElementById('existingDocumentSelect').value = '';
+    document.getElementById('uploadZoneWrapper').style.display = 'block';
+  }
   const btn = document.getElementById('submitAppBtn');
   btn.innerHTML = '<i class="fas fa-paper-plane"></i> Submit Application';
   btn.disabled = false;
+  
+  const form = document.getElementById('applyForm');
+  form.action = '/' + '{{ $slug }}' + '/student/internships/' + id + '/apply';
+  
   document.getElementById('applyModal').classList.add('open');
 }
 function closeApplyModal() { document.getElementById('applyModal').classList.remove('open'); }
 
-function submitApplication() {
-  const btn = document.getElementById('submitAppBtn');
-  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
-  btn.disabled = true;
-  setTimeout(() => {
-    closeApplyModal();
-    showToast('Application submitted for ' + currentApplyTitle, 'success');
-    btn.innerHTML = '<i class="fas fa-paper-plane"></i> Submit Application';
-    btn.disabled = false;
-  }, 1400);
-}
-
 /* ── View Modal ── */
-function openViewModal(title, company, location, duration, salary, skills, desc) {
+function openViewModal(title, company, location, duration, salary, skills, desc, id) {
   document.getElementById('viewModalTitle').textContent = title;
   document.getElementById('viewModalCompany').textContent = company + ' · ' + location;
   document.getElementById('viewModalDesc').textContent = desc;
@@ -468,7 +480,7 @@ function openViewModal(title, company, location, duration, salary, skills, desc)
     <div class="modal-detail-item"><div class="modal-detail-label">Stipend</div><div class="modal-detail-value">${salary}</div></div>
     <div class="modal-detail-item"><div class="modal-detail-label">Skills</div><div class="modal-detail-value">${skills}</div></div>
   `;
-  document.getElementById('viewModalApplyBtn').onclick = () => { closeViewModal(); openApplyModal(title, company, '#2563EB', company[0]); };
+  document.getElementById('viewModalApplyBtn').onclick = () => { closeViewModal(); openApplyModal(title, company, '#2563EB', company[0], id); };
   document.getElementById('viewModal').classList.add('open');
 }
 function closeViewModal() { document.getElementById('viewModal').classList.remove('open'); }
@@ -543,5 +555,17 @@ function loadMore() {
 }
 
 function showToast(msg, type) { if (window.showGlobalToast) showGlobalToast(msg, type); }
+
+@if(session('success'))
+  document.addEventListener('DOMContentLoaded', function() {
+    showToast("{{ session('success') }}", 'success');
+  });
+@endif
+
+@if(session('error'))
+  document.addEventListener('DOMContentLoaded', function() {
+    showToast("{{ session('error') }}", 'error'); // Use 'error' or 'warning' depending on your toast styles
+  });
+@endif
 </script>
 </x-layouts::student>

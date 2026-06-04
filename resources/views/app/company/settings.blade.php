@@ -6,7 +6,7 @@
   <div class="settings-header-content">
     <div class="settings-header-icon"><i class="fas fa-gear"></i></div>
     <div>
-      <h2 class="settings-h2">Company Settings</h2>
+      <h2 class="settings-h2">{{ optional(auth()->user()->company)->company_name ?? 'Company Settings' }}</h2>
       <p class="settings-subtitle">Configure company profile, defaults, notifications, security, and appearance</p>
     </div>
     <div style="margin-left:auto;">
@@ -18,7 +18,9 @@
 </div>
 
 <!-- TABBED LAYOUT -->
-<div class="settings-layout">
+<form action="{{ route('company.settings.update', ['company' => request()->route('company') ?? optional(auth()->user()->company)->slug]) }}" method="POST" enctype="multipart/form-data" class="settings-layout">
+  @csrf
+  @method('PUT')
 
   <!-- SIDEBAR NAV -->
   <div class="settings-sidebar">
@@ -102,13 +104,27 @@
         <div class="settings-form">
           <div class="settings-field-row">
             <div class="settings-field-info">
+              <div class="settings-field-title">Company Logo</div>
+              <div class="settings-field-desc">Upload your company logo</div>
+            </div>
+            <div class="settings-field-control">
+              <div class="sf-input-wrap" style="display: flex; align-items: center; gap: 15px;">
+                @if(optional(auth()->user()->company)->logo)
+                   <img src="{{ Storage::url(auth()->user()->company->logo) }}" alt="Logo" style="width: 50px; height: 50px; border-radius: 8px; object-fit: cover;">
+                @endif
+                <input type="file" class="sf-input" name="logo" accept="image/*" />
+              </div>
+            </div>
+          </div>
+          <div class="settings-field-row">
+            <div class="settings-field-info">
               <div class="settings-field-title">Company Name</div>
               <div class="settings-field-desc">Legal name shown on postings</div>
             </div>
             <div class="settings-field-control">
               <div class="sf-input-wrap">
                 <i class="fas fa-building sf-icon"></i>
-                <input type="text" class="sf-input" id="c-name" value="TechSolutions Inc." />
+                <input type="text" class="sf-input" name="company_name" id="c-name" value="{{ optional(auth()->user()->company)->company_name }}" />
               </div>
             </div>
           </div>
@@ -120,12 +136,12 @@
             <div class="settings-field-control">
               <div class="sf-input-wrap">
                 <i class="fas fa-sliders sf-icon"></i>
-                <select class="sf-input sf-select" id="c-industry">
-                  <option selected>Technology</option>
-                  <option>Finance</option>
-                  <option>Healthcare</option>
-                  <option>Education</option>
-                  <option>Retail</option>
+                <select class="sf-input sf-select" name="industry" id="c-industry">
+                  <option value="Technology" {{ optional(auth()->user()->company)->industry == 'Technology' ? 'selected' : '' }}>Technology</option>
+                  <option value="Finance" {{ optional(auth()->user()->company)->industry == 'Finance' ? 'selected' : '' }}>Finance</option>
+                  <option value="Healthcare" {{ optional(auth()->user()->company)->industry == 'Healthcare' ? 'selected' : '' }}>Healthcare</option>
+                  <option value="Education" {{ optional(auth()->user()->company)->industry == 'Education' ? 'selected' : '' }}>Education</option>
+                  <option value="Retail" {{ optional(auth()->user()->company)->industry == 'Retail' ? 'selected' : '' }}>Retail</option>
                 </select>
                 <i class="fas fa-chevron-down sf-sel-arrow"></i>
               </div>
@@ -139,7 +155,7 @@
             <div class="settings-field-control">
               <div class="sf-input-wrap">
                 <i class="fas fa-globe sf-icon"></i>
-                <input type="url" class="sf-input" id="c-website" value="https://techsolutions.com" />
+                <input type="url" class="sf-input" name="website" id="c-website" value="{{ optional(auth()->user()->company)->website }}" />
               </div>
             </div>
           </div>
@@ -151,12 +167,12 @@
             <div class="settings-field-control">
               <div class="sf-input-wrap">
                 <i class="fas fa-users sf-icon"></i>
-                <select class="sf-input sf-select" id="c-size">
-                  <option>1–50</option>
-                  <option>51–100</option>
-                  <option selected>100–500</option>
-                  <option>500–1000</option>
-                  <option>1000+</option>
+                <select class="sf-input sf-select" name="company_size" id="c-size">
+                  <option value="1-50" {{ optional(auth()->user()->company)->company_size == '1-50' ? 'selected' : '' }}>1–50</option>
+                  <option value="51-100" {{ optional(auth()->user()->company)->company_size == '51-100' ? 'selected' : '' }}>51–100</option>
+                  <option value="100-500" {{ optional(auth()->user()->company)->company_size == '100-500' ? 'selected' : '' }}>100–500</option>
+                  <option value="500-1000" {{ optional(auth()->user()->company)->company_size == '500-1000' ? 'selected' : '' }}>500–1000</option>
+                  <option value="1000+" {{ optional(auth()->user()->company)->company_size == '1000+' ? 'selected' : '' }}>1000+</option>
                 </select>
                 <i class="fas fa-chevron-down sf-sel-arrow"></i>
               </div>
@@ -170,7 +186,7 @@
             <div class="settings-field-control">
               <div class="sf-input-wrap">
                 <i class="fas fa-calendar sf-icon"></i>
-                <input type="text" class="sf-input" id="c-founded" value="2012" />
+                <input type="text" class="sf-input" name="founded_year" id="c-founded" value="{{ optional(auth()->user()->company)->founded_year }}" />
               </div>
             </div>
           </div>
@@ -182,7 +198,7 @@
             <div class="settings-field-control">
               <div class="sf-input-wrap">
                 <i class="fas fa-map-marker-alt sf-icon"></i>
-                <input type="text" class="sf-input" id="c-hq" value="New York, USA" />
+                <input type="text" class="sf-input" name="headquarters" id="c-hq" value="{{ optional(auth()->user()->company)->headquarters }}" />
               </div>
             </div>
           </div>
@@ -192,14 +208,14 @@
               <div class="settings-field-desc">Brief summary explaining your business and values</div>
             </div>
             <div class="settings-field-control" style="width:100%;margin-top:10px;">
-              <textarea class="sf-input" id="c-description" style="min-height:100px;resize:vertical;">TechSolutions Inc. is a leading technology company specializing in enterprise software development, cloud infrastructure, and digital transformation services. We are committed to innovation and building the next generation of tech talent through our internship programs.</textarea>
+              <textarea class="sf-input" name="description" id="c-description" style="min-height:100px;resize:vertical;">{{ optional(auth()->user()->company)->description }}</textarea>
             </div>
           </div>
         </div>
 
         <div class="settings-form-footer">
           <button type="button" class="btn btn-outline btn-sm" onclick="resetProfile()">Reset Defaults</button>
-          <button type="button" class="btn btn-primary" onclick="saveProfile()"><i class="fas fa-floppy-disk"></i> Save Profile</button>
+          <button type="submit" class="btn btn-primary"><i class="fas fa-floppy-disk"></i> Save Profile</button>
         </div>
       </div>
     </div>
@@ -224,12 +240,12 @@
             <div class="settings-field-control">
               <div class="sf-input-wrap">
                 <i class="fas fa-clock sf-icon"></i>
-                <select class="sf-input sf-select" id="d-duration">
-                  <option>1 month</option>
-                  <option>2 months</option>
-                  <option selected>3 months</option>
-                  <option>4 months</option>
-                  <option>6 months</option>
+                <select class="sf-input sf-select" name="default_duration" id="d-duration">
+                  <option value="1 month" {{ optional(auth()->user()->company)->default_duration == '1 month' ? 'selected' : '' }}>1 month</option>
+                  <option value="2 months" {{ optional(auth()->user()->company)->default_duration == '2 months' ? 'selected' : '' }}>2 months</option>
+                  <option value="3 months" {{ optional(auth()->user()->company)->default_duration == '3 months' ? 'selected' : '' }}>3 months</option>
+                  <option value="4 months" {{ optional(auth()->user()->company)->default_duration == '4 months' ? 'selected' : '' }}>4 months</option>
+                  <option value="6 months" {{ optional(auth()->user()->company)->default_duration == '6 months' ? 'selected' : '' }}>6 months</option>
                 </select>
                 <i class="fas fa-chevron-down sf-sel-arrow"></i>
               </div>
@@ -243,7 +259,7 @@
             <div class="settings-field-control">
               <div class="sf-input-wrap">
                 <i class="fas fa-map-marker-alt sf-icon"></i>
-                <input type="text" class="sf-input" id="d-location" value="Remote" />
+                <input type="text" class="sf-input" name="default_location" id="d-location" value="{{ optional(auth()->user()->company)->default_location }}" />
               </div>
             </div>
           </div>
@@ -255,7 +271,7 @@
             <div class="settings-field-control">
               <div class="sf-input-wrap">
                 <i class="fas fa-user-plus sf-icon"></i>
-                <input type="number" class="sf-input" id="d-max-applicants" value="50" />
+                <input type="number" class="sf-input" name="max_applicants" id="d-max-applicants" value="{{ optional(auth()->user()->company)->max_applicants }}" />
               </div>
             </div>
           </div>
@@ -263,7 +279,7 @@
 
         <div class="settings-form-footer">
           <button type="button" class="btn btn-outline btn-sm" onclick="resetDefaults()">Reset</button>
-          <button type="button" class="btn btn-primary" onclick="saveDefaults()"><i class="fas fa-floppy-disk"></i> Save Defaults</button>
+          <button type="submit" class="btn btn-primary"><i class="fas fa-floppy-disk"></i> Save Defaults</button>
         </div>
       </div>
     </div>
@@ -502,7 +518,7 @@
     </div>
 
   </div>
-</div>
+</form>
 
 <!-- ═══════════════ DANGER CONFIRM MODAL ═══════════════ -->
 <div class="modal-overlay" id="dangerModal" onclick="if(event.target===this)closeDangerModal()">
@@ -823,14 +839,14 @@ const PROFILE_DEFAULTS = {
 
 function loadProfile() {
   const saved = JSON.parse(localStorage.getItem('companyProfile') || '{}');
-  const d = { ...PROFILE_DEFAULTS, ...saved };
-  document.getElementById('c-name').value = d.name;
-  document.getElementById('c-industry').value = d.industry;
-  document.getElementById('c-website').value = d.website;
-  document.getElementById('c-size').value = d.size;
-  document.getElementById('c-founded').value = d.founded;
-  document.getElementById('c-hq').value = d.hq;
-  document.getElementById('c-description').value = d.description;
+  // const d = { ...PROFILE_DEFAULTS, ...saved };
+  // document.getElementById('c-name').value = d.name;
+  // document.getElementById('c-industry').value = d.industry;
+  // document.getElementById('c-website').value = d.website;
+  // document.getElementById('c-size').value = d.size;
+  // document.getElementById('c-founded').value = d.founded;
+  // document.getElementById('c-hq').value = d.hq;
+  // document.getElementById('c-description').value = d.description;
 }
 
 function saveProfile() {
@@ -865,10 +881,10 @@ const POSTING_DEFAULTS = {
 
 function loadDefaults() {
   const saved = JSON.parse(localStorage.getItem('companyPostingDefaults') || '{}');
-  const d = { ...POSTING_DEFAULTS, ...saved };
-  document.getElementById('d-duration').value = d.duration;
-  document.getElementById('d-location').value = d.location;
-  document.getElementById('d-max-applicants').value = d.maxApplicants;
+  // const d = { ...POSTING_DEFAULTS, ...saved };
+  // document.getElementById('d-duration').value = d.duration;
+  // document.getElementById('d-location').value = d.location;
+  // document.getElementById('d-max-applicants').value = d.maxApplicants;
 }
 
 function saveDefaults() {

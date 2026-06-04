@@ -9,10 +9,18 @@ use Livewire\Component;
 
 class NotificationBell extends Component
 {
+    public bool $showDropdown = false;
+
     #[On('notifications-updated')]
     public function refreshNotifications(): void
     {
+        $oldUnread = $this->unreadCount;
         unset($this->notifications, $this->unreadCount);
+        $newUnread = $this->unreadCount;
+
+        if ($newUnread > $oldUnread) {
+            $this->dispatch('new-notification');
+        }
     }
 
     public function markRead(string $id): mixed
@@ -22,14 +30,24 @@ class NotificationBell extends Component
         if ($notification) {
             $notification->markAsRead();
 
-            if (isset($notification->data['ticket_number'])) {
-                $this->dispatch('notifications-updated');
+            $data = $notification->data ?? [];
+            $type = $data['type'] ?? null;
 
-                return redirect()->route('details', [
-                    'company' => Auth::user()->company->slug,
-                    'ticket' => $notification->data['ticket_number'],
-                ]);
-            }
+            $this->dispatch('notifications-updated');
+
+            // Route to the correct page based on notification type
+            $user        = Auth::user();
+            $companySlug = $user->company?->slug ?? 'internlink-demo';
+
+            return match ($type) {
+                'new_offer'        => redirect()->route('student.offers', ['company' => $companySlug]),
+                'offer_accepted',
+                'offer_rejected'   => redirect()->route('company.offers', ['company' => $companySlug]),
+                'new_application'  => redirect()->route('company.applicants', ['company' => $companySlug]),
+                'ticket_reply'     => redirect()->route('student.support', ['company' => $companySlug]),
+                'new_ticket'       => redirect()->route('admin.support', ['company' => $companySlug]),
+                default            => null,
+            };
         }
 
         return null;
@@ -41,10 +59,20 @@ class NotificationBell extends Component
         $this->dispatch('notifications-updated');
     }
 
+    public function toggleDropdown(): void
+    {
+        $this->showDropdown = ! $this->showDropdown;
+    }
+
+    public function closeDropdown(): void
+    {
+        $this->showDropdown = false;
+    }
+
     #[Computed]
     public function notifications(): \Illuminate\Database\Eloquent\Collection
     {
-        return Auth::user()->notifications()->latest()->take(10)->get();
+        return Auth::user()->notifications()->latest()->take(15)->get();
     }
 
     #[Computed]
@@ -58,3 +86,4 @@ class NotificationBell extends Component
         return view('livewire.notification-bell');
     }
 }
+

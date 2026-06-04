@@ -1644,7 +1644,18 @@
 
     
 
+    <livewire:ai-chat-widget />
     @livewireScripts
+
+    @if(request()->query('open_chat') == '1')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(() => {
+                window.dispatchEvent(new CustomEvent('open-chatbot-widget'));
+            }, 500);
+        });
+    </script>
+    @endif
 </body>
 
 </html>

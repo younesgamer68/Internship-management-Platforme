@@ -157,6 +157,34 @@
         .cw-slide-down {
             animation: cw-slide-down-anim 0.25s cubic-bezier(0.4, 0, 1, 1) forwards;
         }
+
+        .cw-qa-btn {
+            width: 100%;
+            border-radius: 8px;
+            border: 1px solid #e5e7eb;
+            background: #ffffff;
+            padding: 7px 12px;
+            text-align: left;
+            font-size: 11px;
+            font-weight: 500;
+            color: #1f2937;
+            transition: all 0.15s ease;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .cw-qa-btn:hover {
+            border-color: #1b7a44;
+            background: rgba(27, 122, 68, 0.05);
+            color: #1b7a44;
+            box-shadow: 0 2px 6px rgba(27, 122, 68, 0.1);
+        }
+
+        .cw-qa-btn:active {
+            transform: scale(0.98);
+        }
     </style>
 
     <div x-data="{
@@ -164,11 +192,11 @@
         visible: false,
         currentWelcomeText: '',
         welcomeTexts: [
-            `Welcome to InterLink! 👋 We're here to assist you with any questions or issues you might have. How can we help you today?`,
-            `Hello there! 🌟 Need a hand? We're ready to help you find the best solutions right away.`,
-            `Welcome back! 😊 We've been expecting you. What can our support team do for you today?`,
-            `Hi! 👋 Thanks for reaching out. Let us know how we can make your day a little bit easier.`,
-            `Greetings! 🚀 We're here to provide you with fast and friendly support. What's on your mind?`
+            'Welcome to InternLink! 👋 I can help you find internships, track your applications, and navigate the platform.',
+            'Hello! 🌟 Ready to find your perfect internship? I\'m here to help you every step of the way.',
+            'Welcome back! 😊 Need help with applications, interviews, or your profile? Ask away!',
+            'Hi! 👋 Your InternLink assistant is ready. How can I help you today?',
+            'Greetings! 🚀 Whether it\'s finding internships or tracking applications, I\'ve got you covered.'
         ],
         initWelcomeText() {
             this.currentWelcomeText = this.welcomeTexts[Math.floor(Math.random() * this.welcomeTexts.length)];
@@ -182,10 +210,6 @@
             panel.classList.add('cw-slide-up');
             this.isOpen = true;
             this.scrollToBottom();
-
-            this.$nextTick(() => {
-                $wire.newConversation();
-            });
         },
         toggle() {
             const panel = this.$refs.chatPanel;
@@ -193,8 +217,7 @@
                 this.isOpen = false;
                 panel.classList.remove('cw-slide-up');
                 panel.classList.add('cw-slide-down');
-                setTimeout(() => { this.visible = false;
-                    panel.classList.remove('cw-slide-down'); }, 250);
+                setTimeout(() => { this.visible = false; panel.classList.remove('cw-slide-down'); }, 250);
             } else {
                 this.initWelcomeText();
                 this.visible = true;
@@ -217,28 +240,25 @@
         {{-- Chat Window --}}
         <div x-ref="chatPanel" x-show="visible" x-cloak wire:key="{{ $chatting ? 'chat-view' : 'home-view' }}"
             style="transform: translateY(100%); opacity: 0;"
-            class="mb-4 flex flex-col w-[380px] h-[600px] bg-white rounded-3xl shadow-[0_30px_60px_-20px_rgba(33,150,83,0.3),0_0_0_1px_rgba(33,150,83,0.1)] overflow-hidden">
+            class="mb-4 flex flex-col w-[390px] h-[620px] bg-white rounded-3xl shadow-[0_30px_60px_-20px_rgba(33,150,83,0.3),0_0_0_1px_rgba(33,150,83,0.1)] overflow-hidden">
 
             {{-- ========== HOME VIEW (conversation list) ========== --}}
             @if (!$chatting)
                 {{-- Header --}}
                 <div class="cw-shimmer relative shrink-0 px-4 pb-4 pt-4 overflow-hidden">
-                    <div :class="($store.ui && $store.ui.darkMode) ? 'opacity-0' : 'opacity-100'"
-                        class="cw-header-gradient-flow pointer-events-none absolute inset-0 bg-linear-to-r from-[#1b7a44] via-[#1b7a44] to-[#e7f6ee] transition-opacity duration-700 ease-in-out">
-                    </div>
-                    <div :class="($store.ui && $store.ui.darkMode) ? 'opacity-100' : 'opacity-0'"
-                        class="cw-header-gradient-flow pointer-events-none absolute inset-0 bg-linear-to-r from-black to-[#1b7a44] transition-opacity duration-700 ease-in-out">
+                    <div
+                        class="cw-header-gradient-flow pointer-events-none absolute inset-0 bg-gradient-to-r from-[#1b7a44] via-[#1b7a44] to-[#e7f6ee]">
                     </div>
                     <div class="relative z-10 flex items-center gap-2.5">
-                        <div class="flex h-9 w-9 items-center justify-center rounded-xl  p-1">
-                            <img src="{{ asset('images/Logos/big-logo-orange.png') }}" alt="Helpdesk"
+                        <div class="flex h-9 w-9 items-center justify-center rounded-xl p-1">
+                            <img src="{{ asset('images/Logos/big-logo-orange.png') }}" alt="InternLink"
                                 class="h-7 w-7 object-contain" />
                         </div>
                         <div class="flex-1">
-                            <p class="text-sm font-bold tracking-tight text-white">InterLink</p>
+                            <p class="text-sm font-bold tracking-tight text-white">InternLink Assistant</p>
                             <div class="flex items-center gap-1.5">
-
-                                <p class="text-[10px] text-white/75">Online now</p>
+                                <span class="h-1.5 w-1.5 rounded-full bg-green-300 animate-pulse"></span>
+                                <p class="text-[10px] text-white/75">Online now · Powered by Gemini AI</p>
                             </div>
                         </div>
                         <button @click="toggle()" type="button"
@@ -257,24 +277,22 @@
                     @if (empty($conversations))
                         <div class="flex h-full flex-col items-center justify-center px-8 py-12">
                             <div
-                                class="cw-float mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-linear-to-br from-[rgba(33,150,83,0.1)] to-[rgba(33,150,83,0.03)] text-[#1b7a44]">
+                                class="cw-float mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-[rgba(33,150,83,0.1)] to-[rgba(33,150,83,0.03)] text-[#1b7a44]">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
                                     stroke-linecap="round" stroke-linejoin="round" class="h-10 w-10">
                                     <path d="M3 18v-6a9 9 0 0 1 18 0v6"></path>
                                     <path
                                         d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z">
                                     </path>
-                                    <path d="M14 22h5"></path>
-                                    <path d="M9 8l1 3 3 1-3 1-1 3-1-3-3-1 3-1z"></path>
                                 </svg>
                             </div>
                             <p class="mb-1 text-sm font-bold text-zinc-800">No conversations yet</p>
-                            <p class="text-center text-xs text-zinc-400">Tap below to start a conversation.<br>We'll
-                                help you right away!</p>
+                            <p class="text-center text-xs text-zinc-400">Start a conversation below.<br>I'll help you navigate
+                                InternLink!</p>
                         </div>
                     @else
                         @foreach ($conversations as $conv)
-                            <button wire:click="selectConversation('{{ $conv['id'] }}')" type="button"
+                            <button wire:click="selectConversation({{ $conv['id'] }})" type="button"
                                 class="group relative flex w-full items-start gap-3 border-b border-gray-100 px-4 py-4 text-left transition hover:bg-zinc-50">
                                 <div
                                     class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-green-100 bg-white shadow-sm text-[#1b7a44]">
@@ -284,27 +302,22 @@
                                         <path
                                             d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z">
                                         </path>
-                                        <path d="M14 22h5"></path>
-                                        <path d="M9 8l1 3 3 1-3 1-1 3-1-3-3-1 3-1z"></path>
                                     </svg>
                                 </div>
                                 <div class="min-w-0 flex-1 pr-6">
-                                    <div class="flex items-baseline gap-2 mb-1">
-                                        <p class="text-[13px] font-bold text-zinc-800">Started {{ $conv['date'] }}</p>
-                                        <p class="text-[11px] text-zinc-400">{{ $conv['short_date'] }}</p>
+                                    <div class="flex items-baseline gap-2 mb-0.5">
+                                        <p class="text-[13px] font-bold text-zinc-800 truncate">{{ $conv['title'] }}</p>
+                                        <p class="text-[11px] text-zinc-400 shrink-0">{{ $conv['short_date'] }}</p>
                                     </div>
-                                    <p class="truncate text-[12px] text-zinc-800 leading-snug mb-2">InterLink:
-                                        {{ $conv['preview'] }}
-                                    </p>
+                                    <p class="truncate text-[12px] text-zinc-500 leading-snug mb-1.5">{{ $conv['preview'] }}</p>
                                     <span
-                                        class="inline-flex items-center rounded-full bg-gray-200/60 px-2.5 py-0.5 text-[11px] font-medium text-zinc-800 border border-black/5">
+                                        class="inline-flex items-center rounded-full bg-gray-100 px-2.5 py-0.5 text-[10px] font-medium text-zinc-600 border border-black/5">
                                         Ended
                                     </span>
                                 </div>
-
-                                {{-- Delete button (span to avoid nested button) --}}
-                                <span @click.stop="$wire.deleteConversation('{{ $conv['id'] }}')" role="button"
-                                    class="absolute right-3 top-4 cursor-pointer rounded p-1 text-zinc-600 transition-all duration-150 hover:bg-red-50 hover:text-red-500"
+                                {{-- Delete button --}}
+                                <span wire:click.stop="deleteConversation({{ $conv['id'] }})" role="button"
+                                    class="absolute right-3 top-4 cursor-pointer rounded p-1 text-zinc-400 transition-all duration-150 hover:bg-red-50 hover:text-red-500"
                                     title="Remove conversation">
                                     <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke-width="2.5"
                                         stroke="currentColor">
@@ -318,37 +331,42 @@
 
                 {{-- New conversation button --}}
                 <div class="shrink-0 px-4 pb-3 pt-1">
-                    <button type="button" @click.prevent="$wire.newConversation()"
-                        class="flex w-full items-center justify-center gap-1.5 rounded-xl bg-linear-to-br from-[#1b7a44] to-[#1b7a44] py-2.5 text-xs font-bold text-white shadow-[0_6px_16px_-4px_rgba(33,150,83,0.4),inset_0_1px_0_rgba(255,255,255,0.15)] transition hover:scale-[1.02] hover:shadow-[0_10px_22px_-5px_rgba(33,150,83,0.5)] active:scale-[0.97]">
-                        <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-                        </svg>
-                        New conversation
-                    </button>
+                    @auth
+                        <button type="button" wire:click="newConversation" wire:loading.attr="disabled"
+                            class="flex w-full items-center justify-center gap-1.5 rounded-xl bg-gradient-to-br from-[#1b7a44] to-[#0d5c32] py-2.5 text-xs font-bold text-white shadow-[0_6px_16px_-4px_rgba(27,122,68,0.4),inset_0_1px_0_rgba(255,255,255,0.15)] transition hover:scale-[1.02] hover:shadow-[0_10px_22px_-5px_rgba(27,122,68,0.5)] active:scale-[0.97] disabled:opacity-50">
+                            <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                            </svg>
+                            New conversation
+                        </button>
+                    @else
+                        <a href="{{ route('login') }}"
+                            class="flex w-full items-center justify-center gap-1.5 rounded-xl bg-gradient-to-br from-[#1b7a44] to-[#0d5c32] py-2.5 text-xs font-bold text-white shadow-[0_6px_16px_-4px_rgba(27,122,68,0.4),inset_0_1px_0_rgba(255,255,255,0.15)] transition hover:scale-[1.02] hover:shadow-[0_10px_22px_-5px_rgba(27,122,68,0.5)] active:scale-[0.97] disabled:opacity-50"
+                            style="text-decoration: none;">
+                            <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9" />
+                            </svg>
+                            Log in to chat
+                        </a>
+                    @endauth
                 </div>
 
                 {{-- Footer --}}
                 <div class="shrink-0 border-t border-gray-200 bg-gray-50 py-2">
                     <div class="flex items-center justify-center gap-2">
-                        <div class="flex h-3 w-3 items-center justify-center">
-                            <img src="{{ asset('images/Logos/Logo.png') }}" alt="InterLink"
-                                class="h-4 w-4 object-contain" />
-                        </div>
-                        <p class="text-[9px] font-semibold tracking-wide text-zinc-400">
-                            BUILT WITH INTERLINK AI
-                        </p>
+                        <img src="{{ asset('images/Logos/Logo.png') }}" alt="InternLink" class="h-4 w-4 object-contain" />
+                        <p class="text-[9px] font-semibold tracking-wide text-zinc-400">POWERED BY INTERLINK AI</p>
                     </div>
                 </div>
+
             @else
                 {{-- ========== CHAT VIEW ========== --}}
 
                 {{-- Chat header --}}
                 <div class="cw-shimmer relative flex shrink-0 items-center gap-2.5 px-4 py-2.5 overflow-hidden">
-                    <div :class="($store.ui && $store.ui.darkMode) ? 'opacity-0' : 'opacity-100'"
-                        class="cw-header-gradient-flow pointer-events-none absolute inset-0 bg-linear-to-r from-[#1b7a44] via-[#1b7a44] to-[#e7f6ee] transition-opacity duration-700 ease-in-out">
-                    </div>
-                    <div :class="($store.ui && $store.ui.darkMode) ? 'opacity-100' : 'opacity-0'"
-                        class="cw-header-gradient-flow pointer-events-none absolute inset-0 bg-linear-to-r from-black to-[#1b7a44] transition-opacity duration-700 ease-in-out">
+                    <div
+                        class="cw-header-gradient-flow pointer-events-none absolute inset-0 bg-gradient-to-r from-[#1b7a44] via-[#1b7a44] to-[#e7f6ee]">
                     </div>
                     <button wire:click="backToHome" type="button"
                         class="relative z-10 rounded-lg p-1 text-white/80 transition hover:bg-white/15 hover:text-white">
@@ -364,15 +382,22 @@
                             <path
                                 d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z">
                             </path>
-                            <path d="M14 22h5"></path>
-                            <path d="M9 8l1 3 3 1-3 1-1 3-1-3-3-1 3-1z"></path>
                         </svg>
                     </div>
                     <div class="relative z-10 flex-1">
-                        <p class="text-xs font-bold text-white">InterLink Assistant</p>
-                        <p class="text-[9px] text-white/70">Typically replies instantly</p>
+                        <p class="text-xs font-bold text-white">InternLink Assistant</p>
+                        <div class="flex items-center gap-1">
+                            <span class="h-1.5 w-1.5 rounded-full bg-green-300 animate-pulse"></span>
+                            <p class="text-[9px] text-white/70">Online · Gemini AI</p>
+                        </div>
                     </div>
-                    <button @click="isOpen = false" type="button"
+                    <button wire:click="newConversation" type="button" title="New Conversation"
+                        class="relative z-10 rounded-lg p-1 text-white/80 transition hover:bg-white/15 hover:text-white">
+                        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                        </svg>
+                    </button>
+                    <button @click="toggle()" type="button"
                         class="relative z-10 rounded-lg p-1 text-white/80 transition hover:bg-white/15 hover:text-white">
                         <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
@@ -380,7 +405,7 @@
                     </button>
                 </div>
 
-                {{-- Messages Area with animated gradient --}}
+                {{-- Messages Area --}}
                 <div x-ref="chatContainer"
                     class="cw-animated-bg flex-1 overflow-y-auto scroll-smooth p-4 flex flex-col gap-2 [&::-webkit-scrollbar]:w-[3px] [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-[#1b7a44]/30">
 
@@ -389,7 +414,7 @@
                             <div class="flex justify-end cw-msg-enter" style="animation-delay: {{ $index * 40 }}ms">
                                 <div class="flex max-w-[80%] flex-col items-end gap-0.5">
                                     <div
-                                        class="rounded-xl rounded-br-md bg-linear-to-br from-[#1b7a44] to-[#1b7a44] px-3 py-2 shadow-[0_3px_10px_rgba(33,150,83,0.2)]">
+                                        class="rounded-xl rounded-br-md bg-gradient-to-br from-[#1b7a44] to-[#0d5c32] px-3 py-2 shadow-[0_3px_10px_rgba(33,150,83,0.2)]">
                                         <p class="text-xs leading-relaxed text-white whitespace-pre-wrap">
                                             {{ trim($msg['content']) }}</p>
                                     </div>
@@ -397,15 +422,14 @@
                             </div>
                         @else
                             <div class="flex items-end gap-1.5 cw-msg-enter" style="animation-delay: {{ $index * 40 }}ms">
-                                <div class="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg p-0.5 text-[#1b7a44]">
+                                <div
+                                    class="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-white shadow-sm p-0.5 text-[#1b7a44] border border-green-100">
                                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
-                                        stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5">
+                                        stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
                                         <path d="M3 18v-6a9 9 0 0 1 18 0v6"></path>
                                         <path
                                             d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z">
                                         </path>
-                                        <path d="M14 22h5"></path>
-                                        <path d="M9 8l1 3 3 1-3 1-1 3-1-3-3-1 3-1z"></path>
                                     </svg>
                                 </div>
                                 <div class="flex max-w-[80%] flex-col gap-0.5">
@@ -422,52 +446,40 @@
                     {{-- Typing Indicator --}}
                     @if ($isTyping)
                         <div class="flex items-end gap-1.5 cw-msg-enter">
-                            <div class="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg p-0.5 text-[#1b7a44]">
+                            <div
+                                class="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-white shadow-sm p-0.5 text-[#1b7a44] border border-green-100">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
-                                    stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5">
+                                    stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
                                     <path d="M3 18v-6a9 9 0 0 1 18 0v6"></path>
                                     <path
                                         d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z">
                                     </path>
-                                    <path d="M14 22h5"></path>
-                                    <path d="M9 8l1 3 3 1-3 1-1 3-1-3-3-1 3-1z"></path>
                                 </svg>
                             </div>
                             <div
                                 class="rounded-xl rounded-bl-md bg-white px-3 py-2.5 shadow-[0_1px_3px_rgba(0,0,0,0.03),0_0_0_1px_rgba(0,0,0,0.02)]">
-                                <div class="flex gap-1">
+                                <div class="flex gap-1 items-center">
                                     <span class="h-[5px] w-[5px] rounded-full bg-[#1b7a44] opacity-80"
                                         style="animation: cw-dot-bounce 1.2s infinite;"></span>
                                     <span class="h-[5px] w-[5px] rounded-full bg-[#1b7a44] opacity-80"
                                         style="animation: cw-dot-bounce 1.2s infinite 150ms;"></span>
                                     <span class="h-[5px] w-[5px] rounded-full bg-[#1b7a44] opacity-80"
                                         style="animation: cw-dot-bounce 1.2s infinite 300ms;"></span>
+                                    <span class="text-[10px] text-zinc-400 ml-1">AI is thinking...</span>
                                 </div>
                             </div>
                         </div>
                     @endif
 
-                    {{-- Quick Replies --}}
-                    @if (count($messages) <= 1)
-                        <div class="flex flex-col gap-1.5 pt-1">
-                            <p class="text-[10px] font-semibold uppercase tracking-wide text-zinc-400">Quick actions
-                            </p>
-                            <button wire:click="setQuickReply('How does the ticketing system work?')"
-                                class="w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-left text-xs font-medium text-black transition hover:border-[#1b7a44] hover:bg-[rgba(33,150,83,0.04)] hover:text-[#1a7a1a] hover:shadow-[0_2px_6px_rgba(33,150,83,0.1)] active:scale-[0.98]">
-                                How does the ticketing system work?
-                            </button>
-                            <button wire:click="setQuickReply('Can I try it for free?')"
-                                class="w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-left text-xs font-medium text-black transition hover:border-[#1b7a44] hover:bg-[rgba(33,150,83,0.04)] hover:text-[#1a7a1a] hover:shadow-[0_2px_6px_rgba(33,150,83,0.1)] active:scale-[0.98]">
-                                Can I try it for free?
-                            </button>
-                            <button wire:click="setQuickReply('What integrations do you support?')"
-                                class="w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-left text-xs font-medium text-black transition hover:border-[#1b7a44] hover:bg-[rgba(33,150,83,0.04)] hover:text-[#1a7a1a] hover:shadow-[0_2px_6px_rgba(33,150,83,0.1)] active:scale-[0.98]">
-                                What integrations do you support?
-                            </button>
-                            <button wire:click="setQuickReply('Tell me about pricing')"
-                                class="w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-left text-xs font-medium text-black transition hover:border-[#1b7a44] hover:bg-[rgba(33,150,83,0.04)] hover:text-[#1a7a1a] hover:shadow-[0_2px_6px_rgba(33,150,83,0.1)] active:scale-[0.98]">
-                                Tell me about pricing
-                            </button>
+                    {{-- Quick Actions (shown only on first message or empty state) --}}
+                    @if (count($messages) <= 1 && !$isTyping)
+                        <div class="flex flex-col gap-1.5 pt-2">
+                            <p class="text-[10px] font-semibold uppercase tracking-wide text-zinc-400 px-1">Quick actions</p>
+                            @foreach ($this->quickActions as $qa)
+                                <button wire:click="setQuickAction('{{ $qa['action'] }}')" type="button" class="cw-qa-btn">
+                                    {{ $qa['label'] }}
+                                </button>
+                            @endforeach
                         </div>
                     @endif
                 </div>
@@ -477,25 +489,25 @@
                     <div class="flex items-center gap-2">
                         <input type="text" wire:model="message" wire:keydown.enter="sendMessage"
                             placeholder="Type your message..." autocomplete="off"
-                            class="flex-1 rounded-[10px] border border-gray-200 bg-gray-50 px-3 py-2 text-xs text-zinc-900 outline-none transition placeholder:text-zinc-400 focus:border-[#1b7a44] focus:bg-white focus:ring-2 focus:ring-[rgba(33,150,83,0.2)] disabled:opacity-50" />
+                            class="flex-1 rounded-[10px] border border-gray-200 bg-gray-50 px-3 py-2 text-xs text-zinc-900 outline-none transition placeholder:text-zinc-400 focus:border-[#1b7a44] focus:bg-white focus:ring-2 focus:ring-[rgba(27,122,68,0.2)] disabled:opacity-50" />
                         <button wire:click="sendMessage" wire:loading.attr="disabled"
-                            class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-linear-to-br from-[#1b7a44] to-[#1b7a44] text-white shadow-[0_2px_8px_rgba(33,150,83,0.3)] transition active:scale-90 disabled:opacity-30">
+                            class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-[#1b7a44] to-[#0d5c32] text-white shadow-[0_2px_8px_rgba(27,122,68,0.3)] transition active:scale-90 disabled:opacity-30 hover:shadow-[0_4px_12px_rgba(27,122,68,0.4)]">
                             <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round"
                                     d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5" />
                             </svg>
                         </button>
                     </div>
+                    <p class="mt-1 text-center text-[9px] text-zinc-300">Powered by Gemini AI · InternLink</p>
                 </div>
             @endif
         </div>
 
         {{-- Floating Toggle Button with pulse ring --}}
         <button @click="toggle()" type="button"
-            class="cw-pulse-ring relative flex h-[52px] w-[52px] items-center justify-center rounded-2xl bg-linear-to-br from-[#000000] to-[#082515] shadow-[0_8px_24px_-6px_rgba(33,150,83,0.5),0_0_0_2px_rgba(33,150,83,0.2)] transition-all duration-200 hover:scale-[1.06] hover:shadow-[0_12px_28px_-6px_#0f2b0f,0_0_0_2px_#1b7a44] active:scale-95">
+            class="cw-pulse-ring relative flex h-[52px] w-[52px] items-center justify-center rounded-2xl bg-gradient-to-br from-[#000000] to-[#082515] shadow-[0_8px_24px_-6px_rgba(33,150,83,0.5),0_0_0_2px_rgba(33,150,83,0.2)] transition-all duration-200 hover:scale-[1.06] hover:shadow-[0_12px_28px_-6px_#0f2b0f,0_0_0_2px_#1b7a44] active:scale-95">
             <img x-show="!isOpen" src="{{ asset('images/Logos/big-logo-orange.png') }}" alt="Chat"
                 style="height: 27px; width: 27px;" class="object-contain" />
-
             <svg x-show="isOpen" x-cloak class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke-width="2.5"
                 stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />

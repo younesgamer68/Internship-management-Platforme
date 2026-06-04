@@ -23,7 +23,6 @@
       <option value="Student">Student</option>
       <option value="Company">Company</option>
       <option value="Admin">Admin</option>
-      <option value="Operator">Operator</option>
     </select>
     <select class="filter-select-custom" id="statusFilter" wire:model.live="statusFilter">
       <option value="">All Statuses</option>
@@ -269,7 +268,6 @@
                 <option value="intern">Student</option>
                 <option value="company_manager">Company</option>
                 <option value="admin">Admin</option>
-                <option value="operator">Operator</option>
               </select>
               @error('role') <span class="error text-danger" style="font-size:12.5px;margin-top:4px;display:block;">{{ $message }}</span> @enderror
             </div>
@@ -362,7 +360,6 @@
                 <option value="intern">Student</option>
                 <option value="company_manager">Company</option>
                 <option value="admin">Admin</option>
-                <option value="operator">Operator</option>
               </select>
               @error('role') <span class="error text-danger" style="font-size:12.5px;margin-top:4px;display:block;">{{ $message }}</span> @enderror
             </div>

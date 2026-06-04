@@ -35,7 +35,8 @@ Route::get('/home', function () {
         if ($user->role === 'student' || $user->role === 'intern') {
             $detail = \App\Models\UserInfo::where('user_id', $user->id)->first();
             if ($detail) {
-                return redirect()->route('student.dashboard');
+                $companySlug = $user->company ? $user->company->slug : 'internlink-demo';
+                return redirect()->route('student.dashboard', ['company' => $companySlug]);
             }
             return redirect()->route('choose_intership');
         } elseif ($user->role === 'admin') {
@@ -681,7 +682,43 @@ Route::middleware(['auth'])->prefix('{company}')->group(function () {
         return redirect()->route('agent.dashboard', ['company' => $companySlug]);
     })->name('dashboard');
 
-    Route::view('/home', 'app.dashboard')->name('agent.dashboard');
+    Route::get('/home', function () {
+        $user = Auth::user();
+        
+        // Pass variables if it's going to include student dashboard
+        $applications = [];
+        $recommendedInternships = collect();
+        $documents = collect();
+        
+        if ($user->role === 'intern' || $user->role === 'student') {
+            $applications = \App\Models\Application::with('internship.company')
+                ->where('user_id', $user->id)
+                ->latest()
+                ->take(5)
+                ->get();
+                
+            $recommendedInternships = \App\Models\Internship::with(['company', 'applications'])
+                ->where('field', $user->career_field)
+                ->where('status', 'Open')
+                ->inRandomOrder()
+                ->take(5)
+                ->get();
+                
+            if ($recommendedInternships->count() < 5) {
+                $more = \App\Models\Internship::with(['company', 'applications'])
+                    ->where('status', 'Open')
+                    ->whereNotIn('id', $recommendedInternships->pluck('id')->toArray())
+                    ->inRandomOrder()
+                    ->take(5 - $recommendedInternships->count())
+                    ->get();
+                $recommendedInternships = $recommendedInternships->concat($more);
+            }
+            
+            $documents = \App\Models\Document::where('user_id', $user->id)->latest()->get();
+        }
+        
+        return view('app.dashboard', compact('applications', 'recommendedInternships', 'documents'));
+    })->name('agent.dashboard');
     Route::get('/admin/dashboard', [\App\Http\Controllers\AdminDashboardController::class, 'index'])->name('admin.dashboard');
 
     // Company Portal Sub-pages
@@ -704,10 +741,14 @@ Route::middleware(['auth'])->prefix('{company}')->group(function () {
     Route::get('/company/settings', function () {
         return view('app.company.settings');
     })->name('company.settings');
+    
+    Route::put('/company/settings', [App\Http\Controllers\CompanyFormController::class, 'updateSettings'])->name('company.settings.update');
 
     Route::get('/company/support', function () {
         return view('app.company.support');
     })->name('company.support');
+
+    Route::get('/company/send-offer/{intern}', \App\Livewire\Company\SendOffer::class)->name('company.send-offer');
 
     // Student Portal Sub-pages
     Route::get('/student/dashboard', function () {
@@ -716,13 +757,38 @@ Route::middleware(['auth'])->prefix('{company}')->group(function () {
             ->latest()
             ->take(5)
             ->get();
-        return view('app.student.dashboard', compact('applications'));
+
+        $user = auth()->user();
+        
+        $recommendedInternships = \App\Models\Internship::with(['company', 'applications'])
+            ->where('field', $user->career_field)
+            ->where('status', 'Open')
+            ->inRandomOrder()
+            ->take(5)
+            ->get();
+            
+        if ($recommendedInternships->count() < 5) {
+             $more = \App\Models\Internship::with(['company', 'applications'])
+                ->where('status', 'Open')
+                ->whereNotIn('id', $recommendedInternships->pluck('id')->toArray())
+                ->inRandomOrder()
+                ->take(5 - $recommendedInternships->count())
+                ->get();
+             $recommendedInternships = $recommendedInternships->concat($more);
+        }
+
+        $documents = \App\Models\Document::where('user_id', auth()->id())->latest()->get();
+
+        return view('app.student.dashboard', compact('applications', 'recommendedInternships', 'documents'));
     })->name('student.dashboard');
 
     Route::get('/student/listings', function () {
         $internships = \App\Models\Internship::with('company')->latest()->get();
-        return view('app.student.listings', compact('internships'));
+        $documents = \App\Models\Document::where('user_id', auth()->id())->latest()->get();
+        return view('app.student.listings', compact('internships', 'documents'));
     })->name('student.listings');
+
+    Route::post('/student/internships/{internship}/apply', [\App\Http\Controllers\ApplicationController::class, 'store'])->name('student.internships.apply');
 
     Route::get('/student/applications', function () {
         $applications = \App\Models\Application::with('internship.company')
@@ -732,17 +798,59 @@ Route::middleware(['auth'])->prefix('{company}')->group(function () {
         return view('app.student.applications', compact('applications'));
     })->name('student.applications');
 
+    Route::delete('/student/applications/{application}', [\App\Http\Controllers\ApplicationController::class, 'destroy'])->name('student.applications.destroy');
+
     Route::get('/student/documents', function () {
-        return view('app.student.documents');
+        $documents = \App\Models\Document::where('user_id', auth()->id())->latest()->get();
+        return view('app.student.documents', compact('documents'));
     })->name('student.documents');
+
+    Route::post('/student/documents', function (\Illuminate\Http\Request $request) {
+        \Log::info('Upload document route hit!', $request->all());
+        
+        $validator = \Illuminate\Support\Facades\Validator::make($request->all(), [
+            'document' => 'required|file|max:20480' // increased to 20MB, removed mimes
+        ]);
+
+        if ($validator->fails()) {
+            \Log::error('Validation failed', $validator->errors()->toArray());
+            return back()->withErrors($validator)->withInput();
+        }
+
+        $file = $request->file('document');
+        $path = $file->store('documents', 'public');
+        
+        \Log::info('File stored at: ' . $path);
+
+        $doc = \App\Models\Document::create([
+            'user_id' => auth()->id(),
+            'name' => $file->getClientOriginalName(),
+            'path' => $path,
+            'size' => $file->getSize(),
+            'type' => $file->getClientOriginalExtension()
+        ]);
+
+        \Log::info('Document created: ' . $doc->id);
+
+        return redirect()->route('student.documents', ['company' => $request->route('company')])
+                         ->with('success', 'Document uploaded successfully');
+    })->name('student.documents.upload');
+
+    Route::delete('/student/documents/{document}', function ($company, \App\Models\Document $document) {
+        if ($document->user_id !== auth()->id()) abort(403);
+        \Illuminate\Support\Facades\Storage::disk('public')->delete($document->path);
+        $document->delete();
+        return redirect()->route('student.documents', ['company' => $company])
+                         ->with('success', 'Document deleted successfully');
+    })->name('student.documents.destroy');
 
     Route::get('/student/profile', function () {
         return view('app.student.profile');
     })->name('student.profile');
 
-    Route::get('/student/support', function () {
-        return view('app.student.support');
-    })->name('student.support');
+    Route::get('/student/support', \App\Livewire\Student\Support::class)->name('student.support');
+
+    Route::get('/student/offers', \App\Livewire\Student\Offers::class)->name('student.offers');
 
     // Admin Portal Sub-pages
     Route::get('/admin/users', [\App\Http\Controllers\AdminUsersController::class, 'index'])->name('admin.users');
@@ -769,3 +877,4 @@ Route::middleware(['auth'])->prefix('{company}')->group(function () {
 });
 
 require __DIR__.'/settings.php';
+
