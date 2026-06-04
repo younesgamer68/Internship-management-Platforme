@@ -74,7 +74,7 @@
   .rating { color:var(--warning); font-size:.85rem; }
 
   /* Modal */
-  .modal-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,.45); z-index:9990; align-items:center; justify-content:center; padding:20px; -webkit-backdrop-filter:blur(8px); backdrop-filter:blur(8px); }
+  .modal-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,.45); z-index:9990; align-items:center; justify-content:center; padding:20px; backdrop-filter:blur(4px); }
   .modal-overlay.open { display:flex; animation:fadeIn .2s ease; }
   @keyframes fadeIn { from{opacity:0} to{opacity:1} }
   .modal-box { background:var(--white); border-radius:20px; padding:32px; width:100%; max-width:500px; box-shadow:0 24px 64px rgba(0,0,0,.2); animation:slideUp .25s cubic-bezier(.16,1,.3,1); position:relative; max-height:90vh; overflow-y:auto; }
@@ -108,7 +108,7 @@
 <!-- Header -->
 <div class="page-header">
   <p>Manage and track all candidate interviews</p>
-  <button class="btn-primary" onclick="openScheduleModal()"><i class="fas fa-plus"></i> Schedule Interview</button>
+  <button class="btn-primary" wire:click="openScheduleModal"><i class="fas fa-plus"></i> Schedule Interview</button>
 </div>
 
 <!-- Stats -->
@@ -218,8 +218,9 @@
     $app = $selectedInterview;
     $initials = strtoupper(substr($app->user->name, 0, 2));
 @endphp
-<div class="modal-overlay open">
-  <div class="modal-box" style="max-width:600px; margin:auto;">
+<template x-teleport="body">
+<div class="modal-overlay open" style="display:flex;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:99999;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(5px);">
+  <div class="modal-box" style="transform:none;opacity:1;max-width:600px;">
     <button class="modal-close" wire:click="closeModal"><i class="fas fa-xmark"></i></button>
     <div style="font-size:1.1rem;font-weight:800;color:var(--gray-900);margin-bottom:20px;">Applicant Interview Details</div>
     
@@ -244,7 +245,68 @@
     </div>
   </div>
 </div>
+</template>
 @endif
 
+<!-- Schedule Interview Modal -->
+@if($showScheduleModal)
+<template x-teleport="body">
+<div class="modal-overlay open" style="display:flex;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:99999;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(5px);">
+  <div class="modal-box" style="transform:none;opacity:1;max-width:450px;">
+    <button class="modal-close" wire:click="closeScheduleModal"><i class="fas fa-xmark"></i></button>
+    <div class="modal-header">
+      <div class="modal-avatar-lg" style="background:rgba(139, 92, 246, 0.1);color:#8B5CF6;width:50px;height:50px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;margin-bottom:16px;"><i class="fas fa-calendar-alt"></i></div>
+      <div>
+        <div style="font-size:1.1rem;font-weight:800;color:var(--gray-900);">Schedule Interview</div>
+        <div style="font-size:.83rem;color:var(--text-muted);margin-top:4px;">Select an accepted applicant to schedule an interview with them.</div>
+      </div>
+    </div>
+    
+    @if($acceptedApplicants->isEmpty())
+        <div style="margin-top: 24px; text-align: center; padding: 20px; background: var(--gray-50); border-radius: 12px;">
+            <div style="width:48px;height:48px;border-radius:50%;background:var(--gray-200);color:var(--gray-500);display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-size:1.2rem;"><i class="fas fa-user-times"></i></div>
+            <div style="font-size:.95rem;font-weight:700;color:var(--gray-800);margin-bottom:6px;">No Accepted Applicants</div>
+            <div style="font-size:.85rem;color:var(--gray-600);line-height:1.5;">You must accept an applicant from the <a href="{{ route('company.applicants', ['company' => auth()->user()->company->slug ?? 'internlink-demo']) }}" style="color:var(--primary);text-decoration:none;font-weight:600;">Applicants</a> page before you can schedule an interview.</div>
+        </div>
+        <div class="modal-actions" style="margin-top:24px;display:flex;width:100%;">
+            <button wire:click="closeScheduleModal" style="flex:1;padding:10px;border-radius:8px;background:var(--gray-100);color:var(--gray-700);border:none;font-weight:700;cursor:pointer;">Close</button>
+        </div>
+    @else
+        <div style="margin-top: 20px; display: flex; flex-direction: column; gap: 16px;">
+            <div class="form-group">
+                <label style="font-size:.8rem;font-weight:700;color:var(--gray-700);margin-bottom:6px;display:block;">Select Applicant</label>
+                <select wire:model="interviewAppId" style="width:100%;padding:10px 14px;border-radius:8px;border:1px solid var(--border);font-size:.9rem;background:var(--white);">
+                    <option value="">-- Choose an applicant --</option>
+                    @foreach($acceptedApplicants as $app)
+                        <option value="{{ $app->id }}">{{ $app->user->name }} ({{ $app->internship->title }})</option>
+                    @endforeach
+                </select>
+                @error('interviewAppId') <span style="color:var(--danger);font-size:.75rem;margin-top:4px;display:block;">{{ $message }}</span> @enderror
+            </div>
+            <div class="form-group">
+                <label style="font-size:.8rem;font-weight:700;color:var(--gray-700);margin-bottom:6px;display:block;">Date & Time</label>
+                <input type="text" wire:model="interviewDate" placeholder="e.g. Jun 10 at 2:00 PM EST" style="width:100%;padding:10px 14px;border-radius:8px;border:1px solid var(--border);font-size:.9rem;" />
+                @error('interviewDate') <span style="color:var(--danger);font-size:.75rem;margin-top:4px;display:block;">{{ $message }}</span> @enderror
+            </div>
+            <div class="form-group">
+                <label style="font-size:.8rem;font-weight:700;color:var(--gray-700);margin-bottom:6px;display:block;">Location / Meeting Link</label>
+                <input type="text" wire:model="interviewLocation" placeholder="e.g. Google Meet link or Office Address" style="width:100%;padding:10px 14px;border-radius:8px;border:1px solid var(--border);font-size:.9rem;" />
+                @error('interviewLocation') <span style="color:var(--danger);font-size:.75rem;margin-top:4px;display:block;">{{ $message }}</span> @enderror
+            </div>
+            <div class="form-group">
+                <label style="font-size:.8rem;font-weight:700;color:var(--gray-700);margin-bottom:6px;display:block;">Additional Notes</label>
+                <textarea wire:model="interviewNotes" rows="3" placeholder="Any instructions or topics to prepare for..." style="width:100%;padding:10px 14px;border-radius:8px;border:1px solid var(--border);font-size:.9rem;resize:vertical;"></textarea>
+                @error('interviewNotes') <span style="color:var(--danger);font-size:.75rem;margin-top:4px;display:block;">{{ $message }}</span> @enderror
+            </div>
+        </div>
+        <div class="modal-actions" style="margin-top:24px;display:flex;gap:10px;width:100%;">
+            <button wire:click="closeScheduleModal" style="flex:1;padding:10px;border-radius:8px;background:var(--gray-100);color:var(--gray-700);border:none;font-weight:700;cursor:pointer;">Cancel</button>
+            <button wire:click="scheduleInterview" style="flex:1;padding:10px;border-radius:8px;background:var(--primary);color:#fff;border:none;font-weight:700;cursor:pointer;"><i class="fas fa-paper-plane" style="margin-right:6px;"></i> Send Invite</button>
+        </div>
+    @endif
+  </div>
+</div>
+</template>
+@endif
 
 </div>

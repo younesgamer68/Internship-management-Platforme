@@ -2,13 +2,13 @@
 
 namespace App\Models;
 
-use App\Scopes\CompanyScope;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class ChatbotConversation extends Model
 {
     protected $fillable = [
+        'user_id',
         'company_id',
         'session_id',
         'messages',
@@ -23,9 +23,9 @@ class ChatbotConversation extends Model
         ];
     }
 
-    protected static function booted(): void
+    public function user(): BelongsTo
     {
-        static::addGlobalScope(new CompanyScope);
+        return $this->belongsTo(User::class);
     }
 
     public function company(): BelongsTo
@@ -38,3 +38,4 @@ class ChatbotConversation extends Model
         return $this->belongsTo(Ticket::class);
     }
 }
+

@@ -14,6 +14,10 @@ return new class extends Migration
      */
     public function up(): void
     {
+        if (! Schema::hasTable('kb_articles')) {
+            return;
+        }
+
         // Add ticket_category_id column if it doesn't exist
         if (! Schema::hasColumn('kb_articles', 'ticket_category_id')) {
             Schema::table('kb_articles', function (Blueprint $table) {
@@ -72,6 +76,10 @@ return new class extends Migration
      */
     public function down(): void
     {
+        if (! Schema::hasTable('kb_articles')) {
+            return;
+        }
+
         // Remove the new column
         if (Schema::hasColumn('kb_articles', 'ticket_category_id')) {
             try {

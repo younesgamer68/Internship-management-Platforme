@@ -24,11 +24,12 @@
               <div style="position: relative;">
                 <select class="form-select" wire:model="category_id" required style="appearance: none; background-image: url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E&quot;); background-repeat: no-repeat; background-position: right 12px center; background-size: 14px; padding-right: 36px;">
                   <option value="">Select a category</option>
-                  <option value="Application Issue">Application Issue</option>
-                  <option value="Document Upload">Document Upload</option>
-                  <option value="Account Access">Account Access</option>
-                  <option value="Technical Problem">Technical Problem</option>
-                  <option value="General Inquiry">General Inquiry</option>
+                  <option value="Posting & Listings">Posting & Listings</option>
+                  <option value="Applicant Management">Applicant Management</option>
+                  <option value="Interview Scheduling">Interview Scheduling</option>
+                  <option value="Billing & Subscription">Billing & Subscription</option>
+                  <option value="Technical Issue">Technical Issue</option>
+                  <option value="Other">Other</option>
                 </select>
               </div>
               @error('category_id') <span style="color: red; font-size: 12px;">{{ $message }}</span> @enderror
@@ -76,7 +77,7 @@
             @foreach($tickets as $ticket)
               <div class="ticket-item" style="display: flex; align-items: center; justify-content: space-between; padding: 16px 0; border-bottom: 1px solid #f1f5f9; {{ $loop->last ? 'border-bottom: none; padding-bottom: 0;' : '' }}">
                 <div style="display: flex; align-items: center; gap: 12px; flex: 1; min-width: 0;">
-                  <div class="ticket-num-badge" style="font-family: monospace; font-weight: 700; background: rgba(0, 177, 170, 0.1); color: #00b1aa; padding: 4px 8px; border-radius: 6px; font-size: 12px;">
+                  <div class="ticket-num-badge" style="font-family: monospace; font-weight: 700; background: var(--primary-bg); color: var(--primary); padding: 4px 8px; border-radius: 6px; font-size: 12px;">
                     {{ $ticket->ticket_number }}
                   </div>
                   <div class="ticket-info" style="min-width: 0;">
@@ -120,8 +121,8 @@
           <div style="padding:16px 20px;border-bottom:1px solid #f1f5f9;background:#fafafa;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;">
             <div>
               <div style="display:flex;align-items:center;gap:8px;">
-                <span style="font-family:monospace;font-weight:800;color:#00b1aa;font-size:14px;">{{ $this->selectedTicket->ticket_number }}</span>
-                <span style="font-size:11px;font-weight:700;padding:2px 8px;border-radius:10px;background:rgba(245,158,11,0.1);color:#d97706;">
+                <span style="font-family:monospace;font-weight:800;color:var(--primary);font-size:14px;">{{ $this->selectedTicket->ticket_number }}</span>
+                <span style="font-size:11px;font-weight:700;padding:2px 8px;border-radius:10px;background:rgba(245, 158, 11, 0.1);color:#d97706;">
                   {{ ucfirst($this->selectedTicket->status) }}
                 </span>
               </div>
@@ -158,15 +159,15 @@
             <!-- Replies -->
             @forelse($this->selectedTicket->replies as $reply)
               <div style="display:flex;align-items:flex-start;gap:10px;{{ !$reply->is_admin_reply ? 'flex-direction:row-reverse;' : '' }}">
-                <div style="width:32px;height:32px;border-radius:50%;background:{{ $reply->is_admin_reply ? '#00b1aa' : '#efefef' }};color:{{ $reply->is_admin_reply ? 'white' : '#4b5563' }};display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;">
+                <div style="width:32px;height:32px;border-radius:50%;background:{{ $reply->is_admin_reply ? 'var(--primary)' : '#efefef' }};color:{{ $reply->is_admin_reply ? 'white' : '#4b5563' }};display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;">
                   {{ $reply->is_admin_reply ? 'AD' : collect(explode(' ', $reply->user?->name ?? 'User'))->take(2)->map(fn($w)=>substr($w,0,1))->implode('') }}
                 </div>
-                <div style="flex:1;max-width: 85%; background:{{ $reply->is_admin_reply ? 'white' : 'rgba(0,177,170,0.03)' }};border-radius:10px;padding:12px;border:1px solid {{ $reply->is_admin_reply ? '#e5e7eb' : 'rgba(0,177,170,0.1)' }};box-shadow:0 1px 2px rgba(0,0,0,0.01);">
+                <div style="flex:1;max-width: 85%; background:{{ $reply->is_admin_reply ? 'white' : 'var(--primary-bg)' }};border-radius:10px;padding:12px;border:1px solid {{ $reply->is_admin_reply ? '#e5e7eb' : 'var(--primary-bg)' }};box-shadow:0 1px 2px rgba(0,0,0,0.01);">
                   <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
                     <div style="font-weight:700;color:#1f2937;font-size:12.5px;">
                       {{ $reply->user?->name }}
                       @if($reply->is_admin_reply)
-                        <span style="font-size:9.5px;padding:1px 4px;background:rgba(0,177,170,0.1);color:#00b1aa;border-radius:4px;margin-left:4px;font-weight:700;">Support Agent</span>
+                        <span style="font-size:9.5px;padding:1px 4px;background:var(--primary-bg);color:var(--primary);border-radius:4px;margin-left:4px;font-weight:700;">Support Agent</span>
                       @endif
                     </div>
                     <div style="font-size:10.5px;color:#9ca3af;">{{ $reply->created_at->format('M j, Y \a\t g:i A') }}</div>

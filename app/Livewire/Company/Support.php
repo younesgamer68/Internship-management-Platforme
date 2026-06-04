@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Student;
+namespace App\Livewire\Company;
 
 use App\Models\SupportTicket;
 use App\Models\SupportTicketReply;
@@ -43,7 +43,7 @@ class Support extends Component
             'description'   => $this->description,
             'priority'      => $this->priority,
             'status'        => 'open',
-            'user_type'     => 'intern',
+            'user_type'     => 'company',
         ]);
 
         // Notify admins
@@ -126,6 +126,6 @@ class Support extends Component
             ->latest()
             ->get();
 
-        return view('livewire.student.support', compact('tickets'));
+        return view('livewire.company.support', compact('tickets'));
     }
 }

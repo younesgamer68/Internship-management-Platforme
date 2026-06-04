@@ -1,4 +1,4 @@
-<div class="company-dashboard-wrapper"><div>
+<div>
   <style>
     /* ── Welcome Banner ── */
     .welcome-banner {
@@ -953,19 +953,19 @@
   <!-- Welcome Banner -->
   <div class="welcome-banner">
     <div class="welcome-banner-content">
-      <h2>Welcome back, {{ auth()->user()->company?->name ?? auth()->user()->name }}!</h2>
+      <h2>Welcome back, Younessbentouttibt!</h2>
       <p>You have <strong>8</strong> new applicants and <strong>2</strong> interviews scheduled for today.</p>
       <div class="welcome-quick-actions">
         <button class="welcome-quick-btn"
-          onclick="document.location='{{ route('company.applicants', ['company' => auth()->user()->company?->slug ?? 'internlink-demo']) }}'">
+          onclick="document.location='http://interhship_plat.test/dawson-and-pickett-inc/internships/applicants'">
           <i class="fas fa-users"></i> View Applicants
         </button>
         <button class="welcome-quick-btn"
-          onclick="document.location='{{ route('company.interviews', ['company' => auth()->user()->company?->slug ?? 'internlink-demo']) }}'">
+          onclick="document.location='http://interhship_plat.test/dawson-and-pickett-inc/internships/interviews'">
           <i class="fas fa-calendar"></i> Interviews
         </button>
         <button class="welcome-quick-btn"
-          onclick="document.location='{{ route('company.offers', ['company' => auth()->user()->company?->slug ?? 'internlink-demo']) }}'">
+          onclick="document.location='http://interhship_plat.test/dawson-and-pickett-inc/internships/offers'">
           <i class="fas fa-plus"></i> Post Internship
         </button>
       </div>
@@ -1083,7 +1083,7 @@
       <div class="card">
         <div class="card-header">
           <h2 class="card-title"><i class="fas fa-user-clock"></i> Intern Applicants</h2>
-          <a href="{{ route('company.applicants', ['company' => auth()->user()->company?->slug ?? 'internlink-demo']) }}"
+          <a href="http://interhship_plat.test/dawson-and-pickett-inc/internships/applicants"
             class="btn-link">View All <i class="fas fa-arrow-right" style="font-size:.72rem;"></i></a>
         </div>
 
@@ -1096,7 +1096,7 @@
       <div class="card">
         <div class="card-header">
           <h2 class="card-title"><i class="fas fa-briefcase"></i> Active Internship Offers</h2>
-          <a href="{{ route('company.offers', ['company' => auth()->user()->company?->slug ?? 'internlink-demo']) }}"
+          <a href="http://interhship_plat.test/dawson-and-pickett-inc/internships/offers"
             class="btn-link">Manage <i class="fas fa-arrow-right" style="font-size:.72rem;"></i></a>
         </div>
 
@@ -1191,7 +1191,7 @@
       <div class="card">
         <div class="card-header">
           <h2 class="card-title"><i class="fas fa-calendar-alt"></i> Upcoming Interviews</h2>
-          <a href="{{ route('company.interviews', ['company' => auth()->user()->company?->slug ?? 'internlink-demo']) }}"
+          <a href="http://interhship_plat.test/dawson-and-pickett-inc/internships/interviews"
             class="btn-link">View All</a>
         </div>
 
@@ -1465,5 +1465,4 @@
 
     renderApplicants();
   </script>
-</div>
 </div>

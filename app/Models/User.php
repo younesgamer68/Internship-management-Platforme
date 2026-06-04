@@ -164,6 +164,29 @@ class User extends Authenticatable
         return $this->hasOne(UserInfo::class);
     }
 
+    public function chatbotSessions()
+    {
+        return $this->hasMany(ChatbotSession::class);
+    }
+
+    public function supportTickets()
+    {
+        return $this->hasMany(SupportTicket::class);
+    }
+
+    /**
+     * Internship offers received by this intern.
+     */
+    public function receivedOffers()
+    {
+        return $this->hasMany(InternshipOffer::class);
+    }
+
+    public function applications()
+    {
+        return $this->hasMany(Application::class);
+    }
+
     /**
      * Scope a query to only include available operators.
      */

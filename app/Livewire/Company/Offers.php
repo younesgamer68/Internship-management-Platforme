@@ -11,16 +11,38 @@ class Offers extends Component
 {
     public $title = '';
     public $location = '';
-    public $internship_type = 'Onsite'; // match the select in mockup if there is one
+    public $internship_type = 'Onsite';
     public $description = '';
     
+    // New fields
+    public $requirements = '';
+    public $responsibilities = '';
+    public $duration = '';
+    public $is_paid = false;
+    public $salary = '';
+    public $field = '';
+    public $experience_level = 'Beginner';
+    public $skills_required = '';
+    public $deadline = '';
+    
     public $showCreateModal = false;
+    public $showViewModal = false;
+    public $selectedOffer = null;
 
     protected $rules = [
         'title' => 'required|string|max:255',
         'location' => 'required|string|max:255',
         'internship_type' => 'required|string',
         'description' => 'required|string|min:10',
+        'requirements' => 'nullable|string',
+        'responsibilities' => 'nullable|string',
+        'duration' => 'required|string|max:255',
+        'is_paid' => 'boolean',
+        'salary' => 'nullable|string|max:255',
+        'field' => 'required|string|max:255',
+        'experience_level' => 'required|string|max:255',
+        'skills_required' => 'nullable|string',
+        'deadline' => 'nullable|date',
     ];
 
     public function mount()
@@ -32,7 +54,11 @@ class Offers extends Component
     
     public function openCreateModal()
     {
-        $this->reset(['title', 'location', 'internship_type', 'description']);
+        $this->reset([
+            'title', 'location', 'internship_type', 'description',
+            'requirements', 'responsibilities', 'duration', 'is_paid',
+            'salary', 'field', 'experience_level', 'skills_required', 'deadline'
+        ]);
         $this->showCreateModal = true;
     }
     
@@ -41,11 +67,28 @@ class Offers extends Component
         $this->showCreateModal = false;
     }
 
+    public function viewOffer($id)
+    {
+        $this->selectedOffer = Internship::where('company_id', Auth::user()->company_id)->findOrFail($id);
+        $this->showViewModal = true;
+    }
+
+    public function closeViewModal()
+    {
+        $this->showViewModal = false;
+        $this->selectedOffer = null;
+    }
+
     public function saveOffer()
     {
         $this->validate();
 
         $companyId = Auth::user()->company_id;
+
+        $skillsArray = [];
+        if (!empty(trim($this->skills_required))) {
+            $skillsArray = array_map('trim', explode(',', $this->skills_required));
+        }
 
         Internship::create([
             'company_id' => $companyId,
@@ -54,15 +97,15 @@ class Offers extends Component
             'description' => $this->description,
             'location' => $this->location,
             'internship_type' => $this->internship_type,
-            'requirements' => 'Basic requirements for this position.',
-            'responsibilities' => 'Assist with day-to-day operations and team projects.',
-            'duration' => '3 Months',
-            'is_paid' => false,
-            'field' => 'IT & Software',
-            'subfield' => 'General',
-            'experience_level' => 'Beginner',
-            'skills_required' => ['Communication', 'Teamwork'],
-            'deadline' => now()->addMonth(),
+            'requirements' => $this->requirements,
+            'responsibilities' => $this->responsibilities,
+            'duration' => $this->duration,
+            'is_paid' => $this->is_paid,
+            'salary' => $this->is_paid ? $this->salary : null,
+            'field' => $this->field,
+            'experience_level' => $this->experience_level,
+            'skills_required' => $skillsArray,
+            'deadline' => $this->deadline ? $this->deadline : null,
             'status' => 'Open',
             'featured' => false,
             'is_new' => true,
@@ -83,6 +126,47 @@ class Offers extends Component
     {
         $offer = Internship::where('company_id', Auth::user()->company_id)->findOrFail($id);
         $offer->update(['status' => 'Open']);
+    }
+
+    public function deleteOffer($id)
+    {
+        $offer = Internship::where('company_id', Auth::user()->company_id)->findOrFail($id);
+        $offer->delete();
+    }
+
+    public function exportCsv()
+    {
+        $internships = Internship::where('company_id', Auth::user()->company_id)->get();
+
+        $csvHeader = ['ID', 'Title', 'Location', 'Type', 'Field', 'Level', 'Duration', 'Paid', 'Salary', 'Status', 'Deadline', 'Created At'];
+        
+        $csvData = [];
+        $csvData[] = implode(',', $csvHeader);
+        
+        foreach ($internships as $internship) {
+            $csvData[] = implode(',', [
+                $internship->id,
+                '"' . str_replace('"', '""', $internship->title) . '"',
+                '"' . str_replace('"', '""', $internship->location) . '"',
+                $internship->internship_type,
+                '"' . str_replace('"', '""', $internship->field) . '"',
+                $internship->experience_level,
+                '"' . str_replace('"', '""', $internship->duration) . '"',
+                $internship->is_paid ? 'Yes' : 'No',
+                '"' . str_replace('"', '""', $internship->salary) . '"',
+                $internship->status,
+                $internship->deadline,
+                $internship->created_at,
+            ]);
+        }
+
+        $csvString = implode("\n", $csvData);
+
+        return response()->streamDownload(function () use ($csvString) {
+            echo $csvString;
+        }, 'internship_offers.csv', [
+            'Content-Type' => 'text/csv',
+        ]);
     }
 
     public function render()

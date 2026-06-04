@@ -112,7 +112,7 @@
   .modal-overlay {
     display: none; position: fixed; inset: 0; background: rgba(0,0,0,.45);
     z-index: 9990; align-items: center; justify-content: center; padding: 20px;
-    -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+    backdrop-filter: blur(4px);
   }
   .modal-overlay.open { display: flex; animation: fadeIn .2s ease; }
   @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
@@ -266,8 +266,16 @@
               <button class="action-btn view" wire:click="viewApplicant({{ $app->id }})"><i class="fas fa-eye"></i> <span>View</span></button>
               @if(!$resolved)
               <button class="action-btn accept" wire:click="updateStatus({{ $app->id }}, 'accepted')"><i class="fas fa-check"></i> <span>Accept</span></button>
-              <button class="action-btn interview" wire:click="updateStatus({{ $app->id }}, 'interview')"><i class="fas fa-calendar"></i> <span>Interview</span></button>
               <button class="action-btn reject" wire:click="updateStatus({{ $app->id }}, 'rejected')"><i class="fas fa-times"></i> <span>Reject</span></button>
+              @else
+                @if($s === 'Accepted')
+                <a href="{{ route('company.interviews', ['company' => auth()->user()->company->slug ?? 'internlink-demo']) }}" class="action-btn interview" style="text-decoration: none;">
+                  <i class="fas fa-calendar"></i> <span>Interview</span>
+                </a>
+                <a href="{{ route('company.send-offer', ['company' => auth()->user()->company->slug ?? 'internlink-demo', 'intern' => $app->user_id]) }}" class="action-btn" style="background: var(--primary-bg); color: var(--primary); border: 1.5px solid rgba(0, 177, 170, 0.25); text-decoration: none;">
+                  <i class="fas fa-gift"></i> <span>Offer</span>
+                </a>
+                @endif
               @endif
             </div>
           </td>
@@ -312,8 +320,9 @@
     ][$s] ?? 'new';
     $resolved = in_array($s, ['Accepted', 'Rejected']);
 @endphp
-<div class="modal-overlay open">
-  <div class="modal-box" style="margin:auto;">
+<template x-teleport="body">
+<div class="modal-overlay open" style="display:flex;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:99999;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(5px);">
+  <div class="modal-box" style="transform:none;opacity:1;">
     <button class="modal-close" wire:click="closeModal"><i class="fas fa-xmark"></i></button>
     <div class="modal-header">
       <div class="modal-avatar-lg" style="background:var(--primary-bg);color:var(--primary);">{{ $initials }}</div>
@@ -333,18 +342,31 @@
     <div style="font-size:.8rem;font-weight:700;color:var(--gray-700);margin-bottom:8px;text-transform:uppercase;letter-spacing:.04em;">Cover Letter Preview</div>
     <div class="cover-letter-preview">{{ $app->cover_letter ?? 'No cover letter provided.' }}</div>
     <div class="modal-divider"></div>
-    <div class="modal-actions">
+    <div class="modal-actions" style="display: flex; flex-direction: column; gap: 12px; width: 100%;">
         @if($resolved)
-            <div style="color:var(--text-muted);font-size:.85rem;text-align:center;width:100%;padding:8px;">This application has been <strong>{{ $s }}</strong>.</div>
+            <div style="color:var(--text-muted);font-size:.85rem;text-align:center;width:100%;padding:8px; display: flex; flex-direction: column; gap: 10px; align-items: center;">
+                <div>This application has been <strong>{{ $s }}</strong>.</div>
+                @if($s === 'Accepted')
+                <div style="display: flex; gap: 10px; width: 100%; justify-content: center;">
+                    <a href="{{ route('company.interviews', ['company' => auth()->user()->company->slug ?? 'internlink-demo']) }}" style="background: rgba(139, 92, 246, 0.1); color: #8B5CF6; border: 1.5px solid rgba(139, 92, 246, 0.2); padding: 8px 16px; border-radius: 8px; display: inline-flex; align-items: center; gap: 6px; font-weight: 700; cursor: pointer; text-decoration: none;">
+                      <i class="fas fa-calendar"></i> <span>Schedule Interview</span>
+                    </a>
+                    <a href="{{ route('company.send-offer', ['company' => auth()->user()->company->slug ?? 'internlink-demo', 'intern' => $app->user_id]) }}" class="action-btn" style="background: var(--primary-bg); color: var(--primary); border: 1.5px solid rgba(0, 177, 170, 0.25); padding: 8px 16px; border-radius: 8px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; font-weight: 700; cursor: pointer;">
+                      <i class="fas fa-gift"></i> Send Offer
+                    </a>
+                </div>
+                @endif
+            </div>
         @else
-            <button class="btn-accept" wire:click="updateStatus({{ $app->id }}, 'accepted')"><i class="fas fa-check"></i> Accept</button>
-            <button class="btn-interview-modal" wire:click="updateStatus({{ $app->id }}, 'interview')"><i class="fas fa-calendar"></i> Schedule Interview</button>
-            <button class="btn-reject" wire:click="updateStatus({{ $app->id }}, 'rejected')"><i class="fas fa-times"></i> Reject</button>
+            <div style="display: flex; gap: 10px; width: 100%;">
+                <button class="btn-accept" wire:click="updateStatus({{ $app->id }}, 'accepted')" style="flex: 1;"><i class="fas fa-check"></i> Accept</button>
+                <button class="btn-reject" wire:click="updateStatus({{ $app->id }}, 'rejected')" style="flex: 1;"><i class="fas fa-times"></i> Reject</button>
+            </div>
         @endif
     </div>
   </div>
 </div>
+</template>
 @endif
-
 
 </div>

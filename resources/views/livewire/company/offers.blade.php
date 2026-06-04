@@ -9,7 +9,7 @@
     <p class="page-subtitle">Manage all your active, draft and closed internship postings</p>
   </div>
   <div class="page-header-actions">
-    <button class="btn btn-ghost" id="exportBtn" onclick="exportOffers()">
+    <button class="btn btn-ghost" id="exportBtn" wire:click="exportCsv">
       <i class="fas fa-file-export"></i> Export
     </button>
     <button class="btn btn-primary" wire:click="openCreateModal">
@@ -70,7 +70,7 @@
   <select id="statusFilter" onchange="filterTable()"
           style="padding:9px 14px;border:1.5px solid var(--gray-300);border-radius:var(--radius-sm);font-size:13px;background:white;cursor:pointer;min-width:130px;">
     <option value="">All Statuses</option>
-    <option>Active</option>
+    <option>Open</option>
     <option>Draft</option>
     <option>Closed</option>
   </select>
@@ -143,7 +143,7 @@
             <span class="status-badge {{ $statusClass }}">{{ ucfirst($offer->status) }}</span>
           </td>
           <td style="padding:15px 16px;">
-            <button class="action-btn view" onclick="alert('View functionality coming soon')" title="View">
+            <button class="action-btn view" wire:click="viewOffer({{ $offer->id }})" title="View details">
               <i class="fas fa-eye"></i> View
             </button>
             @if($offer->status === 'Closed')
@@ -155,6 +155,9 @@
               <i class="fas fa-times"></i> Close
             </button>
             @endif
+            <button class="action-btn" style="background:#FEE2E2;color:#EF4444;border-color:#FCA5A5;margin-left:4px;" wire:click="deleteOffer({{ $offer->id }})" wire:confirm="Are you sure you want to completely delete this internship? This cannot be undone." title="Delete">
+              <i class="fas fa-trash"></i> Delete
+            </button>
           </td>
         </tr>
         @empty
@@ -181,8 +184,9 @@
      CREATE / EDIT MODAL
 ══════════════════════════════════ -->
 @if($showCreateModal)
-<div id="offerModal" style="display:flex;position:fixed;inset:0;background:rgba(0,0,0,0.45);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);z-index:9999;align-items:center;justify-content:center;padding:24px;">
-  <div class="card" style="width:100%;max-width:680px;max-height:90vh;overflow-y:auto;transform:scale(1);opacity:1;margin:auto;">
+<template x-teleport="body">
+<div id="offerModal" style="display:flex;position:fixed;inset:0;background:rgba(0,0,0,0.45);backdrop-filter:blur(5px);z-index:99999;align-items:center;justify-content:center;padding:24px;">
+  <div class="card" style="width:100%;max-width:680px;max-height:90vh;overflow-y:auto;transform:scale(1);opacity:1;">
     <div class="card-header" style="padding:24px 24px 0;">
       <div>
         <div class="card-title" id="modalTitle">Post New Internship</div>
@@ -195,33 +199,107 @@
       </button>
     </div>
     <div class="card-body">
-      <div class="form-row">
-        <div class="form-group">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+        <div class="form-group" style="margin-bottom:16px;">
           <label class="form-label">Internship Title *</label>
           <input type="text" class="form-control" wire:model="title" placeholder="e.g. Software Development Intern">
           @error('title') <span style="color: red; font-size: 12px;">{{ $message }}</span> @enderror
         </div>
-        <div class="form-group">
+        <div class="form-group" style="margin-bottom:16px;">
           <label class="form-label">Location *</label>
           <input type="text" class="form-control" wire:model="location" placeholder="e.g. Remote, New York">
           @error('location') <span style="color: red; font-size: 12px;">{{ $message }}</span> @enderror
         </div>
       </div>
-      <div class="form-group">
-        <label class="form-label">Internship Type *</label>
-        <select class="form-control" wire:model="internship_type">
-          <option value="Remote">Remote</option>
-          <option value="Onsite">Onsite</option>
-          <option value="Hybrid">Hybrid</option>
-        </select>
-        @error('internship_type') <span style="color: red; font-size: 12px;">{{ $message }}</span> @enderror
+      
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;">
+        <div class="form-group" style="margin-bottom:16px;">
+          <label class="form-label">Work Arrangement *</label>
+          <select class="form-control" wire:model="internship_type">
+            <option value="Onsite">Onsite</option>
+            <option value="Remote">Remote</option>
+            <option value="Hybrid">Hybrid</option>
+          </select>
+          @error('internship_type') <span style="color: red; font-size: 12px;">{{ $message }}</span> @enderror
+        </div>
+        <div class="form-group" style="margin-bottom:16px;">
+          <label class="form-label">Field / Department *</label>
+          <select class="form-control" wire:model="field">
+            <option value="">Select a Department</option>
+            <option value="Engineering">Engineering</option>
+            <option value="Marketing">Marketing</option>
+            <option value="Data Science">Data Science</option>
+            <option value="Design">Design</option>
+            <option value="Finance">Finance</option>
+          </select>
+          @error('field') <span style="color: red; font-size: 12px;">{{ $message }}</span> @enderror
+        </div>
+        <div class="form-group" style="margin-bottom:16px;">
+          <label class="form-label">Experience Level *</label>
+          <select class="form-control" wire:model="experience_level">
+            <option value="Beginner">Beginner</option>
+            <option value="Intermediate">Intermediate</option>
+            <option value="Advanced">Advanced</option>
+          </select>
+          @error('experience_level') <span style="color: red; font-size: 12px;">{{ $message }}</span> @enderror
+        </div>
       </div>
-      <div class="form-group">
+
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;">
+        <div class="form-group" style="margin-bottom:16px;">
+          <label class="form-label">Duration *</label>
+          <input type="text" class="form-control" wire:model="duration" placeholder="e.g. 3 Months">
+          @error('duration') <span style="color: red; font-size: 12px;">{{ $message }}</span> @enderror
+        </div>
+        <div class="form-group" style="margin-bottom:16px;">
+          <label class="form-label">Deadline</label>
+          <input type="date" class="form-control" wire:model="deadline">
+          @error('deadline') <span style="color: red; font-size: 12px;">{{ $message }}</span> @enderror
+        </div>
+        <div class="form-group" style="margin-bottom:16px;">
+          <label class="form-label">Is this a paid internship?</label>
+          <div style="display:flex;align-items:center;gap:10px;height:42px;">
+            <input type="checkbox" wire:model.live="is_paid" id="is_paid_checkbox" style="width:18px;height:18px;">
+            <label for="is_paid_checkbox" style="font-size:14px;color:var(--gray-700);cursor:pointer;margin:0;">Yes, it is paid</label>
+          </div>
+          @error('is_paid') <span style="color: red; font-size: 12px;">{{ $message }}</span> @enderror
+        </div>
+      </div>
+
+      @if($is_paid)
+      <div class="form-group" style="margin-bottom:16px;">
+        <label class="form-label">Salary / Stipend Details</label>
+        <input type="text" class="form-control" wire:model="salary" placeholder="e.g. $1000/month or $15/hr">
+        @error('salary') <span style="color: red; font-size: 12px;">{{ $message }}</span> @enderror
+      </div>
+      @endif
+
+      <div class="form-group" style="margin-bottom:16px;">
+        <label class="form-label">Skills Required <span style="color:var(--gray-400);font-weight:400;">(comma-separated)</span></label>
+        <input type="text" class="form-control" wire:model="skills_required" placeholder="e.g. Python, React, Communication">
+        @error('skills_required') <span style="color: red; font-size: 12px;">{{ $message }}</span> @enderror
+      </div>
+
+      <div class="form-group" style="margin-bottom:16px;">
         <label class="form-label">Description *</label>
-        <textarea class="form-control" rows="4" wire:model="description" placeholder="Describe the internship role, responsibilities and requirements…" style="resize:vertical;"></textarea>
+        <textarea class="form-control" rows="3" wire:model="description" placeholder="Describe the overall role..." style="resize:vertical;"></textarea>
         @error('description') <span style="color: red; font-size: 12px;">{{ $message }}</span> @enderror
       </div>
-      <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:8px;">
+      
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+        <div class="form-group" style="margin-bottom:16px;">
+          <label class="form-label">Requirements</label>
+          <textarea class="form-control" rows="3" wire:model="requirements" placeholder="What are the prerequisites?" style="resize:vertical;"></textarea>
+          @error('requirements') <span style="color: red; font-size: 12px;">{{ $message }}</span> @enderror
+        </div>
+        <div class="form-group" style="margin-bottom:16px;">
+          <label class="form-label">Responsibilities</label>
+          <textarea class="form-control" rows="3" wire:model="responsibilities" placeholder="What will the intern do?" style="resize:vertical;"></textarea>
+          @error('responsibilities') <span style="color: red; font-size: 12px;">{{ $message }}</span> @enderror
+        </div>
+      </div>
+
+      <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:16px;">
         <button wire:click="closeModal" class="btn btn-ghost">Cancel</button>
         <button wire:click="saveOffer" class="btn btn-primary">
           <i class="fas fa-check" wire:loading.remove wire:target="saveOffer"></i>
@@ -232,6 +310,92 @@
     </div>
   </div>
 </div>
+</template>
+@endif
+
+<!-- ══════════════════════════════════
+     VIEW MODAL
+══════════════════════════════════ -->
+@if($showViewModal && $selectedOffer)
+<template x-teleport="body">
+<div style="display:flex;position:fixed;inset:0;background:rgba(0,0,0,0.45);backdrop-filter:blur(5px);z-index:99999;align-items:center;justify-content:center;padding:24px;">
+  <div class="card" style="width:100%;max-width:680px;max-height:90vh;overflow-y:auto;transform:scale(1);opacity:1;">
+    <div class="card-header" style="padding:24px 24px 0;">
+      <div>
+        <div class="card-title">{{ $selectedOffer->title }}</div>
+        <div class="card-subtitle">{{ $selectedOffer->company->company_name ?? 'Company' }} &bull; {{ $selectedOffer->location }}</div>
+      </div>
+      <button wire:click="closeViewModal" style="background:var(--gray-100);border:none;width:32px;height:32px;border-radius:8px;cursor:pointer;color:var(--gray-500);font-size:16px;display:flex;align-items:center;justify-content:center;transition:var(--transition);"
+              onmouseover="this.style.background='var(--danger-bg)';this.style.color='var(--danger)'"
+              onmouseout="this.style.background='var(--gray-100)';this.style.color='var(--gray-500)'">
+        <i class="fas fa-xmark"></i>
+      </button>
+    </div>
+    <div class="card-body" style="padding:24px;">
+      
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:20px;">
+        <div style="background:var(--gray-50);padding:12px;border-radius:10px;border:1px solid var(--border);">
+            <div style="font-size:11px;font-weight:700;color:var(--gray-500);text-transform:uppercase;margin-bottom:4px;">Arrangement</div>
+            <div style="font-size:14px;font-weight:600;color:var(--gray-800);">{{ $selectedOffer->internship_type }}</div>
+        </div>
+        <div style="background:var(--gray-50);padding:12px;border-radius:10px;border:1px solid var(--border);">
+            <div style="font-size:11px;font-weight:700;color:var(--gray-500);text-transform:uppercase;margin-bottom:4px;">Field / Level</div>
+            <div style="font-size:14px;font-weight:600;color:var(--gray-800);">{{ $selectedOffer->field }} ({{ $selectedOffer->experience_level }})</div>
+        </div>
+        <div style="background:var(--gray-50);padding:12px;border-radius:10px;border:1px solid var(--border);">
+            <div style="font-size:11px;font-weight:700;color:var(--gray-500);text-transform:uppercase;margin-bottom:4px;">Duration</div>
+            <div style="font-size:14px;font-weight:600;color:var(--gray-800);">{{ $selectedOffer->duration }}</div>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px;">
+        <div style="background:var(--gray-50);padding:12px;border-radius:10px;border:1px solid var(--border);">
+            <div style="font-size:11px;font-weight:700;color:var(--gray-500);text-transform:uppercase;margin-bottom:4px;">Compensation</div>
+            <div style="font-size:14px;font-weight:600;color:var(--gray-800);">{{ $selectedOffer->is_paid ? ($selectedOffer->salary ?: 'Paid') : 'Unpaid' }}</div>
+        </div>
+        <div style="background:var(--gray-50);padding:12px;border-radius:10px;border:1px solid var(--border);">
+            <div style="font-size:11px;font-weight:700;color:var(--gray-500);text-transform:uppercase;margin-bottom:4px;">Deadline</div>
+            <div style="font-size:14px;font-weight:600;color:var(--gray-800);">{{ $selectedOffer->deadline ? \Carbon\Carbon::parse($selectedOffer->deadline)->format('M d, Y') : 'No deadline specified' }}</div>
+        </div>
+      </div>
+
+      <div style="margin-bottom:20px;">
+        <div style="font-size:12px;font-weight:700;color:var(--gray-700);text-transform:uppercase;margin-bottom:8px;">Description</div>
+        <p style="font-size:14px;color:var(--gray-600);line-height:1.5;margin:0;">{{ $selectedOffer->description }}</p>
+      </div>
+
+      @if($selectedOffer->requirements)
+      <div style="margin-bottom:20px;">
+        <div style="font-size:12px;font-weight:700;color:var(--gray-700);text-transform:uppercase;margin-bottom:8px;">Requirements</div>
+        <p style="font-size:14px;color:var(--gray-600);line-height:1.5;margin:0;white-space:pre-wrap;">{{ $selectedOffer->requirements }}</p>
+      </div>
+      @endif
+
+      @if($selectedOffer->responsibilities)
+      <div style="margin-bottom:20px;">
+        <div style="font-size:12px;font-weight:700;color:var(--gray-700);text-transform:uppercase;margin-bottom:8px;">Responsibilities</div>
+        <p style="font-size:14px;color:var(--gray-600);line-height:1.5;margin:0;white-space:pre-wrap;">{{ $selectedOffer->responsibilities }}</p>
+      </div>
+      @endif
+
+      @if($selectedOffer->skills_required && is_array($selectedOffer->skills_required))
+      <div style="margin-bottom:20px;">
+        <div style="font-size:12px;font-weight:700;color:var(--gray-700);text-transform:uppercase;margin-bottom:8px;">Skills Required</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            @foreach($selectedOffer->skills_required as $skill)
+                <span style="background:var(--primary-bg);color:var(--primary);padding:4px 10px;border-radius:6px;font-size:12px;font-weight:600;">{{ $skill }}</span>
+            @endforeach
+        </div>
+      </div>
+      @endif
+
+      <div style="display:flex;justify-content:flex-end;margin-top:24px;">
+        <button wire:click="closeViewModal" class="btn btn-primary" style="padding:10px 24px;">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+</template>
 @endif
 
 <!-- ══════════════════════════════════
@@ -269,15 +433,7 @@ function filterTable() {
 }
 
 /* ── Modal ── */
-
-  var btn = document.getElementById('saveOfferBtn');
-  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving…'; btn.disabled = true;
-  setTimeout(function() {
-    closeModal();
-    showToast('Internship "' + title + '" published!', 'success');
-    btn.innerHTML = '<i class="fas fa-check"></i> Save & Publish'; btn.disabled = false;
-  }, 1200);
-}
+// Modal transitions and actions are managed by Livewire.
 
 /* ── Export ── */
 function exportOffers() {

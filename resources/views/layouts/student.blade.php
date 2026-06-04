@@ -168,6 +168,10 @@
           class="nav-item {{ request()->routeIs('student.applications') ? 'active' : '' }}">
           <i class="fas fa-file-alt"></i><span>Applications</span>
         </a>
+        <a href="{{ route('student.offers', ['company' => $companySlug]) }}"
+          class="nav-item {{ request()->routeIs('student.offers') ? 'active' : '' }}">
+          <i class="fas fa-gift"></i><span>Offers</span>
+        </a>
         <a href="{{ route('student.documents', ['company' => $companySlug]) }}"
           class="nav-item {{ request()->routeIs('student.documents') ? 'active' : '' }}">
           <i class="fas fa-folder-open"></i><span>Documents</span>
@@ -233,6 +237,9 @@
             style="border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; outline: none; border: 1px solid var(--border);">
             <i class="fas fa-moon" id="dark-mode-icon"></i>
           </button>
+
+          {{-- Notification Bell --}}
+          <livewire:notification-bell />
 
           <div class="user-avatar-btn">
             <div class="avatar" style="background:var(--primary);">

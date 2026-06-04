@@ -294,10 +294,10 @@
           </td>
           <td>
             <div class="action-cell">
-              <button class="btn-view" onclick="openDetailModal('{{ addslashes($title) }}','{{ addslashes($companyName) }}','{{ addslashes($location) }}','{{ addslashes($status) }}','{{ $pct }}%','{{ addslashes($duration) }}','var(--primary)','{{ strtoupper($init) }}','{{ $date }}')">
+              <button class="btn-view" onclick="openDetailModal('{{ addslashes($title) }}','{{ addslashes($companyName) }}','{{ addslashes($location) }}','{{ addslashes($status) }}','{{ $pct }}%','{{ addslashes($duration) }}','var(--primary)','{{ strtoupper($init) }}','{{ $date }}', {{ $app->id }}, '{{ $slug }}')">
                 <i class="fas fa-eye"></i> View
               </button>
-              <button class="btn-withdraw" onclick="withdrawApp(this,'{{ addslashes($companyName) }}')">
+              <button class="btn-withdraw" onclick="withdrawApp(this, '{{ addslashes($companyName) }}', {{ $app->id }}, '{{ $slug }}')">
                 <i class="fas fa-xmark"></i>
               </button>
             </div>
@@ -320,8 +320,82 @@
       <i class="fas fa-inbox"></i>
       <p>No applications found for this filter.</p>
     </div>
+    </div>
   </div>
 </div>
+
+@php
+    $upcomingInterviews = $applications->filter(fn($app) => strtolower($app->status) === 'interview scheduled' || strtolower($app->status) === 'interview');
+@endphp
+@if($upcomingInterviews->count() > 0)
+<!-- Upcoming Interviews Card -->
+<div class="main-card" style="margin-top: 30px;">
+  <div style="padding: 24px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 12px;">
+    <div style="width: 40px; height: 40px; border-radius: 12px; background: rgba(139, 92, 246, 0.1); color: #8B5CF6; display: flex; align-items: center; justify-content: center; font-size: 1.2rem;">
+        <i class="fas fa-calendar-alt"></i>
+    </div>
+    <h2 style="margin: 0; font-size: 1.2rem; font-weight: 800; color: var(--gray-900);">My Upcoming Interviews</h2>
+  </div>
+  
+  <div style="padding: 24px; display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px;">
+    @foreach($upcomingInterviews as $interview)
+        @php
+            $company = $interview->internship->company;
+            $companyName = $company?->name ?? 'Company';
+            $init = substr($companyName, 0, 2);
+        @endphp
+        <div style="border: 1px solid var(--border); border-radius: 16px; padding: 20px; background: var(--white); box-shadow: var(--shadow-sm); position: relative; overflow: hidden;">
+            <div style="position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: #8B5CF6;"></div>
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px;">
+                <div style="display: flex; gap: 12px; align-items: center;">
+                    <div style="width: 44px; height: 44px; border-radius: 12px; background: var(--primary-bg); color: var(--primary); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.1rem;">
+                        {{ strtoupper($init) }}
+                    </div>
+                    <div>
+                        <div style="font-weight: 800; color: var(--gray-900); font-size: 1.05rem;">{{ $interview->internship->title }}</div>
+                        <div style="color: var(--text-muted); font-size: 0.85rem; font-weight: 600;">{{ $companyName }}</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="display: flex; flex-direction: column; gap: 12px; background: var(--gray-50); padding: 16px; border-radius: 12px;">
+                <div style="display: flex; gap: 12px; align-items: flex-start;">
+                    <i class="fas fa-clock" style="color: #8B5CF6; margin-top: 3px;"></i>
+                    <div>
+                        <div style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em;">Date & Time</div>
+                        <div style="font-size: 0.9rem; color: var(--gray-800); font-weight: 600;">{{ $interview->interview_date ?? 'To be decided' }}</div>
+                    </div>
+                </div>
+                
+                <div style="display: flex; gap: 12px; align-items: flex-start;">
+                    <i class="fas fa-location-dot" style="color: var(--primary); margin-top: 3px;"></i>
+                    <div style="width: 100%; overflow: hidden; text-overflow: ellipsis;">
+                        <div style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em;">Location / Link</div>
+                        <div style="font-size: 0.9rem; color: var(--gray-800); font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                            @if(filter_var($interview->interview_location, FILTER_VALIDATE_URL))
+                                <a href="{{ $interview->interview_location }}" target="_blank" style="color: var(--primary); text-decoration: none;">Join Meeting <i class="fas fa-external-link-alt" style="font-size: 0.75rem; margin-left: 4px;"></i></a>
+                            @else
+                                {{ $interview->interview_location ?? 'To be decided' }}
+                            @endif
+                        </div>
+                    </div>
+                </div>
+                
+                @if($interview->interview_notes)
+                <div style="display: flex; gap: 12px; align-items: flex-start;">
+                    <i class="fas fa-align-left" style="color: var(--gray-400); margin-top: 3px;"></i>
+                    <div>
+                        <div style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em;">Notes</div>
+                        <div style="font-size: 0.85rem; color: var(--gray-600); line-height: 1.4;">{{ $interview->interview_notes }}</div>
+                    </div>
+                </div>
+                @endif
+            </div>
+        </div>
+    @endforeach
+  </div>
+</div>
+@endif
 
 <template id="appModals">
 <!-- ═══ Detail Modal ═══ -->
@@ -372,23 +446,39 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
 });
 
 /* ─── Withdraw ─── */
-let withdrawTarget = null;
+let dmCurrentCompany = '';
+let dmCurrentRow = null;
+let dmCurrentAppId = null;
+let dmCurrentSlug = null;
 
-function withdrawApp(btn, company) {
+function withdrawApp(btn, company, appId, slug) {
   if (!confirm('Withdraw your application to ' + company + '? This cannot be undone.')) return;
   const row = btn.closest('tr');
-  row.style.transition = 'opacity 0.35s, transform 0.35s';
-  row.style.opacity = '0';
-  row.style.transform = 'translateX(20px)';
-  setTimeout(() => { row.remove(); showToast('Application to ' + company + ' withdrawn', 'warning'); }, 350);
+  
+  fetch(`/${slug}/student/applications/${appId}`, {
+      method: 'DELETE',
+      headers: {
+          'X-CSRF-TOKEN': '{{ csrf_token() }}',
+          'Accept': 'application/json'
+      }
+  }).then(res => {
+      if(res.ok) {
+          row.style.transition = 'opacity 0.35s, transform 0.35s';
+          row.style.opacity = '0';
+          row.style.transform = 'translateX(20px)';
+          setTimeout(() => { row.remove(); showToast('Application to ' + company + ' withdrawn', 'warning'); }, 350);
+      } else {
+          showToast('Failed to withdraw application', 'error');
+      }
+  });
 }
 
 /* ─── Detail Modal ─── */
-let dmCurrentCompany = '';
-let dmCurrentRow = null;
-
-function openDetailModal(title, company, location, status, progress, duration, color, initials, date) {
+function openDetailModal(title, company, location, status, progress, duration, color, initials, date, appId, slug) {
   dmCurrentCompany = company;
+  dmCurrentAppId = appId;
+  dmCurrentSlug = slug;
+
   const logo = document.getElementById('dmLogo');
   logo.textContent = initials;
   logo.style.background = color;
@@ -440,15 +530,28 @@ function closeDetailModal() { document.getElementById('detailModal').classList.r
 function withdrawFromModal() {
   if (!confirm('Withdraw your application to ' + dmCurrentCompany + '? This cannot be undone.')) return;
   closeDetailModal();
-  // Find the matching row and remove it
-  document.querySelectorAll('#appTableBody tr').forEach(row => {
-    if (row.textContent.includes(dmCurrentCompany)) {
-      row.style.transition = 'opacity 0.35s';
-      row.style.opacity = '0';
-      setTimeout(() => { row.remove(); }, 350);
-    }
+  
+  fetch(`/${dmCurrentSlug}/student/applications/${dmCurrentAppId}`, {
+      method: 'DELETE',
+      headers: {
+          'X-CSRF-TOKEN': '{{ csrf_token() }}',
+          'Accept': 'application/json'
+      }
+  }).then(res => {
+      if(res.ok) {
+          // Find the matching row and remove it
+          document.querySelectorAll('#appTableBody tr').forEach(row => {
+            if (row.textContent.includes(dmCurrentCompany)) {
+              row.style.transition = 'opacity 0.35s';
+              row.style.opacity = '0';
+              setTimeout(() => { row.remove(); }, 350);
+            }
+          });
+          showToast('Application to ' + dmCurrentCompany + ' withdrawn', 'warning');
+      } else {
+          showToast('Failed to withdraw application', 'error');
+      }
   });
-  showToast('Application to ' + dmCurrentCompany + ' withdrawn', 'warning');
 }
 
 document.addEventListener('keydown', e => {

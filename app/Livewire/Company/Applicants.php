@@ -43,6 +43,9 @@ class Applicants extends Component
         
         $application->update(['status' => $status]);
         
+        // Notify the student about the status change
+        $application->user->notify(new \App\Notifications\ApplicationStatusChanged($application));
+        
         if ($this->selectedApplicant && $this->selectedApplicant->id === $id) {
             $this->selectedApplicant->status = $status;
         }
